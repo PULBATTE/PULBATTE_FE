@@ -1,6 +1,4 @@
-import { Box } from '@mui/material';
-
 const NotFound = () => {
-  return <Box>notFound</Box>;
+  return <div />;
 };
 export default NotFound;
