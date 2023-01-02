@@ -22,11 +22,6 @@ export default function MypageKakaoMap() {
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {
         const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        /* const address = geocoder.coord2Address(
-          coords.getLng(),
-          coords.getLat(),
-        ); */
         // 결과값으로 받은 위치를 마커로 표시합니다
         const options = {
           center: new kakao.maps.LatLng(coords.getLng(), coords.getLat()),
