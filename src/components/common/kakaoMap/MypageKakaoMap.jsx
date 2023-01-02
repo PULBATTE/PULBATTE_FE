@@ -23,7 +23,7 @@ export default function MypageKakaoMap() {
       if (status === kakao.maps.services.Status.OK) {
         const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-        햐; // 결과값으로 받은 위치를 마커로 표시합니다
+        // 결과값으로 받은 위치를 마커로 표시합니다
         const options = {
           center: new kakao.maps.LatLng(coords.getLng(), coords.getLat()),
           level: 3,
