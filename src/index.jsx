@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { RenderAfterNavermapsLoaded } from 'react-naver-maps';
 import './index.css';
 import { App } from './page';
 import store from './redux/store';
@@ -12,9 +11,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RenderAfterNavermapsLoaded ncpClientId={process.env.NAVER_MAPS_API_KEY}>
-        <App />
-      </RenderAfterNavermapsLoaded>
+      <App />
     </Provider>
   </React.StrictMode>,
 );

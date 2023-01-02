@@ -1,5 +1,10 @@
-function App() {
-  return <div />;
+import React from 'react';
+import MypageKakaoMap from './components/common/kakaoMap/MypageKakaoMap'; /* eslint import/newline-after-import: "off" */
+export default function App() {
+  return (
+    <div>
+      <MypageKakaoMap />
+    </div>
+  );
 }
-
-export default App;
+햐;
