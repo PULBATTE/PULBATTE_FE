@@ -5,6 +5,7 @@ import Kakao from '../components/signin/Kakao';
 import SignIn from '../components/signin/SignIn';
 import Home from '../components/home/Home';
 import NotFound from '../page/NotFound';
+import SignUpPage from '../page/SignUpPage';
 
 export default function Router() {
   return (
@@ -15,6 +16,7 @@ export default function Router() {
         <Route path="/api/user/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/api/user/kakao/callback" element={<Kakao />} />
+        <Route path="/signup" element={<SignUpPage />} />
       </Routes>
     </BrowserRouter>
   );
