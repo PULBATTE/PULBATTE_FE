@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from '../components/common/Header';
 import Kakao from '../components/signin/Kakao';
 import SignIn from '../components/signin/SignIn';
-
+import Home from '../components/home/Home';
 import NotFound from '../page/NotFound';
 
 export default function Router() {
@@ -11,7 +11,8 @@ export default function Router() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/* /api/user/signin */" element={<SignIn />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/api/user/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/api/user/kakao/callback" element={<Kakao />} />
       </Routes>
