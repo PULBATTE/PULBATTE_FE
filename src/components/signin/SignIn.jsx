@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styled from 'styled-components';
-import { BsChatFill } from 'react-icons/bs';
+import { BsChatFill, BsWatch } from 'react-icons/bs';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
-import { instance } from '../../../apis/axios';
+import { instance } from '../../apis/axios';
 import Button from '../common/Button';
-import { palette } from '../../../styles/palette';
+import { palette } from '../../styles/palette';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
@@ -100,6 +100,7 @@ export default function SignIn() {
             type="button"
             size="md"
             onClick={handleSubmit(onSigninHandler)}
+            disabled={isSubmitting}
           >
             로그인
           </Button>

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { palette } from '../../../styles/palette';
+import { palette } from '../../styles/palette';
 
 const SIZES = {
   sm: css`
