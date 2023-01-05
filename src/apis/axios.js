@@ -18,5 +18,5 @@ authInstance.interceptors.request.use(config => {
 });
 
 export const instance = axios.create({
-  baseURL: 'http://3.38.190.107:8080',
+  baseURL: 'http://3.34.51.176:8080',
 });
