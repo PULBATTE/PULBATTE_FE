@@ -1,11 +1,12 @@
+import React from 'react';
+/* eslint import/newline-after-import: "off" */
+
 import Router from './router/Router';
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
+    <div>
       <Router />
     </div>
   );
 }
-
-export default App;
