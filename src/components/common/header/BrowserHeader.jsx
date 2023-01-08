@@ -5,7 +5,6 @@ import { useSelector, useDispatch, useNavigate, Link } from 'react-router-dom';
 import Button from '../Button';
 import '../../../styles/fonts.css';
 import GlobalNavigationBar from './GlobalNavigationBar';
-import NavigationList from './NavigationList';
 
 export default function BrowserHeader() {
   const [isReset, setIsReset] = useState(true);
@@ -38,14 +37,14 @@ export default function BrowserHeader() {
           <GlobalNavigationBar setIsOpen={setIsOpen} isOpen={isOpen}>
             <li>
               <span>나만의 반려식물 찾기</span>
-              <NavigationList>
+              <StNavigation>
                 <li>
                   <span>식집사 유형 검사</span>
                 </li>
                 <li>
                   <span>도전키워보기</span>
                 </li>
-              </NavigationList>
+              </StNavigation>
             </li>
           </GlobalNavigationBar>
         </div>
@@ -115,4 +114,37 @@ const StAlarm = styled(BsBellFill)`
 `;
 const StLink = styled(Link)`
   min-width: fit-content;
+`;
+const StNavigation = styled.ul`
+  display: flex;
+  gap: 0 10px;
+  display: none;
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+  li {
+    font-size: 0.9rem;
+    &:hover {
+      font-weight: 600;
+    }
+  }
+  &.open > ul {
+    display: flex;
+  }
+  &.close > ul {
+    /*     display: none; */
+  }
+  .navibar {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    height: 60px;
+    background: #cbcbcb;
+    width: 100vw;
+  }
+
+  &.close .navibar {
+    /*   display: none; */
+  }
 `;
