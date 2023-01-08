@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -12,9 +12,10 @@ import { palette } from '../../styles/palette';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
-  const navigate = useNavigate();
+
   const onSigninHandler = result => {
     console.log(result.email, result.password);
+
     instance
       .post('/api/auth/signin', {
         userId: result.email,
@@ -99,8 +100,9 @@ export default function SignIn() {
           <Button
             type="button"
             size="md"
+            disabled="disabled"
             onClick={handleSubmit(onSigninHandler)}
-            disabled={isSubmitting}
+            background={palette.buttonBackgroundColor}
           >
             로그인
           </Button>
@@ -115,6 +117,17 @@ export default function SignIn() {
           >
             <StKaKaoIcon />
             카카오로그인
+          </Button>
+        </a>
+        <a href="/api/auth/signup">
+          <Button
+            type="button"
+            size="md"
+            flex={flex}
+            background="#ffffff"
+            border={`1px solid ${palette.borderColor1}`}
+          >
+            이메일로 로그인
           </Button>
         </a>
       </StSignInner>
