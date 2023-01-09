@@ -1335,6 +1335,23 @@
   resolved "https://registry.yarnpkg.com/@fontsource/roboto/-/roboto-4.5.8.tgz#56347764786079838faf43f0eeda22dd7328437f"
   integrity sha512-CnD7zLItIzt86q4Sj3kZUiLcBk1dSk81qcqgMGaZe7SQ1P8hFNxhMl5AZthK1zrDM5m74VVhaOpuMGIL4gagaA==
 
+"@fullcalendar/core@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-6.0.2.tgz#adbf7917905a74807ba067506c0b3d17f712727b"
+  integrity sha512-mpJ+8l2t6b98umrRG2FfDnMqEr0Z+wNT2SjY7H49V3wcj4oe3gwuty8GBYHG/vgxS+DXR/NcEvW1CsMQh4Cr/A==
+  dependencies:
+    preact "^10.0.5"
+
+"@fullcalendar/daygrid@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-6.0.2.tgz#c67b90335d31ba145ff611fbfdba31edc1e9a925"
+  integrity sha512-OoHo+HbKmunq2hy5K6T2390DmSwXIENxHBeKFPlUXHK48xD/zXQI3N1zRlZRd83+Yrq+vDF6l8ObO9PMu2leJw==
+
+"@fullcalendar/react@^6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-6.0.2.tgz#0a38979ff7fa36e0fe36d6c49140f7718126fb5d"
+  integrity sha512-/rL21DcgD3CGwrB/0zpqJxcWoK2rb/AF7rcuvwgjsmUCd7Xv9/syY7yuHbhIw3/WnFE3Qz7KL3u8vEjILwlwiA==
+
 "@hookform/resolvers@^2.9.10":
   version "2.9.10"
   resolved "https://registry.npmjs.org/@hookform/resolvers/-/resolvers-2.9.10.tgz"
@@ -1658,6 +1675,11 @@
   dependencies:
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
+
+"@kurkle/color@^0.3.0":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.1.tgz#ef72bc8022ccf77cdd2715097f062ee591ec145c"
+  integrity sha512-hW0GwZj06z/ZFUW2Espl7toVDjghJN+EKqyXzPSV8NV89d5BYp5rRMBJoc+aUN0x5OXDMeRQHazejr2Xmqj2tw==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
@@ -2237,7 +2259,7 @@
   resolved "https://registry.npmjs.org/@types/json5/-/json5-0.0.29.tgz"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
-"@types/lodash@^4.14.175":
+"@types/lodash@^4.14.105", "@types/lodash@^4.14.175":
   version "4.14.191"
   resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.191.tgz"
   integrity sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==
@@ -2307,6 +2329,15 @@
   version "18.0.26"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.0.26.tgz"
   integrity sha512-hCR3PJQsAIXyxhTNSiDFY//LhnMZWpNNr5etoCqx/iUfGc5gXWtQR2Phl908jVR6uPXacojQWTg4qRpkxTuGug==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^16.0.40":
+  version "16.14.34"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.34.tgz#d129324ffda312044e1c47aab18696e4ed493282"
+  integrity sha512-b99nWeGGReLh6aKBppghVqp93dFJtgtDOzc8NXM6hewD8PQ2zZG5kBLgbx+VJr7Q7WBMjHxaIl3dwpwwPIUgyA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3329,6 +3360,13 @@ char-regex@^2.0.0:
   resolved "https://registry.npmjs.org/char-regex/-/char-regex-2.0.1.tgz"
   integrity sha512-oSvEeo6ZUD7NepqAat3RqoucZ5SeqLJgOvVIwkafu6IP3V0pO38s/ypdVUmDDK6qIIHNlYHJAKX9E7R7HoKElw==
 
+chart.js@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.1.2.tgz#04e3ba63dbc36a2af21caf46ae31940514cb644a"
+  integrity sha512-9L1w6WLPq6ztiWVVOYtDtpo0CUsBKDWPrUEdwChAyzczaikqeSwNKEv3QpJ7EO4ICcLSi6UDVhgvcnUhRJidRA==
+  dependencies:
+    "@kurkle/color" "^0.3.0"
+
 check-types@^11.1.1:
   version "11.2.2"
   resolved "https://registry.npmjs.org/check-types/-/check-types-11.2.2.tgz"
@@ -3380,7 +3418,7 @@ cliui@^7.0.2:
     strip-ansi "^6.0.0"
     wrap-ansi "^7.0.0"
 
-clsx@^1.2.1:
+clsx@^1.1.0, clsx@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
@@ -7615,6 +7653,11 @@ postcss@^8.3.5, postcss@^8.4.18, postcss@^8.4.4:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+preact@^10.0.5:
+  version "10.11.3"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.11.3.tgz#8a7e4ba19d3992c488b0785afcc0f8aa13c78d19"
+  integrity sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==
+
 prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/prelude-ls/-/prelude-ls-1.2.1.tgz"
@@ -7698,7 +7741,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@^15.6.2, prop-types@^15.8.1:
+prop-types@^15.5.0, prop-types@^15.6.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7803,6 +7846,11 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-chartjs-2@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-5.1.0.tgz#8179f8120518c86c644f9d46aee537de7ac3449a"
+  integrity sha512-Gt76b7+p7nMQq0MvkWfUSNAzIm/TLAnAO32zIpSzrQyc9JWRbVCtq8qOzPJmfpDzPcIJ7Y9Gp5g+VdTRrGITsQ==
+
 react-daum-postcode@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-daum-postcode/-/react-daum-postcode-3.1.1.tgz#8d349a45177cc88cc69e9f94dcc56ebc41a1d420"
@@ -7875,6 +7923,14 @@ react-is@^18.0.0, react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+
+react-rating@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/react-rating/-/react-rating-2.0.5.tgz#2c9d7ebe5907db0361ba28b7c19f0394e6e4dd76"
+  integrity sha512-uldxgLCe5bzqGX7V+7/bPgQQj2Kok6eiMgTMxjKOhfhnQkFLDlc4TjMlp7gaJFAHWdbiOnqpiShI7z8as6oWtg==
+  dependencies:
+    "@types/lodash" "^4.14.105"
+    "@types/react" "^16.0.40"
 
 react-redux@^8.0.5:
   version "8.0.5"
@@ -7962,6 +8018,14 @@ react-scripts@5.0.1:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-tabs@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-tabs/-/react-tabs-6.0.0.tgz#328fd61ca534e0517d24f4927e37e99b29461880"
+  integrity sha512-8jKLKrlwxmn5/+xsa76yi27ZdB8E/WhlhQZw739O5UlOeUGtVoVeWnpqIewv/KbjTw7gQf/uA51zWUNt4IVygQ==
+  dependencies:
+    clsx "^1.1.0"
+    prop-types "^15.5.0"
 
 react-transition-group@^4.4.5:
   version "4.4.5"
