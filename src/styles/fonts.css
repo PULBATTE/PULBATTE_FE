@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-style: normal;
+  font-display: swap;
+}
+span,
+button,
+input {
+  font-family: 'Noto Sans KR', sans-serif;
+}

@@ -15,7 +15,6 @@ const SIZES = {
     --button-radius: 6px;
   `,
   lg: css`
-    --button-width-size: 100%;
     --button-font-size: 1.25rem;
     --button-padding: 16px 20px;
     --button-radius: 8px;
@@ -25,12 +24,12 @@ const SIZES = {
 // eslint-disable-next-line react/prop-types
 function Button({ disabled, size, background, children, ...option }) {
   const sizeStyle = SIZES[size];
-
   return (
     <StyledButton
       sizeStyle={sizeStyle}
       flex={option.flex}
-      background={background}
+      background={background || palette.buttonBackgroundColor}
+      border={option.border || 'none'}
     >
       {children}
     </StyledButton>
@@ -45,9 +44,10 @@ const StyledButton = styled.button`
   ${p => p.flex};
   background: ${p => p.background};
   cursor: pointer;
-  border: none;
+  min-width: fit-content;
   letter-spacing: 0.6px;
   line-height: 1.5;
+  border: ${p => p.border};
   border-radius: var(--button-radius);
 `;
 
