@@ -8,6 +8,7 @@ import NotFound from '../page/NotFound';
 import SignUpPage from '../page/SignUpPage';
 import CreatePost from '../page/community/CreatePost';
 import AddPlant from '../page/plantdiary/AddPlant';
+import DetailPlant from '../page/plantdiary/DetailPlant';
 
 export default function Router() {
   return (
@@ -18,9 +19,10 @@ export default function Router() {
         <Route path="/api/user/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/api/user/kakao/callback" element={<Kakao />} />
-        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/api/user/signup" element={<SignUpPage />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/addplant" element={<AddPlant />} />
+        <Route path="/detailplant" element={<DetailPlant />} />
       </Routes>
     </BrowserRouter>
   );
