@@ -1,10 +1,10 @@
-// import { green } from '@mui/material/colors';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { ChevronLeft } from '../../assets/svgs';
 import PlantInfoChart from '../../components/plantdiary/PlantInfoChart';
 import PlantCalendar from '../../components/plantdiary/PlantCalendar';
 import PlantInfoEnv from '../../components/plantdiary/PlantInfoEnv';
+import PlantDdayCard from '../../components/plantdiary/PlantDdayCard';
 
 export default function DetailPlant() {
   const [currentTab, setCurrentTab] = useState(1);
@@ -49,27 +49,9 @@ export default function DetailPlant() {
           </StPlantInfoWrap>
           <StPlantInfoWrap>
             <StPlantInfoWrapper>
-              <StDdayCard>
-                <StDdayCardHeader>
-                  <h3>물주는날</h3>
-                  <p>Dday</p>
-                </StDdayCardHeader>
-                <StDdayChecked />
-              </StDdayCard>
-              <StDdayCard>
-                <StDdayCardHeader>
-                  <h3>분갈이</h3>
-                  <p>Dday</p>
-                </StDdayCardHeader>
-                <StDdayChecked />
-              </StDdayCard>
-              <StDdayCard>
-                <StDdayCardHeader>
-                  <h3>영양제</h3>
-                  <p>Dday</p>
-                </StDdayCardHeader>
-                <StDdayChecked />
-              </StDdayCard>
+              <PlantDdayCard title="물 주기" dday="3일 전" />
+              <PlantDdayCard title="분갈이" dday="D-day" />
+              <PlantDdayCard title="영양제" dday="20일 전" />
             </StPlantInfoWrapper>
             <PlantInfoChart />
           </StPlantInfoWrap>
@@ -152,43 +134,8 @@ const StPlantInfo = styled.div`
   padding: 32px;
 `;
 
-// const StPlantInfoEnvWrapper = styled.div`
-//   flex-direction: column;
-// `;
-
-// const StPlantInfoEnv = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   background-color: lightgray;
-//   width: 100px;
-//   height: 100px;
-//   border-radius: 50%;
-// `;
-
 const StPlantInfoWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
-`;
-
-const StDdayCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: lightgray;
-  height: 200px;
-  border-radius: 16px;
-`;
-
-const StDdayChecked = styled.div`
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background-color: gray;
-`;
-
-const StDdayCardHeader = styled.div`
-  text-align: center;
-  margin-bottom: 16px;
 `;
