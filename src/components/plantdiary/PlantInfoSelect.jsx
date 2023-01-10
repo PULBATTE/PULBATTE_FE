@@ -11,7 +11,6 @@ const makeOptionArr = optionNum => {
 
 export default function PlantInfoSelect({ title, optionNum, optionString }) {
   const options = makeOptionArr(optionNum);
-  console.log(options);
   return (
     <div>
       <p>{title}</p>

@@ -8,6 +8,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@fullcalendar/core": "^6.0.2",
     "@fullcalendar/daygrid": "^6.0.2",
+    "@fullcalendar/interaction": "^6.0.2",
     "@fullcalendar/react": "^6.0.2",
     "@hookform/resolvers": "^2.9.10",
     "@mui/icons-material": "^5.10.16",
