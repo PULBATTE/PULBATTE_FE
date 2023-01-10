@@ -14,38 +14,36 @@ export default function Mobileheader() {
       : (document.body.style.overflowY = 'hidden');
   };
   return (
-    <div>
-      <StMobileNav>
-        <div>로고</div>
-        <StUtilMenu>
-          <StAlarm />
+    <StMobileNav>
+      <div>로고</div>
+      <StUtilMenu>
+        <StAlarm />
 
-          <div
-            className="hamburger"
-            onClick={() => {
-              onClickModalHandler();
-            }}
-          >
-            <i className={isOpen ? 'line open' : 'line close'} />
-            <i className={isOpen ? 'line open' : 'line close'} />
-            <i className={isOpen ? 'line open' : 'line close'} />
+        <div
+          className="hamburger"
+          onClick={() => {
+            onClickModalHandler();
+          }}
+        >
+          <i className={isOpen ? 'line open' : 'line close'} />
+          <i className={isOpen ? 'line open' : 'line close'} />
+          <i className={isOpen ? 'line open' : 'line close'} />
+        </div>
+      </StUtilMenu>
+      <StCurtain className={isOpen ? 'curtain open' : 'curtain'} />
+      <StModal className={isOpen ? 'open' : ''}>
+        <div className="modal_inner">
+          <div>
+            <button type="button">로그인</button>
+            <span>환영합니다.</span>
           </div>
-        </StUtilMenu>
-        <StCurtain className={isOpen ? 'curtain open' : 'curtain'} />
-        <StModal className={isOpen ? 'open' : ''}>
-          <div className="modal_inner">
-            <div>
-              <button type="button">로그인</button>
-              <span>환영합니다.</span>
-            </div>
-          </div>
-        </StModal>
-      </StMobileNav>
-    </div>
+        </div>
+      </StModal>
+    </StMobileNav>
   );
 }
 const StMobileNav = styled.div`
-  height: 60px;
+  height: 50.5px;
   align-items: center;
   justify-content: space-between;
   display: none;
