@@ -1,23 +1,33 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { authInstance } from '../apis/axios';
+import { useNavigate } from 'react-router-dom';
+
 import { postSignup } from '../apis/auth';
 
 let cnt = 0;
 
 export default function SignUpPage() {
+  const Navigate = useNavigate();
   const formSchema = yup.object({
-    userId: yup.string().email('이메일 형식이 아닙니다.'),
+    userId: yup
+      .string()
+      .email('이메일 형식이 아닙니다.')
+      .matches(
+        /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+        {
+          message: <p>이메일 양식에 맞게 입력해 주세요.</p>,
+        },
+      ),
     password: yup
       .string()
       .min(8, '최소 8자리 이상 가능합니다')
       .max(15, '최대 15자리 까지 가능합니다')
       .matches(
-        /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/g,
         '영문, 숫자, 특수문자를 포함해주세요',
       ),
     passwordConfirm: yup
@@ -30,6 +40,10 @@ export default function SignUpPage() {
   const onSubmit = async ({ userId, password }) => {
     const res = await postSignup({ userId, password });
     console.log(res);
+    if (res.status == 200) {
+      alert('회원가입이 완료되었습니다.');
+      Navigate('/api/user/signin');
+    }
   };
 
   const {
@@ -91,7 +105,12 @@ export default function SignUpPage() {
 
 const StSignUpContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+  h1 {
+    text-align: center;
+  }
 `;
 const StInput = styled.input`
   width: 372px;
@@ -99,6 +118,8 @@ const StInput = styled.input`
   display: block;
 `;
 const StSubmitButton = styled.button`
+  background-color: #e8e8e8;
+  border: none;
   display: block;
   width: 372px;
   height: 58px;

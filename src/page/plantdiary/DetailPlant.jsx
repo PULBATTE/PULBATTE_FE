@@ -75,6 +75,7 @@ const StDetailPlantContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 0px 50px;
+  margin: 50px;
 `;
 
 const StDetailPlantNav = styled.nav`
@@ -106,7 +107,7 @@ const StNavTab = styled.button`
 const StTabSection = styled.section`
   display: flex;
   justify-content: space-evenly;
-  background-color: beige;
+
   margin: 20px;
   width: 1120px;
   @media (max-width: 1120px) {
@@ -117,7 +118,6 @@ const StTabSection = styled.section`
 `;
 
 const StPlantInfoWrap = styled.article`
-  background-color: aliceblue;
   flex: 1;
   padding: 16px;
 `;

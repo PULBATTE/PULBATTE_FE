@@ -12,9 +12,14 @@ export default function CreatePost() {
   };
   return (
     <StCreateForm>
-      <h3>글 작성하기</h3>
-      <StButton>글 등록하기</StButton>
-      <h4>주제 선택</h4>
+      <StCreateHeader>
+        <h3>글 작성하기</h3>
+        <StButton>글 등록하기</StButton>
+      </StCreateHeader>
+      <StTopicarea>
+        <h4>주제 선택</h4>
+        <h5>작성하려는 글에 맞는 주제를 선택해주세요.</h5>
+      </StTopicarea>
       <StTitlearea
         placeholder="제목을 입력해 주세요"
         value={title}
@@ -30,19 +35,37 @@ export default function CreatePost() {
 }
 
 const StCreateForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
   width: 1000px;
-  margin: 0 auto;
   h3 {
     font-size: 30px;
+    text-align: center;
   }
   h4 {
     font-size: 26px;
   }
 `;
+const StCreateHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
 const StButton = styled.button`
-  border-radius: 10px;
-  float: right;
+  background-color: #e8e8e8;
+  font-size: 25px;
+  border-radius: 30px;
+  border: none;
   padding: 4px 8px;
+  width: 189px;
+  height: 61px;
+`;
+const StTopicarea = styled.div`
+  display: flex;
+  justify-content: left;
 `;
 const StTitlearea = styled.textarea`
   display: block;
