@@ -7,6 +7,7 @@ import Home from '../page/home/Home';
 import NotFound from '../page/NotFound';
 import SignUpPage from '../page/SignUpPage';
 import CreatePost from '../page/community/CreatePost';
+import PlantSearch from '../page/search/PlantSearch';
 
 export default function Router() {
   return (
@@ -19,6 +20,7 @@ export default function Router() {
         <Route path="/api/user/kakao/callback" element={<Kakao />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/createpost" element={<CreatePost />} />
+        <Route path="/api/plants" element={<PlantSearch />} />
       </Routes>
     </BrowserRouter>
   );
