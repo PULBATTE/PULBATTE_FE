@@ -4,6 +4,7 @@ import { SlTag } from 'react-icons/sl';
 import styled from 'styled-components';
 import BrowserHeader from './BrowserHeader';
 import MobileHeader from './MobileHeader';
+import { palette } from '../../../styles/palette';
 
 export default function Header() {
   return (
@@ -25,7 +26,7 @@ const StHeader = styled.header`
   background: #fff;
   padding: 0 1rem;
   box-sizing: border-box;
-
+  border-bottom: 1px solid #eaeaea;
   ul {
     padding: 0;
   }
