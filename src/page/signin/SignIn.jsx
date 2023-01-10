@@ -159,7 +159,6 @@ const StSignConatainer = styled.div`
 const StSignInner = styled.div`
   padding: 2rem;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
   gap: 2rem 0;

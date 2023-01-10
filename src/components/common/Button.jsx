@@ -37,17 +37,17 @@ function Button({ disabled, size, background, children, ...option }) {
 }
 
 const StyledButton = styled.button`
-  ${p => p.sizeStyle}
-  height: 50px;
+  ${props => props.sizeStyle};
+  ${props => props.flex};
   width: var(--button-width-size);
   font-size: var(--button-font-size);
-  ${p => p.flex};
-  background: ${p => p.background};
+  background: ${props => props.background};
+  padding: var(--button-padding);
   cursor: pointer;
   min-width: fit-content;
   letter-spacing: 0.6px;
   line-height: 1.5;
-  border: ${p => p.border};
+  border: ${props => props.border};
   border-radius: var(--button-radius);
 `;
 

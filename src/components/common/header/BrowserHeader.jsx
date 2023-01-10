@@ -65,7 +65,7 @@ export default function BrowserHeader() {
 const StBrowserNav = styled.div`
   display: flex;
   align-items: center;
-
+  height: 50.5px;
   justify-content: space-between;
   max-width: 1372px;
   margin: 0 auto;

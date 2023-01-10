@@ -85,7 +85,7 @@ const StWrapper = styled.div`
       height: calc(10vh + 50vw);
     }
     @media (max-width: 768px) {
-      padding: 8rem 2rem 2rem;
+      padding: 3rem 2rem 2rem;
       height: 60vh;
     }
     h3 {
@@ -101,7 +101,7 @@ const StWrapper = styled.div`
       align-items: center;
       justify-content: space-between;
       max-width: 1350px;
-      padding-top: calc(30px + 13vw);
+      padding-top: calc(30px + 10vw);
       margin: 0 auto;
       width: 80%;
       @media (max-width: 768px) {
