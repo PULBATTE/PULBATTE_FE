@@ -9,6 +9,7 @@ import SignUpPage from '../page/SignUpPage';
 import CreatePost from '../page/community/CreatePost';
 import AddPlant from '../page/plantdiary/AddPlant';
 import DetailPlant from '../page/plantdiary/DetailPlant';
+import PlantList from '../page/plantdiary/PlantLIst';
 
 export default function Router() {
   return (
@@ -23,6 +24,7 @@ export default function Router() {
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/addplant" element={<AddPlant />} />
         <Route path="/detailplant" element={<DetailPlant />} />
+        <Route path="/plantlist" element={<PlantList />} />
       </Routes>
     </BrowserRouter>
   );
