@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
-import mainImage from '../../asset/image/main.png';
-import MainImage2 from '../../asset/image/main_02.png';
-import MainImage3 from '../../asset/image/main_03.png';
-import MainImage4 from '../../asset/image/main_04.png';
+import mainImage from '../../assets/image/main.png';
+import MainImage2 from '../../assets/image/main_02.png';
+import MainImage3 from '../../assets/image/main_03.png';
+import MainImage4 from '../../assets/image/main_04.png';
 import Button from '../../components/common/Button';
 
 export default function Home() {
