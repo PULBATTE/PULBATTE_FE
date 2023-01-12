@@ -101,6 +101,7 @@ export default function SignIn() {
             type="button"
             size="md"
             disabled="disabled"
+            width="100%"
             onClick={handleSubmit(onSigninHandler)}
             background={palette.buttonBackgroundColor}
           >
@@ -112,6 +113,7 @@ export default function SignIn() {
           <Button
             type="button"
             size="md"
+            width="100%"
             flex={flex}
             background={palette.kakaoContainer}
           >
@@ -124,6 +126,7 @@ export default function SignIn() {
             type="button"
             size="md"
             flex={flex}
+            width="100%"
             background="#ffffff"
             border={`1px solid ${palette.borderColor1}`}
           >
