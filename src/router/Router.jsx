@@ -12,7 +12,6 @@ import AddPlant from '../page/plantdiary/AddPlant';
 import DetailPlant from '../page/plantdiary/DetailPlant';
 import PlantList from '../page/plantdiary/PlantLIst';
 
-
 export default function Router() {
   return (
     <BrowserRouter>
