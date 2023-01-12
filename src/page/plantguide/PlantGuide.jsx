@@ -6,7 +6,7 @@ import waterIcon from '../../assets/image/water_drop.png';
 import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
 import { palette } from '../../styles/palette';
-import PlantGraph from '../../components/plantguide/PlantGraph';
+import PlantGraph from '../../components/plantguide/plantGraph';
 import PlantEnviroment from '../../components/plantguide/PlantEnviroment';
 import Modal from '../../components/common/Modal';
 import useModal from '../../hooks/useModal';
