@@ -2,15 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
+import { authInstance } from '../../apis/axios';
 
 export default function PlantEnviroment({ title, src, checkPoint, name }) {
   const labels = [];
   const [checkList, setCheckList] = useState([]);
-  console.log(checkList);
 
-  // 정해져서 렌더링될때 결과 값만 보이는 기능
   const onCheckEventHandler = () => {
-    console.log(checkList);
     for (let i = 1; i <= 5; i += 1) {
       if (i <= checkPoint) {
         labels.push({ order: i, boolean: true, name });
@@ -19,18 +17,6 @@ export default function PlantEnviroment({ title, src, checkPoint, name }) {
     }
     setCheckList(labels);
   };
-
-  // 클릭해서 체크 되게 만드는 기능
-  /*  const onModifyEventHandler = id => {
-    console.log(checkList);
-    for (let i = 1; i <= 5; i += 1) {
-      if (i <= id) {
-        labels.push({ order: i, boolean: true, name });
-      }
-      if (i > id) labels.push({ order: i, boolean: false, name });
-    }
-    setCheckList(labels);
-  }; */
 
   useEffect(() => {
     onCheckEventHandler();
@@ -46,12 +32,7 @@ export default function PlantEnviroment({ title, src, checkPoint, name }) {
             return (
               <div key={data.order}>
                 <label htmlFor={`${data.order}`}>
-                  <input
-                    type="checkbox"
-                    checked={data.boolean}
-                    readOnly
-                    /*  onChange={() => onModifyEventHandler(data.order)} */
-                  />
+                  <input type="checkbox" checked={data.boolean} readOnly />
                   <StSpan
                     background={data.background}
                     className={`circle circle_${data.name}`}
@@ -83,7 +64,6 @@ const StGridList = styled.div`
   }
 
   input {
-    cursor: pointer;
     position: absolute;
     left: 0;
     top: 0;
