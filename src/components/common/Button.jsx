@@ -20,13 +20,22 @@ const SIZES = {
 };
 
 // eslint-disable-next-line react/prop-types
-function Button({ disabled, size, width, background, children, ...option }) {
+function Button({
+  disabled,
+  size,
+  width,
+  background,
+  children,
+  click,
+  ...option
+}) {
   const sizeStyle = SIZES[size];
   return (
     <StyledButton
       sizeStyle={sizeStyle}
       flex={option.flex}
       width={width}
+      onClick={() => click()}
       background={background || palette.buttonBackgroundColor}
       border={option.border || 'none'}
     >
