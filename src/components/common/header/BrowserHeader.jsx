@@ -1,14 +1,29 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BsBellFill } from 'react-icons/bs';
-import { useSelector, useDispatch, useNavigate, Link } from 'react-router-dom';
-import Button from '../Button';
+import { useNavigate, Link } from 'react-router-dom';
 import '../../../styles/fonts.css';
 import GlobalNavigationBar from './GlobalNavigationBar';
 
-export default function BrowserHeader() {
-  const [isReset, setIsReset] = useState(true);
-  const [isOpen, setIsOpen] = useState(true);
+export default function BrowserHeader({
+  isLogin,
+  setIsOpen,
+  isOpen,
+  setIsReset,
+  isReset,
+}) {
+  console.log(isLogin);
+
+  const navigate = useNavigate();
+
+  const logOutEventHandler = () => {
+    console.log('ok');
+    setIsReset(false);
+    localStorage.removeItem('Token');
+    alert('로그아웃 되었습니다!');
+    navigate('/');
+  };
+
   return (
     <StBrowserNav>
       <StImageContainer>
@@ -39,10 +54,10 @@ export default function BrowserHeader() {
               <span>나만의 반려식물 찾기</span>
               <StNavigation>
                 <li>
-                  <span>식집사 유형 검사</span>
+                  <span>식집사 테스트</span>
                 </li>
                 <li>
-                  <span>도전키워보기</span>
+                  <span>식집사 가이드</span>
                 </li>
               </StNavigation>
             </li>
@@ -51,12 +66,15 @@ export default function BrowserHeader() {
       </StCategory>
       <StUtilContainer>
         <StAlarm />
-
-        <StLink to="/api/user/signin">
-          <Button width="fit-content" size="sm" background="#fff">
-            로그인
-          </Button>
-        </StLink>
+        {isLogin ? (
+          <button type="button" onClick={() => logOutEventHandler()}>
+            로그아웃
+          </button>
+        ) : (
+          <StLink to="/api/user/signin">
+            <button type="button">로그인</button>
+          </StLink>
+        )}
       </StUtilContainer>
     </StBrowserNav>
   );
@@ -106,6 +124,9 @@ const StUtilContainer = styled.div`
   align-items: center;
   button {
     line-height: 1;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
   }
 `;
 const StAlarm = styled(BsBellFill)`
