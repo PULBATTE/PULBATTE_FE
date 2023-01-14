@@ -6,4 +6,5 @@ export const palette = {
   backgroundColor: '#ffffff',
   borderColor1: '#EAEAEA',
   borderColor2: '#D9D9D9',
+  main: '#47ad8e',
 };
