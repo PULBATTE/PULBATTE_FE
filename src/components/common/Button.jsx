@@ -24,6 +24,7 @@ function Button({
   disabled,
   size,
   width,
+  color,
   background,
   children,
   click,
@@ -34,8 +35,8 @@ function Button({
     <StyledButton
       sizeStyle={sizeStyle}
       flex={option.flex}
+      color={color}
       width={width}
-      onClick={() => click()}
       background={background || palette.buttonBackgroundColor}
       border={option.border || 'none'}
     >
@@ -53,6 +54,7 @@ const StyledButton = styled.button`
   padding: var(--button-padding);
   cursor: pointer;
   min-width: fit-content;
+  color: ${props => props.color};
   letter-spacing: 0.6px;
   line-height: 1.5;
   border: ${props => props.border};
