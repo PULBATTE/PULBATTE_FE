@@ -21,17 +21,14 @@ export default function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/api/user/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/api/user/kakao/callback" element={<Kakao />} />
+        <Route path="api/user/kakao/callback" element={<Kakao />} />
         <Route path="/api/user/signup" element={<SignUpPage />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/api/plants" element={<PlantSearch />} />
         <Route path="/addplant" element={<AddPlant />} />
         <Route path="/detailplant" element={<DetailPlant />} />
         <Route path="/plantlist" element={<PlantList />} />
-        <Route
-          path="/api/beginner/plant/:beginnerName"
-          element={<PlantGuide />}
-        />
+        <Route path="/api/beginner/plant/my" element={<PlantGuide />} />
       </Routes>
     </BrowserRouter>
   );
