@@ -12,9 +12,31 @@ export default function CreatePost() {
   const onChangeContentHandler = e => {
     setContent(e.target.value);
   };
+  // button value : Qa, 자랑, etc, 추천
   const onTagHandler = e => {
-    console.log(e);
+    e.preventDefault();
+    console.log(e.target.value);
     setTag(e.target.value);
+  };
+  const onSubmitHandler = e => {
+    e.preventDefault();
+    const request = {
+      // title: title,
+      // content: content,
+      // tag: tag,
+      title,
+      content,
+      tag,
+    };
+    // const img = {
+    //   image: 'url',
+    // };
+    // axios.post('api.pull.com', {
+    //   request
+    //   img: {},
+    // }
+    // );
+    console.log(request);
   };
   return (
     <StCreateContainer>
@@ -24,22 +46,22 @@ export default function CreatePost() {
         </StChevronWrpper>
         <h3>글 작성하기</h3>
       </StCreateHeader>
-      <form>
+      <form onSubmit={onSubmitHandler}>
         <StTopicArea>
           <h4>주제 선택</h4>
           <h5>작성하려는 글에 맞는 주제를 선택해주세요.</h5>
         </StTopicArea>
         <StTagWrapper>
-          <StTagButton value={tag} onClick={onTagHandler}>
+          <StTagButton value="QA" onClick={onTagHandler}>
             질문과 답변
           </StTagButton>
-          <StTagButton value={tag} onClick={onTagHandler}>
+          <StTagButton value="contest" onClick={onTagHandler}>
             식물자랑
           </StTagButton>
-          <StTagButton value={tag} onClick={onTagHandler}>
+          <StTagButton value="etc" onClick={onTagHandler}>
             기타
           </StTagButton>
-          <StTagButton value={tag} onClick={onTagHandler}>
+          <StTagButton value="recommend" onClick={onTagHandler}>
             추천
           </StTagButton>
         </StTagWrapper>
@@ -54,7 +76,7 @@ export default function CreatePost() {
           onChange={onChangeContentHandler}
         />
         {/* <StTag>+ 사진 추가</StTag> */}
-        <StSubmitButton>글 등록하기</StSubmitButton>
+        <StSubmitButton onClick={onSubmitHandler}>글 등록하기</StSubmitButton>
       </form>
     </StCreateContainer>
   );

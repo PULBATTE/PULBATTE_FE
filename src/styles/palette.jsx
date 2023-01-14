@@ -5,6 +5,8 @@ export const palette = {
   kakaolabel: '#000000 85%',
   backgroundColor: '#ffffff',
   borderColor1: '#EAEAEA',
-  mainColor: '#47AD8E',
+  borderColor2: '#D9D9D9',
   textColor1: '#A3A3A3',
+  mainColor: '#47AD8E',
+ 
 };
