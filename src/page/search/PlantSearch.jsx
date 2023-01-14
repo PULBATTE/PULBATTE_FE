@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { HiOutlineSearch } from 'react-icons/hi';
 import CustomLabel from '../../components/search/CustomLabel';
 import { palette } from '../../styles/palette';
-import PlantsList from './PlantsList';
+import PlantsList from '../../components/search/PlantsList';
 import { plantsSearch, plantsGlobalList } from '../../apis/plantsFilter';
 
 export default function PlantSearch() {
@@ -144,7 +144,9 @@ const StFilterContainer = styled.div`
   gap: 0 20px;
   margin: 3rem 0;
   @media (max-width: 768px) {
-    gap: 0 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   button {
     font-size: 1rem;
@@ -171,7 +173,7 @@ const StFilterContainer = styled.div`
     }
     @media (max-width: 500px) {
       font-size: 0.8rem;
-      padding: 3px 10px;
+      padding: 10px 20px;
     }
   }
 `;
