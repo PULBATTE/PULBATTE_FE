@@ -31,25 +31,17 @@ export const options = {
   },
 };
 
-const labels = [
-  '2023-01-12',
-  '2023-01-13',
-  '2023-01-14',
-  '2023-01-15',
-  '2023-01-16',
-  '2023-01-17',
-  '2023-01-18',
-];
+const labels = ['2023-01-12', '2023-01-13', '2023-01-14'];
 
 export const data = {
   labels,
   datasets: [
-    {
+    /* {
       label: '가이드라인 기준 ',
       data: [10, 23, 35, 43, 57, 57, 58],
       borderColor: 'rgb(255, 99, 132)',
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
+    }, */
     {
       label: '내 식물',
       data: [30, 45],

@@ -13,6 +13,7 @@ import { palette } from '../../styles/palette';
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
 
+  const navigate = useNavigate();
   const onSigninHandler = result => {
     console.log(result.email, result.password);
 
@@ -22,8 +23,12 @@ export default function SignIn() {
         password: result.password,
       })
       .then(response => {
-        alert('로그인이 되었습니다.');
-        localStorage.setItem('Token', response.headers.authorization);
+        if (response.status == 200) {
+          console.log(console.log(response));
+          alert('로그인이 되었습니다.');
+          localStorage.setItem('Token', response.headers.authorization);
+          navigate('/');
+        }
       })
       .catch(error => console.log(error));
   };
@@ -87,7 +92,7 @@ export default function SignIn() {
             placeholder="이메일을 입력해주세요."
           />
           <input
-            type="text"
+            type="password"
             {...register('password', { required: true })}
             autoComplete="off"
             placeholder="비밀번호를 입력해주세요."
@@ -121,7 +126,7 @@ export default function SignIn() {
             카카오로그인
           </Button>
         </a>
-        <a href="/api/auth/signup">
+        <a href="/api/user/signup">
           <Button
             type="button"
             size="md"

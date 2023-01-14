@@ -13,18 +13,6 @@ export default function PlantSearch() {
   const [plantsList, setPlantsList] = useState(null);
   console.log('list', plantsList);
 
-  // 검색 기능
-  /*  const filterTitle = movies.filter(p => {
-    return p.title.toLocaleLowerCase().includes(search.toLocaleLowerCase());
-  }); */
-
-  // 필터링 기능
-  /* useEffect(() => {
-    if (filter !== null) {
-      onSubmitHandler();
-    }
-  }, []); */
-
   // 식물 전체 리스트
   useEffect(() => {
     onCheckList();
@@ -35,12 +23,6 @@ export default function PlantSearch() {
       .then(res => setPlantsList(res.data.plantList))
       .catch(error => console.log(error));
   };
-
-  /*  const onSubmitHandler = () => {
-    if (filter !== null || filter !== Object) return;
-    const res = plantsFilter({ filter });
-    console.log(res);
-  }; */
 
   const onSearchHandler = () => {
     if (window.event.keyCode == 13) {
