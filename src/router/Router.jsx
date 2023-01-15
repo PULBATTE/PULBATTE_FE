@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from '../components/common/header/Header';
-import Kakao from '../page/signin/Kakao';
-import SignIn from '../page/signin/SignIn';
+import Kakao from '../page/sign/Kakao';
+import SignIn from '../page/sign/SignIn';
 import Home from '../page/home/Home';
+
 import NotFound from '../page/NotFound';
-import SignUp from '../page/signin/SignUp';
 import CreatePost from '../page/community/CreatePost';
 import PlantSearch from '../page/search/PlantSearch';
 import AddPlant from '../page/plantdiary/AddPlant';
@@ -13,6 +13,7 @@ import DetailPlant from '../page/plantdiary/DetailPlant';
 import PlantList from '../page/plantdiary/PlantLIst';
 import DonePost from '../page/community/DonePost';
 import PlantGuide from '../page/plantguide/PlantGuide';
+import SignUp from '../page/signin/SignUp';
 
 export default function Router() {
   return (
@@ -29,6 +30,7 @@ export default function Router() {
         <Route path="/addplant" element={<AddPlant />} />
         <Route path="/detailplant" element={<DetailPlant />} />
         <Route path="/plantlist" element={<PlantList />} />
+        <Route path="/api/beginner/plant/my" element={<PlantGuide />} />
         <Route path="/donepost" element={<DonePost />} />
         <Route
           path="/api/beginner/plant/:beginnerName"

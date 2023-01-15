@@ -1,8 +1,8 @@
 import { authInstance } from './axios';
 
-export const getPlantsInfo = async name => {
+export const getPlantsInfo = async () => {
   try {
-    const data = await authInstance.get(`/api/beginner/plant/${name}`);
+    const data = await authInstance.get(`/api/beginner/plant/my`);
 
     /*   console.log('data:', data.data); */
     return data.data;
@@ -11,15 +11,15 @@ export const getPlantsInfo = async name => {
   }
 };
 
-export const postPlantsInfo = async (name, time, value) => {
-  console.log(name, time, value);
+export const postPlantsInfo = async (time, value) => {
+  console.log(time, value);
+
   try {
-    const data = await authInstance.post(`/api/beginner/plant/${name}`, {
-      currentTime: time,
+    const data = await authInstance.post(`/api/beginner/plant`, {
+      localData: time,
       value,
     });
-    console.log({ currentTime: time, value });
-    console.log('data:', data);
+
     return data.data;
   } catch (error) {
     return error;
