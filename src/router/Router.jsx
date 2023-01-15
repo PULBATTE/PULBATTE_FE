@@ -31,7 +31,7 @@ export default function Router() {
         <Route path="/detailplant" element={<DetailPlant />} />
         <Route path="/plantlist" element={<PlantList />} />
         <Route path="/api/beginner/plant/my" element={<PlantGuide />} />
-        <Route path="/donepost" element={<DonePost />} />
+        <Route path="/donepost/:postId" element={<DonePost />} />
         <Route
           path="/api/beginner/plant/:beginnerName"
           element={<PlantGuide />}
