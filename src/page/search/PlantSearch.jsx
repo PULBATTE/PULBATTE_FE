@@ -35,7 +35,7 @@ export default function PlantSearch() {
   return (
     <StWrapper>
       <div className="container_inner">
-        <h3>식물 검색</h3>
+        <h3>식물 찾아보기</h3>
         <StSearchContainer>
           <StSearchIcon />
           <input
