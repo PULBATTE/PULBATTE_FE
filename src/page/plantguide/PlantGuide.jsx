@@ -176,7 +176,6 @@ const StCloseButton = styled(GrFormClose)`
   position: absolute;
   right: 10px;
   top: 10px;
-
   font-size: 1.5rem;
   cursor: pointer;
 `;
