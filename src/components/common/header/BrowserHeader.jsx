@@ -1,50 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BsBellFill } from 'react-icons/bs';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../../styles/fonts.css';
 import GlobalNavigationBar from './GlobalNavigationBar';
+import {
+  guidePath,
+  boardPath,
+  searchPath,
+  diaryPath,
+} from '../../../apis/path';
+import PrivateRoute from '../../../routes/PrivateRoute';
 
 export default function BrowserHeader({
-  isLogin,
+  token,
   setIsOpen,
   isOpen,
-  setIsReset,
-  isReset,
+  logOutEventHandler,
 }) {
-  console.log(isLogin);
-
   const navigate = useNavigate();
-
-  const logOutEventHandler = () => {
-    console.log('ok');
-    setIsReset(false);
-    localStorage.removeItem('Token');
-    alert('로그아웃 되었습니다!');
-    navigate('/');
-  };
-
   return (
     <StBrowserNav>
       <StImageContainer>
-        <img src="" alt="" />
-        로고
+        <Link to="/">
+          <img src="" alt="" />
+          로고
+        </Link>
       </StImageContainer>
-      <StCategory
-        className={isReset ? 'on' : 'off'}
-        onClick={() => setIsReset(!isReset)}
-      >
+      <StCategory>
         <div className="gnb_container">
           <ul>
             <li>
-              <span>커뮤니티</span>
+              <span onClick={() => navigate(boardPath)} aria-hidden="true">
+                커뮤니티
+              </span>{' '}
             </li>
           </ul>
         </div>
         <div className="gnb_container">
           <ul>
             <li>
-              <span>식물검색</span>
+              <span onClick={() => navigate(searchPath)} aria-hidden="true">
+                식물 찾아보기
+              </span>
             </li>
           </ul>
         </div>
@@ -54,19 +52,38 @@ export default function BrowserHeader({
               <span>나만의 반려식물 찾기</span>
               <StNavigation>
                 <li>
-                  <span>식집사 테스트</span>
+                  <span
+                    onClick={() => PrivateRoute(guidePath)}
+                    aria-hidden="true"
+                  >
+                    식집사 테스트
+                  </span>
                 </li>
                 <li>
-                  <span>식집사 가이드</span>
+                  <span
+                    onClick={() => PrivateRoute(guidePath)}
+                    aria-hidden="true"
+                  >
+                    식집사 가이드
+                  </span>
                 </li>
               </StNavigation>
             </li>
           </GlobalNavigationBar>
         </div>
+        <div className="gnb_container">
+          <ul>
+            <li>
+              <span onClick={() => navigate(diaryPath)} aria-hidden="true">
+                식물 일지
+              </span>
+            </li>
+          </ul>
+        </div>
       </StCategory>
       <StUtilContainer>
         <StAlarm />
-        {isLogin ? (
+        {token ? (
           <button type="button" onClick={() => logOutEventHandler()}>
             로그아웃
           </button>
@@ -95,6 +112,10 @@ const StBrowserNav = styled.div`
 const StImageContainer = styled.div`
   display: flex;
   font-size: 1.4rem;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
 `;
 const StCategory = styled.ul`
   display: flex;
@@ -103,6 +124,7 @@ const StCategory = styled.ul`
   padding: 0;
   cursor: pointer;
   gap: 0 20px;
+
   > div {
     position: relative;
   }
