@@ -13,7 +13,7 @@ import DetailPlant from '../page/plantdiary/DetailPlant';
 import PlantList from '../page/plantdiary/PlantLIst';
 import DonePost from '../page/community/DonePost';
 import PlantGuide from '../page/plantguide/PlantGuide';
-import SignUp from '../page/signin/SignUp';
+import SignUp from '../page/sign/SignUp';
 
 export default function Router() {
   return (

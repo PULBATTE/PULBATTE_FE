@@ -1,6 +1,6 @@
-import React, { createRef, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import React, { createRef, useState, useRef } from 'react';
 import { ChevronLeft } from '../../assets/svgs';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
