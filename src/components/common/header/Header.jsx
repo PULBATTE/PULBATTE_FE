@@ -1,40 +1,42 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useState, useEffect, useRef } from 'react';
 import { SlTag } from 'react-icons/sl';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { Cookies } from 'react-cookie';
 import BrowserHeader from './BrowserHeader';
-import MobileHeader from './MobileHeader';
+import MobileHeader from './mobile/MobileHeader';
 import { palette } from '../../../styles/palette';
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
-  const [isReset, setIsReset] = useState(true);
-  /*  console.log(isLogin); */
-  const location = useLocation();
-  useEffect(() => {
-    const token = localStorage.getItem('Token');
+  const cookies = new Cookies();
+  const token = cookies.get('Token');
 
-    setIsLogin(!!token);
-  }, [location]);
+  const navigate = useNavigate();
+
+  const logOutEventHandler = () => {
+    const cookie = new Cookies();
+    cookie.remove('Token');
+
+    alert('로그아웃 되었습니다!');
+    navigate('/');
+  };
 
   return (
     <StHeader>
       <div className="header_inner">
         <BrowserHeader
-          isLogin={isLogin}
+          token={token}
           setIsOpen={setIsOpen}
           isOpen={isOpen}
-          isReset={isReset}
-          setIsReset={setIsReset}
+          logOutEventHandler={logOutEventHandler}
         />
         <MobileHeader
-          isLogin={isLogin}
+          token={token}
           setIsOpen={setIsOpen}
           isOpen={isOpen}
-          isReset={isReset}
-          setIsReset={setIsReset}
+          logOutEventHandler={logOutEventHandler}
         />
       </div>
     </StHeader>
