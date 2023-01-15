@@ -158,7 +158,7 @@ const StEditDoneButton = styled.button`
   margin-top: 8px;
 `;
 const StReCommentButton = styled.button`
-  color: ${palette.main};
+  color: ${palette.mainColor};
   font-size: 0.8rem;
   border: none;
   font-weight: 900;
