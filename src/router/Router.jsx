@@ -5,7 +5,7 @@ import Kakao from '../page/signin/Kakao';
 import SignIn from '../page/signin/SignIn';
 import Home from '../page/home/Home';
 import NotFound from '../page/NotFound';
-import SignUpPage from '../page/SignUpPage';
+import SignUp from '../page/signin/SignUp';
 import CreatePost from '../page/community/CreatePost';
 import PlantSearch from '../page/search/PlantSearch';
 import AddPlant from '../page/plantdiary/AddPlant';
@@ -23,7 +23,7 @@ export default function Router() {
         <Route path="/api/user/signin" element={<SignIn />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/api/user/kakao/callback" element={<Kakao />} />
-        <Route path="/api/user/signup" element={<SignUpPage />} />
+        <Route path="/api/user/signup" element={<SignUp />} />
         <Route path="/createpost" element={<CreatePost />} />
         <Route path="/api/plants" element={<PlantSearch />} />
         <Route path="/addplant" element={<AddPlant />} />
