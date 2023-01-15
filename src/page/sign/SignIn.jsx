@@ -5,7 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styled from 'styled-components';
 import { BsChatFill, BsWatch } from 'react-icons/bs';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 import { instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
@@ -13,7 +14,10 @@ import { palette } from '../../styles/palette';
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
 
+  const [cookies, setCookie, removeCookie] = useCookies(['cookie_name']);
+
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const onSigninHandler = result => {
     console.log(result.email, result.password);
 
@@ -23,12 +27,32 @@ export default function SignIn() {
         password: result.password,
       })
       .then(response => {
-        if (response.status == 200) {
+        if (response.data.statusCode == 200) {
           console.log(console.log(response));
           alert('로그인이 되었습니다.');
-          localStorage.setItem('Token', response.headers.authorization);
-          navigate('/');
+
+          /*  */
+
+          setCookie('Token', response.headers.authorization, {
+            path: '/',
+            secure: true,
+            sameSite: 'none',
+          });
+
+          /* 
+          const token = response.data.authorization;
+          const user = jwt(token); 
+          localStorage.setItem('Token', response.headers.authorization); */
+
+          const redirectUrl = searchParams.get('redirectUrl');
+          console.log('redicert', redirectUrl);
+
+          if (redirectUrl) {
+            return navigate(redirectUrl);
+          }
+          return navigate('/');
         }
+        return alert('아이디나 비밀번호를 다시 확인해주세요.');
       })
       .catch(error => console.log(error));
   };
@@ -84,6 +108,14 @@ export default function SignIn() {
     <StSignConatainer>
       <StSignInner>
         <StFormField action="" onSubmit={handleSubmit(onSigninHandler)}>
+          <div className="mobile_logo">
+            <a href="/">
+              <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ9jAIK5JIQd_fIQjhcupYCHGkS5AyOYtdgw&usqp=CAU"
+                alt="로고이미지"
+              />
+            </a>
+          </div>
           <h2>로그인</h2>
           <input
             type="email"
@@ -103,12 +135,14 @@ export default function SignIn() {
           </StErrorMessage>
 
           <Button
+            style={{ fontWegiht: '600px' }}
             type="button"
             size="md"
             disabled="disabled"
             width="100%"
+            color="#fff"
             onClick={handleSubmit(onSigninHandler)}
-            background={palette.buttonBackgroundColor}
+            background={palette.mainColor}
           >
             로그인
           </Button>
@@ -160,6 +194,17 @@ const StSignConatainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px 0;
+  @media (max-width: 768px) {
+    max-width: none;
+    padding: 2rem 0;
+    margin: 0;
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    top: 0;
+    z-index: 6;
+    background: #fff;
+  }
   a {
     text-decoration: none;
   }
@@ -182,6 +227,21 @@ const StFormField = styled.form`
     height: 35px;
     outline: none;
     text-indent: 10px;
+    border: 1px solid ${palette.borderColor1};
+    &::placeholder {
+      color: ${palette.textColor1};
+    }
+  }
+
+  .mobile_logo {
+    text-align: center;
+    display: none;
+    @media (max-width: 768px) {
+      display: block;
+    }
+    img {
+      width: 90px;
+    }
   }
 `;
 const StBorderContainer = styled.div`

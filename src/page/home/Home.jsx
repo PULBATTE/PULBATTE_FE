@@ -2,13 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
+import { useNavigate } from 'react-router-dom';
+import { guidePath, searchPath, boardPath } from '../../apis/path';
 import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
 import MainImage3 from '../../assets/image/main_03.png';
 import MainImage4 from '../../assets/image/main_04.png';
-import Button from '../../components/common/Button';
+import PrivateRoute from '../../routes/PrivateRoute';
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <StWrapper>
       <div className="main_banner">
@@ -33,9 +37,9 @@ export default function Home() {
               <span>원하는 식물을 필터링해서</span>
               <span>찾을 수 있어요</span>
             </StTitle>
-            <Button size="md" background="transparent">
+            <button type="button" onClick={() => navigate(searchPath)}>
               식물 검색 바로가기 <StArrowRight />
-            </Button>
+            </button>
           </StBannerContainer>
           <StMainImage src={MainImage2} alt="" />
         </StBannerInner>
@@ -47,9 +51,9 @@ export default function Home() {
               <span>내 식물을 자랑하고</span>
               <span>이웃의 식물을 구경해요 </span>
             </StTitle>
-            <Button size="md" background="transparent">
+            <button type="button" onClick={() => navigate(boardPath)}>
               커뮤니티 바로가기 <StArrowRight />
-            </Button>
+            </button>
           </StBannerContainer>
           <StMainImage src={MainImage3} alt="" />
         </StBannerInner>
@@ -62,10 +66,10 @@ export default function Home() {
               <span>내 성격에 맞는 식물을 찾아</span>
               <span>성장 그래프를 따라 키워보세요</span>
             </StTitle>
-            <Button size="md" background="transparent">
+            <button type="button" onClick={() => PrivateRoute(guidePath)}>
               테스트 하러가기
               <StArrowRight />
-            </Button>
+            </button>
           </StBannerContainer>
           <StMainImage src={MainImage4} alt="" />
         </StBannerInner>
@@ -147,6 +151,12 @@ const StBannerContainer = styled.div`
     align-items: center;
     text-align: left;
     padding: 0;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    @media (max-width: 768px) {
+      font-size: 0.875rem;
+    }
   }
   @media (max-width: 768px) {
     gap: 8px 0;

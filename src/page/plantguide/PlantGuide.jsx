@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { GrFormClose } from 'react-icons/gr';
 import { format, compareAsc } from 'date-fns';
+import { de } from 'date-fns/locale';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import Modal from '../../components/common/Modal';
@@ -24,7 +25,7 @@ export default function PlantGuide() {
   const onSubmitHandler = async name => {
     const { value } = plantValue.current;
     if (value == '') return;
-    postPlantsInfo(name, time, Number(value))
+    postPlantsInfo(time, Number(value))
       .then(response => console.log(response))
       .catch(error => console.log(error));
     onChangeModalHandler();
@@ -62,15 +63,9 @@ export default function PlantGuide() {
       <StPageInner>
         <StTitle>
           <h3>식집사가이드</h3>
-          <Button
-            background="#47AD8E"
-            size="sm"
-            color="#fff"
-            width="fit-content"
-            click={onChangeModalHandler}
-          >
+          <button type="button" onClick={() => onChangeModalHandler()}>
             키 입력하기
-          </Button>
+          </button>
         </StTitle>
         <PlantInfo />
       </StPageInner>
@@ -96,6 +91,12 @@ const StTitle = styled.div`
     position: absolute;
     right: 0;
     top: 50%;
+    padding: 8px 16px;
+    color: #fff;
+    width: fit-content;
+    background: ${palette.mainColor};
+    border: none;
+    cursor: pointer;
     transform: translateY(-53%);
     color: #fff;
     font-weight: 600;
@@ -175,7 +176,6 @@ const StCloseButton = styled(GrFormClose)`
   position: absolute;
   right: 10px;
   top: 10px;
-
   font-size: 1.5rem;
   cursor: pointer;
 `;

@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-import { postSignup } from '../apis/auth';
+import { postSignup } from '../../apis/auth';
 
 let cnt = 0;
 

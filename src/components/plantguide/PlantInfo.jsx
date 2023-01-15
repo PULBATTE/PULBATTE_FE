@@ -10,11 +10,11 @@ import airIcon from '../../assets/image/air.png';
 import { getPlantsInfo } from '../../apis/plantGuide';
 
 export default function PlantInfo() {
-  const { beginnerName } = useParams();
+  /*  const { beginnerName } = useParams(); */
   const [plantInfo, setPlantInfo] = useState(null);
-
+  console.log(plantInfo);
   useEffect(() => {
-    getPlantsInfo(beginnerName)
+    getPlantsInfo()
       .then(res => setPlantInfo(res))
       .catch(error => console.log(error));
   }, []);
@@ -65,13 +65,8 @@ export default function PlantInfo() {
             {plantInfo && (
               <ul>
                 <li>
-                  <span>∙</span> <span> {plantInfo.tipList[0]} </span>
-                </li>
-                <li>
-                  <span>∙</span> <span> {plantInfo.tipList[1]}</span>
-                </li>
-                <li>
-                  <span>∙</span> <span> {plantInfo.tipList[2]}</span>
+                  <span>∙</span>
+                  <span> {plantInfo && plantInfo.tip} </span>
                 </li>
               </ul>
             )}

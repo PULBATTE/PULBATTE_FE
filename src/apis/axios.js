@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 
 export const authInstance = axios.create({
   baseURL: 'https://pulbatte.com',
@@ -11,8 +12,10 @@ export const authInstance = axios.create({
 
 authInstance.interceptors.request.use(config => {
   if (config.headers === undefined) return;
-  const token = localStorage.getItem('Token');
-  config.headers.Authorization = `${token}`;
+  /* const token = localStorage.getItem('Token'); */
+  const cookies = new Cookies();
+  const token = cookies.get('Token');
+  config.headers.Authorization = token;
   // eslint-disable-next-line consistent-return
   return config;
 });

@@ -1,44 +1,56 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/jsx-no-comment-textnodes */
+
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { BsBellFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import SlideModal from './SlideModal';
 
-export default function Mobileheader() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Mobileheader({
+  setIsOpen,
+  token,
+  isOpen,
+  logOutEventHandler,
+}) {
+  const [isClicked, setIsClicked] = useState(false);
   const onClickModalHandler = () => {
-    setIsOpen(!isOpen);
+    setIsClicked(!isClicked);
     isOpen
       ? (document.body.style.overflowY = 'visible')
       : (document.body.style.overflowY = 'hidden');
   };
   return (
     <StMobileNav>
-      <div>로고</div>
+      <div>
+        <Link to="/">
+          <img src="" alt="" />
+          로고
+        </Link>
+      </div>
       <StUtilMenu>
         <StAlarm />
-
         <div
           className="hamburger"
           onClick={() => {
             onClickModalHandler();
           }}
         >
-          <i className={isOpen ? 'line open' : 'line close'} />
-          <i className={isOpen ? 'line open' : 'line close'} />
-          <i className={isOpen ? 'line open' : 'line close'} />
+          <i className={isClicked ? 'line open' : 'line close'} />
+          <i className={isClicked ? 'line open' : 'line close'} />
+          <i className={isClicked ? 'line open' : 'line close'} />
         </div>
       </StUtilMenu>
-      <StCurtain className={isOpen ? 'curtain open' : 'curtain'} />
-      <StModal className={isOpen ? 'open' : ''}>
-        <div className="modal_inner">
-          <div>
-            <button type="button">로그인</button>
-            <span>환영합니다.</span>
-          </div>
-        </div>
-      </StModal>
+      <StCurtain className={isClicked ? 'curtain open' : 'curtain'} />
+      <SlideModal
+        isClicked={isClicked}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        token={token}
+        onClickModalHandler={onClickModalHandler}
+        logOutEventHandler={logOutEventHandler}
+      />
     </StMobileNav>
   );
 }
@@ -50,19 +62,23 @@ const StMobileNav = styled.div`
   @media (max-width: 768px) {
     display: flex;
   }
+  a {
+    color: #000;
+    text-decoration: none;
+  }
   .hamburger {
     display: flex;
     flex-direction: column;
     gap: 7px 0;
     cursor: pointer;
     position: relative;
-  }
-  .line {
-    height: 4px;
-    width: 1.9rem;
-    display: block;
-    background: black;
-    border-radius: 5px;
+    .line {
+      height: 4px;
+      width: 1.9rem;
+      display: block;
+      background: black;
+      border-radius: 5px;
+    }
   }
 `;
 const StUtilMenu = styled.div`
@@ -102,29 +118,5 @@ const StCurtain = styled.div`
   display: none;
   &.open {
     display: block;
-  }
-`;
-
-const StModal = styled.div`
-  position: fixed;
-  top: 0;
-  right: -100%;
-  height: 100vh;
-  width: 100%;
-
-  transition: all 0.5s ease-in-out;
-  &.open {
-    right: 0;
-  }
-  .modal_inner {
-    position: absolute;
-    width: 90%;
-    top: 0;
-    background: #fff;
-    right: 0;
-    padding: 2rem;
-    padding-top: 60px;
-    box-sizing: border-box;
-    height: 100vh;
   }
 `;
