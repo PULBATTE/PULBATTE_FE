@@ -7,6 +7,10 @@ export const palette = {
   borderColor1: '#EAEAEA',
   borderColor2: '#D9D9D9',
   textColor1: '#A3A3A3',
+<<<<<<< HEAD
   mainColor: '#47AD8E',
  
+=======
+  lightGray: '#f1f1f1',
+>>>>>>> 8d109a4 (Design: palette 색상 추가)
 };
