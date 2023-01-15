@@ -1,20 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { RenderAfterNavermapsLoaded } from 'react-naver-maps';
 import './index.css';
-import { App } from './page';
+import { CookiesProvider } from 'react-cookie';
 import store from './redux/store';
+import App from './App';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <RenderAfterNavermapsLoaded ncpClientId={process.env.NAVER_MAPS_API_KEY}>
-        <App />
-      </RenderAfterNavermapsLoaded>
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
+  </Provider>,
 );

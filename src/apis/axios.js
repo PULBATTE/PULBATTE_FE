@@ -1,14 +1,25 @@
 import axios from 'axios';
-// config
+import { Cookies } from 'react-cookie';
 
-// ----------------------------------------------------------------------
-
-export const basePath = process.env.NODE_ENV;
-
-const $axios = axios.create({
-  baseURL: basePath,
+export const authInstance = axios.create({
+  baseURL: 'https://pulbatte.com',
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Credentials': true,
+    'Content-Type': 'application/json',
+  },
 });
 
-export default $axios;
+authInstance.interceptors.request.use(config => {
+  if (config.headers === undefined) return;
+  /* const token = localStorage.getItem('Token'); */
+  const cookies = new Cookies();
+  const token = cookies.get('Token');
+  config.headers.Authorization = token;
+  // eslint-disable-next-line consistent-return
+  return config;
+});
 
-// axios instance header
+export const instance = axios.create({
+  baseURL: 'https://pulbatte.com',
+});
