@@ -9,4 +9,6 @@ export const palette = {
   mainColor: '#47AD8E',
   textColor1: '#A3A3A3',
   lightGray: '#f1f1f1',
+  white: '#ffffff',
+  inputTextColor: '#bacdc6',
 };
