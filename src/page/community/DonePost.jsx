@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { MdArrowBackIos } from 'react-icons/md';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
+import { useParams } from 'react-router-dom';
 
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
@@ -33,6 +34,27 @@ const MockData = {
         content: '대 댓글 내용',
         createdAt: '2022-12-22T00:04:45.020757',
         modifiedAt: '2022-12-22T00:04:45.020757',
+        replyList: {
+          id: 1,
+          nickname: '닉네임',
+          content: '대 댓글 내용',
+          createdAt: '2022-12-22T00:04:45.020757',
+          modifiedAt: '2022-12-22T00:04:45.020757',
+          replyList: {
+            id: 1,
+            nickname: '닉네임',
+            content: '대 댓글 내용',
+            createdAt: '2022-12-22T00:04:45.020757',
+            modifiedAt: '2022-12-22T00:04:45.020757',
+            replyList: {
+              id: 1,
+              nickname: '닉네임',
+              content: '대 댓글 내용',
+              createdAt: '2022-12-22T00:04:45.020757',
+              modifiedAt: '2022-12-22T00:04:45.020757',
+            },
+          },
+        },
       },
     },
     {
@@ -54,6 +76,8 @@ const MockData = {
 
 export default function DonePost() {
   const [isClicked, setIsClicked] = useState(false);
+  const { postId } = useParams();
+  console.log(postId);
   /* 객체 비구조화 할당 */
   const {
     likeCount,
@@ -224,8 +248,8 @@ const StCreateCommentArea = styled.textarea`
   margin-top: 10px;
 `;
 const StButton = styled.button`
-  background-color: #47ad8e;
-  color: white;
+  background-color: ${palette.mainColor};
+  color: ${palette.white};
   width: 100px;
   height: 30px;
   border-radius: 8px;
