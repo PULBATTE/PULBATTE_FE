@@ -30,5 +30,11 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'react/function-component-definition': 'off',
     'react/prop-types': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['htmlFor'],
+      },
+    ],
   },
 };
