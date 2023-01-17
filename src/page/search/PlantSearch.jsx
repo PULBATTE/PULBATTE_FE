@@ -93,7 +93,7 @@ const StWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     h3 {
-      font-size: 2.8rem;
+      font-size: 2.2rem;
       margin-top: 80px;
       @media (max-width: 768px) {
         font-size: 1.9rem;
