@@ -4,12 +4,11 @@ import { SlTag } from 'react-icons/sl';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Cookies } from 'react-cookie';
-import BrowserHeader from './BrowserHeader';
+import BrowserHeader from './browser/BrowserHeader';
 import MobileHeader from './mobile/MobileHeader';
 import { palette } from '../../../styles/palette';
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(true);
   const cookies = new Cookies();
   const token = cookies.get('Token');
 
@@ -22,22 +21,19 @@ export default function Header() {
     alert('로그아웃 되었습니다!');
     navigate('/');
   };
+  const clickNaviHandler = () => {
+    console.log('ok');
+  };
 
   return (
     <StHeader>
       <div className="header_inner">
         <BrowserHeader
           token={token}
-          setIsOpen={setIsOpen}
-          isOpen={isOpen}
           logOutEventHandler={logOutEventHandler}
+          clickNaviHandler={clickNaviHandler}
         />
-        <MobileHeader
-          token={token}
-          setIsOpen={setIsOpen}
-          isOpen={isOpen}
-          logOutEventHandler={logOutEventHandler}
-        />
+        <MobileHeader logOutEventHandler={logOutEventHandler} token={token} />
       </div>
     </StHeader>
   );
@@ -54,13 +50,8 @@ const StHeader = styled.header`
   box-sizing: border-box;
   border-bottom: 1px solid #eaeaea;
   ul {
-    padding: 0;
   }
-  .gnb_container {
-    > ul {
-      padding: 15px 0px;
-    }
-  }
+
   @media (max-width: 768px) {
     padding: 0 2rem;
   }
