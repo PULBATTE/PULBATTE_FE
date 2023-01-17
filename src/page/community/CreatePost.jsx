@@ -5,19 +5,21 @@ import { ChevronLeft } from '../../assets/svgs';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
 
+const tags = ['질문과 답변', '식물자랑', '기타', '추천'];
+
 export default function CreatePost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState();
   const [imgSrc, setImgSrc] = useState({
     preview: undefined,
     upload: '',
   });
+
   const navigate = useNavigate();
 
   const imgInputRef = useRef(null);
 
-  console.log({ imgInputRef });
   const onChangeTitleHandler = e => {
     setTitle(e.target.value);
   };
@@ -27,10 +29,11 @@ export default function CreatePost() {
   // button value : Qa, 자랑, etc, 추천
   const onTagHandler = e => {
     e.preventDefault();
+    console.log(e.target.value);
     setTag(e.target.value);
   };
+
   const onUploadImgHandler = () => {
-    console.log({ imgInputRef });
     setImgSrc({
       upload: imgInputRef.current.files[0],
       preview: URL.createObjectURL(imgInputRef.current.files[0]),
@@ -44,17 +47,23 @@ export default function CreatePost() {
       content,
       tag,
     };
-    console.log(request);
+
     const blob = new Blob([JSON.stringify(request)], {
       type: 'application/json',
     });
-    console.log(blob);
-    formData.append('image', blob);
-    imgSrc.upload && formData.append('multipartFile', imgSrc.upload);
+
+    formData.append('request', blob);
+    imgSrc.upload && formData.append('image', imgSrc.upload);
+
+    if (!tag) {
+      alert('테그를 선택해 주세요');
+    }
     const res = await createPostApi(formData);
     console.log(res);
-    navigate('/');
+    const postId = res.data.id;
+    navigate(`/donepost/${postId}`);
   };
+
   return (
     <StCreateContainer>
       <StCreateHeader>
@@ -69,18 +78,16 @@ export default function CreatePost() {
           <h5>작성하려는 글에 맞는 주제를 선택해주세요.</h5>
         </StTopicArea>
         <StTagWrapper>
-          <StTagButton value="QA" onClick={onTagHandler}>
-            질문과 답변
-          </StTagButton>
-          <StTagButton value="contest" onClick={onTagHandler}>
-            식물자랑
-          </StTagButton>
-          <StTagButton value="etc" onClick={onTagHandler}>
-            기타
-          </StTagButton>
-          <StTagButton value="recommend" onClick={onTagHandler}>
-            추천
-          </StTagButton>
+          {tags.map(v => (
+            <StTagButton
+              key={`${v}_tag_key`}
+              active={tag === v} // true
+              value={v}
+              onClick={onTagHandler}
+            >
+              {v}
+            </StTagButton>
+          ))}
         </StTagWrapper>
         <StTitleArea
           placeholder="제목을 입력해 주세요"
@@ -152,19 +159,18 @@ const StTagWrapper = styled.div`
   flex-flow: wrap;
 `;
 const StTagButton = styled.button`
-  background-color: #ebf1ec;
+  background-color: ${props =>
+    props.active ? palette.mainColor : palette.lightGray};
+  color: ${palette.textColor1};
+  color: ${props => (props.active ? palette.white : palette.textColor1)};
+  font-weight: ${props => (props.active ? 'bold' : 'unset')};
+  font-weight: bold;
   font-size: 14px;
-  color: #a3a3a3;
   border-radius: 30px;
   border: none;
   padding: 4px 8px;
   width: 112px;
   height: 36px;
-  :focus {
-    background-color: #bacdc6;
-    color: #fff;
-    font-weight: bold;
-  }
 `;
 const StTopicArea = styled.div`
   display: flex;
@@ -196,7 +202,7 @@ const StContentArea = styled.textarea`
 `;
 
 const StSubmitButton = styled.button`
-  background-color: #47ad8e;
+  background-color: ${palette.mainColor};
   width: 308px;
   height: 72px;
   border: none;
@@ -216,9 +222,9 @@ const StUploadImgWrapper = styled.div`
 `;
 
 const StUploadInputPText = styled.p`
-  background-color: #bacdc6;
+  background-color: ${palette.inputTextColor};
   font-size: 14px;
-  color: #fff;
+  color: ${palette.white};
   border-radius: 30px;
   font-weight: bold;
   border: none;

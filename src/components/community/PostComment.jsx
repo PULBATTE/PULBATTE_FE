@@ -10,23 +10,38 @@ export function PostComment({ comment }) {
   const { nickname, createdAt, content, replyList } = comment;
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
-  const [openReComment, setOpenReComment] = useState(true);
+  const [isOpenReply, setIsOpenReply] = useState(false);
+  const [createReply, setCreateReply] = useState();
 
-  const onReplyHandler = e => {
-    setCommentContent(e.target.value);
-  };
-  const onEditHandler = () => {
+  const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
-  const onDeleteHandler = () => {
+  const onDeleteCommentHandler = () => {
     console.log('삭제');
+  };
+  const onEditCommentHandler = e => {
+    setCommentContent(e.target.value);
   };
   const onEditCommentDoneHandler = () => {
     setIsEditable(false);
   };
-  const onReCommentOpenHandler = () =>
-    setOpenReComment(_openReComment => !_openReComment);
-
+  const onOpenReplyHandler = e => {
+    console.log({ isOpenReply });
+    // if (openReply === true) {
+    //   setOpenReply(false);
+    // }
+    // if (openReply === false) {
+    //   setOpenReply(true);
+    // }
+    // setOpenReply(!openReply);
+    setIsOpenReply(_openReply => !_openReply);
+  };
+  const onCreateReplyHandler = e => {
+    setCreateReply(e.target.value);
+  };
+  const onRegReplyHandler = () => {
+    setIsOpenReply(false);
+  };
   return (
     <StCommentContainer>
       <StUserInfo>
@@ -43,11 +58,11 @@ export function PostComment({ comment }) {
               type="button"
               value="수정버튼"
               name="수정네임"
-              onClick={onEditHandler}
+              onClick={onOpenEditCommentHandler}
             >
               수정
             </StButton>
-            <StButton type="button" onClick={onDeleteHandler}>
+            <StButton type="button" onClick={onDeleteCommentHandler}>
               삭제
             </StButton>
           </StButtonWrapper>
@@ -56,7 +71,10 @@ export function PostComment({ comment }) {
       <StTextFieldWrapper>
         {isEditable ? (
           <>
-            <StContentarea value={commentContent} onChange={onReplyHandler} />
+            <StCommentTextArea
+              value={commentContent}
+              onChange={onEditCommentHandler}
+            />
             <StEditDoneButtonWrapper>
               <StEditDoneButton
                 type="button"
@@ -70,10 +88,21 @@ export function PostComment({ comment }) {
           <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
         )}
       </StTextFieldWrapper>
-      <StReCommentButton type="button" onClick={onReCommentOpenHandler}>
-        답글 달기
+      <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+        {isOpenReply ? '숨기기' : '답글 달기'}
       </StReCommentButton>
-      {replyList && openReComment && (
+      {isOpenReply && (
+        <>
+          <StCommentTextArea
+            value={createReply}
+            onChange={onCreateReplyHandler}
+          />
+          <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+            등록
+          </StRegReplyButton>
+        </>
+      )}
+      {replyList && (
         <ReCommentWrapper>
           {/* 재귀를 사용해서 자기자신을 불러옴 */}
           {/* map함수를 사용해서 replyList를 여러개 생성 */}
@@ -84,9 +113,7 @@ export function PostComment({ comment }) {
   );
 }
 
-const StCommentContainer = styled.div`
-  padding-bottom: 24px;
-`;
+const StCommentContainer = styled.div``;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
   display: flex;
@@ -115,11 +142,11 @@ const StTextFieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const StContentarea = styled.textarea`
+const StCommentTextArea = styled.textarea`
   border: ${props => props.readOnly && 'none'};
   width: 100%;
   height: 72px;
-  margin-top: 4px;
+  margin-top: 8px;
   padding: 10px;
   box-sizing: border-box;
   outline: none;
@@ -166,4 +193,17 @@ const StReCommentButton = styled.button`
 `;
 const ReCommentWrapper = styled.div`
   margin: 24px 0px 24px 24px;
+`;
+
+const StRegReplyButton = styled.button`
+  background-color: ${palette.mainColor};
+  color: ${palette.white};
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  float: right;
+  margin-top: 8px;
 `;
