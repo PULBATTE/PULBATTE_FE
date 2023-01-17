@@ -23,7 +23,7 @@ export default function PlantEnviroment({ title, src, checkPoint, name }) {
   }, []);
 
   return (
-    <StGridList>
+    <StGridList className="plant_env">
       <span>{title}</span>
       <img src={src} alt="식물환경 아이콘" />
       <div className="circle_container">
@@ -79,6 +79,10 @@ const StGridList = styled.div`
     background: ${palette.borderColor1};
     border-radius: 50%;
     border: none;
+    @media (max-width: 1280px) {
+      width: calc(2px + 1vw);
+      height: calc(2px + 1vw);
+    }
   }
   input:checked + .circle_sunny {
     background: #f5bd67;
