@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import React, { createRef, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { ChevronLeft } from '../../assets/svgs';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
-
-const tags = ['질문과 답변', '식물자랑', '기타', '추천'];
+import Tag from '../../components/common/Tag';
+import { TAGS } from '../../assets/constants';
 
 export default function CreatePost() {
   const [title, setTitle] = useState('');
@@ -78,15 +78,25 @@ export default function CreatePost() {
           <h5>작성하려는 글에 맞는 주제를 선택해주세요.</h5>
         </StTopicArea>
         <StTagWrapper>
-          {tags.map(v => (
-            <StTagButton
-              key={`${v}_tag_key`}
-              active={tag === v} // true
-              value={v}
-              onClick={onTagHandler}
-            >
-              {v}
-            </StTagButton>
+          {TAGS.map(v => (
+            <>
+              {/* <StTagButton
+                key={`${v}_tag_key`}
+                active={tag === v} // true
+                value={v}
+                onClick={onTagHandler}
+              >
+                {v}
+              </StTagButton> */}
+              <Tag
+                key={`${v}_tag_key`}
+                active={tag === v} // true
+                value={v}
+                onClick={onTagHandler}
+              >
+                {v}
+              </Tag>
+            </>
           ))}
         </StTagWrapper>
         <StTitleArea
