@@ -15,18 +15,17 @@ export default function PlantGuide() {
   const [modal, onChangeModalHandler] = useModal();
   const plantValue = useRef();
   const time = format(new Date(), 'yyyy-MM-dd');
-
-  modal
-    ? (document.body.style.overflowY = 'hidden')
-    : (document.body.style.overflowY = 'visible');
-
   const { beginnerName } = useParams();
 
-  const onSubmitHandler = async name => {
+  const onSubmitHandler = () => {
     const { value } = plantValue.current;
     if (value == '') return;
     postPlantsInfo(time, Number(value))
-      .then(response => console.log(response))
+      .then(response => {
+        if (response.statusCode == 200) {
+          window.location.reload();
+        }
+      })
       .catch(error => console.log(error));
     onChangeModalHandler();
   };
@@ -82,6 +81,7 @@ const StTitle = styled.div`
   position: relative;
   h3 {
     font-size: 2.1rem;
+    font-weight: 800;
     @media (max-width: 768px) {
       font-size: 1.4rem;
     }

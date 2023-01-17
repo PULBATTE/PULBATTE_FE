@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { PlantInfoRating } from '../../components/plantdiary/PlantInfoRating';
 import PlantInfoSelect from '../../components/plantdiary/PlantInfoSelect';
+import waterIcon from '../../assets/image/water_drop.png';
+import shineIcon from '../../assets/image/wb_sunny.png';
+import airIcon from '../../assets/image/air.png';
+import PlantEnviroment from '../../components/plantguide/PlantEnviroment';
 
 export default function AddPlant() {
   return (
@@ -19,22 +22,28 @@ export default function AddPlant() {
         <PlantInfoSelect title="영양제" optionNum={12} optionString="개월" />
         <PlantCalendarInput />
       </StPlantInfo>
+      <h3>식물환경</h3>
       <StPlantEnv>
-        <h3>식물환경</h3>
-        <PlantInfoRating
-          title="물 주는 양"
-          rating={3}
-          textProps={{ left: '분무', right: '흠뻑' }}
+        <PlantEnviroment
+          title="빛"
+          isDisabled={false}
+          src={shineIcon}
+          checkPoint="4"
+          name="sunny"
         />
-        <PlantInfoRating
-          title="일조량"
-          rating={3}
-          textProps={{ left: '그늘', right: '양지' }}
+        <PlantEnviroment
+          title="물"
+          isDisabled={false}
+          src={waterIcon}
+          checkPoint="2"
+          name="water"
         />
-        <PlantInfoRating
+        <PlantEnviroment
           title="통풍"
-          rating={3}
-          textProps={{ left: '적게', right: '많이' }}
+          isDisabled={false}
+          src={airIcon}
+          checkPoint="3"
+          name="air"
         />
       </StPlantEnv>
     </StAddPlantContainer>
@@ -86,6 +95,8 @@ const StPlantInfo = styled.div`
 `;
 
 const StPlantEnv = styled.div`
+  display: flex;
+  justify-content: space-around;
   width: 100%;
   h3 {
     font-size: 18px;

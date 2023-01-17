@@ -9,9 +9,9 @@ import { plantsSearch, plantsGlobalList } from '../../apis/plantsFilter';
 
 export default function PlantSearch() {
   /*   const [filter, setFilter] = useState(null); */
+  const [isClicked, setIsClicked] = useState(false);
   const search = useRef();
   const [plantsList, setPlantsList] = useState(null);
-  console.log('list', plantsList);
 
   // 식물 전체 리스트
   useEffect(() => {
@@ -20,14 +20,14 @@ export default function PlantSearch() {
 
   const onCheckList = () => {
     plantsGlobalList()
-      .then(res => setPlantsList(res.data.plantList))
+      .then(res => setPlantsList(res.data.plantList), setIsClicked(false))
       .catch(error => console.log(error));
   };
 
   const onSearchHandler = () => {
     if (window.event.keyCode == 13) {
       plantsSearch(search.current.value)
-        .then(res => setPlantsList(res))
+        .then(res => setPlantsList(res), setIsClicked(false))
         .catch(error => console.log(error));
     }
   };
@@ -57,21 +57,29 @@ export default function PlantSearch() {
             dataname="cactus"
             button="#초보자"
             setPlantsList={setPlantsList}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
           />
           <CustomLabel
             dataname="leaf"
             button="#잎감상"
             setPlantsList={setPlantsList}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
           />
           <CustomLabel
             dataname="flower"
             button="#꽃이피는"
             setPlantsList={setPlantsList}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
           />
           <CustomLabel
             dataname="fruit"
             button="#열매"
             setPlantsList={setPlantsList}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
           />
         </StFilterContainer>
         <PlantsList plantsList={plantsList} />

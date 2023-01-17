@@ -31,26 +31,29 @@ export const options = {
   },
 };
 
-const labels = ['2023-01-12', '2023-01-13', '2023-01-14'];
-
-export const data = {
-  labels,
-  datasets: [
-    /* {
-      label: '가이드라인 기준 ',
-      data: [10, 23, 35, 43, 57, 57, 58],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    }, */
-    {
-      label: '내 식물',
-      data: [30, 45],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
-
-export default function PlantGraph() {
+export default function PlantGraph({ graph }) {
+  const labels = [];
+  const lists = [];
+  graph.map(data => {
+    lists.push(data.graphValue);
+    return labels.push(data.localDate);
+  });
+  const data = {
+    labels,
+    datasets: [
+      /* {
+        label: '가이드라인 기준 ',
+        data: [10, 23, 35, 43, 57, 57, 58],
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      }, */
+      {
+        label: '내 식물',
+        data: lists,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  };
   return <Line options={options} data={data} />;
 }

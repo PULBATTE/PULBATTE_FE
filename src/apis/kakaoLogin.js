@@ -1,17 +1,27 @@
+import { Cookies } from 'react-cookie';
 import { instance } from './axios';
+
+const cookies = new Cookies();
+export const setCookie = (name, value, option) => {
+  return cookies.set(name, value, { path: '/' });
+};
+
+export const getCookie = name => {
+  return cookies.get(name);
+};
+
+export const removeCookie = name => {
+  return cookies.remove(name);
+};
 
 export const kakaoLogin = code => {
   return async function () {
     console.log(code);
 
     await instance
-      .get(`/api/user/kakao/callback?code=${code}`)
+      .post(`/api/user/kakao/callback?code=${code}`)
       .then(response => {
-        alert('로그인에 성공하셨습니다.');
-
-        const jwtToken = response.headers.authorization;
-
-        localStorage.setItem('Token', JSON.stringify(jwtToken));
+        setCookie('Token', response.headers.authorization);
 
         window.location.href = '/';
       })
