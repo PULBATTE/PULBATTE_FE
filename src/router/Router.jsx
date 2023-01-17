@@ -14,6 +14,7 @@ import PlantList from '../page/plantdiary/PlantLIst';
 import DonePost from '../page/community/DonePost';
 import PlantGuide from '../page/plantguide/PlantGuide';
 import PlantChoice from '../page/plantguide/PlantChoice';
+import PlantDetail from '../page/search/PlantDetail';
 
 export default function Router() {
   return (
@@ -33,7 +34,7 @@ export default function Router() {
         <Route path="/api/beginner/plant/my" element={<PlantGuide />} />
         <Route path="/api/beginner/plant" element={<PlantChoice />} />
         <Route path="/donepost" element={<DonePost />} />
-
+        <Route path="/dd" element={<PlantDetail />} />
         <Route
           path="/api/beginner/plant/:beginnerName"
           element={<PlantGuide />}
