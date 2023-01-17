@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { kakaoLogin } from '../../redux/modules/userSlice';
+import { kakaoLogin } from '../../apis/kakaoLogin';
 
 export default function Kakao() {
   const dispatch = useDispatch();
@@ -10,5 +10,5 @@ export default function Kakao() {
   console.log('code:', code);
   dispatch(kakaoLogin(code));
 
-  return <div>Kakao</div>;
+  return <div />;
 }
