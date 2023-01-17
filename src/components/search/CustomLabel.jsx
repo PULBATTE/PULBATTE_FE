@@ -3,23 +3,34 @@ import styled from 'styled-components';
 import { plantsFilter } from '../../apis/plantsFilter';
 
 export default function CustomLabel(props) {
-  const { dataname, button, setPlantsList, onCheckList, plantsList } = props;
+  const { dataname, button, setPlantsList, isClicked, setIsClicked } = props;
 
   const onFilterEventHandler = async e => {
     const { name } = e.target.dataset;
 
     const res = await plantsFilter(name);
     setPlantsList(res);
+    setIsClicked(true);
   };
 
   return (
     <StCustomLabel>
-      <input
-        type="radio"
-        name="filter"
-        onClick={onFilterEventHandler}
-        data-name={dataname}
-      />
+      {isClicked == false ? (
+        <input
+          type="radio"
+          name="filter"
+          onClick={onFilterEventHandler}
+          data-name={dataname}
+        />
+      ) : (
+        <input
+          type="radio"
+          name="filter"
+          className="clicked"
+          onClick={onFilterEventHandler}
+          data-name={dataname}
+        />
+      )}
       <button type="button">{button}</button>
     </StCustomLabel>
   );
@@ -38,7 +49,7 @@ const StCustomLabel = styled.label`
     width: 100%;
     height: 100%;
   }
-  input:checked + button {
+  input.clicked:checked + button {
     color: red;
     border: 1px solid red;
   }
