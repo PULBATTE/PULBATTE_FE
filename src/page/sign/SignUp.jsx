@@ -36,8 +36,6 @@ export default function SignUp() {
       .oneOf([yup.ref('password')], '비밀번호가 다릅니다.'),
   });
 
-  // 객체 비구조화 할당 data 로 넘어오는 hookform데이터중에서 필요한 값만 받아오기 위해서
-
   const onSubmit = async ({ userId, password }) => {
     const res = await postSignup({ userId, password });
     console.log(res);

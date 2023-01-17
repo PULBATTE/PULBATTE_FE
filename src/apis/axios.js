@@ -3,6 +3,7 @@ import { Cookies } from 'react-cookie';
 
 export const authInstance = axios.create({
   baseURL: 'https://pulbatte.com',
+  // baseURL: 'http://52.79.239.176',
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': true,
@@ -22,4 +23,5 @@ authInstance.interceptors.request.use(config => {
 
 export const instance = axios.create({
   baseURL: 'https://pulbatte.com',
+  // baseURL: 'http://52.79.239.176',
 });

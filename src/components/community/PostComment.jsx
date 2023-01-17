@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
 
-const userNickName = 'ssori';
+const userNickName = 'uJD66E';
 
 export function PostComment({ comment }) {
   /* 객체 비구조화 할당 */
-  const { nickname, createdAt, content, replyList } = comment;
-  const [commentContent, setCommentContent] = useState(content);
+  const { nickname, createdAt, replyList } = comment;
+  const [commentContent, setCommentContent] = useState(comment.comment);
   const [isEditable, setIsEditable] = useState(false);
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
@@ -113,7 +113,9 @@ export function PostComment({ comment }) {
   );
 }
 
-const StCommentContainer = styled.div``;
+const StCommentContainer = styled.div`
+  margin-bottom: 80px;
+`;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
   display: flex;
