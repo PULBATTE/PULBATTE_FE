@@ -7,10 +7,11 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
 import { postSignup } from '../../apis/auth';
+import { palette } from '../../styles/palette';
 
 let cnt = 0;
 
-export default function SignUpPage() {
+export default function SignUp() {
   const Navigate = useNavigate();
   const formSchema = yup.object({
     userId: yup
@@ -34,8 +35,6 @@ export default function SignUpPage() {
       .string()
       .oneOf([yup.ref('password')], '비밀번호가 다릅니다.'),
   });
-
-  // 객체 비구조화 할당 data 로 넘어오는 hookform데이터중에서 필요한 값만 받아오기 위해서
 
   const onSubmit = async ({ userId, password }) => {
     const res = await postSignup({ userId, password });
@@ -113,16 +112,23 @@ const StSignUpContainer = styled.div`
   }
 `;
 const StInput = styled.input`
-  width: 372px;
-  height: 58px;
+  width: 360px;
+  height: 50px;
   display: block;
+  border: 1px solid #eaeaea;
+  border-radius: 4px;
+  padding-left: 10px;
 `;
 const StSubmitButton = styled.button`
-  background-color: #e8e8e8;
+  background-color: ${palette.mainColor};
   border: none;
+  border-radius: 4px;
   display: block;
+  color: white;
   width: 372px;
-  height: 58px;
+  height: 50px;
+  font-size: 1rem;
+  font-weight: 600;
 `;
 const StErrorMessage = styled.span`
   min-height: 20px;
