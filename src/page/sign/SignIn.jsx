@@ -1,20 +1,31 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styled from 'styled-components';
-import { BsChatFill, BsWatch } from 'react-icons/bs';
+import { BsChatFill } from 'react-icons/bs';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 import { instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 
+const cookies = new Cookies();
+export const setCookie = (name, value, option) => {
+  return cookies.set(name, value, { path: '/' });
+};
+
+export const getCookie = name => {
+  return cookies.get(name);
+};
+
+export const removeCookie = name => {
+  return cookies.remove(name);
+};
+
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
-
-  const [cookies, setCookie, removeCookie] = useCookies(['cookie_name']);
 
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,18 +42,7 @@ export default function SignIn() {
           console.log(console.log(response));
           alert('로그인이 되었습니다.');
 
-          /*  */
-
-          setCookie('Token', response.headers.authorization, {
-            path: '/',
-            secure: true,
-            sameSite: 'none',
-          });
-
-          /* 
-          const token = response.data.authorization;
-          const user = jwt(token); 
-          localStorage.setItem('Token', response.headers.authorization); */
+          setCookie('Token', response.headers.authorization);
 
           const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
