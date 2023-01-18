@@ -8,13 +8,9 @@ import { BsBellFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import SlideModal from './SlideModal';
 
-export default function Mobileheader({
-  setIsOpen,
-  token,
-  isOpen,
-  logOutEventHandler,
-}) {
+export default function Mobileheader({ token, logOutEventHandler }) {
   const [isClicked, setIsClicked] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const onClickModalHandler = () => {
     setIsClicked(!isClicked);
     isOpen

@@ -5,6 +5,8 @@ import Kakao from '../page/sign/Kakao';
 import SignIn from '../page/sign/SignIn';
 import Home from '../page/home/Home';
 
+import SignUp from '../page/sign/SignUp';
+import PostList from '../page/community/PostList';
 import NotFound from '../page/NotFound';
 import CreatePost from '../page/community/CreatePost';
 import PlantSearch from '../page/search/PlantSearch';
@@ -13,8 +15,6 @@ import DetailPlant from '../page/plantdiary/DetailPlant';
 import PlantList from '../page/plantdiary/PlantLIst';
 import DonePost from '../page/community/DonePost';
 import PlantGuide from '../page/plantguide/PlantGuide';
-import SignUp from '../page/sign/SignUp';
-import PostList from '../page/community/PostList';
 
 export default function Router() {
   return (
@@ -32,12 +32,13 @@ export default function Router() {
         <Route path="/detailplant" element={<DetailPlant />} />
         <Route path="/plantlist" element={<PlantList />} />
         <Route path="/api/beginner/plant/my" element={<PlantGuide />} />
-        <Route path="/donepost/:postId" element={<DonePost />} />
-        <Route path="/postlist" element={<PostList />} />
+        <Route path="/donepost" element={<DonePost />} />
         <Route
           path="/api/beginner/plant/:beginnerName"
           element={<PlantGuide />}
         />
+
+        <Route path="/postlist" element={<PostList />} />
       </Routes>
     </BrowserRouter>
   );

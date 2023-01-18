@@ -12,7 +12,6 @@ export default function PlantsList({ plantsList }) {
         <StListInner>
           {plantsList &&
             plantsList?.map(data => {
-              /* console.log(data.id, data.plantName, data.image); */
               return (
                 <Card
                   key={data.id}

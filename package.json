@@ -36,7 +36,9 @@
     "react-scripts": "5.0.1",
     "react-tabs": "^6.0.0",
     "redux": "^4.2.0",
+    "sass": "^1.57.1",
     "styled-components": "^5.3.6",
+    "swiper": "^6.8.4",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

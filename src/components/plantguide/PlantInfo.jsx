@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import PlantGraph from './PlantGraph';
+import PlantGraph from './plantGraph';
 import PlantEnviroment from './PlantEnviroment';
 import { palette } from '../../styles/palette';
 import waterIcon from '../../assets/image/water_drop.png';
@@ -12,10 +12,14 @@ import { getPlantsInfo } from '../../apis/plantGuide';
 export default function PlantInfo() {
   /*  const { beginnerName } = useParams(); */
   const [plantInfo, setPlantInfo] = useState(null);
-  console.log(plantInfo);
+  const [graphValue, setGraphValue] = useState([]);
+
   useEffect(() => {
     getPlantsInfo()
-      .then(res => setPlantInfo(res))
+      .then(res => {
+        setPlantInfo(res);
+        setGraphValue(res.beginnerGraph);
+      })
       .catch(error => console.log(error));
   }, []);
 
@@ -32,8 +36,9 @@ export default function PlantInfo() {
               {plantInfo && plantInfo.beginnerPlantName}
             </span>
           </div>
+          {/*      */}
           <div className="graph_container">
-            <PlantGraph />
+            <PlantGraph graph={graphValue} />
           </div>
 
           {plantInfo && (
@@ -64,10 +69,15 @@ export default function PlantInfo() {
 
             {plantInfo && (
               <ul>
-                <li>
-                  <span>∙</span>
-                  <span> {plantInfo && plantInfo.tip} </span>
-                </li>
+                {plantInfo &&
+                  plantInfo.tipList.map(data => {
+                    return (
+                      <li key={data}>
+                        <span>∙</span>
+                        <span>{data}</span>
+                      </li>
+                    );
+                  })}
               </ul>
             )}
           </StTipContainer>
@@ -96,7 +106,7 @@ const StContent = styled.div`
 
 const StGrid = styled.div`
   display: grid;
-  grid-template-columns: 300px 1.5fr;
+  grid-template-columns: calc(100px + 20vw) 1.5fr;
   gap: 15px;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -106,6 +116,9 @@ const StGrid = styled.div`
     position: relative;
     width: fit-content;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     @media (max-width: 768px) {
       order: 1;
     }
@@ -116,6 +129,9 @@ const StGrid = styled.div`
       aspect-ratio: 1/1;
       @media (max-width: 768px) {
         max-width: 300px;
+      }
+      @media (max-width: 500px) {
+        max-width: 230px;
       }
     }
   }
@@ -134,6 +150,9 @@ const StGrid = styled.div`
   .graph_container {
     display: flex;
     align-items: center;
+    @media (max-width: 768px) {
+      order: 2;
+    }
   }
 `;
 const StGridInner = styled.div`

@@ -16,6 +16,7 @@ authInstance.interceptors.request.use(config => {
   /* const token = localStorage.getItem('Token'); */
   const cookies = new Cookies();
   const token = cookies.get('Token');
+
   config.headers.Authorization = token;
   // eslint-disable-next-line consistent-return
   return config;
