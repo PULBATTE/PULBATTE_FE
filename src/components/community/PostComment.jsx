@@ -2,13 +2,24 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
+import { deleteComment, editComment } from '../../apis/community';
 
 const userNickName = 'uJD66E';
 
-export function PostComment({ comment }) {
+export function PostComment({ comment, getPost }) {
+  console.log({ comment });
   /* 객체 비구조화 할당 */
-  const { nickname, createdAt, replyList } = comment;
-  const [commentContent, setCommentContent] = useState(comment.comment);
+  const {
+    children: replyList,
+    comment: content,
+    postId,
+    parentId,
+    commentId,
+    createdAt,
+    nickname,
+    profileImage,
+  } = comment;
+  const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
@@ -16,17 +27,20 @@ export function PostComment({ comment }) {
   const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
-  const onDeleteCommentHandler = () => {
-    console.log('삭제');
+  const onDeleteCommentHandler = async () => {
+    console.log(postId, commentId);
+    await deleteComment(postId, commentId);
+    await getPost();
   };
   const onEditCommentHandler = e => {
     setCommentContent(e.target.value);
   };
-  const onEditCommentDoneHandler = () => {
+  const onEditCommentDoneHandler = async () => {
+    await editComment(postId, commentId, commentContent);
+    await getPost();
     setIsEditable(false);
   };
   const onOpenReplyHandler = e => {
-    console.log({ isOpenReply });
     // if (openReply === true) {
     //   setOpenReply(false);
     // }
@@ -46,7 +60,7 @@ export function PostComment({ comment }) {
     <StCommentContainer>
       <StUserInfo>
         <div className="userProfilecotainer">
-          <img src="https://lh3.googleusercontent.com/3wJ3kGLIiv3hDlhRRkEx1zSqHf5-4VbVTEPfsDHY8EP8n_wa4kPfGjlga4deb08rG14DYauPFuTmvdH434NPueF4XA" />
+          <img alt="profileImage" src={profileImage} />
           <div className="usercontainer">
             <span>{nickname}</span>
             <span>{formatDate(createdAt)}</span>
@@ -57,7 +71,6 @@ export function PostComment({ comment }) {
             <StButton
               type="button"
               value="수정버튼"
-              name="수정네임"
               onClick={onOpenEditCommentHandler}
             >
               수정
@@ -102,7 +115,7 @@ export function PostComment({ comment }) {
           </StRegReplyButton>
         </>
       )}
-      {replyList && (
+      {replyList.length !== 0 && (
         <ReCommentWrapper>
           {/* 재귀를 사용해서 자기자신을 불러옴 */}
           {/* map함수를 사용해서 replyList를 여러개 생성 */}
