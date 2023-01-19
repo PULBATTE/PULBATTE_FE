@@ -1,16 +1,27 @@
 import styled from 'styled-components';
 
-export default function PlantListCard({ title, withday, alarm }) {
+const MockData = [
+  {
+    id: '0',
+    plantName: 'string',
+    image: 'string',
+    withPlantDay: '0',
+  },
+];
+
+export default function PlantListCard({ plantList }) {
+  const { image, plantName, withPlantDay } = plantList;
+  console.log({ image, plantName, withPlantDay });
   return (
     <StCard>
       <StCardImgWrpper>
-        <StPlantListImg src="https://cdn.imweb.me/thumbnail/20210805/c38dd9b1829f7.jpg" />
+        <StPlantListImg alt="plantImg" src={image} />
       </StCardImgWrpper>
       <StCardFooter>
         <StPlantListInfo>
-          <StInfoTitle>{title}</StInfoTitle>
-          <StInfoDday>{withday}+</StInfoDday>
-          <StInfoAlarm>{alarm}</StInfoAlarm>
+          <StInfoTitle>{plantName}</StInfoTitle>
+          <StInfoDday>D+{withPlantDay}일</StInfoDday>
+          {/* <StInfoAlarm>{alarm}</StInfoAlarm> */}
         </StPlantListInfo>
         <StIcon />
       </StCardFooter>
@@ -55,10 +66,10 @@ const StInfoDday = styled.p`
   margin: 0;
   font-size: 22px;
 `;
-const StInfoAlarm = styled.p`
-  margin: 0;
-  font-size: 12px;
-`;
+// const StInfoAlarm = styled.p`
+//   margin: 0;
+//   font-size: 12px;
+// `;
 const StIcon = styled.div`
   background-color: gray;
   border-radius: 50%;

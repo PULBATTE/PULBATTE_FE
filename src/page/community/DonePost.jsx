@@ -3,79 +3,11 @@ import styled from 'styled-components';
 import { MdArrowBackIos } from 'react-icons/md';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
-
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
 import { PostComment } from '../../components/community/PostComment';
 import { getPost, postComment } from '../../apis/community';
-
-const MockData = {
-  id: 30,
-  title: '제목',
-  content: '내용',
-  nickname: 'qwer',
-  tag: '자유',
-  createdAt: '2022-12-22T00:04:45.020757',
-  modifiedAt: '2022-12-22T00:04:45.020757',
-  image:
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgL2oyiz-0BuC-6UnKLmWDzn-0RQg4jsaQTNbs0Aq1W_JuxgOI2-BldCcAbaRZEy12pXs&usqp=CAU',
-  likeCnt: 1,
-  likeStatus: true,
-  postImage: '',
-  commentCnt: 3,
-  commentList: [
-    {
-      id: 1,
-      nickname: 'ssori',
-      content: '댓글',
-      createdAt: '2022-12-22T00:04:45.020757',
-      modifiedAt: '2022-12-22T00:04:45.020757',
-      replyList: {
-        id: 1,
-        nickname: '닉네임',
-        content: '대 댓글 내용',
-        createdAt: '2022-12-22T00:04:45.020757',
-        modifiedAt: '2022-12-22T00:04:45.020757',
-        replyList: {
-          id: 1,
-          nickname: '닉네임',
-          content: '대 댓글 내용',
-          createdAt: '2022-12-22T00:04:45.020757',
-          modifiedAt: '2022-12-22T00:04:45.020757',
-          replyList: {
-            id: 1,
-            nickname: '닉네임',
-            content: '대 댓글 내용',
-            createdAt: '2022-12-22T00:04:45.020757',
-            modifiedAt: '2022-12-22T00:04:45.020757',
-            replyList: {
-              id: 1,
-              nickname: '닉네임',
-              content: '대 댓글 내용',
-              createdAt: '2022-12-22T00:04:45.020757',
-              modifiedAt: '2022-12-22T00:04:45.020757',
-            },
-          },
-        },
-      },
-    },
-    {
-      id: 2,
-      nickname: 'joon',
-      content: '댓글 내용2',
-      createdAt: '2022-12-22T00:04:45.020757',
-      modifiedAt: '2022-12-22T00:04:45.020757',
-      replyList: {
-        id: 1,
-        nickname: '닉네임',
-        content: '댓글 내용',
-        createdAt: '2022-12-22T00:04:45.020757',
-        modifiedAt: '2022-12-22T00:04:45.020757',
-      },
-    },
-  ],
-};
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
@@ -85,6 +17,7 @@ export default function DonePost() {
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
 
+  // donepost 데이터 불러오기 - 새로고침
   const getPostApi = useCallback(async () => {
     setIsLoading(true);
     const data = await getPost(postId);
@@ -98,7 +31,7 @@ export default function DonePost() {
 
   useEffect(() => {
     postData && setCommentList(postData.commentList);
-  });
+  }, [postData]);
 
   const onLikeHandler = () => {
     setIsClicked(_isClicked => !_isClicked);
@@ -108,15 +41,12 @@ export default function DonePost() {
     setComment(e.target.value);
   };
   const onRegCommentHandler = async () => {
-    const data = postComment(postId, 0, comment);
-    console.log(data);
-    console.log(postData);
     setIsLoading(true);
+    await postComment(postId, 0, comment);
+    setComment('');
     await getPostApi();
-    console.log(postData);
     setIsLoading(false);
   };
-  console.log({ postData });
   return (
     <StDonePostContainer>
       {isLoading ? (
@@ -173,10 +103,12 @@ export default function DonePost() {
           </StCreateCommentWrapper>
           {/* map함수를 사용해서 PostComment 여러개 생성 */}
           {/* PostComment는 컴포넌트로 분리 */}
-          {console.log(commentList)}
-          {/* {commentList.map(v => {
-            return <PostComment key={v.id} comment={v} />;
-          })} */}
+          {commentList &&
+            commentList.map(v => {
+              return (
+                <PostComment key={v.id} comment={v} getPost={getPostApi} />
+              );
+            })}
         </>
       )}
     </StDonePostContainer>

@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { ChevronLeft } from '../../assets/svgs';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
-import Tag from '../../components/common/Tag';
+import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 
 export default function CreatePost() {
@@ -17,22 +17,18 @@ export default function CreatePost() {
   });
 
   const navigate = useNavigate();
-
   const imgInputRef = useRef(null);
-
   const onChangeTitleHandler = e => {
     setTitle(e.target.value);
   };
   const onChangeContentHandler = e => {
     setContent(e.target.value);
   };
-  // button value : Qa, 자랑, etc, 추천
   const onTagHandler = e => {
     e.preventDefault();
     console.log(e.target.value);
     setTag(e.target.value);
   };
-
   const onUploadImgHandler = () => {
     setImgSrc({
       upload: imgInputRef.current.files[0],
@@ -47,19 +43,15 @@ export default function CreatePost() {
       content,
       tag,
     };
-
     const blob = new Blob([JSON.stringify(request)], {
       type: 'application/json',
     });
-
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
-
     if (!tag) {
       alert('테그를 선택해 주세요');
     }
     const res = await createPostApi(formData);
-    console.log(res);
     const postId = res.data.id;
     navigate(`/donepost/${postId}`);
   };
@@ -79,24 +71,14 @@ export default function CreatePost() {
         </StTopicArea>
         <StTagWrapper>
           {TAGS.map(v => (
-            <>
-              {/* <StTagButton
-                key={`${v}_tag_key`}
-                active={tag === v} // true
-                value={v}
-                onClick={onTagHandler}
-              >
-                {v}
-              </StTagButton> */}
-              <Tag
-                key={`${v}_tag_key`}
-                active={tag === v} // true
-                value={v}
-                onClick={onTagHandler}
-              >
-                {v}
-              </Tag>
-            </>
+            <Tag
+              key={`${v}_tag_key`}
+              active={tag === v} // true
+              value={v}
+              onClick={onTagHandler}
+            >
+              {v}
+            </Tag>
           ))}
         </StTagWrapper>
         <StTitleArea
@@ -130,7 +112,6 @@ export default function CreatePost() {
             />
           </StUploadImgWrapper>
         )}
-
         <StSubmitButton onClick={onSubmitHandler}>글 등록하기</StSubmitButton>
       </form>
     </StCreateContainer>
@@ -138,7 +119,7 @@ export default function CreatePost() {
 }
 
 const StCreateContainer = styled.div`
-  margin: 0 auto;
+  /* margin: 0 auto;
   padding: 0px 50px;
   margin-top: 84px;
   margin-bottom: 84px;
@@ -153,6 +134,26 @@ const StCreateContainer = styled.div`
   @media (max-width: 1280px) {
     padding: 0px 20px;
     width: 100%;
+  } */
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
+  max-width: 1372px;
+  width: 80%;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+  }
+  h3 {
+    font-size: 30px;
+    text-align: center;
+  }
+  h4 {
+    font-size: 26px;
+    color: #767676;
   }
 `;
 const StChevronWrpper = styled.div`
@@ -167,20 +168,6 @@ const StTagWrapper = styled.div`
   display: flex;
   gap: 8px;
   flex-flow: wrap;
-`;
-const StTagButton = styled.button`
-  background-color: ${props =>
-    props.active ? palette.mainColor : palette.lightGray};
-  color: ${palette.textColor1};
-  color: ${props => (props.active ? palette.white : palette.textColor1)};
-  font-weight: ${props => (props.active ? 'bold' : 'unset')};
-  font-weight: bold;
-  font-size: 14px;
-  border-radius: 30px;
-  border: none;
-  padding: 4px 8px;
-  width: 112px;
-  height: 36px;
 `;
 const StTopicArea = styled.div`
   display: flex;
@@ -210,7 +197,6 @@ const StContentArea = styled.textarea`
   border: none;
   border-bottom: solid 1px;
 `;
-
 const StSubmitButton = styled.button`
   background-color: ${palette.mainColor};
   width: 308px;
@@ -221,7 +207,6 @@ const StSubmitButton = styled.button`
   margin: auto;
   display: block;
 `;
-
 const StUploadImgWrapper = styled.div`
   width: 100%;
   padding: 24px;
@@ -230,7 +215,6 @@ const StUploadImgWrapper = styled.div`
   border-radius: 8px;
   margin-bottom: 24px;
 `;
-
 const StUploadInputPText = styled.p`
   background-color: ${palette.inputTextColor};
   font-size: 14px;
@@ -245,7 +229,6 @@ const StUploadInputPText = styled.p`
   align-items: center;
   justify-content: center;
 `;
-
 const StPrevImg = styled.img`
   height: 100%;
 `;
