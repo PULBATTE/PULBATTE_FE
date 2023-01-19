@@ -40,3 +40,12 @@ export const postPlantsInfo = async (time, value) => {
     return error;
   }
 };
+export const getTestInfo = async () => {
+  try {
+    const data = await authInstance.get(`/api/plantTest`);
+
+    return data.data;
+  } catch (error) {
+    return error;
+  }
+};
