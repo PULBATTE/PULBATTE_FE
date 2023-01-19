@@ -10,6 +10,8 @@ import {
   boardPath,
   searchPath,
   diaryPath,
+  testPath,
+  choicePath,
 } from '../../../../apis/path';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 
@@ -85,7 +87,7 @@ export default function BrowserHeader({
             <li>
               <span>나만의 반려식물 찾기</span>
               <StNavigation display={display[2]}>
-                <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">
+                <li onClick={() => PrivateRoute(testPath)} aria-hidden="true">
                   <span aria-hidden="true">식집사 테스트</span>
                 </li>
                 <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">
