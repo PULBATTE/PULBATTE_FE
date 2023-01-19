@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const MockData = [
   {
@@ -10,10 +11,18 @@ const MockData = [
 ];
 
 export default function PlantListCard({ plantList }) {
-  const { image, plantName, withPlantDay } = plantList;
+  const { image, plantName, withPlantDay, id } = plantList;
   console.log({ image, plantName, withPlantDay });
+  console.log(id);
+
+  const navigate = useNavigate();
+
+  const onPlantHandler = () => {
+    navigate(`/detailplant/${id}`);
+  };
+
   return (
-    <StCard>
+    <StCard onClick={onPlantHandler}>
       <StCardImgWrpper>
         <StPlantListImg alt="plantImg" src={image} />
       </StCardImgWrpper>
@@ -21,9 +30,7 @@ export default function PlantListCard({ plantList }) {
         <StPlantListInfo>
           <StInfoTitle>{plantName}</StInfoTitle>
           <StInfoDday>D+{withPlantDay}일</StInfoDday>
-          {/* <StInfoAlarm>{alarm}</StInfoAlarm> */}
         </StPlantListInfo>
-        <StIcon />
       </StCardFooter>
     </StCard>
   );
@@ -65,14 +72,4 @@ const StInfoTitle = styled.p`
 const StInfoDday = styled.p`
   margin: 0;
   font-size: 22px;
-`;
-// const StInfoAlarm = styled.p`
-//   margin: 0;
-//   font-size: 12px;
-// `;
-const StIcon = styled.div`
-  background-color: gray;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
 `;

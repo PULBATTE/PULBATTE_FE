@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useRef } from 'react';
-import { ChevronLeft } from '../../assets/svgs';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
 import Tag from '../../components/community/Tag';
@@ -59,9 +58,6 @@ export default function CreatePost() {
   return (
     <StCreateContainer>
       <StCreateHeader>
-        <StChevronWrpper>
-          <ChevronLeft />
-        </StChevronWrpper>
         <h3>글 작성하기</h3>
       </StCreateHeader>
       <form onSubmit={onSubmitHandler}>
@@ -156,9 +152,6 @@ const StCreateContainer = styled.div`
     color: #767676;
   }
 `;
-const StChevronWrpper = styled.div`
-  float: left;
-`;
 const StCreateHeader = styled.div`
   margin-top: 32px;
   text-align: center;
@@ -199,11 +192,11 @@ const StContentArea = styled.textarea`
 `;
 const StSubmitButton = styled.button`
   background-color: ${palette.mainColor};
+  color: ${palette.white};
   width: 308px;
   height: 72px;
   border: none;
   font-size: 24px;
-  color: white;
   margin: auto;
   display: block;
 `;
