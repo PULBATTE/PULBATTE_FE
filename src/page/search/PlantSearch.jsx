@@ -62,7 +62,7 @@ export default function PlantSearch() {
           />
           <CustomLabel
             dataname="leaf"
-            button="#잎감상"
+            button="#잎이있는"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
@@ -76,7 +76,7 @@ export default function PlantSearch() {
           />
           <CustomLabel
             dataname="fruit"
-            button="#열매"
+            button="#열매가있는"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
@@ -93,13 +93,14 @@ const StWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     h3 {
-      font-size: 2.2rem;
-      margin-top: 80px;
+      font-size: 2.1rem;
+      margin-top: 65px;
       @media (max-width: 768px) {
         font-size: 1.9rem;
       }
       @media (max-width: 500px) {
         font-size: 1.5rem;
+        margin-top: 45px;
       }
     }
   }

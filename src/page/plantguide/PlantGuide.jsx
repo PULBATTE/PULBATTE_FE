@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -17,17 +18,22 @@ export default function PlantGuide() {
   const time = format(new Date(), 'yyyy-MM-dd');
   const { beginnerName } = useParams();
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = async () => {
     const { value } = plantValue.current;
-    if (value == '') return;
-    postPlantsInfo(time, Number(value))
+    if (value === '' || value === String) {
+      return alert('키 입력은 숫자만 입력이 가능합니다');
+    }
+    await postPlantsInfo(time, Number(value))
       .then(response => {
         if (response.statusCode == 200) {
           window.location.reload();
         }
+        if (response.statusCode == 400) {
+          alert('키 입력은 하루에 한 번씩 가능합니다!');
+        }
+        onChangeModalHandler();
       })
       .catch(error => console.log(error));
-    onChangeModalHandler();
   };
 
   const closeModal = () => {

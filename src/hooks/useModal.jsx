@@ -5,8 +5,8 @@ const useModal = () => {
   const handler = () => {
     setModal(!modal);
     modal
-      ? (document.body.style.overflowY = 'hidden')
-      : (document.body.style.overflowY = 'visible');
+      ? (document.body.style.overflowY = 'visible')
+      : (document.body.style.overflowY = 'hidden');
   };
   return [modal, handler];
 };

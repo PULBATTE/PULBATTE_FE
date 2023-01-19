@@ -93,7 +93,7 @@ export default function CreatePost() {
             onChange={onChangeContentHandler}
           />
         </div>
-        <label>
+        <label htmlFor="/">
           <StUploadInputPText>+ 사진 업로드</StUploadInputPText>
           <input
             hidden

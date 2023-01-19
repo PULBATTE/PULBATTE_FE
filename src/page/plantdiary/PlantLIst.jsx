@@ -89,9 +89,10 @@ const StPlantListContainer = styled.div`
     padding: 0 2rem;
     box-sizing: border-box;
   }
-  h3 {
-    font-size: 30px;
-    text-align: center;
+
+  h1 {
+    font-size: 40px;
+
   }
   h4 {
     font-size: 26px;

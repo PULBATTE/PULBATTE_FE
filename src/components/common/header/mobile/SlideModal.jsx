@@ -12,6 +12,7 @@ import {
   boardPath,
   searchPath,
   diaryPath,
+  testPath,
 } from '../../../../apis/path';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 import { authInstance } from '../../../../apis/axios';
@@ -102,10 +103,7 @@ export default function SlideModal({
             </span>
             <ul className="lnb">
               <li>
-                <span
-                  onClick={() => PrivateRoute(guidePath)}
-                  aria-hidden="true"
-                >
+                <span onClick={() => PrivateRoute(testPath)} aria-hidden="true">
                   식집사 테스트
                 </span>
               </li>
