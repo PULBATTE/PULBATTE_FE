@@ -1,7 +1,7 @@
+import { useState, useEffect } from 'react';
 // eslint-disable-next-line import/no-unresolved
 import { Bar } from 'react-chartjs-2';
 
-import styled from 'styled-components';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +12,8 @@ import {
   Legend,
   Filler,
 } from 'chart.js';
+import styled from 'styled-components';
+import { palette } from '../../styles/palette';
 
 const calculatedArr = [7, 2, 5];
 
@@ -49,26 +51,54 @@ export const options = {
   },
 };
 
-const data = {
+const MOCK_DATA = {
   labels: ['물주기', '분무량', '햇빛'],
   datasets: [
     {
-      backgroundColor: '#fff',
+      backgroundColor: [
+        palette.card.blue,
+        palette.card.green,
+        palette.card.brown,
+      ],
       barThickness: 40,
       data: calculatedArr,
     },
   ],
 };
-export default function PlantInfoChart() {
+
+export default function PlantInfoChart({ chartData }) {
+  const [renderData, setRenderData] = useState();
+  const calculateBarChartArr = v => {
+    console.log(Object.values(v));
+  };
+  useEffect(() => {
+    // const calculatedArr =
+    const data = {
+      labels: ['물주기', '분무량', '햇빛'],
+      datasets: [
+        {
+          backgroundColor: [
+            palette.card.blue,
+            palette.card.green,
+            palette.card.brown,
+          ],
+          barThickness: 40,
+          data: calculatedArr,
+        },
+      ],
+    };
+    setRenderData();
+  }, []);
   return (
     <StChartContainer>
-      <Bar height="320px" options={options} data={data} />
+      <Bar height="320px" options={options} data={MOCK_DATA} />
     </StChartContainer>
   );
 }
 
 const StChartContainer = styled.div`
-  background-color: lightgray;
+  background-color: ${palette.pageBackgroundGray};
+  padding: 20px;
   border-radius: 20px;
   margin-top: 50px;
   width: 560px;
