@@ -1,62 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MdKeyboardArrowLeft, MdOutlineWaterDrop } from 'react-icons/md';
 import { BsSun } from 'react-icons/bs';
 import { GiWateringCan } from 'react-icons/gi';
 import { CiTempHigh } from 'react-icons/ci';
+import { MdKeyboardArrowLeft } from 'react-icons/md';
+import { useParams } from 'react-router-dom';
+import PlantContent from '../../components/search/PlantContent';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
+import { plantsSearchDetail } from '../../apis/plantsFilter';
 
 export default function PlantDetail() {
+  const { plantId } = useParams();
+  const [plantInfo, setPlantInfo] = useState(null);
+  console.log(plantInfo);
+  useEffect(() => {
+    plantsSearchDetail(plantId).then(res => setPlantInfo(res.data));
+  }, []);
   return (
     <StWrapper>
       <div className="container_inner">
         <h3>식물 찾아보기</h3>
-        <Button background="none" size="md">
-          <StLeftArrow />
-          목록으로
-        </Button>
-        <div>
-          <div>
-            <img src="" alt="" />
+        <StContent>
+          <div className="image_container">
+            <img src={plantInfo?.image} alt="" />
           </div>
-          <div>
-            <div>
-              <span>코찰 선인장</span>
-              <StFilterBtnContainer>
-                <button type="button">#초보자용</button>
-              </StFilterBtnContainer>
-            </div>
-            <div>
-              <span>Tip</span>
-              <div>
-                <div>
-                  <CiTempHigh />
-                  <span>40~70%</span>
-                  <span>주변 공기가 너무 촉촉하지 않게 관리해주세요</span>
-                </div>
-                <div>
-                  <MdOutlineWaterDrop />
-                  <span>40~70%</span>
-                  <span>주변 공기가 너무 촉촉하지 않게 관리해주세요</span>
-                </div>
-                <div>
-                  <BsSun />
-                  <span>40~70%</span>
-                  <span>주변 공기가 너무 촉촉하지 않게 관리해주세요</span>
-                </div>
-                <div>
-                  <GiWateringCan />
-                  <span>40~70%</span>
-                  <span>주변 공기가 너무 촉촉하지 않게 관리해주세요</span>
-                </div>
-              </div>
-              <div>
-                <span>식물 관련된 내용</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          <PlantContent plantInfo={plantInfo} />
+        </StContent>
       </div>
     </StWrapper>
   );
@@ -68,6 +38,7 @@ const StWrapper = styled.div`
     flex-direction: column;
     max-width: 1150px;
     margin: 0 auto;
+    gap: 40px 0;
     > button {
       display: flex;
       align-items: center;
@@ -77,28 +48,43 @@ const StWrapper = styled.div`
     }
     h3 {
       text-align: center;
-      font-size: 2.2rem;
-      margin-top: 80px;
-      @media (max-width: 768px) {
+      font-size: 2.1rem;
+      margin-top: 65px;
+      @media (max-width: 1000px) {
+        display: none;
         font-size: 1.7rem;
       }
-      @media (max-width: 500px) {
-        font-size: 1.4rem;
-      }
+    }
+    img {
+      width: 100%;
+      aspect-ratio: 1/1;
     }
   }
 `;
-const StLeftArrow = styled(MdKeyboardArrowLeft)`
-  font-size: 1.5rem;
-`;
-const StFilterBtnContainer = styled.div`
-  button {
-    font-size: 1rem;
-    padding: 6px 20px;
-    border-radius: 20px;
-    border: none;
-    border: 1px solid #d9d9d9;
-    color: #d9d9d9;
-    cursor: pointer;
+
+const StContent = styled.div`
+  width: 80%;
+  margin: 0 auto 40px;
+  display: flex;
+  gap: 0 60px;
+
+  .image_container {
+    max-width: 400px;
+    width: 45%;
+    @media (max-width: 1000px) {
+      max-width: 500px;
+      width: 100%;
+    }
+  }
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3rem;
+    box-sizing: border-box;
+    gap: 20px 0;
+  }
+  @media (max-width: 768px) {
+    margin-top: 0;
+    width: 100%;
   }
 `;
