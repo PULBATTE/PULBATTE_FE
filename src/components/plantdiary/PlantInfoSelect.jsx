@@ -9,15 +9,24 @@ const makeOptionArr = optionNum => {
   return Arr;
 };
 
-export default function PlantInfoSelect({ title, optionNum, optionString }) {
+export default function PlantInfoSelect({
+  title,
+  icon,
+  optionNum,
+  optionString,
+  onChange,
+}) {
   const options = makeOptionArr(optionNum);
   return (
     <div>
-      <p>{title}</p>
+      <StHeaderWrapper>
+        <img src={icon} alt="식물환경 아이콘" />
+        <p>{title}</p>
+      </StHeaderWrapper>
       <StSelectWrapper>
-        <StSelect>
+        <StSelect onChange={onChange}>
           {options.map(v => {
-            return <option key={v}>{`${v}${optionString}`}</option>;
+            return <option key={v} value={v}>{`${v}${optionString}`}</option>;
           })}
         </StSelect>
         <StTextWrapper>에 한 번</StTextWrapper>
@@ -30,6 +39,11 @@ const StSelectWrapper = styled.div`
   display: flex;
   height: 48px;
   gap: 24px;
+`;
+const StHeaderWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
 `;
 const StSelect = styled.select`
   width: 100%;
