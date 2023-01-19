@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import { palette } from '../../styles/palette';
-import { useHorizontalScroll } from '../../hooks/useHorizontalScroll';
 import { LeftArrow, RightArrow } from '../../components/community/Arrow';
 import Button from '../../components/common/Button';
-import Tag from '../../components/common/Tag';
+import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 
 const MOCK_DATA = {

@@ -54,6 +54,14 @@ const StPlantListContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 50px;
+  max-width: 1372px;
+  width: 80%;
+  margin: 0 auto;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+  }
   h1 {
     font-size: 40px;
   }
@@ -89,7 +97,6 @@ const StAddButton = styled.button`
 `;
 const StCardContainer = styled.div`
   display: grid;
-  width: 1280px;
   padding-top: 20px;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 24px;

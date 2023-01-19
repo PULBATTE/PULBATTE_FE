@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { ChevronLeft } from '../../assets/svgs';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
-import Tag from '../../components/common/Tag';
+import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 
 export default function CreatePost() {
@@ -111,7 +111,7 @@ export default function CreatePost() {
             onChange={onChangeContentHandler}
           />
         </div>
-        <label>
+        <label htmlFor="/">
           <StUploadInputPText>+ 사진 업로드</StUploadInputPText>
           <input
             hidden

@@ -62,7 +62,7 @@ export default function PlantSearch() {
           />
           <CustomLabel
             dataname="leaf"
-            button="#잎감상"
+            button="#잎이있는"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
@@ -76,7 +76,7 @@ export default function PlantSearch() {
           />
           <CustomLabel
             dataname="fruit"
-            button="#열매"
+            button="#열매가있는"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}

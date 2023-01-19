@@ -25,7 +25,6 @@ export default function PrivateRoute(redirectPath, community) {
   if (!jwtUtils.isAuth(token)) {
     alert('로그인이 필요한 페이지입니다');
     window.location.href = `/api/user/signin?redirectUrl=${redirectPath}`;
-
     return;
   }
   window.location.href = `${redirectPath}`;
