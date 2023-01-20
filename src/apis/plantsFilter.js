@@ -23,7 +23,17 @@ export const plantsSearch = async plantName => {
 
 export const plantsGlobalList = async () => {
   try {
-    const data = instance.get(`/api/plants`);
+    const data = await instance.get(`/api/plants`);
+
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const plantsSearchDetail = async plantId => {
+  try {
+    const data = await instance.get(`/api/plants/detail/${plantId}`);
 
     return data;
   } catch (error) {

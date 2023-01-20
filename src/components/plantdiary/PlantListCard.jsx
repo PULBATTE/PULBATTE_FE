@@ -21,6 +21,9 @@ export default function PlantListCard({ plantList }) {
     navigate(`/detailplant/${id}`);
   };
 
+export default function PlantListCard({ plantList }) {
+  const { image, plantName, withPlantDay } = plantList;
+  console.log({ image, plantName, withPlantDay });
   return (
     <StCard onClick={onPlantHandler}>
       <StCardImgWrpper>

@@ -14,12 +14,12 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const logOutEventHandler = () => {
+  const logOutEventHandler = async () => {
     const cookie = new Cookies();
-    cookie.remove('Token');
+    await cookie.remove('Token');
 
-    alert('로그아웃 되었습니다!');
     navigate('/');
+    alert('로그아웃 되었습니다!');
   };
   const clickNaviHandler = () => {
     console.log('ok');

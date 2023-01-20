@@ -46,7 +46,6 @@ export default function DonePost() {
     await getPostApi();
     setIsLoading(false);
   };
-  console.log({ postData });
   return (
     <StDonePostContainer>
       {isLoading ? (
