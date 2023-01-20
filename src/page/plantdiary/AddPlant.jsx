@@ -59,18 +59,9 @@ export default function AddPlant() {
       repottingCycle: Number(repottingCycle) * 30,
       nutritionCycle: Number(nutritionCycle) * 30,
       selectWater: Number(plantWaterData),
-      selcetSunshine: Number(plantShineData),
-      selcetWind: Number(plantWindeData),
+      selectSunshine: Number(plantShineData),
+      selectWind: Number(plantWindeData),
     };
-    // const request = {
-    //   plantName,
-    //   waterCycle: '1',
-    //   repottingCycle: '1',
-    //   nutritionCycle: '2',
-    //   selectWater: '4',
-    //   selcetSunshine: '5',
-    //   selcetWind: '1',
-    // };
     console.log({ request });
     console.log(imgSrc.upload);
     const blob = new Blob([JSON.stringify(request)], {
