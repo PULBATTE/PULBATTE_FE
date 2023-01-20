@@ -40,11 +40,11 @@ export const getPostByTag = async tag => {
   }
 };
 
-export const postComment = async (postId, commentId, comment) => {
+export const postComment = async (postId, commentId, content) => {
   try {
     const data = await authInstance.post(
       `/api/posts/${postId}/comments/${commentId}`,
-      { comment },
+      { content },
     );
     return data;
   } catch (error) {
@@ -52,19 +52,18 @@ export const postComment = async (postId, commentId, comment) => {
   }
 };
 
-export const deleteComment = async (postId, commentId) => {
+export const deleteComment = async commentId => {
   try {
-    const data = await authInstance.delete(
-      `/api/posts/${postId}/comments/${commentId}`,
-    );
+    const data = await authInstance.delete(`/api/posts/comments/${commentId}`);
     return data;
   } catch (error) {
     throw Error(error);
   }
 };
 
-export const editComment = async (postId, commentId, content) => {
+export const editComment = async (commentId, content) => {
   try {
+    console.log(content);
     const data = await authInstance.put(`/api/posts/comments/${commentId}`, {
       content,
     });

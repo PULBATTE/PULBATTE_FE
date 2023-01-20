@@ -10,10 +10,9 @@ export function PostComment({ comment, getPost }) {
   console.log({ comment });
   /* 객체 비구조화 할당 */
   const {
-    children: replyList,
+    replyList,
     content,
     postId,
-    parentId,
     commentId,
     createdAt,
     nickname,
@@ -28,11 +27,12 @@ export function PostComment({ comment, getPost }) {
     setIsEditable(true);
   };
   const onDeleteCommentHandler = async () => {
-    console.log(postId, commentId);
-    await deleteComment(postId, commentId);
+    console.log(commentId);
+    await deleteComment(commentId);
     await getPost();
   };
   const onEditCommentHandler = e => {
+    console.log(e.target.value);
     setCommentContent(e.target.value);
   };
   const onEditCommentDoneHandler = async () => {
@@ -115,7 +115,7 @@ export function PostComment({ comment, getPost }) {
           </StRegReplyButton>
         </>
       )}
-      {replyList.length !== 0 && (
+      {replyList && replyList.length !== 0 && (
         <ReCommentWrapper>
           {/* 재귀를 사용해서 자기자신을 불러옴 */}
           {/* map함수를 사용해서 replyList를 여러개 생성 */}

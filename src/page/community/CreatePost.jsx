@@ -29,6 +29,7 @@ export default function CreatePost() {
     setTag(e.target.value);
   };
   const onUploadImgHandler = () => {
+    console.log('?');
     setImgSrc({
       upload: imgInputRef.current.files[0],
       preview: URL.createObjectURL(imgInputRef.current.files[0]),
@@ -89,7 +90,7 @@ export default function CreatePost() {
             onChange={onChangeContentHandler}
           />
         </div>
-        <label htmlFor="/">
+        <label>
           <StUploadInputPText>+ 사진 업로드</StUploadInputPText>
           <input
             hidden
