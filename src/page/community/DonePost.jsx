@@ -7,11 +7,13 @@ import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
 import { PostComment } from '../../components/community/PostComment';
 import { getPost, postComment } from '../../apis/community';
+import { getInfo } from '../../apis/auth';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
   const [commentList, setCommentList] = useState();
   const [isClicked, setIsClicked] = useState(false);
+  const [nickName, setNickName] = useState('');
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
@@ -24,9 +26,17 @@ export default function DonePost() {
     setIsLoading(false);
   }, [postId]);
 
+  const getInfoApi = useCallback(async () => {
+    const data = await getInfo();
+    console.log('nickname', data);
+    setNickName(data.nickName);
+  }, []);
+
+  console.log({ nickName });
   useEffect(() => {
     getPostApi();
-  }, [getPostApi]);
+    getInfoApi();
+  }, [getInfoApi, getPostApi]);
 
   useEffect(() => {
     postData && setCommentList(postData.commentList);
@@ -109,6 +119,7 @@ export default function DonePost() {
                   key={v.commentId}
                   comment={v}
                   getPost={getPostApi}
+                  nickName={nickName}
                 />
               );
             })}
