@@ -8,6 +8,7 @@ import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
 import MainImage3 from '../../assets/image/main_03.png';
 import MainImage4 from '../../assets/image/main_04.png';
+import MainImage5 from '../../assets/image/main_05.png';
 import PrivateRoute from '../../routes/PrivateRoute';
 import { palette } from '../../styles/palette';
 
@@ -43,7 +44,7 @@ export default function Home() {
               <span>식집사에게 필요한 식물 정보를 제공해 줍니다.</span>
             </div>
             <button type="button" onClick={() => navigate(searchPath)}>
-              식물 검색 바로가기 <StArrowRight />
+              식물 검색 해보기 <StArrowRight />
             </button>
           </StBannerContainer>
           <StMainImage src={MainImage2} alt="" />
@@ -53,11 +54,15 @@ export default function Home() {
         <StBannerInner>
           <StBannerContainer className="order-02">
             <StTitle>
-              <span>내 식물을 자랑하고</span>
-              <span>이웃의 식물을 구경해요 </span>
+              <span>질문하기, 식물자랑</span>
+              <span>식집사들과 소통해요 </span>
             </StTitle>
+            <div className="subtitle">
+              <span>궁금한 점을 물어보거나 내가 키운 식물을 자랑해보세요.</span>
+              <span>식집사 이웃들과 다양한 정보를 공유할 수 있습니다.</span>
+            </div>
             <button type="button" onClick={() => navigate(boardPath)}>
-              커뮤니티 바로가기 <StArrowRight />
+              커뮤니티 구경가기 <StArrowRight />
             </button>
           </StBannerContainer>
           <StMainImage src={MainImage3} alt="" />
@@ -67,16 +72,20 @@ export default function Home() {
         <StBannerInner>
           <StBannerContainer className="order-02">
             <StTitle>
-              <span> 초보자도 키울 수 있어요!</span>
-              <span>내 성격에 맞는 식물을 찾아</span>
-              <span>성장 그래프를 따라 키워보세요</span>
+              <span>질언제 줬더라?</span>
+              <span>물주기, 분갈이를</span>
+              <span>알림으로</span>
             </StTitle>
+            <div className="subtitle">
+              <span>궁금한 점을 물어보거나 내가 키운 식물을 자랑해보세요.</span>
+              <span>식집사 이웃들과 다양한 정보를 공유할 수 있습니다.</span>
+            </div>
             <button type="button" onClick={() => PrivateRoute(guidePath)}>
               테스트 하러가기
               <StArrowRight />
             </button>
           </StBannerContainer>
-          <StMainImage src={MainImage4} alt="" />
+          <StMainImage src={MainImage5} alt="" />
         </StBannerInner>
       </StBannerList>
     </StWrapper>

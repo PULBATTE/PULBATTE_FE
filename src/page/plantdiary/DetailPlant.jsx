@@ -191,11 +191,9 @@ const StDetailPlantContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  @media (max-width: 1120px) {
-    padding: 0;
-    margin: 0;
-  }
+  gap: 40px 0;
+  width: 80%;
+  margin: 0 auto;
 `;
 const StHeader = styled.div`
   text-align: center;
@@ -232,9 +230,9 @@ const StNavTab = styled.button`
 `;
 
 const StTabSection = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 20px;
+  display: flex;
+  gap: 0 5rem;
+  margin: 40px 20px 20px 20px;
   max-width: 1120px;
 
   @media (max-width: 1120px) {
@@ -242,8 +240,10 @@ const StTabSection = styled.section`
     width: 100%;
     min-width: 350px;
   }
+  @media (max-width: 500px) {
+    gap: 25px 0;
+  }
 `;
-
 const StPlantInfoWrap = styled.article`
   flex: 1;
 
@@ -258,7 +258,8 @@ const StPlantInfoWrap = styled.article`
 
 const StPlantInfoImg = styled.img`
   width: 100%;
-  max-height: 480px;
+  object-fit: cover;
+  /*  max-height: 330px; */
   aspect-ratio: 1.2/1;
   @media (max-width: 1120px) {
     width: 100%;
@@ -275,25 +276,29 @@ const StPlantEnv = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2vw;
-  width: 100%;
+
   margin: 24px 0px;
   h3 {
     font-size: 18px;
     text-align: center;
   }
   @media (max-width: 1120px) {
-    width: 100%;
     min-width: 350px;
   }
 `;
 
 const StPlantDdayCardWrapper = styled.div`
+  width: 100%;
   display: flex;
   gap: 0 10px;
   justify-content: center;
 
   @media (min-width: 1120px) {
     width: 100%;
+  }
+  @media (max-width: 500px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `;
 const StPlantDdayCard = styled.div`
@@ -310,6 +315,12 @@ const StPlantDdayCard = styled.div`
     width: 116px;
     height: 152px;
   }
+  @media (max-width: 500px) {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
   h3 {
     font-size: 16px;
     margin: 8px 0px;
@@ -324,4 +335,7 @@ const StDdayConfirmButton = styled.button`
   height: 43px;
   font-size: 16px;
   border-radius: 12px;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
