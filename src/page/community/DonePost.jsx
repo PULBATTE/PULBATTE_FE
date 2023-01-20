@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import styled from 'styled-components';
-import { MdArrowBackIos } from 'react-icons/md';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
@@ -54,7 +53,6 @@ export default function DonePost() {
       ) : (
         <>
           <StNavBar>
-            <MdArrowBackIos />
             <span>게시글 목록</span>
           </StNavBar>
           <StBoardContainer>

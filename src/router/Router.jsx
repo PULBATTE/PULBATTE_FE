@@ -33,8 +33,9 @@ export default function Router() {
         <Route path="/postlist" element={<PostList />} />
         <Route path="/plantsearch" element={<PlantSearch />} />
         <Route path="/addplant" element={<AddPlant />} />
-        <Route path="/detailplant" element={<DetailPlant />} />
+        <Route path="/detailplant/:plantJournalId" element={<DetailPlant />} />
         <Route path="/plantlist" element={<PlantList />} />
+        <Route path="/donepost/:postId" element={<DonePost />} />
         <Route path="/plantguide" element={<PlantGuide />} />
         <Route path="/donepost" element={<DonePost />} />
         <Route path="/plantchoice" element={<PlantChoice />} />

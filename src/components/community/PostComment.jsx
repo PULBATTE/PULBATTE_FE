@@ -11,7 +11,7 @@ export function PostComment({ comment, getPost }) {
   /* 객체 비구조화 할당 */
   const {
     children: replyList,
-    comment: content,
+    content,
     postId,
     parentId,
     commentId,
@@ -23,7 +23,7 @@ export function PostComment({ comment, getPost }) {
   const [isEditable, setIsEditable] = useState(false);
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
-
+  console.log(replyList);
   const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };

@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import { useContext } from 'react';
+import styled from 'styled-components';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { VisibilityContext } from 'react-horizontal-scrolling-menu';
 import { palette } from '../../styles/palette';

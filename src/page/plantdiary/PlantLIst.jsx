@@ -19,22 +19,15 @@ export default function PlantList() {
   }, [getPlantListApi]);
 
   const navigate = useNavigate();
-  const onBackHandler = () => {
-    navigate('/');
-  };
   const onAddPlantHandler = () => {
     navigate('/addplant');
   };
+
   return (
     <StPlantListContainer>
-      <StCreateHeader>
-        <StBackButton onClick={onBackHandler}>
-          <StArrowWrapper>
-            <MdArrowBackIos />
-          </StArrowWrapper>
-        </StBackButton>
+      <StHeader>
         <h3>식물일지</h3>
-      </StCreateHeader>
+      </StHeader>
       <StPlantDiaryContainer>
         <StPlantHeader>
           <h4>식물리스트</h4>
@@ -45,31 +38,6 @@ export default function PlantList() {
           {plantList.map(v => (
             <PlantListCard key={v.id} plantList={v} />
           ))}
-          {/* <PlantListCard
-            title="몬스테라"
-            withday="D+25일"
-            alarm="일정이 있어요!"
-          />
-          <PlantListCard
-            title="몬스테라"
-            withday="D+25일"
-            alarm="일정이 있어요!"
-          />
-          <PlantListCard
-            title="몬스테라"
-            withday="D+25일"
-            alarm="일정이 있어요!"
-          />
-          <PlantListCard
-            title="몬스테라"
-            withday="D+25일"
-            alarm="일정이 있어요!"
-          />
-          <PlantListCard
-            title="몬스테라"
-            withday="D+25일"
-            alarm="일정이 있어요!"
-          /> */}
         </StCardContainer>
       </StPlantDiaryContainer>
     </StPlantListContainer>
@@ -92,24 +60,17 @@ const StPlantListContainer = styled.div`
 
   h1 {
     font-size: 40px;
-
   }
   h4 {
     font-size: 26px;
     color: #767676;
   }
 `;
-const StBackButton = styled.button`
-  display: flex;
-  border: none;
-`;
-const StArrowWrapper = styled.div`
-  float: left;
-`;
-const StCreateHeader = styled.div`
+const StHeader = styled.div`
   margin-top: 32px;
   text-align: center;
   width: 100%;
+  font-size: 34px;
 `;
 const StPlantDiaryContainer = styled.div`
   width: 100%;
