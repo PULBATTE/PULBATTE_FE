@@ -15,13 +15,15 @@ export default function DonePost() {
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
-
+  console.log('postData 있음', postData);
+  console.log('commentList 있음', commentList);
   // donepost 데이터 불러오기 - 새로고침
   const getPostApi = useCallback(async () => {
     setIsLoading(true);
     const data = await getPost(postId);
     setPostData(data.data);
     setIsLoading(false);
+    console.log('postData 설정함');
   }, [postId]);
 
   useEffect(() => {
