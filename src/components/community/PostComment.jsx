@@ -4,9 +4,7 @@ import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
 import { deleteComment, editComment } from '../../apis/community';
 
-const userNickName = 'uJD66E';
-
-export function PostComment({ comment, getPost }) {
+export function PostComment({ comment, getPost, nickName }) {
   console.log({ comment });
   /* 객체 비구조화 할당 */
   const {
@@ -18,6 +16,7 @@ export function PostComment({ comment, getPost }) {
     nickname,
     profileImage,
   } = comment;
+
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
   const [isOpenReply, setIsOpenReply] = useState(false);
@@ -66,7 +65,7 @@ export function PostComment({ comment, getPost }) {
             <span>{formatDate(createdAt)}</span>
           </div>
         </div>
-        {comment.nickname === userNickName && (
+        {comment.nickname === nickName && (
           <StButtonWrapper>
             <StButton
               type="button"
