@@ -24,6 +24,7 @@ export const createPostApi = async formData => {
 
 export const getPost = async postId => {
   try {
+    console.log(postId);
     const data = await authInstance.get(`/api/posts/user/${postId}`);
     return data;
   } catch (error) {
