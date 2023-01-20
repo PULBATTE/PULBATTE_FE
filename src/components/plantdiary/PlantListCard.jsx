@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { palette } from '../../styles/palette';
 
 const MockData = [
   {
@@ -21,20 +22,15 @@ export default function PlantListCard({ plantList }) {
     navigate(`/detailplant/${id}`);
   };
 
-export default function PlantListCard({ plantList }) {
-  const { image, plantName, withPlantDay } = plantList;
-  console.log({ image, plantName, withPlantDay });
   return (
     <StCard onClick={onPlantHandler}>
       <StCardImgWrpper>
         <StPlantListImg alt="plantImg" src={image} />
       </StCardImgWrpper>
-      <StCardFooter>
-        <StPlantListInfo>
-          <StInfoTitle>{plantName}</StInfoTitle>
-          <StInfoDday>D+{withPlantDay}일</StInfoDday>
-        </StPlantListInfo>
-      </StCardFooter>
+      <StPlantListInfo>
+        <StInfoTitle>{plantName}</StInfoTitle>
+        <StInfoDday>D+{withPlantDay}일</StInfoDday>
+      </StPlantListInfo>
     </StCard>
   );
 }
@@ -44,17 +40,30 @@ const StCard = styled.div`
   height: 100%;
   background-color: #f7f7f7;
   border-radius: 16px;
-  overflow: hidden;
+  position: relative;
+  cursor: pointer;
 `;
 const StCardImgWrpper = styled.div`
-  height: 250px;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 3px 3px 9px 0px rgba(0, 0, 0, 0.07);
+  position: relative;
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, transparent 60%, #3333338f 100%);
+  }
 `;
 
 const StPlantListImg = styled.img`
-  overflow-clip-margin: content-box;
-  overflow: clip;
   width: 100%;
+  display: block;
+  aspect-ratio: 1/1;
+  object-fit: cover;
 `;
 
 const StCardFooter = styled.div`
@@ -66,13 +75,30 @@ const StCardFooter = styled.div`
 
 const StPlantListInfo = styled.div`
   flex-direction: column;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  @media (max-width: 500px) {
+    bottom: 10px;
+    left: 10px;
+  }
+  p {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+    font-weight: 700;
+    color: ${palette.white};
+  }
 `;
 const StInfoTitle = styled.p`
   margin: 0;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 18px;
+  @media (max-width: 500px) {
+    font-size: 15px;
+  }
 `;
 const StInfoDday = styled.p`
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
+  @media (max-width: 500px) {
+    font-size: 18px;
+  }
 `;

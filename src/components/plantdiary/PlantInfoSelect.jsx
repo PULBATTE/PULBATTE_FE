@@ -25,6 +25,7 @@ export default function PlantInfoSelect({
       </StHeaderWrapper>
       <StSelectWrapper>
         <StSelect onChange={onChange}>
+          <option hidden>선택하세요</option>
           {options.map(v => {
             return <option key={v} value={v}>{`${v}${optionString}`}</option>;
           })}

@@ -71,14 +71,14 @@ export default function AddPlant() {
     //   selcetSunshine: '5',
     //   selcetWind: '1',
     // };
-    console.log({ request });
+    console.log(request);
     console.log(imgSrc.upload);
     const blob = new Blob([JSON.stringify(request)], {
       type: 'application/json',
     });
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
-
+    console.log(formData);
     const res = await createPlantJournal(formData);
     console.log({ res });
     // const postId = res.data.id;

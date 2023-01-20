@@ -58,12 +58,26 @@ const StPlantListContainer = styled.div`
     box-sizing: border-box;
   }
 
-  h1 {
-    font-size: 40px;
+  h3 {
+    font-size: 2.1rem;
+    margin-top: 65px;
+    @media (max-width: 768px) {
+      font-size: 1.9rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.5rem;
+      margin-top: 45px;
+    }
   }
   h4 {
-    font-size: 26px;
+    font-size: 25px;
     color: #767676;
+    @media (max-width: 768px) {
+      font-size: 23px;
+    }
+    @media (max-width: 500px) {
+      font-size: 18px;
+    }
   }
 `;
 const StHeader = styled.div`
@@ -92,25 +106,30 @@ const StDivider = styled.div`
 const StAddButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
-  width: 181px;
-  height: 56px;
-  font-size: 20px;
+  width: 120px;
+  height: 36px;
+  font-size: 15px;
   font-weight: 600;
   border: none;
   border-radius: 32px;
   float: right;
+  @media (max-width: 500px) {
+    width: 95px;
+    height: 30px;
+    font-size: 12px;
+  }
 `;
 const StCardContainer = styled.div`
   display: grid;
-  padding-top: 20px;
-  grid-template-columns: 1fr 1fr 1fr;
+  padding: 20px 0;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 24px;
-  @media (max-width: 1280px) {
-    grid-template-columns: 1fr 1fr;
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
     width: 100%;
   }
   @media (max-width: 768px) {
     width: 100%;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 `;
