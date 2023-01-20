@@ -99,10 +99,8 @@ export default function PlantInfoChart({ chartData }) {
 const StChartContainer = styled.div`
   background-color: ${palette.pageBackgroundGray};
   padding: 20px;
+  width: 430px;
   border-radius: 20px;
-  margin-top: 50px;
-  width: 560px;
-  @media (max-width: 1120px) {
-    width: 100%;
-  }
+  height: 35vh;
+  /*  margin-top: 50px; */
 `;
