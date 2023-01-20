@@ -215,6 +215,9 @@ const StSignInner = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem 0;
+  @media (max-width: 500px) {
+    gap: 1rem 0;
+  }
   h2 {
     text-align: center;
   }

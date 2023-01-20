@@ -9,6 +9,7 @@ import MainImage2 from '../../assets/image/main_02.png';
 import MainImage3 from '../../assets/image/main_03.png';
 import MainImage4 from '../../assets/image/main_04.png';
 import PrivateRoute from '../../routes/PrivateRoute';
+import { palette } from '../../styles/palette';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Home() {
         <div className="banner_inner">
           <StBannerContainer>
             <StTitle>
-              <span>식물 추천과 관리를 한 곳에서</span>
+              <span>식물 추천과 관리를 한 곳에서,</span>
               <span>모든 식집사들을 위한 공간</span>
             </StTitle>
             <h3>풀밭에</h3>
@@ -32,11 +33,15 @@ export default function Home() {
       </div>
       <StBannerList>
         <StBannerInner>
-          <StBannerContainer className="order-02">
+          <StBannerContainer>
             <StTitle>
-              <span>원하는 식물을 필터링해서</span>
-              <span>찾을 수 있어요</span>
+              <span>내가 원하는 식물을</span>
+              <span>간편하게 검색</span>
             </StTitle>
+            <div className="subtitle">
+              <span>식물의 특징을 필터링해서 검색할 수 있어요.</span>
+              <span>식집사에게 필요한 식물 정보를 제공해 줍니다.</span>
+            </div>
             <button type="button" onClick={() => navigate(searchPath)}>
               식물 검색 바로가기 <StArrowRight />
             </button>
@@ -44,9 +49,9 @@ export default function Home() {
           <StMainImage src={MainImage2} alt="" />
         </StBannerInner>
       </StBannerList>
-      <StBannerList className="background_grey">
+      <StBannerList className="background_accent">
         <StBannerInner>
-          <StBannerContainer>
+          <StBannerContainer className="order-02">
             <StTitle>
               <span>내 식물을 자랑하고</span>
               <span>이웃의 식물을 구경해요 </span>
@@ -80,9 +85,8 @@ export default function Home() {
 
 const StWrapper = styled.div`
   .main_banner {
-    background: linear-gradient(to right, #eaeaea, #b4b4b4);
     position: relative;
-    height: 100vh;
+    height: calc(100vh - 50.5px);
     padding: 2rem;
     box-sizing: border-box;
     @media (max-width: 1280px) {
@@ -95,6 +99,7 @@ const StWrapper = styled.div`
     h3 {
       font-size: calc(15px + 2vw);
       margin: 0;
+      color: ${palette.mainColor};
       @media (max-width: 768px) {
         font-size: calc(14px + 3vw);
         justify-content: space-evenly;
@@ -105,14 +110,15 @@ const StWrapper = styled.div`
       align-items: center;
       justify-content: space-between;
       max-width: 1350px;
-      padding-top: calc(30px + 10vw);
+      padding-top: calc(30px + 12vw);
       margin: 0 auto;
       width: 80%;
+
       @media (max-width: 768px) {
         width: 100%;
         height: 100%;
-        justify-content: space-evenly;
-        padding-top: 0;
+        padding-top: 3rem;
+        justify-content: flex-start;
         flex-direction: column;
       }
       > div {
@@ -127,14 +133,26 @@ const StWrapper = styled.div`
         }
       }
       img {
+        max-width: 600px;
+        width: 49vw;
         @media (max-width: 768px) {
-          width: 62vw;
-          max-width: 300px;
+          width: 60vw;
+          max-width: none;
+        }
+        @media (max-width: 500px) {
+          width: 85vw;
         }
       }
       .main_img_container {
+        position: absolute;
+        bottom: 40%;
+        right: 20%;
+
+        transform: translate(20%, 20%);
         @media (max-width: 768px) {
           width: 100%;
+          position: unset;
+          transform: unset;
           text-align: right;
         }
       }
@@ -144,16 +162,28 @@ const StWrapper = styled.div`
 const StBannerContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px 0;
+  gap: 25px 0;
+  .subtitle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px 0;
+  }
   button {
     display: flex;
     gap: 0 10px;
     align-items: center;
-    text-align: left;
     padding: 0;
+    background: ${palette.white};
     border: none;
     font-size: 1rem;
     cursor: pointer;
+    padding: 9px 13px;
+    width: fit-content;
+    font-weight: 600;
+    border-radius: 30px;
+    margin-top: 10px;
+    color: ${palette.mainColor};
+    box-shadow: 1px 1px 5px 2px rgb(0 0 0 / 8%);
     @media (max-width: 768px) {
       font-size: 0.875rem;
     }
@@ -171,6 +201,8 @@ const StTitle = styled.div`
   }
   span {
     font-size: calc(12px + 1.5vw);
+    color: ${palette.text.black_e1};
+    font-weight: 600;
     @media (max-width: 768px) {
       font-size: calc(11px + 1.5vw);
       font-weight: 500;
@@ -183,7 +215,6 @@ const StArrowRight = styled(SlArrowRight)`
 `;
 const StArrowDown = styled(IoIosArrowDown)`
   position: absolute;
-  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 2rem;
@@ -193,11 +224,11 @@ const StArrowDown = styled(IoIosArrowDown)`
   }
   @keyframes fadeIn {
     0% {
-      bottom: 70px;
+      bottom: 40px;
       opacity: 0;
     }
     100% {
-      bottom: 50px;
+      bottom: 30px;
       opacity: 1;
     }
   }
@@ -207,8 +238,8 @@ const StBannerList = styled.div`
   height: 100vh;
   box-sizing: border-box;
   position: relative;
-  &.background_grey {
-    background: #f3f3f3;
+  &.background_accent {
+    background: ${palette.mainBackground};
   }
   .order-02 {
     order: 2;
@@ -228,7 +259,7 @@ const StBannerInner = styled.div`
   justify-content: space-between;
 
   align-items: center;
-  padding-top: 16vw;
+  padding-top: 11vw;
   width: 80%;
   margin: 0 auto;
   @media (max-width: 768px) {
@@ -242,8 +273,10 @@ const StBannerInner = styled.div`
 const StMainImage = styled.img`
   object-fit: contain;
   aspect-ratio: 16/12;
-  max-width: 420px;
-  width: 30vw;
+  max-width: 620px;
+  width: 40vw;
+  position: relative;
+
   @media (max-width: 768px) {
     object-fit: contain;
     aspect-ratio: 16/12;

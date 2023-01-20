@@ -44,6 +44,9 @@ const StQuestionContainer = styled.div`
   width: 100%;
   justify-content: center;
   pointer-events: visible;
+  @media (max-width: 500px) {
+    gap: 0 10px;
+  }
   > div {
     display: flex;
     flex-direction: column;
@@ -56,7 +59,11 @@ const StQuestionContainer = styled.div`
     width: 40%;
     cursor: pointer;
     &:active {
-      background: red;
+      background: #abc8b2;
+      .second_question {
+        color: #fff;
+        font-weight: 800;
+      }
     }
   }
   .first_question {

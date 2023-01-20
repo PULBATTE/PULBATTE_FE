@@ -20,6 +20,7 @@ export const getPlantDetail = async plantJournalId => {
 
 export const createPlantJournal = async formData => {
   try {
+    console.log(formData);
     const data = await authInstance.post('/api/plantjournal', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',

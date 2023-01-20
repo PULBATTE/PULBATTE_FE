@@ -69,7 +69,7 @@ export default function AddPlant() {
     });
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
-
+    console.log(formData);
     const res = await createPlantJournal(formData);
     console.log({ res });
     // const postId = res.data.id;

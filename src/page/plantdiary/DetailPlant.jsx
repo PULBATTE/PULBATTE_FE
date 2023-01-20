@@ -195,31 +195,39 @@ const StDetailPlantContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px 50px;
-  margin: 50px;
+
   @media (max-width: 1120px) {
     padding: 0;
     margin: 0;
   }
 `;
 const StHeader = styled.div`
-  margin-top: 32px;
   text-align: center;
   width: 100%;
   font-size: 34px;
+  h3 {
+    font-size: 2.1rem;
+    margin-top: 65px;
+    @media (max-width: 768px) {
+      font-size: 1.9rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.5rem;
+      margin-top: 45px;
+    }
+  }
 `;
 
 const StDetailPlantNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 120px;
   width: 100%;
 `;
 
 const StNavTab = styled.button`
   background-color: transparent;
-  font-size: 24px;
+  font-size: 20px;
   border: none;
   cursor: pointer;
   font-weight: bold;
@@ -228,11 +236,10 @@ const StNavTab = styled.button`
 `;
 
 const StTabSection = styled.section`
-  display: flex;
-  justify-content: space-evenly;
-
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   margin: 20px;
-  width: 1120px;
+  max-width: 1120px;
 
   @media (max-width: 1120px) {
     flex-direction: column;
@@ -243,11 +250,11 @@ const StTabSection = styled.section`
 
 const StPlantInfoWrap = styled.article`
   flex: 1;
-  padding: 16px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  gap: 20px 0;
   @media (max-width: 1120px) {
     padding: 0px;
   }
@@ -255,7 +262,8 @@ const StPlantInfoWrap = styled.article`
 
 const StPlantInfoImg = styled.img`
   width: 100%;
-  height: 480px;
+  max-height: 480px;
+  aspect-ratio: 1.2/1;
   @media (max-width: 1120px) {
     width: 100%;
   }
@@ -264,14 +272,13 @@ const StPlantInfoImg = styled.img`
 const StPlantEnvWrapper = styled.section`
   display: flex;
   flex-direction: column;
-  padding-bottom: 38px;
 `;
 
 const StPlantEnv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 62px;
+  gap: 2vw;
   width: 100%;
   margin: 24px 0px;
   h3 {
@@ -286,9 +293,9 @@ const StPlantEnv = styled.div`
 
 const StPlantDdayCardWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 460px;
-  padding: 8px;
+  gap: 0 10px;
+  justify-content: center;
+
   @media (min-width: 1120px) {
     width: 100%;
   }
@@ -298,11 +305,9 @@ const StPlantDdayCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
+  padding: 15px;
   background-color: ${props => props.color};
   align-items: center;
-  width: 148px;
-  height: 188px;
   border-radius: 16px;
   color: ${palette.white};
   @media (max-width: 1120px) {

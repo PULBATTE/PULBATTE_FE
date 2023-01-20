@@ -175,6 +175,12 @@ const StWrapper = styled.div`
     box-sizing: border-box;
     min-height: 70vh;
     pointer-events: none;
+    @media (max-width: 768px) {
+      padding: 3rem;
+    }
+    @media (max-width: 500px) {
+      padding: 2rem;
+    }
     h4 {
       font-size: 1.7rem;
       font-weight: 800;

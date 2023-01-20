@@ -103,11 +103,7 @@ export default function BrowserHeader({
             onMouseOut={() => outMouseDisplay(3)}
           >
             <li>
-              <span
-                onClick={() => navigate(diaryPath)}
-                aria-hidden="true"
-                /*      display={display[4]} */
-              >
+              <span onClick={() => PrivateRoute(diaryPath)} aria-hidden="true">
                 식물 일지
               </span>
             </li>
