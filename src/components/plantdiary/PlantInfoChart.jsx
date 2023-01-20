@@ -30,23 +30,34 @@ ChartJS.register(
 export const options = {
   responsive: true,
   maintainAspectRatio: false,
+  backgroundColor: palette.pageBackgroundGray,
   scales: {
     x: {
       grid: {
         display: false,
+      },
+      ticks: {
+        font: {
+          size: 20,
+        },
+        color: palette.text.gray_3,
       },
     },
     y: {
       grid: {
         display: false,
       },
+      max: 100,
     },
   },
   plugins: {
     legend: { display: false },
     title: {
-      display: true,
+      display: false,
       text: '식물 상태',
+      font: {
+        size: 20,
+      },
     },
   },
 };
@@ -61,18 +72,27 @@ const MOCK_DATA = {
         palette.card.brown,
       ],
       barThickness: 40,
-      data: calculatedArr,
+      data: [10, 60, 100],
     },
   ],
 };
 
+// percentage = currentDdayClick / totalDdayClick;
+const calculatePercent = (currentDday, totalDday) => {
+  // 분모가 0이면 NAN
+  if (totalDday === 0) return 0;
+  const percent = (currentDday / totalDday) * 100;
+  return percent;
+};
+
 export default function PlantInfoChart({ chartData }) {
   const [renderData, setRenderData] = useState();
-  const calculateBarChartArr = v => {
-    console.log(Object.values(v));
-  };
+
   useEffect(() => {
-    // const calculatedArr =
+    const chartDataToPercent = chartData.map(v => {
+      // return calculatePercent(v.currentDday, v.totalDday);
+      return calculatePercent(8, 10);
+    });
     const data = {
       labels: ['물주기', '분무량', '햇빛'],
       datasets: [
@@ -82,27 +102,36 @@ export default function PlantInfoChart({ chartData }) {
             palette.card.green,
             palette.card.brown,
           ],
-          barThickness: 40,
-          data: calculatedArr,
+          barThickness: 80,
+          data: chartDataToPercent,
         },
       ],
     };
-    setRenderData();
-  }, []);
+    setRenderData(data);
+  }, [chartData]);
+
   return (
     <StChartContainer>
-      <Bar height="320px" options={options} data={MOCK_DATA} />
+      <h3>달성그래프</h3>
+      <div>
+        {renderData && (
+          <Bar height="320px" options={options} data={renderData} />
+        )}
+      </div>
     </StChartContainer>
   );
 }
 
-const StChartContainer = styled.div`
-  background-color: ${palette.pageBackgroundGray};
+const StChartContainer = styled.section`
   padding: 20px;
   border-radius: 20px;
   margin-top: 50px;
   width: 560px;
   @media (max-width: 1120px) {
     width: 100%;
+  }
+  div {
+    background-color: ${palette.pageBackgroundGray};
+    padding: 24px;
   }
 `;
