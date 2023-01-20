@@ -72,8 +72,6 @@ export default function AddPlant() {
     console.log(formData);
     const res = await createPlantJournal(formData);
     console.log({ res });
-    // const postId = res.data.id;
-    // navigate(`/donepost/${postId}`);
     navigate(`/plantlist`);
   };
   console.log(plantName);

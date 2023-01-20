@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import PlantInfoChart from '../../components/plantdiary/PlantInfoChart';
-
 import PlantCalendar from '../../components/plantdiary/PlantCalendar';
 import PlantEnv from '../../components/plantdiary/PlantEnv';
 import waterIcon from '../../assets/image/water_drop.png';
@@ -10,7 +9,6 @@ import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
 import repottingImg from '../../assets/image/Repot_white.png';
 import nutritionImg from '../../assets/image/Nutrition_white.png';
-
 import { getPlantDetail, doneDdayCheck } from '../../apis/plantDiary';
 import waterImg from '../../assets/image/waterdrop_white.png';
 import { palette } from '../../styles/palette';
@@ -19,11 +17,9 @@ export default function DetailPlant() {
   const [currentTab, setCurrentTab] = useState(1);
   const [plantDetailData, setPlantDetailData] = useState();
   const { plantJournalId } = useParams();
-
   const getPlantDetailApi = useCallback(async () => {
-    // const data = await getPlantDetail(plantJournalId);
-    // setPlantDetailData(data.data);
-    // setPlantDetailData(MOCK_DATA);
+    const data = await getPlantDetail(plantJournalId);
+    setPlantDetailData(data.data);
   }, [plantJournalId]);
 
   useEffect(() => {
