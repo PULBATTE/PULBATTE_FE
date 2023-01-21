@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import PlantInfoChart from '../../components/plantdiary/PlantInfoChart';
-
 import PlantCalendar from '../../components/plantdiary/PlantCalendar';
 import PlantEnv from '../../components/plantdiary/PlantEnv';
 import waterIcon from '../../assets/image/water_drop.png';
@@ -18,7 +17,6 @@ export default function DetailPlant() {
   const [currentTab, setCurrentTab] = useState(1);
   const [plantDetailData, setPlantDetailData] = useState();
   const { plantJournalId } = useParams();
-
   const getPlantDetailApi = useCallback(async () => {
     const data = await getPlantDetail(plantJournalId);
     setPlantDetailData(data.data);
@@ -88,7 +86,7 @@ export default function DetailPlant() {
                   name="sunny"
                   isDisabled={false}
                   src={shineIcon}
-                  checkPoint={plantDetailData.selcetSunshine}
+                  checkPoint={plantDetailData.selectSunshine}
                   gap="8px"
                 />
                 <PlantEnv
@@ -96,7 +94,7 @@ export default function DetailPlant() {
                   name="air"
                   isDisabled={false}
                   src={airIcon}
-                  checkPoint={plantDetailData.selcetWind}
+                  checkPoint={plantDetailData.selectWind}
                   gap="8px"
                 />
               </StPlantEnv>
@@ -118,12 +116,12 @@ export default function DetailPlant() {
                   type="button"
                   onClick={() => onCompeteHandler('water')}
                 >
-                  {plantDetailData.waterCheak ? '완료' : '완료하기'}
+                  {plantDetailData.waterCheck ? '완료' : '완료하기'}
                 </StDdayConfirmButton>
               </StPlantDdayCard>
               <StPlantDdayCard color={palette.card.green}>
                 <>
-                  <img alt="repottingIcon" src={repottingImg} />
+                  <img alt="repottingImg" src={repottingImg} />
                   <h3>분갈이</h3>
                   {plantDetailData.repottingDDay === 0 ? (
                     <h3>D-day</h3>
@@ -135,12 +133,12 @@ export default function DetailPlant() {
                   type="button"
                   onClick={() => onCompeteHandler('repotting')}
                 >
-                  {plantDetailData.repottingCheak ? '완료' : '완료하기'}
+                  {plantDetailData.repottingCheck ? '완료' : '완료하기'}
                 </StDdayConfirmButton>
               </StPlantDdayCard>
               <StPlantDdayCard color={palette.card.brown}>
                 <>
-                  <img alt="nutritionIcon" src={nutritionImg} />
+                  <img alt="nutritionImg" src={nutritionImg} />
                   <h3>영양제</h3>
                   {plantDetailData.nutritionDDay === 0 ? (
                     <h3>D-day</h3>
@@ -152,7 +150,7 @@ export default function DetailPlant() {
                   type="button"
                   onClick={() => onCompeteHandler('nutrition')}
                 >
-                  {plantDetailData.nutrituinCheak ? '완료' : '완료하기'}
+                  {plantDetailData.nutritionCheck ? '완료' : '완료하기'}
                 </StDdayConfirmButton>
               </StPlantDdayCard>
             </StPlantDdayCardWrapper>
@@ -161,17 +159,17 @@ export default function DetailPlant() {
                 {
                   type: 'Nutrition',
                   totalDday: plantDetailData.totalNutritionDDayClick,
-                  currentDDay: plantDetailData.currentNutritionDDayClick,
+                  currentDday: plantDetailData.currentNutritionDDayClick,
                 },
                 {
                   type: 'water',
                   totalDday: plantDetailData.totalWaterDDayClick,
-                  currentDDay: plantDetailData.currentNutritionDDayClick,
+                  currentDday: plantDetailData.currentNutritionDDayClick,
                 },
                 {
                   type: 'repotting',
                   totalDday: plantDetailData.totalRepottingDDayClick,
-                  currentDDay: plantDetailData.currentRepottingDDayClick,
+                  currentDday: plantDetailData.currentRepottingDDayClick,
                 },
               ]}
             />

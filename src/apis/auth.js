@@ -1,4 +1,4 @@
-import { instance } from './axios';
+import { instance, authInstance } from './axios';
 
 export const postSignup = async ({ userId, password }) => {
   try {
@@ -9,5 +9,15 @@ export const postSignup = async ({ userId, password }) => {
     return data;
   } catch (error) {
     return error;
+  }
+};
+
+export const getInfo = async () => {
+  try {
+    const { data } = await authInstance.get('/api/auth/info');
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw Error(error);
   }
 };

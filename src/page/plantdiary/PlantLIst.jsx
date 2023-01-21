@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { MdArrowBackIos } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 import { getPlantList } from '../../apis/plantDiary';
