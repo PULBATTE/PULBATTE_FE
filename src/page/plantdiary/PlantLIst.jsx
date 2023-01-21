@@ -50,21 +50,23 @@ const StPlantListContainer = styled.div`
   margin: 50px;
   max-width: 1372px;
   width: 80%;
-  margin: 0 auto;
+  margin: 7rem auto 3rem;
   @media (max-width: 768px) {
     width: 100%;
+
     padding: 0 2rem;
     box-sizing: border-box;
   }
 
   h3 {
-    font-size: 2.1rem;
-    margin-top: 65px;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     @media (max-width: 768px) {
-      font-size: 1.9rem;
+      font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-top: 45px;
     }
   }
@@ -105,9 +107,9 @@ const StDivider = styled.div`
 const StAddButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
-  width: 120px;
-  height: 36px;
-  font-size: 15px;
+  width: 135px;
+  height: 45px;
+  font-size: 1.1rem;
   font-weight: 600;
   border: none;
   border-radius: 32px;
@@ -123,6 +125,7 @@ const StCardContainer = styled.div`
   padding: 20px 0;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 24px;
+
   @media (max-width: 1024px) {
     grid-template-columns: 1fr 1fr 1fr;
     width: 100%;

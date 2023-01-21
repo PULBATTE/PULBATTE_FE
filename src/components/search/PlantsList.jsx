@@ -32,12 +32,18 @@ export default function PlantsList({ plantsList }) {
 const StListInner = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  width: 80%;
+  width: 100%;
   max-width: 1372px;
   gap: 20px;
   margin: 0 auto 80px;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
   @media (max-width: 1280px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
   }
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;

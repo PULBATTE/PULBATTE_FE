@@ -42,7 +42,7 @@ export default function PlantEnv({
     <StGridList>
       <StTitleWrapper>
         <img src={src} alt="식물환경 아이콘" />
-        <span>{title}</span>
+        <p>{title}</p>
       </StTitleWrapper>
       <StCircleContainer gap={gap}>
         <span>{appendText}</span>
@@ -71,11 +71,15 @@ export default function PlantEnv({
 const StGridList = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
 
-  gap: 10px 0;
+  gap: 1rem 0;
+  @media (max-width: 768px) {
+    gap: 0.5rem 0;
+    align-items: center;
+  }
   span {
-    font-size: 14px;
-    color: ${palette.textColor1};
+    font-size: 1.1rem;
   }
   label {
     position: relative;
@@ -112,16 +116,32 @@ const StGridList = styled.div`
 
 const StTitleWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+
   align-items: center;
   gap: 8px;
+  p {
+    font-size: 1.2rem;
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
 `;
 const StCircleContainer = styled.div`
   display: flex;
+
+  align-items: center;
   gap: ${props => (props.gap ? props.gap : '10px')};
 `;
 const StSpan = styled.span`
   background: ${props => props.background};
   position: relative;
+  &.circle {
+    width: 17px;
+    height: 17px;
+    @media (max-width: 768px) {
+      width: 14px;
+      height: 14px;
+    }
+  }
   pointer-events: none;
 `;

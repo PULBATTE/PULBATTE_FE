@@ -145,15 +145,19 @@ export default function PlantTest() {
 }
 
 const StWrapper = styled.div`
+  margin: 7rem 0 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
   h3 {
     text-align: center;
-    font-size: 2.1rem;
-    margin-top: 65px;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     @media (max-width: 768px) {
-      font-size: 1.9rem;
+      font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-top: 45px;
     }
   }
@@ -162,24 +166,25 @@ const StWrapper = styled.div`
   }
   .swiper_container {
     position: relative;
-    max-width: 600px;
-    width: 90%;
-    height: 100%;
+    max-width: 680px;
+    width: 80%;
+
     overflow: hidden;
     margin: 0 auto;
-    height: 100%;
+    min-height: 60vh;
     box-sizing: border-box;
     border-radius: 16px;
     background: linear-gradient(154deg, #ebf1ec, #bbd4cd);
-    padding: 3rem 5rem;
+    padding: 4rem 5rem;
     box-sizing: border-box;
-    min-height: 70vh;
+
     pointer-events: none;
     @media (max-width: 768px) {
       padding: 3rem;
     }
     @media (max-width: 500px) {
       padding: 2rem;
+      width: 90%;
     }
     h4 {
       font-size: 1.7rem;
@@ -188,34 +193,47 @@ const StWrapper = styled.div`
     }
 
     .swiper-container {
+      height: 100%;
     }
     .slide_image_container {
-      height: 200px;
+      max-height: 300px;
       width: 100%;
       display: flex;
       justify-content: center;
+      @media (max-width: 500px) {
+        height: 180px;
+      }
     }
     .slide_inner {
       display: flex;
       height: 100%;
+
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 25px 0;
+      justify-content: flex-start;
+      gap: 3rem 0;
 
       box-sizing: border-box;
       img {
         height: 100%;
       }
       .question_title {
-        font-size: 1.2rem;
+        font-size: 1.6rem;
         font-weight: 700;
-        line-height: 25px;
+        line-height: 2.5rem;
         height: 50px;
         letter-spacing: 0.4px;
         width: 90%;
         text-align: center;
         word-break: keep-all;
+        @media (max-width: 768px) {
+          font-size: 1.4rem;
+          line-height: 2rem;
+        }
+        @media (max-width: 500px) {
+          font-size: 1.2rem;
+          line-height: 1.8rem;
+        }
       }
     }
   }

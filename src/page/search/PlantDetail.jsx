@@ -33,10 +33,14 @@ export default function PlantDetail() {
 }
 
 const StWrapper = styled.div`
+  margin: 7rem 0 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
   .container_inner {
     display: flex;
     flex-direction: column;
-    max-width: 1150px;
+    max-width: 1370px;
     margin: 0 auto;
     gap: 40px 0;
     > button {
@@ -48,11 +52,14 @@ const StWrapper = styled.div`
     }
     h3 {
       text-align: center;
-      font-size: 2.1rem;
-      margin-top: 65px;
-      @media (max-width: 1000px) {
-        display: none;
-        font-size: 1.7rem;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      @media (max-width: 768px) {
+        font-size: 2rem;
+      }
+      @media (max-width: 500px) {
+        font-size: 1.8rem;
+        margin-top: 45px;
       }
     }
     img {
@@ -63,13 +70,13 @@ const StWrapper = styled.div`
 `;
 
 const StContent = styled.div`
-  width: 80%;
+  width: 100%;
   margin: 0 auto 40px;
   display: flex;
-  gap: 0 60px;
+  gap: 0 5rem;
 
   .image_container {
-    max-width: 400px;
+    max-width: 500px;
     width: 45%;
     @media (max-width: 1000px) {
       max-width: 500px;

@@ -72,7 +72,10 @@ const StQuestionContainer = styled.div`
     color: ${palette.mainColor};
   }
   .second_question {
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 400;
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
   }
 `;
