@@ -157,19 +157,19 @@ export default function DetailPlant() {
             <PlantInfoChart
               chartData={[
                 {
-                  type: 'Nutrition',
-                  totalDday: plantDetailData.totalNutritionDDayClick,
-                  currentDday: plantDetailData.currentNutritionDDayClick,
-                },
-                {
                   type: 'water',
                   totalDday: plantDetailData.totalWaterDDayClick,
-                  currentDday: plantDetailData.currentNutritionDDayClick,
+                  currentDday: plantDetailData.currentWaterDdayClick,
                 },
                 {
                   type: 'repotting',
                   totalDday: plantDetailData.totalRepottingDDayClick,
                   currentDday: plantDetailData.currentRepottingDDayClick,
+                },
+                {
+                  type: 'Nutrition',
+                  totalDday: plantDetailData.totalNutritionDDayClick,
+                  currentDday: plantDetailData.currentNutritionDDayClick,
                 },
               ]}
             />
