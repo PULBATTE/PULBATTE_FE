@@ -24,12 +24,14 @@ export default function PlantInfoSelect({
         <p>{title}</p>
       </StHeaderWrapper>
       <StSelectWrapper>
-        <StSelect onChange={onChange}>
-          <option hidden>선택하세요</option>
-          {options.map(v => {
-            return <option key={v} value={v}>{`${v}${optionString}`}</option>;
-          })}
-        </StSelect>
+        <div className="select_container">
+          <StSelect onChange={onChange}>
+            <option hidden>선택하세요</option>
+            {options.map(v => {
+              return <option key={v} value={v}>{`${v}${optionString}`}</option>;
+            })}
+          </StSelect>
+        </div>
         <StTextWrapper>에 한 번</StTextWrapper>
       </StSelectWrapper>
     </div>
@@ -38,18 +40,41 @@ export default function PlantInfoSelect({
 
 const StSelectWrapper = styled.div`
   display: flex;
-  height: 48px;
-  gap: 24px;
+  height: 40px;
+  margin-top: 20px;
+  @media (max-width: 768px) {
+    margin-top: 0;
+    gap: 0 20px;
+  }
+  .select_container {
+    width: 100%;
+    max-width: 230px;
+    box-shadow: 0 2px 5px 1px rgb(0 0 0 / 11%);
+    border-radius: 16px;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 7px 15px;
+    box-sizing: border-box;
+  }
 `;
 const StHeaderWrapper = styled.div`
   display: flex;
   gap: 8px;
+  img {
+    width: 32px;
+    height: 32px;
+  }
   align-items: center;
+  p {
+    font-size: 1.2rem;
+  }
 `;
 const StSelect = styled.select`
   width: 100%;
   border: none;
-  border-bottom: 2px solid gray;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.1rem;
 `;
 const StTextWrapper = styled.div`
   display: flex;
