@@ -1,136 +1,132 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import styled from 'styled-components';
-import { MdArrowBackIos } from 'react-icons/md';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
-
+import { useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
 import { PostComment } from '../../components/community/PostComment';
-
-const MockData = {
-  id: 30,
-  title: '제목',
-  content: '내용',
-  nickname: 'qwer',
-  tag: '자유',
-  createdAt: '2022-12-22T00:04:45.020757',
-  modifiedAt: '2022-12-22T00:04:45.020757',
-  image:
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgL2oyiz-0BuC-6UnKLmWDzn-0RQg4jsaQTNbs0Aq1W_JuxgOI2-BldCcAbaRZEy12pXs&usqp=CAU',
-  likeCount: 1,
-  likeStatus: true,
-  commentList: [
-    {
-      id: 1,
-      nickname: 'ssori',
-      content: '댓글',
-      createdAt: '2022-12-22T00:04:45.020757',
-      modifiedAt: '2022-12-22T00:04:45.020757',
-      replyList: {
-        id: 1,
-        nickname: '닉네임',
-        content: '대 댓글 내용',
-        createdAt: '2022-12-22T00:04:45.020757',
-        modifiedAt: '2022-12-22T00:04:45.020757',
-      },
-    },
-    {
-      id: 2,
-      nickname: 'joon',
-      content: '댓글 내용2',
-      createdAt: '2022-12-22T00:04:45.020757',
-      modifiedAt: '2022-12-22T00:04:45.020757',
-      replyList: {
-        id: 1,
-        nickname: '닉네임',
-        content: '댓글 내용',
-        createdAt: '2022-12-22T00:04:45.020757',
-        modifiedAt: '2022-12-22T00:04:45.020757',
-      },
-    },
-  ],
-};
+import { getPost, postComment } from '../../apis/community';
+import { getInfo } from '../../apis/auth';
 
 export default function DonePost() {
+  const [postData, setPostData] = useState();
+  const [commentList, setCommentList] = useState();
   const [isClicked, setIsClicked] = useState(false);
-  /* 객체 비구조화 할당 */
-  const {
-    likeCount,
-    likeStatus,
-    commentList,
-    image,
-    nickname,
-    createdAt,
-    title,
-    content,
-    tag,
-  } = MockData;
+  const [nickName, setNickName] = useState('');
+  const [comment, setComment] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const { postId } = useParams();
+  console.log('postData 있음', postData);
+  console.log('commentList 있음', commentList);
+  // donepost 데이터 불러오기 - 새로고침
+  const getPostApi = useCallback(async () => {
+    setIsLoading(true);
+    const data = await getPost(postId);
+    setPostData(data.data);
+    setIsLoading(false);
+    console.log('postData 설정함');
+  }, [postId]);
+
+  const getInfoApi = useCallback(async () => {
+    const data = await getInfo();
+    console.log('nickname', data);
+    setNickName(data.nickName);
+  }, []);
+
+  console.log({ nickName });
+  useEffect(() => {
+    getPostApi();
+    getInfoApi();
+  }, [getInfoApi, getPostApi]);
+
+  useEffect(() => {
+    postData && setCommentList(postData.commentList);
+  }, [postData]);
+
   const onLikeHandler = () => {
     setIsClicked(_isClicked => !_isClicked);
   };
-  const [comment, setComment] = useState('');
+
   const onCommentHandler = e => {
     setComment(e.target.value);
   };
-  /* axios호출  */
-  // const onCommentHandler =
-
+  const onRegCommentHandler = async () => {
+    setIsLoading(true);
+    await postComment(postId, 0, comment);
+    setComment('');
+    await getPostApi();
+    setIsLoading(false);
+  };
   return (
     <StDonePostContainer>
-      <StNavBar>
-        <MdArrowBackIos />
-        <span>게시글 목록</span>
-      </StNavBar>
-      <StBoardContainer>
-        <h3>{title}</h3>
-        <StUserInfo>
-          <img alt="profileImg" src={image} />
-          <div className="usercontainer">
-            <span>{nickname}</span>
-            <span>{formatDate(createdAt)}</span>
-          </div>
-        </StUserInfo>
-        <StContentWrapper>
-          <img alt="plantImg" src={image} />
-          <span>{content}</span>
-        </StContentWrapper>
-        <StTagWrappeer>
-          <Button size="sd" background={palette.borderColor2}>
-            {tag}
-          </Button>
-        </StTagWrappeer>
-        <StDivider />
-        {likeStatus ? (
-          <StLikeWrapper>
-            <BsFillHeartFill onClick={onLikeHandler} />
-            <span>{likeCount}</span>
-          </StLikeWrapper>
-        ) : (
-          <StLikeWrapper>
-            <BsHeart onClick={onLikeHandler} />
-            <span>{likeCount}</span>
-          </StLikeWrapper>
-        )}
-      </StBoardContainer>
-      <StCreateCommentWrapper>
-        <span>{commentList.length}개의 댓글</span>
-        <StCreateCommentArea
-          placeholder="댓글을 작성하세요"
-          value={comment}
-          onChange={onCommentHandler}
-        />
-        <div>
-          <StButton type="button" onClick={onCommentHandler}>
-            등록
-          </StButton>
-        </div>
-      </StCreateCommentWrapper>
-      {/* map함수를 사용해서 PostComment 여러개 생성 */}
-      {/* PostComment는 컴포넌트로 분리 */}
-      {commentList.map(v => {
-        return <PostComment key={v.id} comment={v} />;
-      })}
+      {isLoading ? (
+        <>loading..</>
+      ) : (
+        <>
+          <StNavBar>
+            <span>게시글 목록</span>
+          </StNavBar>
+          <StBoardContainer>
+            <h3>{postData.title}</h3>
+            <StUserInfo>
+              <img alt="profileImg" src={postData.profileImage} />
+              <div className="usercontainer">
+                <span>{postData.nickname}</span>
+                <span>{formatDate(postData.createdAt)}</span>
+              </div>
+            </StUserInfo>
+            <StContentWrapper>
+              <img alt="plantImg" src={postData.image} />
+              <span>{postData.content}</span>
+            </StContentWrapper>
+            <StTagWrappeer>
+              <Button size="sd" background={palette.borderColor2}>
+                {postData.tag}
+              </Button>
+            </StTagWrappeer>
+            <StDivider />
+            {postData.likeStatus ? (
+              <StLikeWrapper>
+                <BsFillHeartFill onClick={onLikeHandler} />
+                <span>{postData.likeCnt}</span>
+              </StLikeWrapper>
+            ) : (
+              <StLikeWrapper>
+                <BsHeart onClick={onLikeHandler} />
+                <span>{postData.likeCnt}</span>
+              </StLikeWrapper>
+            )}
+          </StBoardContainer>
+          <StCreateCommentWrapper>
+            <span>{postData.commentCnt}개의 댓글</span>
+            <StCreateCommentArea
+              placeholder="댓글을 작성하세요"
+              value={comment}
+              onChange={onCommentHandler}
+            />
+            <div>
+              <StButton type="button" onClick={onRegCommentHandler}>
+                등록
+              </StButton>
+            </div>
+          </StCreateCommentWrapper>
+          {/* map함수를 사용해서 PostComment 여러개 생성 */}
+          {/* PostComment는 컴포넌트로 분리 */}
+          {commentList &&
+            commentList.map(v => {
+              console.log(v);
+              return (
+                <PostComment
+                  key={v.commentId}
+                  comment={v}
+                  getPost={getPostApi}
+                  nickName={nickName}
+                />
+              );
+            })}
+        </>
+      )}
     </StDonePostContainer>
   );
 }
@@ -224,8 +220,8 @@ const StCreateCommentArea = styled.textarea`
   margin-top: 10px;
 `;
 const StButton = styled.button`
-  background-color: #47ad8e;
-  color: white;
+  background-color: ${palette.mainColor};
+  color: ${palette.white};
   width: 100px;
   height: 30px;
   border-radius: 8px;

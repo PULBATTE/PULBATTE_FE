@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAllPlantsInfo, postSelectPlant } from '../../apis/plantGuide';
+import { guidePath } from '../../apis/path';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
 import { palette } from '../../styles/palette';
@@ -39,12 +40,15 @@ export default function PlantChoice() {
   // 렌더링될때 식물 중복된 값있는지 판단
   getAllPlantsInfo()
     .then(res => {
-      res.map(data => {
-        if (data.overlap) {
-          alert('선택된 식물이 있습니다. 가이드 페이지로 이동합니다.');
-          navigate('/api/beginner/plant/my');
-        }
-      });
+      console.log(res);
+      res
+        .map(data => {
+          if (data.overlap) {
+            alert('선택된 식물이 있습니다. 가이드 페이지로 이동합니다.');
+            navigate(guidePath);
+          }
+        })
+        .catch(error => console.log(error));
     })
     .catch(error => console.log(error));
 
@@ -53,6 +57,7 @@ export default function PlantChoice() {
   useEffect(() => {
     getAllPlantsInfo()
       .then(res => {
+        console.log(res);
         setPlantInfo(res);
       })
       .catch(error => console.log(error));
@@ -79,6 +84,7 @@ export default function PlantChoice() {
               slidesOffsetBefore={0}
               slidesOffsetAfter={0}
               spaceBetween={40}
+              slidesPerView={4}
               initialSlide={1}
               navigation
               pagination={{
@@ -120,51 +126,59 @@ export default function PlantChoice() {
                   spaceBetween: 50,
                   centeredSlides: false,
                 },
+                1650: {
+                  slidesOffsetBefore: 0,
+                  slidesOffsetAfter: 0,
+                  slidesPerView: 4,
+                  spaceBetween: 50,
+                  centeredSlides: false,
+                },
               }}
             >
-              {plantInfo.map(data => {
-                return (
-                  <SwiperSlide
-                    key={data.beginnerPlantName}
-                    onClick={() => checkPlantHandler(data.beginnerPlantName)}
-                  >
-                    <div className="plant_img_container">
-                      <img className="plant_image" src={data.image} alt="" />
-                      {data.like ? <span>풀밭에 추천</span> : ''}
-                    </div>
-                    <div className="plant_content_container">
-                      <h3>{data.beginnerPlantName}</h3>
-                      <StGridInner>
-                        <PlantEnviroment
-                          src={shineIcon}
-                          checkPoint={data.sunshine}
-                          name="sunny"
-                        />
-                        <PlantEnviroment
-                          src={waterIcon}
-                          checkPoint={data.water}
-                          name="water"
-                        />
-                        <PlantEnviroment
-                          src={airIcon}
-                          checkPoint={data.ventilation}
-                          name="air"
-                        />
-                      </StGridInner>
-                      <StTip>
-                        {data.tipList.map(item => {
-                          return (
-                            <div className="item_list" key={item}>
-                              <span>∙</span>
-                              <span>{item}</span>
-                            </div>
-                          );
-                        })}
-                      </StTip>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
+              {plantInfo &&
+                plantInfo.map(data => {
+                  return (
+                    <SwiperSlide
+                      key={data.beginnerPlantName}
+                      onClick={() => checkPlantHandler(data.beginnerPlantName)}
+                    >
+                      <div className="plant_img_container">
+                        <img className="plant_image" src={data.image} alt="" />
+                        {data.like ? <span>풀밭에 추천</span> : ''}
+                      </div>
+                      <div className="plant_content_container">
+                        <h3>{data.beginnerPlantName}</h3>
+                        <StGridInner>
+                          <PlantEnviroment
+                            src={shineIcon}
+                            checkPoint={data.sunshine}
+                            name="sunny"
+                          />
+                          <PlantEnviroment
+                            src={waterIcon}
+                            checkPoint={data.water}
+                            name="water"
+                          />
+                          <PlantEnviroment
+                            src={airIcon}
+                            checkPoint={data.ventilation}
+                            name="air"
+                          />
+                        </StGridInner>
+                        <StTip>
+                          {data.tipList.map(item => {
+                            return (
+                              <div className="item_list" key={item}>
+                                <span>∙</span>
+                                <span>{item}</span>
+                              </div>
+                            );
+                          })}
+                        </StTip>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
             </StSwiper>
           </div>
         </>
@@ -174,7 +188,6 @@ export default function PlantChoice() {
 }
 
 const StWrapper = styled.div`
-  max-width: 1370px;
   display: flex;
   flex-direction: column;
   gap: 25px 0;

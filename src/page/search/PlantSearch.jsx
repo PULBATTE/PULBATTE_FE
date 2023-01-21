@@ -62,7 +62,7 @@ export default function PlantSearch() {
           />
           <CustomLabel
             dataname="leaf"
-            button="#잎감상"
+            button="#잎이있는"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
@@ -76,7 +76,7 @@ export default function PlantSearch() {
           />
           <CustomLabel
             dataname="fruit"
-            button="#열매"
+            button="#열매가있는"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
@@ -88,18 +88,24 @@ export default function PlantSearch() {
   );
 }
 const StWrapper = styled.div`
+  margin: 5rem auto 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
   .container_inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     h3 {
-      font-size: 2.8rem;
-      margin-top: 80px;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
       @media (max-width: 768px) {
-        font-size: 1.9rem;
+        font-size: 2rem;
       }
       @media (max-width: 500px) {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        margin-top: 45px;
       }
     }
   }
@@ -150,23 +156,23 @@ const StSearchContainer = styled.div`
 const StFilterContainer = styled.div`
   display: flex;
   gap: 0 20px;
-  margin: 3rem 0;
+  margin: 2.5rem 0 6rem;
   @media (max-width: 768px) {
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
   }
   button {
-    font-size: 1rem;
-    padding: 6px 20px;
-    border-radius: 20px;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 1.2rem;
     border: none;
     border: 1px solid #d9d9d9;
     color: #d9d9d9;
     cursor: pointer;
     &.globalBtn {
       color: white;
-      background: green;
+      background: ${palette.mainColor};
       border: none;
       &:active {
         border: none;

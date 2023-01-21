@@ -10,6 +10,8 @@ import {
   boardPath,
   searchPath,
   diaryPath,
+  testPath,
+  choicePath,
 } from '../../../../apis/path';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 
@@ -85,7 +87,7 @@ export default function BrowserHeader({
             <li>
               <span>나만의 반려식물 찾기</span>
               <StNavigation display={display[2]}>
-                <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">
+                <li onClick={() => PrivateRoute(testPath)} aria-hidden="true">
                   <span aria-hidden="true">식집사 테스트</span>
                 </li>
                 <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">
@@ -101,11 +103,7 @@ export default function BrowserHeader({
             onMouseOut={() => outMouseDisplay(3)}
           >
             <li>
-              <span
-                onClick={() => navigate(diaryPath)}
-                aria-hidden="true"
-                /*      display={display[4]} */
-              >
+              <span onClick={() => PrivateRoute(diaryPath)} aria-hidden="true">
                 식물 일지
               </span>
             </li>
@@ -138,11 +136,15 @@ export default function BrowserHeader({
 const StBrowserNav = styled.div`
   display: flex;
   align-items: center;
-  height: 50.5px;
+  height: 70px;
   justify-content: space-between;
   max-width: 1372px;
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -182,6 +184,14 @@ const StCategory = styled.ul`
     > ul {
       padding: 15px 0;
       position: relative;
+      > li {
+        > span {
+          font-size: 1.2rem;
+          @media (max-width: 1024px) {
+            font-size: 1.1rem;
+          }
+        }
+      }
     }
   }
   > div {
@@ -208,6 +218,7 @@ const StUtilContainer = styled.div`
     border: none;
     padding: 5px 10px;
     cursor: pointer;
+    font-size: 1rem;
   }
 `;
 const StAlarm = styled(BsBellFill)`
@@ -219,7 +230,7 @@ const StLink = styled(Link)`
 `;
 const StNavigation = styled.ul`
   position: absolute;
-  top: 36px;
+  top: 38px;
   left: 50%;
   box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
   border-radius: 15px;
@@ -249,7 +260,7 @@ const StNavigation = styled.ul`
     &:hover {
       background: #eeeeee;
     }
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     padding: 10px;
     box-sizing: border-box;
     border-radius: 6px;

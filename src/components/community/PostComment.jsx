@@ -2,52 +2,79 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
+import { deleteComment, editComment } from '../../apis/community';
 
-const userNickName = 'ssori';
-
-export function PostComment({ comment }) {
+export function PostComment({ comment, getPost, nickName }) {
+  console.log({ comment });
   /* 객체 비구조화 할당 */
-  const { nickname, createdAt, content, replyList } = comment;
+  const {
+    replyList,
+    content,
+    postId,
+    commentId,
+    createdAt,
+    nickname,
+    profileImage,
+  } = comment;
+
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
-  const [openReComment, setOpenReComment] = useState(true);
-
-  const onReplyHandler = e => {
-    setCommentContent(e.target.value);
-  };
-  const onEditHandler = () => {
+  const [isOpenReply, setIsOpenReply] = useState(false);
+  const [createReply, setCreateReply] = useState();
+  console.log(replyList);
+  const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
-  const onDeleteHandler = () => {
-    console.log('삭제');
+  const onDeleteCommentHandler = async () => {
+    console.log(commentId);
+    await deleteComment(commentId);
+    await getPost();
   };
-  const onEditCommentDoneHandler = () => {
+  const onEditCommentHandler = e => {
+    console.log(e.target.value);
+    setCommentContent(e.target.value);
+  };
+  const onEditCommentDoneHandler = async () => {
+    await editComment(postId, commentId, commentContent);
+    await getPost();
     setIsEditable(false);
   };
-  const onReCommentOpenHandler = () =>
-    setOpenReComment(_openReComment => !_openReComment);
-
+  const onOpenReplyHandler = e => {
+    // if (openReply === true) {
+    //   setOpenReply(false);
+    // }
+    // if (openReply === false) {
+    //   setOpenReply(true);
+    // }
+    // setOpenReply(!openReply);
+    setIsOpenReply(_openReply => !_openReply);
+  };
+  const onCreateReplyHandler = e => {
+    setCreateReply(e.target.value);
+  };
+  const onRegReplyHandler = () => {
+    setIsOpenReply(false);
+  };
   return (
     <StCommentContainer>
       <StUserInfo>
         <div className="userProfilecotainer">
-          <img src="https://lh3.googleusercontent.com/3wJ3kGLIiv3hDlhRRkEx1zSqHf5-4VbVTEPfsDHY8EP8n_wa4kPfGjlga4deb08rG14DYauPFuTmvdH434NPueF4XA" />
+          <img alt="profileImage" src={profileImage} />
           <div className="usercontainer">
             <span>{nickname}</span>
             <span>{formatDate(createdAt)}</span>
           </div>
         </div>
-        {comment.nickname === userNickName && (
+        {comment.nickname === nickName && (
           <StButtonWrapper>
             <StButton
               type="button"
               value="수정버튼"
-              name="수정네임"
-              onClick={onEditHandler}
+              onClick={onOpenEditCommentHandler}
             >
               수정
             </StButton>
-            <StButton type="button" onClick={onDeleteHandler}>
+            <StButton type="button" onClick={onDeleteCommentHandler}>
               삭제
             </StButton>
           </StButtonWrapper>
@@ -56,7 +83,10 @@ export function PostComment({ comment }) {
       <StTextFieldWrapper>
         {isEditable ? (
           <>
-            <StContentarea value={commentContent} onChange={onReplyHandler} />
+            <StCommentTextArea
+              value={commentContent}
+              onChange={onEditCommentHandler}
+            />
             <StEditDoneButtonWrapper>
               <StEditDoneButton
                 type="button"
@@ -70,10 +100,21 @@ export function PostComment({ comment }) {
           <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
         )}
       </StTextFieldWrapper>
-      <StReCommentButton type="button" onClick={onReCommentOpenHandler}>
-        답글 달기
+      <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+        {isOpenReply ? '숨기기' : '답글 달기'}
       </StReCommentButton>
-      {replyList && openReComment && (
+      {isOpenReply && (
+        <>
+          <StCommentTextArea
+            value={createReply}
+            onChange={onCreateReplyHandler}
+          />
+          <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+            등록
+          </StRegReplyButton>
+        </>
+      )}
+      {replyList && replyList.length !== 0 && (
         <ReCommentWrapper>
           {/* 재귀를 사용해서 자기자신을 불러옴 */}
           {/* map함수를 사용해서 replyList를 여러개 생성 */}
@@ -85,7 +126,7 @@ export function PostComment({ comment }) {
 }
 
 const StCommentContainer = styled.div`
-  padding-bottom: 24px;
+  margin-bottom: 80px;
 `;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
@@ -115,11 +156,11 @@ const StTextFieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const StContentarea = styled.textarea`
+const StCommentTextArea = styled.textarea`
   border: ${props => props.readOnly && 'none'};
   width: 100%;
   height: 72px;
-  margin-top: 4px;
+  margin-top: 8px;
   padding: 10px;
   box-sizing: border-box;
   outline: none;
@@ -158,7 +199,7 @@ const StEditDoneButton = styled.button`
   margin-top: 8px;
 `;
 const StReCommentButton = styled.button`
-  color: ${palette.main};
+  color: ${palette.mainColor};
   font-size: 0.8rem;
   border: none;
   font-weight: 900;
@@ -166,4 +207,17 @@ const StReCommentButton = styled.button`
 `;
 const ReCommentWrapper = styled.div`
   margin: 24px 0px 24px 24px;
+`;
+
+const StRegReplyButton = styled.button`
+  background-color: ${palette.mainColor};
+  color: ${palette.white};
+  width: 100px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  float: right;
+  margin-top: 8px;
 `;

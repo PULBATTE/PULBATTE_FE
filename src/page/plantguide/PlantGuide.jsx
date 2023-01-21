@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -17,17 +18,22 @@ export default function PlantGuide() {
   const time = format(new Date(), 'yyyy-MM-dd');
   const { beginnerName } = useParams();
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = async () => {
     const { value } = plantValue.current;
-    if (value == '') return;
-    postPlantsInfo(time, Number(value))
+    if (value === '' || value === String) {
+      return alert('키 입력은 숫자만 입력이 가능합니다');
+    }
+    await postPlantsInfo(time, Number(value))
       .then(response => {
         if (response.statusCode == 200) {
           window.location.reload();
         }
+        if (response.statusCode == 400) {
+          alert('키 입력은 하루에 한 번씩 가능합니다!');
+        }
+        onChangeModalHandler();
       })
       .catch(error => console.log(error));
-    onChangeModalHandler();
   };
 
   const closeModal = () => {
@@ -72,19 +78,31 @@ export default function PlantGuide() {
   );
 }
 const StPageWrapper = styled.div`
-  max-width: 900px;
+  max-width: 1100px;
   width: 90%;
-  margin: 0 auto;
+  margin: 7rem auto 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 const StTitle = styled.div`
   text-align: center;
   position: relative;
   h3 {
-    font-size: 2.1rem;
-    font-weight: 800;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     @media (max-width: 768px) {
-      font-size: 1.4rem;
+      font-size: 2rem;
     }
+    @media (max-width: 500px) {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+  }
+  @media (max-width: 500px) {
+    display: flex;
+    justify-content: space-between;
   }
   button {
     float: right;
@@ -99,10 +117,22 @@ const StTitle = styled.div`
     cursor: pointer;
     transform: translateY(-53%);
     color: #fff;
-    font-weight: 600;
     border-radius: 30px;
+    background-color: #47ad8e;
+    width: 135px;
+    height: 45px;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    border-radius: 32px;
+
     @media (max-width: 768px) {
+      padding: 6px 14px;
+      height: 35px;
+      width: 95px;
       font-size: 0.7rem;
+      position: unset;
+      transform: unset;
     }
   }
 `;
@@ -121,7 +151,7 @@ const StContainer = styled.div`
   align-items: center;
   gap: 25px 0;
   h3 {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     margin: 0;
   }
   .modal_comment_container {
@@ -130,6 +160,7 @@ const StContainer = styled.div`
     align-items: center;
     gap: 5px 0;
     span {
+      font-size: 1.2rem;
       color: #a3a3a3;
     }
   }
@@ -138,6 +169,7 @@ const StContainer = styled.div`
     align-items: center;
     gap: 0 5px;
     span {
+      font-size: 1.2rem;
       color: #777777;
     }
     input {
@@ -147,7 +179,7 @@ const StContainer = styled.div`
       border: none;
       border-bottom: 1px solid black;
       outline: none;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: 600;
       text-align: center;
       &::-webkit-inner-spin-button {
@@ -159,7 +191,8 @@ const StContainer = styled.div`
   }
 `;
 const StButton = styled.button`
-  padding: 7px 15px;
+  padding: 9px 15px;
+  font-size: 1rem;
   width: 100px;
   border: none;
   border-radius: 18px;
@@ -176,6 +209,6 @@ const StCloseButton = styled(GrFormClose)`
   position: absolute;
   right: 10px;
   top: 10px;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   cursor: pointer;
 `;

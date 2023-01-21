@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { palette } from '../../styles/palette';
 import { plantsFilter } from '../../apis/plantsFilter';
 
 export default function CustomLabel(props) {
@@ -50,7 +51,7 @@ const StCustomLabel = styled.label`
     height: 100%;
   }
   input.clicked:checked + button {
-    color: red;
-    border: 1px solid red;
+    color: ${palette.mainColor};
+    border: 1px solid ${palette.mainColor};
   }
 `;
