@@ -193,9 +193,12 @@ const StDetailPlantContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px 0;
+  gap: 20px 0;
   width: 80%;
   margin: 0 auto;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 const StHeader = styled.div`
   text-align: center;
@@ -203,7 +206,7 @@ const StHeader = styled.div`
   font-size: 34px;
   h3 {
     font-size: 2.1rem;
-    margin-top: 65px;
+    margin-top: 7rem;
     @media (max-width: 768px) {
       font-size: 1.9rem;
     }
@@ -219,16 +222,23 @@ const StDetailPlantNav = styled.nav`
   align-items: center;
   justify-content: center;
   width: 100%;
+  > div {
+    display: flex;
+    gap: 0 20px;
+  }
 `;
 
 const StNavTab = styled.button`
   background-color: transparent;
-  font-size: 20px;
+  font-size: 22px;
   border: none;
   cursor: pointer;
   font-weight: bold;
   color: ${({ currentTab }) =>
     currentTab ? palette.text.green : palette.text.gray_A3};
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const StTabSection = styled.section`
@@ -241,6 +251,7 @@ const StTabSection = styled.section`
     flex-direction: column;
     width: 100%;
     min-width: 350px;
+    gap: 4rem 0;
   }
   @media (max-width: 500px) {
     gap: 25px 0;
@@ -252,7 +263,7 @@ const StPlantInfoWrap = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px 0;
+  gap: 30px 0;
   @media (max-width: 1120px) {
     padding: 0px;
   }
@@ -279,7 +290,6 @@ const StPlantEnv = styled.div`
   justify-content: center;
   gap: 2vw;
 
-  margin: 24px 0px;
   h3 {
     font-size: 18px;
     text-align: center;
@@ -294,6 +304,8 @@ const StPlantDdayCardWrapper = styled.div`
   display: flex;
   gap: 0 10px;
   justify-content: center;
+  padding: 0 10px;
+  box-sizing: border-box;
 
   @media (min-width: 1120px) {
     width: 100%;
@@ -310,6 +322,7 @@ const StPlantDdayCard = styled.div`
   justify-content: space-between;
   padding: 15px;
   background-color: ${props => props.color};
+  gap: 5px 0;
   align-items: center;
   border-radius: 16px;
   color: ${palette.white};
@@ -324,7 +337,7 @@ const StPlantDdayCard = styled.div`
     box-sizing: border-box;
   }
   h3 {
-    font-size: 16px;
+    font-size: 1.1rem;
     margin: 8px 0px;
   }
 `;
