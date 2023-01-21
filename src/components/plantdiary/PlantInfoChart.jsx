@@ -125,7 +125,11 @@ export default function PlantInfoChart({ chartData }) {
 const StChartContainer = styled.section`
   background-color: ${palette.pageBackgroundGray};
   padding: 20px;
+  box-sizing: border-box;
   width: 430px;
   border-radius: 20px;
-  height: 35vh;
+  height: 100%;
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
