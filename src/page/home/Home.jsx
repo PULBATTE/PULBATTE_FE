@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
-import { guidePath, searchPath, boardPath } from '../../apis/path';
+import { searchPath, boardPath, testPath, diaryPath } from '../../apis/path';
 import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
 import MainImage3 from '../../assets/image/main_03.png';
@@ -70,9 +70,9 @@ export default function Home() {
       </StBannerList>
       <StBannerList>
         <StBannerInner>
-          <StBannerContainer className="order-02">
+          <StBannerContainer>
             <StTitle>
-              <span>질언제 줬더라?</span>
+              <span>언제 줬더라?</span>
               <span>물주기, 분갈이를</span>
               <span>알림으로</span>
             </StTitle>
@@ -80,12 +80,31 @@ export default function Home() {
               <span>궁금한 점을 물어보거나 내가 키운 식물을 자랑해보세요.</span>
               <span>식집사 이웃들과 다양한 정보를 공유할 수 있습니다.</span>
             </div>
-            <button type="button" onClick={() => PrivateRoute(guidePath)}>
-              테스트 하러가기
+            <button type="button" onClick={() => PrivateRoute(diaryPath)}>
+              식물 등록하고 알림 받기
               <StArrowRight />
             </button>
           </StBannerContainer>
           <StMainImage src={MainImage5} alt="" />
+        </StBannerInner>
+      </StBannerList>
+      <StBannerList>
+        <StBannerInner>
+          <StBannerContainer>
+            <StTitle>
+              <span>내 성향에 맞는 식물</span>
+              <span>키우기 도전!</span>
+            </StTitle>
+            <div className="subtitle">
+              <span>테스트로 내 성향에 맞는 식물을 알아보고,</span>
+              <span>성장 그래프를 따라 초보자용 식물을 키워보세요.</span>
+            </div>
+            <button type="button" onClick={() => PrivateRoute(testPath)}>
+              식집사 테스트 해보기
+              <StArrowRight />
+            </button>
+          </StBannerContainer>
+          <StMainImage src={MainImage4} alt="" />
         </StBannerInner>
       </StBannerList>
     </StWrapper>
@@ -176,6 +195,7 @@ const StBannerContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 5px 0;
+    font-size: 1.3rem;
   }
   button {
     display: flex;
@@ -252,6 +272,7 @@ const StBannerList = styled.div`
   }
   .order-02 {
     order: 2;
+    margin-right: 4rem;
   }
   @media (max-width: 1280px) {
     height: calc(10vh + 50vw);
