@@ -26,7 +26,7 @@ export default function PlantInfo() {
   return (
     <StContent>
       <div className="comment_message">
-        식물을 직접 키우며 성장을 입력하고 성장그래프 가이드와 비교해보세요
+        식물을 직접 키우며 성장을 입력하고 성장그래프를 만들어 보세요
       </div>
       <div>
         <StGrid>
@@ -90,16 +90,16 @@ const StContent = styled.div`
   margin-top: 45px;
   display: flex;
   flex-direction: column;
-  gap: 40px 0;
+  gap: 5rem 0;
   @media (max-width: 768px) {
-    margin: 30px 0;
+    margin: 3rem 0;
   }
   .comment_message {
     text-align: center;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: ${palette.textColor1};
     @media (max-width: 768px) {
-      font-size: 0.9rem;
+      display: none;
     }
   }
 `;
@@ -107,7 +107,7 @@ const StContent = styled.div`
 const StGrid = styled.div`
   display: grid;
   grid-template-columns: calc(100px + 20vw) 1.5fr;
-  gap: 15px;
+  gap: 1rem;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 3rem 0;
@@ -125,7 +125,7 @@ const StGrid = styled.div`
     img {
       width: 100%;
       border-radius: 20px;
-      max-width: 300px;
+      max-width: 390px;
       aspect-ratio: 1/1;
       @media (max-width: 768px) {
         max-width: 300px;
@@ -177,6 +177,7 @@ const StTipContainer = styled.div`
   background: #ebf1ec;
   border-radius: 24px;
   gap: 5px 0;
+
   @media (max-width: 768px) {
     order: 4;
   }
@@ -197,6 +198,7 @@ const StTipContainer = styled.div`
       display: flex;
     }
     span {
+      font-size: 1.1rem;
       font-weight: 500;
     }
   }

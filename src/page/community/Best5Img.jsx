@@ -1,10 +1,14 @@
 import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 
 export default function Best5Img({ bestPostList }) {
-  const { title, image } = bestPostList;
+  const { title, image, id } = bestPostList;
+  const navigate = useNavigate();
+  console.log(id);
+  /*  const { postId } = useParams(); */
   return (
-    <StBestContainer>
+    <StBestContainer onClick={() => navigate(`/donepost/${id}`)}>
       <StBest5ImgWrapper>
         <StBest5Img alt="plantImg" src={image} />
       </StBest5ImgWrapper>
@@ -18,6 +22,7 @@ const StBestContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 24px;
+  cursor: pointer;
   p {
     margin: 0;
     margin-top: 8px;

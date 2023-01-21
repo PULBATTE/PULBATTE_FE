@@ -84,20 +84,22 @@ const StPlantListInfo = styled.div`
   }
   p {
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
-    font-weight: 700;
+
     color: ${palette.white};
   }
 `;
 const StInfoTitle = styled.p`
   margin: 0;
-  font-size: 18px;
+  font-size: 1.5rem;
+  font-weight: 700;
   @media (max-width: 500px) {
     font-size: 15px;
   }
 `;
 const StInfoDday = styled.p`
   margin: 0;
-  font-size: 20px;
+  font-size: 1.7rem;
+  font-weight: 800;
   @media (max-width: 500px) {
     font-size: 18px;
   }

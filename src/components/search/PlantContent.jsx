@@ -63,7 +63,7 @@ export default function PlantContent({ plantInfo }) {
 const StContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px 0;
+  gap: 3rem 0;
   width: 55%;
   @media (max-width: 1000px) {
     width: 100%;
@@ -71,8 +71,8 @@ const StContentWrapper = styled.div`
     box-sizing: border-box;
   }
   .plant_name {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 2.2rem;
+    font-weight: 800;
     @media (max-width: 500px) {
       font-size: 1.2rem;
       padding: 0;
@@ -84,7 +84,7 @@ const StFilterBtnContainer = styled.div`
   flex-wrap: wrap;
   gap: 0 5px;
   button {
-    font-size: 1rem;
+    font-size: 1.3rem;
     padding: 6px 20px;
     border-radius: 20px;
     border: none;
@@ -95,10 +95,10 @@ const StFilterBtnContainer = styled.div`
 `;
 const StTipContainer = styled.div`
   > span {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     display: block;
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
   }
 `;
 const StTipGrid = styled.div`
@@ -107,14 +107,15 @@ const StTipGrid = styled.div`
   border-top: 1px solid ${palette.borderColor1};
   border-bottom: 1px solid ${palette.borderColor1};
   svg {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     margin-bottom: 10px;
   }
   .category_type {
+    font-size: 1.3rem;
     font-weight: 700;
   }
   .category_text {
-    font-size: 0.9rem;
+    font-size: 1.2rem;
   }
   > div {
     padding: 15px;
@@ -137,7 +138,7 @@ const StContentTitle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px 0;
-  padding-bottom: 25px;
+  padding-bottom: 2.5rem;
   padding-top: 10px;
   border-bottom: 1px solid ${palette.borderColor1};
   @media (max-width: 1024px) {
@@ -150,8 +151,8 @@ const StContentTitle = styled.div`
 `;
 const StExplanation = styled.div`
   span {
-    font-size: 1.1rem;
-    line-height: 25px;
+    font-size: 1.3rem;
+    line-height: 2rem;
     @media (max-width: 500px) {
       font-size: 1rem;
       line-height: 20px;

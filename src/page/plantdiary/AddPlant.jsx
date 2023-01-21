@@ -81,116 +81,130 @@ export default function AddPlant() {
         <h3>식물 추가하기</h3>
       </StHeader>
       <StPlantProfile>
-        <h3>식물이름</h3>
-        <StPlantNameInput
-          onChange={onChangePlantName}
-          placeholder="식물 이름을 입력해 주세요"
-        />
-        <h3>식물 사진</h3>
-        <label htmlFor="image">
-          <StImageWrapper>
-            <input
-              hidden
-              id="image"
-              ref={imgInputRef}
-              type="file"
-              onChange={onUploadImgHandler}
-            />
-            {imgSrc.preview && (
-              <StPrevImg
-                className="profile_image"
-                src={imgSrc.preview}
-                name="uploadImg"
-                alt="uploadImg"
+        <div>
+          <h3>식물이름</h3>
+          <StPlantNameInput
+            onChange={onChangePlantName}
+            placeholder="식물 이름을 입력해 주세요"
+          />
+        </div>
+        <div>
+          <h3>식물 사진</h3>
+          <label htmlFor="image">
+            <StImageWrapper>
+              <input
+                hidden
+                id="image"
+                ref={imgInputRef}
+                type="file"
+                onChange={onUploadImgHandler}
               />
-            )}
-          </StImageWrapper>
-        </label>
+              {imgSrc.preview && (
+                <StPrevImg
+                  className="profile_image"
+                  src={imgSrc.preview}
+                  name="uploadImg"
+                  alt="uploadImg"
+                />
+              )}
+            </StImageWrapper>
+          </label>
+        </div>
+        <StGridContainer>
+          <StGridWrapper>
+            <StGridHeader>
+              <h3 className="grid_header">식물환경</h3>
+            </StGridHeader>
+            <StPlantEnv>
+              <PlantEnv
+                title="물 주는 양"
+                name="water"
+                isDisabled={false}
+                src={waterIcon}
+                checkPoint={plantWaterData}
+                handler={setPlantWaterData}
+                gap="24px"
+                appendText="분무"
+                afterText="흠뻑"
+              />
+              <PlantEnv
+                title="일조량"
+                name="sunny"
+                isDisabled={false}
+                src={shineIcon}
+                checkPoint={plantShineData}
+                handler={setPlantShineData}
+                gap="24px"
+                appendText="그늘"
+                afterText="양지"
+              />
+              <PlantEnv
+                title="통풍"
+                name="air"
+                isDisabled={false}
+                src={airIcon}
+                checkPoint={plantWindeData}
+                handler={setPlantWindData}
+                gap="24px"
+                appendText="적게"
+                afterText="많이"
+              />
+            </StPlantEnv>
+          </StGridWrapper>
+          <StGridWrapper>
+            <StGridHeader>
+              <h3>식물알림</h3>
+              <p>주기를 입력하면 일정알림을 받을 수 있어요</p>
+            </StGridHeader>
+            <StPlantInfo>
+              <StFlexInfoSelectWrapper>
+                <PlantInfoSelect
+                  className="plant_alarm"
+                  title="물 주기"
+                  icon={waterIcon}
+                  optionNum={30}
+                  optionString="일"
+                  onChange={onWaterHandler}
+                />
+                <PlantInfoSelect
+                  title="분갈이"
+                  icon={repottingIcon}
+                  optionNum={12}
+                  optionString="개월"
+                  onChange={onRepottingHandler}
+                />
+                <PlantInfoSelect
+                  title="영양제"
+                  icon={nutritionIcon}
+                  optionNum={12}
+                  optionString="개월"
+                  onChange={onNutritionHandler}
+                />
+              </StFlexInfoSelectWrapper>
+            </StPlantInfo>
+          </StGridWrapper>
+        </StGridContainer>
       </StPlantProfile>
-      <StGridContainer>
-        <StGridWrapper>
-          <StGridHeader>
-            <h3 className="grid_header">식물환경</h3>
-          </StGridHeader>
-          <StPlantEnv>
-            <PlantEnv
-              title="물 주는 양"
-              name="water"
-              isDisabled={false}
-              src={waterIcon}
-              checkPoint={plantWaterData}
-              handler={setPlantWaterData}
-              gap="24px"
-              appendText="분무"
-              afterText="흠뻑"
-            />
-            <PlantEnv
-              title="일조량"
-              name="sunny"
-              isDisabled={false}
-              src={shineIcon}
-              checkPoint={plantShineData}
-              handler={setPlantShineData}
-              gap="24px"
-              appendText="그늘"
-              afterText="양지"
-            />
-            <PlantEnv
-              title="통풍"
-              name="air"
-              isDisabled={false}
-              src={airIcon}
-              checkPoint={plantWindeData}
-              handler={setPlantWindData}
-              gap="24px"
-              appendText="적게"
-              afterText="많이"
-            />
-          </StPlantEnv>
-        </StGridWrapper>
-        <StGridWrapper>
-          <StGridHeader>
-            <h3>식물알림</h3>
-            <p>주기를 입력하면 일정알림을 받을 수 있어요</p>
-          </StGridHeader>
-          <StPlantInfo>
-            <StFlexInfoSelectWrapper>
-              <PlantInfoSelect
-                title="물 주기"
-                icon={waterIcon}
-                optionNum={30}
-                optionString="일"
-                onChange={onWaterHandler}
-              />
-              <PlantInfoSelect
-                title="분갈이"
-                icon={repottingIcon}
-                optionNum={12}
-                optionString="개월"
-                onChange={onRepottingHandler}
-              />
-              <PlantInfoSelect
-                title="영양제"
-                icon={nutritionIcon}
-                optionNum={12}
-                optionString="개월"
-                onChange={onNutritionHandler}
-              />
-            </StFlexInfoSelectWrapper>
-          </StPlantInfo>
-        </StGridWrapper>
-      </StGridContainer>
+
       <StAddPlantButton onClick={onAddPlantHandler}>저장</StAddPlantButton>
     </StAddPlantContainer>
   );
 }
 
 const StAddPlantContainer = styled.div`
-  width: 768px;
-  margin: 0 auto;
+  width: 80%;
+  margin: 7rem auto 3rem;
+  max-width: 900px;
   @media (max-width: 1280px) {
     box-sizing: border-box;
-    width: 100%;
+  }
+  @media (max-width: 768px) {
+    margin-top: 0;
+    width: 90%;
+  }
+  input {
+    outline: none;
+    text-indent: 10px;
   }
 `;
 const StHeader = styled.div`
@@ -198,23 +212,57 @@ const StHeader = styled.div`
   text-align: center;
   width: 100%;
   font-size: 34px;
+  h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.8rem;
+      margin-top: 45px;
+    }
+  }
 `;
 const StPlantProfile = styled.div`
   width: 100%;
-  font-size: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px 0;
+
+  h3 {
+    font-size: 1.6rem;
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
+    }
+  }
+  input {
+    font-size: 1.4rem;
+    &::placeholder {
+      font-size: 1.4rem;
+    }
+  }
 `;
 const StPlantNameInput = styled.input`
-  width: 768px;
-  height: 32px;
+  width: 100%;
+  height: 40px;
   font-size: 20px;
   border: none;
   border-bottom: 2px solid ${palette.borderColor1};
+  &::placeholder {
+    font-size: 1.3rem;
+  }
 `;
 const StImageWrapper = styled.div`
-  margin: 0 auto;
-  width: 500px;
+  margin: 25px auto;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
   aspect-ratio: 16 / 9;
-  border: 2px dashed ${palette.borderColor1};
+  border: 5px dashed ${palette.borderColor1};
   border-radius: 16px;
   background-color: ${palette.pageBackgroundGray};
   overflow: hidden;
@@ -232,8 +280,20 @@ const StGridContainer = styled.div`
   }
 `;
 const StGridWrapper = styled.div`
-  width: 384px;
-
+  width: 100%;
+  &:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 40px 0;
+    @media (max-width: 768px) {
+      gap: 20px 0;
+    }
+  }
+  &:last-child {
+    > div {
+      margin-bottom: 20px;
+    }
+  }
   @media (max-width: 1280px) {
     box-sizing: border-box;
     width: 100%;
@@ -241,11 +301,14 @@ const StGridWrapper = styled.div`
 `;
 const StGridHeader = styled.div`
   .grid_header {
-    font-size: 20px;
+    font-size: 1.6rem;
     color: ${palette.text.black_e1};
+    @media (max-width: 768px) {
+      font-size: 1.3rem;
+    }
   }
   p {
-    font-size: 14px;
+    font-size: 1rem;
     color: ${palette.textGray7};
   }
 `;
@@ -260,9 +323,12 @@ const StPlantInfo = styled.div`
 const StPlantEnv = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 62px;
   width: 100%;
-
+  @media (max-width: 768px) {
+    gap: 45px 0;
+  }
   h3 {
     font-size: 18px;
     text-align: center;
@@ -272,11 +338,23 @@ const StFlexInfoSelectWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 55px;
+  @media (max-width: 768px) {
+    gap: 25px;
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 0 15px;
+    }
+  }
+  .plant_alarm {
+    margin-top: 20px;
+  }
 `;
 const StAddPlantButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
   font-size: 22px;
+
   width: 212px;
   height: 56px;
   border: none;

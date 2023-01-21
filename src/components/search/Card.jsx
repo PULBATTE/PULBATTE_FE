@@ -23,6 +23,7 @@ const StCardWrapper = styled.div`
     width: 100%;
   }
   span {
+    font-size: 1.2rem;
     font-weight: 600;
     @media (max-width: 500px) {
       font-size: 0.8rem;

@@ -84,6 +84,7 @@ export default function PlantChoice() {
               slidesOffsetBefore={0}
               slidesOffsetAfter={0}
               spaceBetween={40}
+              slidesPerView={4}
               initialSlide={1}
               navigation
               pagination={{
@@ -122,6 +123,13 @@ export default function PlantChoice() {
                   slidesOffsetBefore: 0,
                   slidesOffsetAfter: 0,
                   slidesPerView: 3,
+                  spaceBetween: 50,
+                  centeredSlides: false,
+                },
+                1650: {
+                  slidesOffsetBefore: 0,
+                  slidesOffsetAfter: 0,
+                  slidesPerView: 4,
                   spaceBetween: 50,
                   centeredSlides: false,
                 },
@@ -180,7 +188,6 @@ export default function PlantChoice() {
 }
 
 const StWrapper = styled.div`
-  max-width: 1370px;
   display: flex;
   flex-direction: column;
   gap: 25px 0;

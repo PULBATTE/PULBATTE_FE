@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, useCallback } from 'react';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 import { LeftArrow, RightArrow } from '../../components/community/Arrow';
 import Button from '../../components/common/Button';
@@ -15,7 +16,7 @@ export default function PostList() {
   const [tagPostList, setTagPostList] = useState([]);
   const [tag, setTag] = useState('질문과 답변');
   console.log({ bestPostList });
-
+  const navigate = useNavigate();
   const getBestPostListApi = useCallback(async () => {
     const data = await getBestPost();
     setBestPostList(data.data);
@@ -53,22 +54,16 @@ export default function PostList() {
         <StHorizontalPaddingLayout>
           <Best5ImgHeader>
             <h3>인기 게시물 Top5</h3>
-            <Button
-              width="124px"
-              size="md"
-              type="button"
-              background={palette.mainColor}
-              color={palette.white}
-            >
+            <button type="button" onClick={() => navigate('/createpost')}>
               글 작성하기
-            </Button>
+            </button>
           </Best5ImgHeader>
         </StHorizontalPaddingLayout>
         <Best5ImgWrapper>
           <ScrollMenuStInjection>
             <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
               {bestPostList.map(v => (
-                <Best5Img key={v.id} bestPostList={v} />
+                <Best5Img key={v.id} bestPostList={v} id={v.id} />
               ))}
             </ScrollMenu>
           </ScrollMenuStInjection>
@@ -108,11 +103,22 @@ const StHorizontalPaddingLayout = styled.div`
 `;
 const StPostListContainer = styled.div`
   margin: 0 auto;
-  margin-top: 84px;
-  margin-bottom: 84px;
-  width: 1280px;
+  max-width: 1280px;
+  width: 80%;
+  margin: 7rem auto 3rem;
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.8rem;
+      margin-top: 45px;
+    }
+  }
   @media (max-width: 1280px) {
-    width: 100%;
     padding: 0px;
   }
   @media (max-width: 768px) {
@@ -127,8 +133,8 @@ const StTagWrapper = styled.div`
   gap: 8px;
   flex-flow: wrap;
   padding: 20px 0px;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-top: 1px solid ${palette.borderColor2};
+  border-bottom: 1px solid ${palette.borderColor};
 `;
 const StFilterdWrapper = styled.div``;
 const Best5ImgHeader = styled.div`
@@ -138,6 +144,17 @@ const Best5ImgHeader = styled.div`
   h3 {
     font-size: 32px;
     height: 100%;
+  }
+  button {
+    min-width: 125px;
+    padding: 13px 35px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    background: #47ad8e;
+    border-radius: 12px;
+    background: ${palette.mainColor};
+    border: none;
+    color: ${palette.white};
   }
 `;
 const Best5ImgWrapper = styled.div`
@@ -156,7 +173,7 @@ const ScrollMenuStInjection = styled.div`
 
   .react-horizontal-scrolling-menu--scroll-container {
     @media (min-width: 1280px) {
-      justify-content: center;
+      justify-content: flex-start;
     }
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */

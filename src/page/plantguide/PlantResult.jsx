@@ -5,7 +5,7 @@ import testImg from '../../assets/image/testResult_01.png';
 import { getTestInfo } from '../../apis/plantGuide';
 import { palette } from '../../styles/palette';
 import Button from '../../components/common/Button';
-import { testPath, choicePath } from '../../apis/path';
+import { testPath, guidePath } from '../../apis/path';
 
 export default function PlantResult() {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export default function PlantResult() {
             <StButton
               type="button"
               size="md"
-              onClick={() => navigate(choicePath)}
+              onClick={() => navigate(guidePath)}
             >
               식집사 가이드 식물 구경하기
             </StButton>
@@ -70,15 +70,19 @@ export default function PlantResult() {
   );
 }
 const StWrapper = styled.div`
+  margin: 7rem 0 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
   h3 {
     text-align: center;
-    font-size: 2.1rem;
-    margin-top: 65px;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
     @media (max-width: 768px) {
-      font-size: 1.9rem;
+      font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       margin-top: 45px;
     }
   }
@@ -95,7 +99,7 @@ const StContent = styled.div`
   max-width: 1372px;
   width: 80%;
   margin-top: 50px;
-  @media (max-width: 1000px) {
+  @media (max-width: 1280px) {
     flex-direction: column;
     align-items: center;
     gap: 5rem 0;
@@ -113,7 +117,7 @@ const StTypeCard = styled.div`
   padding: 4vw;
   box-sizing: border-box;
   max-width: 400px;
-  height: 65vh;
+  height: fit-content;
   justify-content: space-between;
   box-shadow: 0 0 7px 2px rgb(0 0 0 / 20%);
   border-radius: 16px;
@@ -125,7 +129,7 @@ const StTypeCard = styled.div`
     height: 70vh;
   }
   .title_type {
-    font-size: 1.4rem;
+    font-size: 1.9rem;
     font-weight: 800;
     color: ${palette.mainColor};
     @media (max-width: 500px) {
@@ -133,30 +137,31 @@ const StTypeCard = styled.div`
     }
   }
   span {
-    line-height: 25px;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
   }
   img {
-    max-width: 240px;
+    max-width: 22rem;
     @media (max-width: 500px) {
       max-width: 200px;
     }
   }
 `;
 const StPlantCard = styled.div`
-  max-width: 500px;
+  max-width: 640px;
   display: flex;
   flex-direction: column;
   gap: 45px 0;
   .title_recommend {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     font-weight: 800;
     color: ${palette.mainColor};
   }
   .plant_image_container {
     display: flex;
     flex-direction: column;
-    gap: 25px 0;
-    padding: 30px 2vw;
+    gap: 35px 0;
+    padding: 40px 2vw;
     border-top: 1px solid ${palette.borderColor1};
     border-bottom: 1px solid ${palette.borderColor1};
   }
@@ -168,10 +173,11 @@ const StPlantCard = styled.div`
       flex-direction: column;
     }
     .recommend_plants_name {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 800;
     }
     .recommend_plants_described {
+      font-size: 1.2rem;
       line-height: 25px;
     }
     .recommended_plants_comment {
@@ -191,6 +197,7 @@ const StPlantCard = styled.div`
     flex-direction: column;
     align-items: center;
     button {
+      font-size: 1rem;
       border-radius: 30px;
     }
   }

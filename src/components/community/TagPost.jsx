@@ -1,10 +1,21 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { palette } from '../../styles/palette';
 
 export default function Tagpost({ postData }) {
-  const { title, content, profileImage, image, likeCnt, commentCnt, nickname } =
-    postData;
+  const navigate = useNavigate();
+  const {
+    id,
+    title,
+    content,
+    profileImage,
+    image,
+    likeCnt,
+    commentCnt,
+    nickname,
+  } = postData;
   return (
-    <StPost>
+    <StPost onClick={() => navigate(`/donepost/${id}`)}>
       <StPostContentWrapper>
         <StPostContent>
           <h3>{title}</h3>
@@ -13,27 +24,37 @@ export default function Tagpost({ postData }) {
         <StPostImg src={image} />
       </StPostContentWrapper>
       <StPostFooter>
-        <img alt="profileImage" src={profileImage} />
-        <p className="nickName">{nickname}</p>
-        <p>
-          좋아요 <span>{likeCnt}</span>
-        </p>
-        <p>
-          댓글<span>{commentCnt}</span>
-        </p>
+        <div>
+          <img alt="profileImage" src={profileImage} />
+          <p className="nickName">{nickname}</p>
+        </div>
+        <div>
+          <p>
+            좋아요 <span>{likeCnt}</span>
+          </p>
+          <p>
+            댓글<span>{commentCnt}</span>
+          </p>
+        </div>
       </StPostFooter>
     </StPost>
   );
 }
 
 const StPost = styled.div`
-  padding: 20px 0;
-  border-bottom: 1px solid black;
+  padding: 36px 0;
+  border-bottom: 1px solid ${palette.borderColor2};
+  cursor: pointer;
 `;
 const StPostFooter = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0px 50px;
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 0 5px;
+  }
   p {
     font-size: 13px;
   }
