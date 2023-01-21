@@ -100,9 +100,10 @@ const StChartContainer = styled.div`
   background-color: ${palette.pageBackgroundGray};
   padding: 20px;
   box-sizing: border-box;
-  width: 430px;
+  width: 100%;
   border-radius: 20px;
   height: 100%;
+  max-height: 380px;
   @media (max-width: 500px) {
     width: 100%;
   }
