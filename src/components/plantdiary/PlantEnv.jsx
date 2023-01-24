@@ -1,38 +1,43 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
+import CircleRating from './CircleRating';
 
-/**
- *
- * @param {number} rating
- * @param {number}
- * @returns {number[]}
- */
-function makeRatingArr(rating, maxRating = 5) {
-  const arr = [];
-  for (let i = 0; i < maxRating; i += 1) {
-    if (i < rating) {
-      arr.push(1);
-    } else {
-      arr.push(0);
-    }
-  }
-  return arr;
-}
+import waterIcon from '../../assets/image/water_drop.png';
+import shineIcon from '../../assets/image/wb_sunny.png';
+import airIcon from '../../assets/image/air.png';
 
+// ex
+// ratingType['water'].title = '물 주는 양';
+// ratingType.water.title = '물 주는 양';
+const ratingType = {
+  water: {
+    title: '물 주는 양',
+    color: palette.env.water_blue,
+    src: waterIcon,
+  },
+  sunny: {
+    title: '일조량',
+    color: palette.env.sunshine_yellow,
+    src: shineIcon,
+  },
+  air: {
+    title: '통풍',
+    color: palette.env.wind_skyblue,
+    src: airIcon,
+  },
+};
+
+// type = water | sunny | air
 export default function PlantEnv({
-  title,
-  src,
-  checkPoint,
-  name,
-  isDisabled = true,
-  handler,
+  type,
+  rating,
   gap,
-  appendText,
-  afterText,
+  editable = false,
+  handler, // optional
+  appendText, // optional
+  afterText, // optional
 }) {
-  const ratingArr = makeRatingArr(checkPoint);
-
   const onChangeRating = e => {
     const { value } = e.target;
     handler(value);
@@ -41,30 +46,18 @@ export default function PlantEnv({
   return (
     <StGridList>
       <StTitleWrapper>
-        <img src={src} alt="식물환경 아이콘" />
-        <p>{title}</p>
+        <img src={ratingType[type].src} alt="식물환경 아이콘" />
+        <p>{ratingType[type].title}</p>
       </StTitleWrapper>
-      <StCircleContainer gap={gap}>
-        <span>{appendText}</span>
-        {ratingArr.map((v, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={`rating_${i}`}>
-            <label htmlFor={i}>
-              <input
-                id={i}
-                type="checkbox"
-                disabled={isDisabled}
-                value={i + 1}
-                checked={v}
-                readOnly
-                onChange={onChangeRating}
-              />
-              <StSpan className={`circle circle_${name}`} id={`${i}`} />
-            </label>
-          </div>
-        ))}
-        <span>{afterText}</span>
-      </StCircleContainer>
+      <CircleRating
+        color={ratingType[type].color}
+        rating={rating}
+        gap={gap}
+        appendText={appendText}
+        afterText={afterText}
+        editable={editable}
+        onChangeRating={onChangeRating}
+      />
     </StGridList>
   );
 }
@@ -72,48 +65,11 @@ const StGridList = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-
-  gap: 1rem 0;
-  @media (max-width: 768px) {
-    gap: 0.5rem 0;
-    align-items: center;
-  }
-  span {
-    font-size: 1.1rem;
-  }
-  label {
-    position: relative;
-  }
-
-  input {
-    cursor: pointer;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-  }
-  .circle {
-    width: 13px;
-    height: 13px;
-    display: block;
-    background: ${palette.borderColor1};
-    border-radius: 50%;
-    border: none;
-  }
-  input:checked + .circle_sunny {
-    background: #f5bd67;
-  }
-  input:checked + .circle_water {
-    background: #8fd2f8;
-  }
-  input:checked + .circle_air {
-    background: #9db5da;
+  gap: 28px;
+  @media (max-width: 1280px) {
+    margin: 0 auto;
   }
 `;
-
 const StTitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -126,23 +82,4 @@ const StTitleWrapper = styled.div`
       font-size: 1rem;
     }
   }
-`;
-const StCircleContainer = styled.div`
-  display: flex;
-
-  align-items: center;
-  gap: ${props => (props.gap ? props.gap : '10px')};
-`;
-const StSpan = styled.span`
-  background: ${props => props.background};
-  position: relative;
-  &.circle {
-    width: 17px;
-    height: 17px;
-    @media (max-width: 768px) {
-      width: 14px;
-      height: 14px;
-    }
-  }
-  pointer-events: none;
 `;

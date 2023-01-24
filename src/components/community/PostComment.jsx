@@ -35,9 +35,9 @@ export function PostComment({ comment, getPost, nickName }) {
     setCommentContent(e.target.value);
   };
   const onEditCommentDoneHandler = async () => {
-    await editComment(postId, commentId, commentContent);
-    await getPost();
-    setIsEditable(false);
+    const res = await editComment(commentId, commentContent);
+    console.log({ res });
+    const get = await getPost();
   };
   const onOpenReplyHandler = e => {
     // if (openReply === true) {

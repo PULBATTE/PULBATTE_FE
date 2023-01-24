@@ -33,6 +33,7 @@ export default function AddPlant() {
   };
 
   const onUploadImgHandler = () => {
+    console.log('upload');
     setImgSrc({
       upload: imgInputRef.current.files[0],
       preview: URL.createObjectURL(imgInputRef.current.files[0]),
@@ -62,19 +63,17 @@ export default function AddPlant() {
       selectSunshine: Number(plantShineData),
       selectWind: Number(plantWindeData),
     };
-    console.log({ request });
-    console.log(imgSrc.upload);
     const blob = new Blob([JSON.stringify(request)], {
       type: 'application/json',
     });
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
-    console.log(formData);
-    const res = await createPlantJournal(formData);
-    console.log({ res });
+
+    await createPlantJournal(formData);
+
     navigate(`/plantlist`);
   };
-  console.log(plantName);
+
   return (
     <StAddPlantContainer>
       <StHeader>
@@ -117,33 +116,27 @@ export default function AddPlant() {
             </StGridHeader>
             <StPlantEnv>
               <PlantEnv
-                title="물 주는 양"
-                name="water"
-                isDisabled={false}
-                src={waterIcon}
-                checkPoint={plantWaterData}
+                type="water"
+                editable
+                rating={plantWaterData}
                 handler={setPlantWaterData}
                 gap="24px"
                 appendText="분무"
                 afterText="흠뻑"
               />
               <PlantEnv
-                title="일조량"
-                name="sunny"
-                isDisabled={false}
-                src={shineIcon}
-                checkPoint={plantShineData}
+                type="sunny"
+                editable
+                rating={plantShineData}
                 handler={setPlantShineData}
                 gap="24px"
                 appendText="그늘"
                 afterText="양지"
               />
               <PlantEnv
-                title="통풍"
-                name="air"
-                isDisabled={false}
-                src={airIcon}
-                checkPoint={plantWindeData}
+                type="air"
+                editable
+                rating={plantWindeData}
                 handler={setPlantWindData}
                 gap="24px"
                 appendText="적게"
@@ -159,7 +152,6 @@ export default function AddPlant() {
             <StPlantInfo>
               <StFlexInfoSelectWrapper>
                 <PlantInfoSelect
-                  className="plant_alarm"
                   title="물 주기"
                   icon={waterIcon}
                   optionNum={30}

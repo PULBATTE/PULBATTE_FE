@@ -64,7 +64,7 @@ export const deleteComment = async commentId => {
 
 export const editComment = async (commentId, content) => {
   try {
-    console.log(content);
+    console.log({ content });
     const data = await authInstance.put(`/api/posts/comments/${commentId}`, {
       content,
     });

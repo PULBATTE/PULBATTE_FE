@@ -66,13 +66,6 @@ const StPlantListImg = styled.img`
   object-fit: cover;
 `;
 
-const StCardFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
-  align-items: flex-end;
-`;
-
 const StPlantListInfo = styled.div`
   flex-direction: column;
   position: absolute;
