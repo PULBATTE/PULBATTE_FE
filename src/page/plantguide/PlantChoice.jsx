@@ -25,7 +25,7 @@ export default function PlantChoice() {
   // 모달창 > 확인버튼
   const onSubmitHandler = () => {
     postSelectPlant(plantName.current)
-      .then(res => navigate(`/api/beginner/plant/my`))
+      .then(res => navigate(guidePath))
       .catch(error => console.log(error));
   };
   // 식물선택 했을 때
@@ -144,7 +144,7 @@ export default function PlantChoice() {
                     >
                       <div className="plant_img_container">
                         <img className="plant_image" src={data.image} alt="" />
-                        {data.like ? <span>풀밭에 추천</span> : ''}
+                        {data.like && <span>풀밭에 추천</span>}
                       </div>
                       <div className="plant_content_container">
                         <h3>{data.beginnerPlantName}</h3>
