@@ -34,7 +34,6 @@ export default function DonePost() {
     setNickName(data.nickName);
   }, []);
 
-  console.log({ nickName });
   useEffect(() => {
     getPostApi();
     getInfoApi();
@@ -115,7 +114,6 @@ export default function DonePost() {
           {/* PostComment는 컴포넌트로 분리 */}
           {commentList &&
             commentList.map(v => {
-              console.log(v);
               return (
                 <PostComment
                   key={v.commentId}

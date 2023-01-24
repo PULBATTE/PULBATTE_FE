@@ -29,4 +29,9 @@ export const palette = {
     green: '#96CCB9',
     brown: '#DFC990',
   },
+  env: {
+    sunshine_yellow: '#F5BD67',
+    water_blue: '#8FD2F8',
+    wind_skyblue: '#9DB5DA',
+  },
 };

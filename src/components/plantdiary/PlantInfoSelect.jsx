@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import styled from 'styled-components';
 
 const makeOptionArr = optionNum => {
@@ -48,7 +47,7 @@ const StSelectWrapper = styled.div`
   }
   .select_container {
     width: 100%;
-    max-width: 230px;
+    max-width: 280px;
     box-shadow: 0 2px 5px 1px rgb(0 0 0 / 11%);
     border-radius: 16px;
     text-align: center;
@@ -67,6 +66,7 @@ const StHeaderWrapper = styled.div`
   align-items: center;
   p {
     font-size: 1.2rem;
+    margin: 0;
   }
 `;
 const StSelect = styled.select`
