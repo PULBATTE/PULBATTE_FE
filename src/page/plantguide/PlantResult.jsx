@@ -5,7 +5,7 @@ import testImg from '../../assets/image/testResult_01.png';
 import { getTestInfo } from '../../apis/plantGuide';
 import { palette } from '../../styles/palette';
 import Button from '../../components/common/Button';
-import { testPath, guidePath } from '../../apis/path';
+import { testPath, choicePath } from '../../apis/path';
 
 export default function PlantResult() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function PlantResult() {
         <StTypeCard>
           <span className="title_type">{testResult?.resultTitle}</span>
           <img src={testResult?.resultImage} alt="" />
-          <span>{testResult?.resultPlantString}</span>
+          <span>{testResult?.resultString}</span>
           <div />
         </StTypeCard>
         <StPlantCard>
@@ -43,7 +43,7 @@ export default function PlantResult() {
                   {testResult?.beginnerPlantName}
                 </span>
                 <span className="recommend_plants_described">
-                  {testResult?.resultString}
+                  {testResult?.resultPlantString}
                 </span>
               </div>
             </div>
@@ -52,7 +52,7 @@ export default function PlantResult() {
             <StButton
               type="button"
               size="md"
-              onClick={() => navigate(guidePath)}
+              onClick={() => navigate(choicePath)}
             >
               식집사 가이드 식물 구경하기
             </StButton>
