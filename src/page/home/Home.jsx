@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+import axios from 'axios';
 import { searchPath, boardPath, testPath, diaryPath } from '../../apis/path';
 import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
@@ -12,9 +14,56 @@ import MainImage5 from '../../assets/image/main_05.png';
 import PrivateRoute from '../../routes/PrivateRoute';
 import { palette } from '../../styles/palette';
 
+const EventSource = EventSourcePolyfill || NativeEventSource;
 export default function Home() {
+  const [listening, setListening] = useState(false);
+  const [data, setData] = useState([]);
+  const [value, setValue] = useState(null);
+  const [newAlert, setNewAlert] = useState([]);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [unread, setUnread] = useState();
   const navigate = useNavigate();
+  /* useEffect(() => {
+    // 구독하기
+    if (token) {
+      const sse = new EventSource('http://13.209.16.253:8080/subscribe', {
+        headers: {
+          Authorization: token,
+        },
+      });
 
+      sse.addEventListener('message', e => {
+        console.log(e);
+        queryClient.invalidateQueries('alertList');
+      });
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      setNewAlert(allList);
+      setUnread(unreadList);
+
+      queryClient.invalidateQueries('unreadList');
+    }
+  }, [allList, unreadList]);
+
+  const openAlert = () => {
+    setAlertOpen(prev => !prev);
+  };
+
+  const clickOutSide = e => {
+    if (alertOpen && !ref.current.contains(e.target)) {
+      setAlertOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (alertOpen) document.addEventListener('mousedown', clickOutSide);
+    return () => {
+      document.removeEventListener('mousedown', clickOutSide);
+    };
+  }); */
   return (
     <StWrapper>
       <div className="main_banner">
