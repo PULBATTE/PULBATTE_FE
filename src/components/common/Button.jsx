@@ -28,6 +28,7 @@ function Button({
   background,
   children,
   click,
+  submit,
   ...option
 }) {
   const sizeStyle = SIZES[size];
@@ -37,6 +38,7 @@ function Button({
       flex={option.flex}
       color={color}
       width={width}
+      onClick={submit}
       background={background || palette.buttonBackgroundColor}
       border={option.border || 'none'}
     >
