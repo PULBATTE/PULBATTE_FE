@@ -1,18 +1,11 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import PlantEnv from '../../../components/plantdiary/PlantEnv';
-
 import { palette } from '../../../styles/palette';
-
-import waterIcon from '../../../assets/image/water_drop.png';
-import shineIcon from '../../../assets/image/wb_sunny.png';
-import airIcon from '../../../assets/image/air.png';
-
 import repottingImg from '../../../assets/image/Repot_white.png';
 import nutritionImg from '../../../assets/image/Nutrition_white.png';
 import waterImg from '../../../assets/image/waterdrop_white.png';
 import { doneDdayCheck } from '../../../apis/plantDiary';
-
 import PlantInfoChart from '../../../components/plantdiary/PlantInfoChart';
 
 export default function PlantManagement({
@@ -39,9 +32,9 @@ export default function PlantManagement({
         <StPlantEnvWrapper>
           <h3>환경</h3>
           <StPlantEnv>
-            <PlantEnv type="water" checkPoint={selectWater} gap="8px" />
-            <PlantEnv type="sunny" checkPoint={selectSunshine} gap="8px" />
-            <PlantEnv type="air" checkPoint={selectWind} gap="8px" />
+            <PlantEnv type="water" rating={selectWater} gap="8px" />
+            <PlantEnv type="sunny" rating={selectSunshine} gap="8px" />
+            <PlantEnv type="air" rating={selectWind} gap="8px" />
           </StPlantEnv>
         </StPlantEnvWrapper>
       </StPlantInfoWrap>
@@ -142,7 +135,6 @@ const StTabSection = styled.section`
 
 const StPlantInfoWrap = styled.article`
   flex: 1;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,28 +143,23 @@ const StPlantInfoWrap = styled.article`
     padding: 0px;
   }
 `;
-
 const StPlantInfoImg = styled.img`
   width: 100%;
   object-fit: cover;
-  /*  max-height: 330px; */
   aspect-ratio: 1.2/1;
   @media (max-width: 1120px) {
     width: 100%;
   }
 `;
-
 const StPlantEnvWrapper = styled.section`
   display: flex;
   flex-direction: column;
 `;
-
 const StPlantEnv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2vw;
-
   h3 {
     font-size: 18px;
     text-align: center;
@@ -181,7 +168,6 @@ const StPlantEnv = styled.div`
     min-width: 350px;
   }
 `;
-
 const StPlantDdayCardWrapper = styled.div`
   width: 100%;
   display: flex;
