@@ -5,46 +5,82 @@ import { useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
-import { PostComment } from '../../components/community/PostComment';
-import { getPost, postComment } from '../../apis/community';
+import { Comment } from '../../components/community/Comment';
+import {
+  getPostUser,
+  getPostGuest,
+  PostLike,
+  postComment,
+} from '../../apis/community';
 import { getInfo } from '../../apis/auth';
+import { getCookie } from '../../apis/cookie';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
-  const [commentList, setCommentList] = useState();
   const [isClicked, setIsClicked] = useState(false);
   const [nickName, setNickName] = useState('');
+  const [Like, setLike] = useState(false);
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
-  console.log('postData 있음', postData);
-  console.log('commentList 있음', commentList);
-  // donepost 데이터 불러오기 - 새로고침
+
+  const Token = getCookie('Token');
+
   const getPostApi = useCallback(async () => {
     setIsLoading(true);
-    const data = await getPost(postId);
-    setPostData(data.data);
-    setIsLoading(false);
-    console.log('postData 설정함');
-  }, [postId]);
+    if (Token) {
+      console.log('user');
+      const data = await getPostUser(postId);
+      console.log('postApi : ');
+      console.log(data.data);
+
+      const { likeStatus } = data.data;
+      setLike(likeStatus);
+
+      setPostData(data.data);
+      setIsLoading(false);
+    } else {
+      console.log('guest');
+      const data = await getPostGuest(postId);
+      setPostData(data.data);
+      setIsLoading(false);
+    }
+  }, [Token, postId]);
 
   const getInfoApi = useCallback(async () => {
     const data = await getInfo();
-    console.log('nickname', data);
     setNickName(data.nickName);
+    return data;
   }, []);
 
+  const PostLikeApi = useCallback(async () => {
+    const data = await PostLike(postId);
+    console.log({ data });
+    setLike(_postLike => !_postLike);
+    await getPostApi();
+  }, [getPostApi, postId]);
+
   useEffect(() => {
-    getPostApi();
     getInfoApi();
+    getPostApi();
   }, [getInfoApi, getPostApi]);
 
-  useEffect(() => {
-    postData && setCommentList(postData.commentList);
-  }, [postData]);
+  if (isLoading) {
+    return <div> Loading...</div>;
+  }
 
   const onLikeHandler = () => {
-    setIsClicked(_isClicked => !_isClicked);
+    if (Token) {
+      // -postLikeApi 호출
+      PostLikeApi();
+      // -getPostPostLike
+    }
+    if (!Token) {
+      alert('로그인이 필요합니다.');
+    }
+    // Token
+    //   ? setIsClicked(_isClicked => !_isClicked)
+    //   :
   };
 
   const onCommentHandler = e => {
@@ -57,11 +93,10 @@ export default function DonePost() {
     await getPostApi();
     setIsLoading(false);
   };
+  console.log({ postData });
   return (
     <StDonePostContainer>
-      {isLoading ? (
-        <>loading..</>
-      ) : (
+      {postData && (
         <>
           <StNavBar>
             <span>게시글 목록</span>
@@ -85,7 +120,7 @@ export default function DonePost() {
               </Button>
             </StTagWrappeer>
             <StDivider />
-            {postData.likeStatus ? (
+            {Like === true ? (
               <StLikeWrapper>
                 <BsFillHeartFill onClick={onLikeHandler} />
                 <span>{postData.likeCnt}</span>
@@ -112,13 +147,13 @@ export default function DonePost() {
           </StCreateCommentWrapper>
           {/* map함수를 사용해서 PostComment 여러개 생성 */}
           {/* PostComment는 컴포넌트로 분리 */}
-          {commentList &&
-            commentList.map(v => {
+          {postData.commentList &&
+            postData.commentList.map(v => {
               return (
-                <PostComment
+                <Comment
                   key={v.commentId}
                   comment={v}
-                  getPost={getPostApi}
+                  getPostUser={getPostApi}
                   nickName={nickName}
                 />
               );
