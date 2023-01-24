@@ -1,32 +1,21 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styled from 'styled-components';
 import { BsChatFill } from 'react-icons/bs';
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
+import { setCookie } from '../../apis/cookie';
 import { instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 
-const cookies = new Cookies();
-export const setCookie = (name, value, option) => {
-  return cookies.set(name, value, { path: '/' });
-};
-
-export const getCookie = name => {
-  return cookies.get(name);
-};
-
-export const removeCookie = name => {
-  return cookies.remove(name);
-};
-
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
-
+  const [count, setCount] = useState(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const onSigninHandler = result => {
@@ -38,21 +27,21 @@ export default function SignIn() {
         password: result.password,
       })
       .then(response => {
+        console.log(response.headers);
         if (response.data.statusCode == 200) {
-          console.log(console.log(response));
           alert('로그인이 되었습니다.');
 
           setCookie('Token', response.headers.authorization);
-
-          const redirectUrl = searchParams.get('redirectUrl');
+          setCookie('Refresh_Token', response.headers.refresh_token);
+          /*   const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
 
-          if (redirectUrl) {
+           if (redirectUrl) {
             return navigate(redirectUrl);
-          }
-          return navigate('/');
+          } */
+          /*  return navigate('/'); */
         }
-        return alert('아이디나 비밀번호를 다시 확인해주세요.');
+        /*    return alert('아이디나 비밀번호를 다시 확인해주세요.'); */
       })
       .catch(error => console.log(error));
   };
