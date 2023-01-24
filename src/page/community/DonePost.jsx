@@ -9,7 +9,7 @@ import { Comment } from '../../components/community/Comment';
 import {
   getPostUser,
   getPostGuest,
-  PostLike,
+  postLike,
   postComment,
 } from '../../apis/community';
 import { getInfo } from '../../apis/auth';
@@ -54,7 +54,7 @@ export default function DonePost() {
   }, []);
 
   const PostLikeApi = useCallback(async () => {
-    const data = await PostLike(postId);
+    const data = await postLike(postId);
     console.log({ data });
     setLike(_postLike => !_postLike);
     await getPostApi();
