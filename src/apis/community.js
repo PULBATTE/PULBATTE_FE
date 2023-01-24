@@ -22,10 +22,29 @@ export const createPostApi = async formData => {
   }
 };
 
-export const getPost = async postId => {
+export const getPostUser = async postId => {
   try {
     console.log(postId);
     const data = await authInstance.get(`/api/posts/user/${postId}`);
+    return data;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
+export const getPostGuest = async postId => {
+  try {
+    const data = await authInstance.get(`/api/posts/guest/${postId}`);
+    return data;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
+export const postLike = async postId => {
+  console.log({ postId });
+  try {
+    const data = await authInstance.post(`/api/posts/${postId}/postLike`);
     return data;
   } catch (error) {
     throw Error(error);

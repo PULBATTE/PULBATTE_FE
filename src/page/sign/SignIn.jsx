@@ -27,7 +27,7 @@ export default function SignIn() {
         password: result.password,
       })
       .then(response => {
-        console.log(response.headers);
+        console.log(response);
         if (response.data.statusCode == 200) {
           alert('로그인이 되었습니다.');
 
