@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
-import { deleteComment, editComment } from '../../apis/community';
+import { deleteComment, editComment, postComment } from '../../apis/community';
 
-export function PostComment({ comment, getPost, nickName }) {
-  console.log({ comment });
+export function Comment({ comment, getPostUser, nickName }) {
   /* 객체 비구조화 할당 */
   const {
     replyList,
@@ -21,39 +20,31 @@ export function PostComment({ comment, getPost, nickName }) {
   const [isEditable, setIsEditable] = useState(false);
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
-  console.log(replyList);
+
   const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
   const onDeleteCommentHandler = async () => {
-    console.log(commentId);
     await deleteComment(commentId);
-    await getPost();
+    await getPostUser();
   };
   const onEditCommentHandler = e => {
-    console.log(e.target.value);
     setCommentContent(e.target.value);
   };
   const onEditCommentDoneHandler = async () => {
-    const res = await editComment(commentId, commentContent);
-    console.log({ res });
-    const get = await getPost();
+    await editComment(commentId, commentContent);
+
+    await getPostUser();
   };
   const onOpenReplyHandler = e => {
-    // if (openReply === true) {
-    //   setOpenReply(false);
-    // }
-    // if (openReply === false) {
-    //   setOpenReply(true);
-    // }
-    // setOpenReply(!openReply);
     setIsOpenReply(_openReply => !_openReply);
   };
   const onCreateReplyHandler = e => {
     setCreateReply(e.target.value);
   };
-  const onRegReplyHandler = () => {
-    setIsOpenReply(false);
+  const onRegReplyHandler = async () => {
+    await postComment(postId, commentId, createReply);
+    await getPostUser();
   };
   return (
     <StCommentContainer>
@@ -114,13 +105,18 @@ export function PostComment({ comment, getPost, nickName }) {
           </StRegReplyButton>
         </>
       )}
-      {replyList && replyList.length !== 0 && (
-        <ReCommentWrapper>
-          {/* 재귀를 사용해서 자기자신을 불러옴 */}
-          {/* map함수를 사용해서 replyList를 여러개 생성 */}
-          <PostComment comment={replyList} />
-        </ReCommentWrapper>
-      )}
+      {replyList.length !== 0 &&
+        replyList.map(v => (
+          <ReCommentWrapper key={v.commentId}>
+            {/* 재귀를 사용해서 자기자신을 불러옴 */}
+            {/* map함수를 사용해서 replyList를 여러개 생성 */}
+            <Comment
+              comment={v}
+              getPostUser={getPostUser}
+              nickName={nickName}
+            />
+          </ReCommentWrapper>
+        ))}
     </StCommentContainer>
   );
 }
