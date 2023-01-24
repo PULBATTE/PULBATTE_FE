@@ -15,7 +15,6 @@ export const postSignup = async ({ userId, password }) => {
 export const getInfo = async () => {
   try {
     const { data } = await authInstance.get('/api/auth/info');
-    console.log(data);
     return data;
   } catch (error) {
     throw Error(error);
