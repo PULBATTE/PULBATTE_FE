@@ -22,8 +22,8 @@ export const kakaoLogin = code => {
       .post(`/api/user/kakao/callback?code=${code}`)
       .then(response => {
         setCookie('Token', response.headers.authorization);
-
-        window.location.href = '/';
+        console.log(response);
+        // window.location.href = '/';
       })
       .catch(err => {
         console.log('소셜로그인 에러', err);

@@ -116,11 +116,12 @@ const StGridList = styled.div`
 
 const StTitleWrapper = styled.div`
   display: flex;
-
   align-items: center;
+  flex-direction: column;
   gap: 8px;
   p {
     font-size: 1.2rem;
+    margin: 0;
     @media (max-width: 768px) {
       font-size: 1rem;
     }
