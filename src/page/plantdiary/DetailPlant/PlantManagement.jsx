@@ -18,8 +18,11 @@ export default function PlantManagement({
 
   const onCompeteHandler = async clicktag => {
     const data = await doneDdayCheck(plantJournalId, clicktag);
-    if (data.data.statusCode >= 400) {
-      alert(data.data.msg);
+    // 데이터 형식을 변환
+    const dataToJson = JSON.parse(data);
+    // 데이터에서 statusCode에 따른 에러 핸들링
+    if (dataToJson.data.statusCode >= 400) {
+      alert(dataToJson.data.msg);
     }
     getPlantDetailApi();
   };
