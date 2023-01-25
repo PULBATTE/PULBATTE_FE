@@ -177,7 +177,6 @@ export default function AddPlant() {
           </StGridWrapper>
         </StGridContainer>
       </StPlantProfile>
-
       <StAddPlantButton onClick={onAddPlantHandler}>저장</StAddPlantButton>
     </StAddPlantContainer>
   );

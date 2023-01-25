@@ -41,7 +41,7 @@ export const getPostGuest = async postId => {
   }
 };
 
-export const PostLike = async postId => {
+export const postLike = async postId => {
   console.log({ postId });
   try {
     const data = await authInstance.post(`/api/posts/${postId}/postLike`);
