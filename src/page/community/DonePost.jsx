@@ -98,9 +98,6 @@ export default function DonePost() {
     <StDonePostContainer>
       {postData && (
         <>
-          <StNavBar>
-            <span>게시글 목록</span>
-          </StNavBar>
           <StBoardContainer>
             <h3>{postData.title}</h3>
             <StUserInfo>
@@ -169,13 +166,6 @@ const StDonePostContainer = styled.div`
   width: 70%;
   margin: 0 auto;
   margin-top: 50px;
-`;
-const StNavBar = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  span {
-    font-size: 1.1rem;
-  }
 `;
 const StBoardContainer = styled.div`
   border: 1.5px solid #eaeaea;
