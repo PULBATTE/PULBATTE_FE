@@ -45,8 +45,8 @@ export default function PlantGuide() {
     <StPageWrapper>
       <Modal
         modal={modal}
-        width="400px"
-        height="300px"
+        width="500px"
+        height="400px"
         submit={onChangeModalHandler}
       >
         <StContainer>
@@ -68,11 +68,8 @@ export default function PlantGuide() {
       <StPageInner>
         <StTitle>
           <h3>식집사가이드</h3>
-          <button type="button" onClick={() => onChangeModalHandler()}>
-            키 입력하기
-          </button>
         </StTitle>
-        <PlantInfo />
+        <PlantInfo onChangeModalHandler={onChangeModalHandler} />
       </StPageInner>
     </StPageWrapper>
   );
@@ -103,37 +100,6 @@ const StTitle = styled.div`
   @media (max-width: 500px) {
     display: flex;
     justify-content: space-between;
-  }
-  button {
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    padding: 8px 16px;
-    color: #fff;
-    width: fit-content;
-    background: ${palette.mainColor};
-    border: none;
-    cursor: pointer;
-    transform: translateY(-53%);
-    color: #fff;
-    border-radius: 30px;
-    background-color: #47ad8e;
-    width: 135px;
-    height: 45px;
-    font-size: 1.1rem;
-    font-weight: 600;
-
-    border-radius: 32px;
-
-    @media (max-width: 768px) {
-      padding: 6px 14px;
-      height: 35px;
-      width: 95px;
-      font-size: 0.7rem;
-      position: unset;
-      transform: unset;
-    }
   }
 `;
 const StPageInner = styled.div`

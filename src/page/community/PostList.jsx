@@ -106,6 +106,9 @@ const StPostListContainer = styled.div`
   max-width: 1280px;
   width: 80%;
   margin: 7rem auto 3rem;
+  @media (max-width: 768px) {
+    margin: 4rem auto 3rem;
+  }
   h1 {
     text-align: center;
     font-size: 2.5rem;

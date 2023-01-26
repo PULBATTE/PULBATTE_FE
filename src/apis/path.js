@@ -5,3 +5,4 @@ export const diaryPath = process.env.REACT_APP_DIARY;
 export const testPath = process.env.REACT_APP_TEST_PLANT;
 export const choicePath = process.env.REACT_APP_CHOICE_PLANT;
 export const testResultPath = process.env.REACT_APP_TEST_RESULT;
+export const mypagePath = process.env.REACT_APP_MYPAGE;

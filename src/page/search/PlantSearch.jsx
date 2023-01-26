@@ -96,6 +96,9 @@ const StWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 768px) {
+      margin: 4rem auto 3rem;
+    }
     h3 {
       text-align: center;
       font-size: 2.5rem;
@@ -105,7 +108,7 @@ const StWrapper = styled.div`
       }
       @media (max-width: 500px) {
         font-size: 1.8rem;
-        margin-top: 45px;
+        margin-top: 0;
       }
     }
   }

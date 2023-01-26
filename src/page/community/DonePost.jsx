@@ -111,7 +111,11 @@ export default function DonePost() {
               </div>
             </StUserInfo>
             <StContentWrapper>
-              <img alt="plantImg" src={postData.image} />
+              {postData?.image !== '' ? (
+                <img alt="plantImg" src={postData.image} />
+              ) : (
+                ''
+              )}
               <span>{postData.content}</span>
             </StContentWrapper>
             <StTagWrappeer>

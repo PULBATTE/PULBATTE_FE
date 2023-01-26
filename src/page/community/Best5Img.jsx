@@ -54,7 +54,7 @@ const StBest5ImgWrapper = styled.div`
     width: 62px;
     height: 36px;
     background-color: ${palette.white};
-    z-index: 100;
+    z-index: 2;
     font-size: 16px;
     font-weight: bold;
     color: ${palette.mainColor};

@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { BsBellFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import SlideModal from './SlideModal';
+import alarmBtn from '../../../../assets/image/icon_alarm.png';
 
 export default function Mobileheader({ token, logOutEventHandler }) {
   const [isClicked, setIsClicked] = useState(false);
@@ -26,7 +27,7 @@ export default function Mobileheader({ token, logOutEventHandler }) {
         </Link>
       </div>
       <StUtilMenu>
-        <StAlarm />
+        <StAlarm src={alarmBtn} />
         <div
           className="hamburger"
           onClick={() => {
@@ -99,10 +100,11 @@ const StUtilMenu = styled.div`
     background: #d27676;
   }
 `;
-const StAlarm = styled(BsBellFill)`
-  font-size: 1.7rem;
-  color: rgba(228 206 103);
+const StAlarm = styled.img`
+  width: 25px;
+  aspect-ratio: 1/1.1;
   cursor: pointer;
+  image-rendering: -webkit-optimize-contrast;
 `;
 const StCurtain = styled.div`
   position: fixed;

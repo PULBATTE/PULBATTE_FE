@@ -7,6 +7,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../../../../styles/fonts.css';
 import GlobalNavigationBar from './GlobalNavigationBar';
 import Logo from '../../../../assets/image/logo.png';
+import mypageBtn from '../../../../assets/image/icon_my.png';
+import alarmBtn from '../../../../assets/image/icon_alarm.png';
 import {
   guidePath,
   boardPath,
@@ -14,6 +16,7 @@ import {
   diaryPath,
   testPath,
   choicePath,
+  mypagePath,
 } from '../../../../apis/path';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 
@@ -21,7 +24,10 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
   const [display, setDisplay] = useState([false, false, false, false, false]);
   const [clickBtn, setClickBtn] = useState(false);
   const location = useLocation();
-
+  const onPageMoveHandler = () => {
+    navigate(mypagePath);
+    setClickBtn(false);
+  };
   const outMouseDisplayHandler = index => {
     const newDisplay = [...display];
     newDisplay[index] = false;
@@ -104,12 +110,14 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
 
       {token && token ? (
         <StUtilContainer>
-          <StAlarm />
+          <StAlarm src={alarmBtn} />
           <StMyBtnContainer>
-            <StMyBtn onClick={() => setClickBtn(!clickBtn)} />
+            <StMyBtn src={mypageBtn} onClick={() => setClickBtn(!clickBtn)} />
             <ul className={clickBtn ? 'mypage_modal open' : 'mypage_modal'}>
               <li>
-                <span>마이페이지</span>
+                <span onClick={() => onPageMoveHandler()} aria-hidden="true">
+                  마이페이지
+                </span>
               </li>
               <li>
                 <span
@@ -201,7 +209,7 @@ const StCategory = styled.ul`
       position: relative;
       > li {
         > span {
-          font-size: 1.2rem;
+          font-size: 1rem;
           @media (max-width: 1024px) {
             font-size: 1.1rem;
           }
@@ -230,8 +238,11 @@ const StCategory = styled.ul`
 
 const StUtilContainer = styled.div`
   display: flex;
-  align-items: center;
-  gap: 0 10px;
+  align-items: stretch;
+  gap: 0 25px;
+  img {
+    cursor: pointer;
+  }
   button {
     line-height: 1;
     border: none;
@@ -243,9 +254,10 @@ const StUtilContainer = styled.div`
     cursor: pointer;
   }
 `;
-const StAlarm = styled(BsBellFill)`
-  color: rgba(228 206 103);
-  font-size: 1.7rem;
+const StAlarm = styled.img`
+  width: 25px;
+  aspect-ratio: 1/1.1;
+  image-rendering: -webkit-optimize-contrast;
 `;
 const StMyBtnContainer = styled.div`
   position: relative;
@@ -264,6 +276,7 @@ const StMyBtnContainer = styled.div`
     box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
     transition: all 0.2s ease-in;
     &.open {
+      background-color: #fff;
       opacity: 1;
       pointer-events: fill;
     }
@@ -279,8 +292,11 @@ const StMyBtnContainer = styled.div`
     }
   }
 `;
-const StMyBtn = styled(FaUserCircle)`
-  font-size: 1.7rem;
+const StMyBtn = styled.img`
+  width: 25px;
+  image-rendering: -webkit-optimize-contrast;
+  aspect-ratio: 1/1;
+  margin-top: 2px;
 `;
 const StLink = styled(Link)`
   min-width: fit-content;

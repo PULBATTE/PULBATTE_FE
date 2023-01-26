@@ -19,7 +19,6 @@ const SIZES = {
   `,
 };
 
-// eslint-disable-next-line react/prop-types
 function Button({
   disabled,
   size,
@@ -29,6 +28,7 @@ function Button({
   children,
   click,
   submit,
+  border,
   ...option
 }) {
   const sizeStyle = SIZES[size];
@@ -38,9 +38,9 @@ function Button({
       flex={option.flex}
       color={color}
       width={width}
-      onClick={submit}
-      background={background || palette.buttonBackgroundColor}
-      border={option.border || 'none'}
+      onClick={() => submit()}
+      background={background}
+      border={border}
     >
       {children}
     </StyledButton>
@@ -59,7 +59,7 @@ const StyledButton = styled.button`
   color: ${props => props.color};
   letter-spacing: 0.6px;
   line-height: 1.5;
-  border: ${props => props.border};
+  border: 1px solid ${props => props.border};
   border-radius: var(--button-radius);
 `;
 
