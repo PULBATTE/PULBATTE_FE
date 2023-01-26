@@ -65,7 +65,7 @@ export const options = {
 // percentage = currentDdayClick / totalDdayClick;
 const calculatePercent = (currentDday, totalDday) => {
   // 분모가 0이면 NAN
-  console.log(currentDday, totalDday);
+  // console.log(currentDday, totalDday);
   if (totalDday === 0) return 0;
   const percent = (currentDday / totalDday) * 100;
   return percent;
@@ -78,7 +78,7 @@ export default function PlantInfoChart({ chartData }) {
     const chartDataToPercent = chartData.map(v => {
       return calculatePercent(v.currentDday, v.totalDday);
     });
-    console.log({ chartDataToPercent });
+    // console.log({ chartDataToPercent });
     const data = {
       labels: ['물주기', '분갈이', '영양제'],
       datasets: [

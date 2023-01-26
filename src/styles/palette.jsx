@@ -34,4 +34,7 @@ export const palette = {
     water_blue: '#8FD2F8',
     wind_skyblue: '#9DB5DA',
   },
+  Diary: {
+    green: '#ebf1ec',
+  },
 };

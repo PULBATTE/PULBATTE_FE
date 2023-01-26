@@ -9,7 +9,7 @@ import { Comment } from '../../components/community/Comment';
 import {
   getPostUser,
   getPostGuest,
-  PostLike,
+  postLike,
   postComment,
 } from '../../apis/community';
 import { getInfo } from '../../apis/auth';
@@ -53,8 +53,8 @@ export default function DonePost() {
     return data;
   }, []);
 
-  const PostLikeApi = useCallback(async () => {
-    const data = await PostLike(postId);
+  const postLikeApi = useCallback(async () => {
+    const data = await postLike(postId);
     console.log({ data });
     setLike(_postLike => !_postLike);
     await getPostApi();
@@ -72,8 +72,8 @@ export default function DonePost() {
   const onLikeHandler = () => {
     if (Token) {
       // -postLikeApi 호출
-      PostLikeApi();
-      // -getPostPostLike
+      postLikeApi();
+      // -getPostpostLike
     }
     if (!Token) {
       alert('로그인이 필요합니다.');
@@ -98,9 +98,6 @@ export default function DonePost() {
     <StDonePostContainer>
       {postData && (
         <>
-          <StNavBar>
-            <span>게시글 목록</span>
-          </StNavBar>
           <StBoardContainer>
             <h3>{postData.title}</h3>
             <StUserInfo>
@@ -153,7 +150,7 @@ export default function DonePost() {
                 <Comment
                   key={v.commentId}
                   comment={v}
-                  getPost={getPostApi}
+                  getPostUser={getPostApi}
                   nickName={nickName}
                 />
               );
@@ -169,13 +166,6 @@ const StDonePostContainer = styled.div`
   width: 70%;
   margin: 0 auto;
   margin-top: 50px;
-`;
-const StNavBar = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  span {
-    font-size: 1.1rem;
-  }
 `;
 const StBoardContainer = styled.div`
   border: 1.5px solid #eaeaea;
