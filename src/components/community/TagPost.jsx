@@ -21,7 +21,7 @@ export default function Tagpost({ postData }) {
           <h3>{title}</h3>
           <p>{content}</p>
         </StPostContent>
-        <StPostImg src={image} />
+        {image && <StPostImg src={image} />}
       </StPostContentWrapper>
       <StPostFooter>
         <div>
