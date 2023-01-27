@@ -1,44 +1,50 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import InfiniteLoader from 'react-window-infinite-loader';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery } from 'react-query';
 import { v4 } from 'uuid';
 import { getBoardList } from '../../apis/mypage';
 import MyBoardList from './MyBoardList';
 import { palette } from '../../styles/palette';
 
 export default function MyPostWrapper() {
-  const [boardList, setBoardList] = useState(null);
-  const getBoardListApi = async () => {
-    await getBoardList().then(res => setBoardList(res));
-  };
+  /*  const [boardList, setBoardList] = useState(null); */
+  const { ref, inView } = useInView();
+  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    'posts',
+    ({ pageParam = 0 }) => getBoardList(pageParam),
+    {
+      getNextPageParam: lastPage =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+  );
   useEffect(() => {
-    getBoardListApi(0);
-  }, [useEffect]);
+    if (inView) fetchNextPage();
+  }, [inView]);
 
+  if (status === 'loading') return console.log('loading');
+  if (status === 'error') return console.log('error');
   return (
     <StMyPostWrapper>
       <div className="post_inner">
         {/* 게시글 없을 때 게시글이 없습니다도 적어줘야함 */}
         <span className="section_title">내가 쓴 게시물</span>
-        <div className="boardlist_container">
-          {boardList &&
-            boardList.content.map(data => {
-              return (
-                <StBoardWrapper key={data.id}>
-                  <MyBoardList
-                    title={data.title}
-                    content={data.content}
-                    likeCnt={data.likeCnt}
-                    commentCnt={data.commentCnt}
-                  />
-                </StBoardWrapper>
-              );
-            })}
-        </div>
+
+        {data?.pages.map((page, index) => (
+          <div className="boardlist_container" key={index}>
+            {page.posts.map(post => (
+              <StBoardWrapper key={post.id}>
+                <MyBoardList post={post} />
+              </StBoardWrapper>
+            ))}
+          </div>
+        ))}
+        {isFetchingNextPage ? <div>Loading</div> : <div ref={ref} />}
       </div>
     </StMyPostWrapper>
   );
