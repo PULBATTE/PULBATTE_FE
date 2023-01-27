@@ -53,7 +53,9 @@ export default function DonePost() {
     return data;
   }, []);
 
-  const PostLikeApi = useCallback(async () => {
+
+  const postLikeApi = useCallback(async () => {
+
     const data = await postLike(postId);
     console.log({ data });
     setLike(_postLike => !_postLike);
@@ -72,8 +74,9 @@ export default function DonePost() {
   const onLikeHandler = () => {
     if (Token) {
       // -postLikeApi 호출
-      PostLikeApi();
-      // -getPostPostLike
+
+      postLikeApi();
+
     }
     if (!Token) {
       alert('로그인이 필요합니다.');
@@ -170,13 +173,6 @@ const StDonePostContainer = styled.div`
   width: 70%;
   margin: 0 auto;
   margin-top: 50px;
-`;
-const StNavBar = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  span {
-    font-size: 1.1rem;
-  }
 `;
 const StBoardContainer = styled.div`
   border: 1.5px solid #eaeaea;

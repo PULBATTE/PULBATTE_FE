@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 import CircleRating from './CircleRating';
-
 import waterIcon from '../../assets/image/water_drop.png';
 import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
 
-// ex
-// ratingType['water'].title = '물 주는 양';
-// ratingType.water.title = '물 주는 양';
 const ratingType = {
   water: {
     title: '물 주는 양',
@@ -61,6 +57,7 @@ export default function PlantEnv({
     </StGridList>
   );
 }
+
 const StGridList = styled.div`
   display: flex;
   flex-direction: column;
