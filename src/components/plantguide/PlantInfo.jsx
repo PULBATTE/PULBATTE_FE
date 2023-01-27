@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import PlantGraph from './PlantGraph';
@@ -7,22 +7,23 @@ import { palette } from '../../styles/palette';
 import waterIcon from '../../assets/image/water_drop.png';
 import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
-import { getPlantsInfo } from '../../apis/plantGuide';
+import { getPlantsInfoApi } from '../../apis/plantGuide';
 
 export default function PlantInfo({ onChangeModalHandler }) {
   /*  const { beginnerName } = useParams(); */
   const [plantInfo, setPlantInfo] = useState(null);
   const [graphValue, setGraphValue] = useState([]);
-
+  const text = useRef();
   useEffect(() => {
-    getPlantsInfo()
+    getPlantsInfoApi()
       .then(res => {
         setPlantInfo(res);
         setGraphValue(res.beginnerGraph);
       })
       .catch(error => console.log(error));
   }, []);
-
+  /*  text.current.value('d').innerHTML = <br />; */
+  console.log(text.current?.value);
   return (
     <StContent>
       <div className="comment_message">
@@ -114,7 +115,7 @@ const StContent = styled.div`
 
 const StGrid = styled.div`
   display: grid;
-  grid-template-columns: calc(100px + 20vw) 1.5fr;
+  grid-template-columns: calc(150px + 15vw) 1.5fr;
   gap: 1rem;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -226,6 +227,7 @@ const StGridInner = styled.div`
   @media (max-width: 768px) {
     padding: 40px 0px;
     order: 2;
+    justify-content: space-evenly;
   }
 `;
 
@@ -261,6 +263,9 @@ const StTipContainer = styled.div`
     span {
       font-size: 1.1rem;
       font-weight: 500;
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
 `;
