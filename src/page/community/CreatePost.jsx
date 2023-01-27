@@ -90,25 +90,26 @@ export default function CreatePost() {
             onChange={onChangeContentHandler}
           />
         </div>
-        <label>
-          <StUploadInputPText>+ 사진 업로드</StUploadInputPText>
-          <input
-            hidden
-            ref={imgInputRef}
-            type="file"
-            onChange={onUploadImgHandler}
-          />
-        </label>
-        {imgSrc.preview && (
+        {/* <StUploadInputPText>+ 사진 업로드</StUploadInputPText> */}
+        <label htmlFor="image">
           <StUploadImgWrapper>
-            <StPrevImg
-              className="profile_image"
-              src={imgSrc.preview}
-              name="uploadImg"
-              alt="uploadImg"
+            <input
+              hidden
+              id="image"
+              ref={imgInputRef}
+              type="file"
+              onChange={onUploadImgHandler}
             />
+            {imgSrc.preview && (
+              <StPrevImg
+                className="profile_image"
+                src={imgSrc.preview}
+                name="uploadImg"
+                alt="uploadImg"
+              />
+            )}
           </StUploadImgWrapper>
-        )}
+        </label>
         <StSubmitButton onClick={onSubmitHandler}>글 등록하기</StSubmitButton>
       </form>
     </StCreateContainer>
