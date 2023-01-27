@@ -3,7 +3,9 @@ import styled from 'styled-components';
 
 import { palette } from '../../styles/palette';
 
-export default function MyBoardList({ title, content, likeCnt, commentCnt }) {
+export default function MyBoardList({ post }) {
+  const { title, content, likeCnt, image, commentCnt } = post;
+  console.log(title);
   return (
     <>
       <div className="content_container">
@@ -11,11 +13,7 @@ export default function MyBoardList({ title, content, likeCnt, commentCnt }) {
           <span className="board_title">{title}</span>
           <span className="board_content">{content}</span>
         </StPostTextBox>
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaGBk-XVYZ0ceAFOX7o4ytPuJ6rFz2MRqUjw&usqp=CAU"
-          alt="게시글 이미지"
-          className="board_img"
-        />
+        {image && <img src={image} alt="게시글 이미지" className="board_img" />}
       </div>
       <div className="util_container">
         <span>
@@ -51,6 +49,7 @@ const StPostTextBox = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    min-height: 60px;
     @media (max-width: 768px) {
       font-size: 0.8rem;
     }
