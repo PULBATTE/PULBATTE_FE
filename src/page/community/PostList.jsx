@@ -47,7 +47,7 @@ export default function PostList() {
     <StPostListContainer>
       <StHorizontalPaddingLayout>
         <StPostListHeader>
-          <h1>커뮤니티</h1>
+          <h3>커뮤니티</h3>
         </StPostListHeader>
       </StHorizontalPaddingLayout>
       <StBest5Wrapper>
@@ -105,11 +105,16 @@ const StPostListContainer = styled.div`
   margin: 0 auto;
   max-width: 1280px;
   width: 80%;
-  margin: 7rem auto 3rem;
+  padding: 4rem 0 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 71px);
   @media (max-width: 768px) {
     margin: 4rem auto 3rem;
   }
-  h1 {
+`;
+const StPostListHeader = styled.div`
+  > h3 {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
@@ -128,7 +133,6 @@ const StPostListContainer = styled.div`
     width: 100%;
   }
 `;
-const StPostListHeader = styled.div``;
 const StBest5Wrapper = styled.div``;
 const StPostWrapper = styled.div``;
 const StTagWrapper = styled.div`
