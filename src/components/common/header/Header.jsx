@@ -41,7 +41,6 @@ export default function Header() {
 
 const StHeader = styled.header`
   width: 100%;
-  position: fixed;
   top: 0;
   left: 0;
   z-index: 3;
@@ -49,10 +48,13 @@ const StHeader = styled.header`
   padding: 0 1rem;
   box-sizing: border-box;
   border-bottom: 1px solid #eaeaea;
+  position: relative;
+  z-index: 2;
   ul {
   }
 
   @media (max-width: 768px) {
+    position: fixed;
     padding: 0 2rem;
   }
 `;

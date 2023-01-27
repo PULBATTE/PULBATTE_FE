@@ -53,7 +53,9 @@ export default function DonePost() {
     return data;
   }, []);
 
+
   const postLikeApi = useCallback(async () => {
+
     const data = await postLike(postId);
     console.log({ data });
     setLike(_postLike => !_postLike);
@@ -72,8 +74,9 @@ export default function DonePost() {
   const onLikeHandler = () => {
     if (Token) {
       // -postLikeApi 호출
+
       postLikeApi();
-      // -getPostpostLike
+
     }
     if (!Token) {
       alert('로그인이 필요합니다.');
@@ -108,7 +111,11 @@ export default function DonePost() {
               </div>
             </StUserInfo>
             <StContentWrapper>
-              <img alt="plantImg" src={postData.image} />
+              {postData?.image !== '' ? (
+                <img alt="plantImg" src={postData.image} />
+              ) : (
+                ''
+              )}
               <span>{postData.content}</span>
             </StContentWrapper>
             <StTagWrappeer>
@@ -202,6 +209,7 @@ const StContentWrapper = styled.div`
   }
   span {
     line-height: 1.5rem;
+    white-space: pre-line;
   }
 `;
 

@@ -15,11 +15,13 @@ export function Comment({ comment, getPostUser, nickName }) {
     nickname,
     profileImage,
   } = comment;
+
   console.log({ comment });
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
   const [isHideComment, setIsHideComment] = useState(true);
-  const [isOpenReply, setIsOpenReply] = useState(false);
+
+ const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
 
   const onOpenEditCommentHandler = () => {
@@ -123,7 +125,9 @@ export function Comment({ comment, getPostUser, nickName }) {
 }
 
 const StCommentContainer = styled.div`
+
   margin-bottom: 8px;
+
 `;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
@@ -203,8 +207,10 @@ const StReCommentButton = styled.button`
   cursor: pointer;
 `;
 const ReCommentWrapper = styled.div`
+
   padding: 24px 0px 24px 24px;
   border-left: 4px solid ${palette.borderColor1};
+
 `;
 
 const StRegReplyButton = styled.button`

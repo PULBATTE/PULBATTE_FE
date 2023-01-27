@@ -7,7 +7,7 @@ import { LeftArrow, RightArrow } from '../../components/community/Arrow';
 import Button from '../../components/common/Button';
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
-import { getBestPost, getPostByTag } from '../../apis/community';
+import { getBestPostApi, getPostByTag } from '../../apis/community';
 import TagPost from '../../components/community/TagPost';
 import Best5Img from './Best5Img';
 
@@ -17,8 +17,8 @@ export default function PostList() {
   const [tag, setTag] = useState('질문과 답변');
   console.log({ bestPostList });
   const navigate = useNavigate();
-  const getBestPostListApi = useCallback(async () => {
-    const data = await getBestPost();
+  const getBestPostList = useCallback(async () => {
+    const data = await getBestPostApi();
     setBestPostList(data.data);
   }, []);
 
@@ -36,8 +36,8 @@ export default function PostList() {
   };
 
   useEffect(() => {
-    getBestPostListApi();
-  }, [getBestPostListApi]);
+    getBestPostList();
+  }, [getBestPostList]);
 
   useEffect(() => {
     getPostByTagApi();
@@ -106,6 +106,9 @@ const StPostListContainer = styled.div`
   max-width: 1280px;
   width: 80%;
   margin: 7rem auto 3rem;
+  @media (max-width: 768px) {
+    margin: 4rem auto 3rem;
+  }
   h1 {
     text-align: center;
     font-size: 2.5rem;

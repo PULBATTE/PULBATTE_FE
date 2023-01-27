@@ -18,6 +18,7 @@ import PlantChoice from '../page/plantguide/PlantChoice';
 import PlantSearchDetail from '../page/search/PlantDetail';
 import PlantTest from '../page/plantguide/PlantTest';
 import PlantResult from '../page/plantguide/PlantResult';
+import Mypage from '../page/mypage/Mypage';
 
 export default function Router() {
   return (
@@ -43,7 +44,8 @@ export default function Router() {
           element={<PlantSearchDetail />}
         />
         <Route path="/planttest" element={<PlantTest />} />
-        <Route path="/testresult" element={<PlantResult />} />
+        <Route path="/testresult" element={<PlantResult />} />\
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );

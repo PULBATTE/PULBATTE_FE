@@ -5,6 +5,7 @@ import { SlArrowRight } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import axios from 'axios';
+import { useQueryClient } from 'react-query';
 import { searchPath, boardPath, testPath, diaryPath } from '../../apis/path';
 import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
@@ -13,32 +14,13 @@ import MainImage4 from '../../assets/image/main_04.png';
 import MainImage5 from '../../assets/image/main_05.png';
 import PrivateRoute from '../../routes/PrivateRoute';
 import { palette } from '../../styles/palette';
+import { getCookie } from '../../apis/cookie';
 
-const EventSource = EventSourcePolyfill || NativeEventSource;
 export default function Home() {
-  const [listening, setListening] = useState(false);
-  const [data, setData] = useState([]);
-  const [value, setValue] = useState(null);
-  const [newAlert, setNewAlert] = useState([]);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [unread, setUnread] = useState();
   const navigate = useNavigate();
-  /* useEffect(() => {
-    // 구독하기
-    if (token) {
-      const sse = new EventSource('http://13.209.16.253:8080/subscribe', {
-        headers: {
-          Authorization: token,
-        },
-      });
+  const token = getCookie('Token');
 
-      sse.addEventListener('message', e => {
-        console.log(e);
-        queryClient.invalidateQueries('alertList');
-      });
-    }
-  }, [token]);
-
+  /*
   useEffect(() => {
     if (token) {
       setNewAlert(allList);
@@ -166,9 +148,9 @@ const StWrapper = styled.div`
     height: calc(100vh - 50.5px);
     padding: 2rem;
     box-sizing: border-box;
-    @media (max-width: 1280px) {
+    /*  @media (max-width: 1280px) {
       height: calc(10vh + 50vw);
-    }
+    } */
     @media (max-width: 768px) {
       padding: 3rem 2rem 2rem;
       height: 60vh;

@@ -10,7 +10,7 @@ import { palette } from '../../styles/palette';
 import Modal from '../../components/common/Modal';
 import useModal from '../../hooks/useModal';
 import PlantInfo from '../../components/plantguide/PlantInfo';
-import { postPlantsInfo } from '../../apis/plantGuide';
+import { postPlantsInfoApi } from '../../apis/plantGuide';
 
 export default function PlantGuide() {
   const [modal, onChangeModalHandler] = useModal();
@@ -23,7 +23,7 @@ export default function PlantGuide() {
     if (value === '' || value === String) {
       return alert('키 입력은 숫자만 입력이 가능합니다');
     }
-    await postPlantsInfo(time, Number(value))
+    await postPlantsInfoApi(time, Number(value))
       .then(response => {
         if (response.statusCode == 200) {
           window.location.reload();
@@ -45,8 +45,8 @@ export default function PlantGuide() {
     <StPageWrapper>
       <Modal
         modal={modal}
-        width="400px"
-        height="300px"
+        width="500px"
+        height="400px"
         submit={onChangeModalHandler}
       >
         <StContainer>
@@ -68,11 +68,8 @@ export default function PlantGuide() {
       <StPageInner>
         <StTitle>
           <h3>식집사가이드</h3>
-          <button type="button" onClick={() => onChangeModalHandler()}>
-            키 입력하기
-          </button>
         </StTitle>
-        <PlantInfo />
+        <PlantInfo onChangeModalHandler={onChangeModalHandler} />
       </StPageInner>
     </StPageWrapper>
   );
@@ -81,6 +78,19 @@ const StPageWrapper = styled.div`
   max-width: 1100px;
   width: 90%;
   margin: 7rem auto 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
+
+  padding: 4rem 0 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 71px);
+  position: relative;
+
+  @media (max-width: 1280px) {
+    height: 100%;
+  }
   @media (max-width: 768px) {
     margin-top: 0;
   }
@@ -104,37 +114,6 @@ const StTitle = styled.div`
     display: flex;
     justify-content: space-between;
   }
-  button {
-    float: right;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    padding: 8px 16px;
-    color: #fff;
-    width: fit-content;
-    background: ${palette.mainColor};
-    border: none;
-    cursor: pointer;
-    transform: translateY(-53%);
-    color: #fff;
-    border-radius: 30px;
-    background-color: #47ad8e;
-    width: 135px;
-    height: 45px;
-    font-size: 1.1rem;
-    font-weight: 600;
-
-    border-radius: 32px;
-
-    @media (max-width: 768px) {
-      padding: 6px 14px;
-      height: 35px;
-      width: 95px;
-      font-size: 0.7rem;
-      position: unset;
-      transform: unset;
-    }
-  }
 `;
 const StPageInner = styled.div`
   margin-top: 3rem;
@@ -153,15 +132,24 @@ const StContainer = styled.div`
   h3 {
     font-size: 1.4rem;
     margin: 0;
+    @media (max-width: 768px) {
+      font-size: 1.2rem;
+    }
   }
   .modal_comment_container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px 0;
+    @media (max-width: 768px) {
+      gap: 2px 0;
+    }
     span {
       font-size: 1.2rem;
       color: #a3a3a3;
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
   .modal_input_container {
@@ -171,6 +159,9 @@ const StContainer = styled.div`
     span {
       font-size: 1.2rem;
       color: #777777;
+      @media (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
     input {
       width: 4rem;
@@ -186,6 +177,9 @@ const StContainer = styled.div`
         appearance: none;
         -moz-appearance: none;
         -webkit-appearance: none;
+      }
+      @media (max-width: 768px) {
+        padding: 0;
       }
     }
   }
@@ -203,6 +197,11 @@ const StButton = styled.button`
   cursor: pointer;
   &:active {
     background: #337461;
+  }
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 0.8rem;
+    width: 90px;
   }
 `;
 const StCloseButton = styled(GrFormClose)`
