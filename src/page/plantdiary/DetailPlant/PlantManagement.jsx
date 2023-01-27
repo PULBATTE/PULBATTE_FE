@@ -5,26 +5,23 @@ import { palette } from '../../../styles/palette';
 import repottingImg from '../../../assets/image/Repot_white.png';
 import nutritionImg from '../../../assets/image/Nutrition_white.png';
 import waterImg from '../../../assets/image/waterdrop_white.png';
-import { doneDdayCheck } from '../../../apis/plantDiary';
+import { doneDdayCheckApi } from '../../../apis/plantDiary';
 import PlantInfoChart from '../../../components/plantdiary/PlantInfoChart';
 
-export default function PlantManagement({
-  plantDetailData,
-  getPlantDetailApi,
-}) {
+export default function PlantManagement({ plantDetailData, getPlantDetail }) {
   const { image, selectWater, selectSunshine, selectWind } = plantDetailData;
 
   const { plantJournalId } = useParams();
 
   const onCompeteHandler = async clicktag => {
-    const data = await doneDdayCheck(plantJournalId, clicktag);
+    const data = await doneDdayCheckApi(plantJournalId, clicktag);
     // 데이터 형식을 변환
     const dataToJson = JSON.parse(data);
     // 데이터에서 statusCode에 따른 에러 핸들링
     if (dataToJson.data.statusCode >= 400) {
       alert(dataToJson.data.msg);
     }
-    getPlantDetailApi();
+    getPlantDetail();
   };
 
   return (

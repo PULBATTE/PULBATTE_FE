@@ -1,6 +1,6 @@
 import { instance, authInstance } from './axios';
 
-export const postSignup = async ({ userId, password }) => {
+export const postSignUpApi = async ({ userId, password }) => {
   try {
     const data = await instance.post('/api/auth/signup', {
       userId,
@@ -12,7 +12,7 @@ export const postSignup = async ({ userId, password }) => {
   }
 };
 
-export const getInfo = async () => {
+export const getInfoApi = async () => {
   try {
     const { data } = await authInstance.get('/api/auth/info');
     return data;

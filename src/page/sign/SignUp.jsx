@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-import { postSignup } from '../../apis/auth';
+import { postSignUpApi } from '../../apis/auth';
 import { palette } from '../../styles/palette';
 
 let cnt = 0;
@@ -37,7 +37,7 @@ export default function SignUp() {
   });
 
   const onSubmit = async ({ userId, password }) => {
-    const res = await postSignup({ userId, password });
+    const res = await postSignUpApi({ userId, password });
     console.log(res);
     if (res.status == 200) {
       alert('회원가입이 완료되었습니다.');

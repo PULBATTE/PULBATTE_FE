@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PlantInfoSelect from '../../components/plantdiary/PlantInfoSelect';
 import waterIcon from '../../assets/image/water_drop.png';
-import shineIcon from '../../assets/image/wb_sunny.png';
-import airIcon from '../../assets/image/air.png';
 import repottingIcon from '../../assets/image/spa.png';
 import nutritionIcon from '../../assets/image/scatter_plot.png';
 import { palette } from '../../styles/palette';
 import PlantEnv from '../../components/plantdiary/PlantEnv';
-import { createPlantJournal } from '../../apis/plantDiary';
+import { createPlantJournalApi } from '../../apis/plantDiary';
 
 // TODO: HookForm
 export default function AddPlant() {
@@ -69,7 +67,7 @@ export default function AddPlant() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
 
-    await createPlantJournal(formData);
+    await createPlantJournalApi(formData);
 
     navigate(`/plantlist`);
   };

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { useParams } from 'react-router-dom';
 
-import { getPlantDetail } from '../../../apis/plantDiary';
+import { getPlantDetailApi } from '../../../apis/plantDiary';
 
 import { palette } from '../../../styles/palette';
 
@@ -15,14 +15,14 @@ export default function DetailPlant() {
   const [currentTab, setCurrentTab] = useState(1);
   const [plantDetailData, setPlantDetailData] = useState();
   const { plantJournalId } = useParams();
-  const getPlantDetailApi = useCallback(async () => {
-    const data = await getPlantDetail(plantJournalId);
+  const getPlantDetail = useCallback(async () => {
+    const data = await getPlantDetailApi(plantJournalId);
     setPlantDetailData(data.data);
   }, [plantJournalId]);
 
   useEffect(() => {
-    getPlantDetailApi();
-  }, [getPlantDetailApi]);
+    getPlantDetail();
+  }, [getPlantDetail]);
 
   const onNavHandler = v => {
     setCurrentTab(v);
@@ -56,7 +56,7 @@ export default function DetailPlant() {
       {currentTab === 1 ? (
         <PlantManagement
           plantDetailData={plantDetailData}
-          getPlantDetailApi={getPlantDetailApi}
+          getPlantDetail={getPlantDetail}
         />
       ) : (
         <PlantDiary />

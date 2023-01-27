@@ -2,9 +2,13 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
-import { deleteComment, editComment, postComment } from '../../apis/community';
+import {
+  deleteCommentApi,
+  editCommentApi,
+  postCommentApi,
+} from '../../apis/community';
 
-export function Comment({ comment, getPostUser, nickName }) {
+export function Comment({ comment, getPostUserApi, nickName }) {
   /* 객체 비구조화 할당 */
   const {
     replyList,
@@ -26,16 +30,16 @@ export function Comment({ comment, getPostUser, nickName }) {
     setIsEditable(true);
   };
   const onDeleteCommentHandler = async () => {
-    await deleteComment(commentId);
-    await getPostUser();
+    await deleteCommentApi(commentId);
+    await getPostUserApi();
   };
   const onEditCommentHandler = e => {
     setCommentContent(e.target.value);
   };
   const onEditCommentDoneHandler = async () => {
-    await editComment(commentId, commentContent);
+    await editCommentApi(commentId, commentContent);
 
-    await getPostUser();
+    await getPostUserApi();
   };
   const onOpenReplyHandler = e => {
     setIsOpenReply(_openReply => !_openReply);
@@ -44,8 +48,8 @@ export function Comment({ comment, getPostUser, nickName }) {
     setCreateReply(e.target.value);
   };
   const onRegReplyHandler = async () => {
-    await postComment(postId, commentId, createReply);
-    await getPostUser();
+    await postCommentApi(postId, commentId, createReply);
+    await getPostUserApi();
   };
   return (
     <StCommentContainer>
@@ -113,7 +117,7 @@ export function Comment({ comment, getPostUser, nickName }) {
             {/* map함수를 사용해서 replyList를 여러개 생성 */}
             <Comment
               comment={v}
-              getPostUser={getPostUser}
+              getPostUserApi={getPostUserApi}
               nickName={nickName}
             />
           </ReCommentWrapper>
