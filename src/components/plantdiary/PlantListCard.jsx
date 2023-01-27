@@ -13,11 +13,7 @@ const MockData = [
 
 export default function PlantListCard({ plantList }) {
   const { image, plantName, withPlantDay, id } = plantList;
-  console.log({ image, plantName, withPlantDay });
-  console.log(id);
-
   const navigate = useNavigate();
-
   const onPlantHandler = () => {
     navigate(`/detailplant/${id}`);
   };
