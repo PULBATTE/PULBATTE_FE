@@ -59,8 +59,9 @@ export const getBoardList = async pageParam => {
     const data = await authInstance.get(
       `/api/user/mypage/mypost?page=${pageParam}`,
     );
-    console.log(data);
-    return data.data;
+    console.log(data, pageParam);
+    const { content, last } = data.data;
+    return { posts: content, nextPage: pageParam + 1, isLast: last };
   } catch (error) {
     throw Error(error);
   }

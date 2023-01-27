@@ -98,9 +98,6 @@ export default function DonePost() {
     <StDonePostContainer>
       {postData && (
         <>
-          <StNavBar>
-            <span>게시글 목록</span>
-          </StNavBar>
           <StBoardContainer>
             <h3>{postData.title}</h3>
             <StUserInfo>
@@ -216,6 +213,7 @@ const StContentWrapper = styled.div`
   }
   span {
     line-height: 1.5rem;
+    white-space: pre-line;
   }
 `;
 

@@ -1,6 +1,6 @@
 import { authInstance, instance } from './axios';
 
-export const getBestPost = async () => {
+export const getBestPostApi = async () => {
   try {
     const data = await instance.get('/api/posts/popular');
     return data;

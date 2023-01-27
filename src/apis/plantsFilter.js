@@ -1,7 +1,7 @@
 import React from 'react';
 import { instance } from './axios';
 
-export const plantsFilter = async category => {
+export const plantsFilterApi = async category => {
   try {
     const data = await instance.get(`/api/plants/categories/${category}`);
 
@@ -11,7 +11,7 @@ export const plantsFilter = async category => {
   }
 };
 
-export const plantsSearch = async plantName => {
+export const plantsSearchApi = async plantName => {
   try {
     const data = await instance.get(`/api/plants/search?keyword=${plantName}`);
 
@@ -21,7 +21,7 @@ export const plantsSearch = async plantName => {
   }
 };
 
-export const plantsGlobalList = async () => {
+export const plantsGlobalListApi = async () => {
   try {
     const data = await instance.get(`/api/plants`);
 
@@ -31,7 +31,7 @@ export const plantsGlobalList = async () => {
   }
 };
 
-export const plantsSearchDetail = async plantId => {
+export const plantsSearchDetailApi = async plantId => {
   try {
     const data = await instance.get(`/api/plants/detail/${plantId}`);
 
