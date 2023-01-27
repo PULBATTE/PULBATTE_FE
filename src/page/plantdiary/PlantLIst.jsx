@@ -53,7 +53,7 @@ const StPlantListContainer = styled.div`
   margin: 7rem auto 3rem;
   @media (max-width: 768px) {
     width: 100%;
-
+    margin: 4rem auto 3rem;
     padding: 0 2rem;
     box-sizing: border-box;
   }
@@ -108,7 +108,7 @@ const StAddButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
   width: 135px;
-  height: 45px;
+  height: 40px;
   font-size: 1.1rem;
   font-weight: 600;
   border: none;

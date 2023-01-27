@@ -201,6 +201,7 @@ const StContentWrapper = styled.div`
   }
   span {
     line-height: 1.5rem;
+    white-space: pre-line;
   }
 `;
 

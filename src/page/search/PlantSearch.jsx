@@ -5,7 +5,7 @@ import { HiOutlineSearch } from 'react-icons/hi';
 import CustomLabel from '../../components/search/CustomLabel';
 import { palette } from '../../styles/palette';
 import PlantsList from '../../components/search/PlantsList';
-import { plantsSearch, plantsGlobalList } from '../../apis/plantsFilter';
+import { plantsSearchApi, plantsGlobalListApi } from '../../apis/plantsFilter';
 
 export default function PlantSearch() {
   /*   const [filter, setFilter] = useState(null); */
@@ -19,14 +19,14 @@ export default function PlantSearch() {
   }, []);
 
   const onCheckList = () => {
-    plantsGlobalList()
+    plantsGlobalListApi()
       .then(res => setPlantsList(res.data.plantList), setIsClicked(false))
       .catch(error => console.log(error));
   };
 
   const onSearchHandler = () => {
     if (window.event.keyCode == 13) {
-      plantsSearch(search.current.value)
+      plantsSearchApi(search.current.value)
         .then(res => setPlantsList(res), setIsClicked(false))
         .catch(error => console.log(error));
     }
@@ -54,7 +54,7 @@ export default function PlantSearch() {
             전체
           </button>
           <CustomLabel
-            dataname="cactus"
+            dataname="beginner"
             button="#초보자"
             setPlantsList={setPlantsList}
             isClicked={isClicked}
@@ -81,6 +81,13 @@ export default function PlantSearch() {
             isClicked={isClicked}
             setIsClicked={setIsClicked}
           />
+          <CustomLabel
+            dataname="cactus"
+            button="#다육/선인장"
+            setPlantsList={setPlantsList}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+          />
         </StFilterContainer>
         <PlantsList plantsList={plantsList} />
       </div>
@@ -88,7 +95,15 @@ export default function PlantSearch() {
   );
 }
 const StWrapper = styled.div`
-  margin: 5rem auto 3rem;
+  padding: 4rem 0 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100vh - 71px);
+  position: relative;
+
+  @media (max-width: 1280px) {
+    height: 100%;
+  }
   @media (max-width: 768px) {
     margin-top: 0;
   }
@@ -96,16 +111,20 @@ const StWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 768px) {
+      gap: 20px 0;
+    }
     h3 {
       text-align: center;
       font-size: 2.5rem;
       margin-bottom: 3rem;
+
       @media (max-width: 768px) {
         font-size: 2rem;
       }
       @media (max-width: 500px) {
-        font-size: 1.8rem;
-        margin-top: 45px;
+        font-size: 1.5rem;
+        margin: 2rem 0;
       }
     }
   }
@@ -155,8 +174,10 @@ const StSearchContainer = styled.div`
 `;
 const StFilterContainer = styled.div`
   display: flex;
-  gap: 0 20px;
+  gap: 20px;
   margin: 2.5rem 0 6rem;
+  flex-wrap: wrap;
+  justify-content: center;
   @media (max-width: 768px) {
     gap: 10px;
     flex-wrap: wrap;
@@ -170,6 +191,10 @@ const StFilterContainer = styled.div`
     border: 1px solid #d9d9d9;
     color: #d9d9d9;
     cursor: pointer;
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
     &.globalBtn {
       color: white;
       background: ${palette.mainColor};

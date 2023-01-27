@@ -23,12 +23,12 @@ ChartJS.register(
 
 export const options = {
   responsive: true,
-  plugins: {
+  /* plugins: {
     title: {
       display: true,
       text: '식집사 가이드 식물 키우기',
     },
-  },
+  }, */
 };
 
 export default function PlantGraph({ graph }) {

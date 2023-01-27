@@ -1,8 +1,5 @@
 import React from 'react';
-import { BsSun } from 'react-icons/bs';
-import { GiWateringCan } from 'react-icons/gi';
-import { MdOutlineWaterDrop } from 'react-icons/md';
-import { RiTempHotLine } from 'react-icons/ri';
+
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 
@@ -14,6 +11,9 @@ export default function PlantContent({ plantInfo }) {
         <StFilterBtnContainer>
           {plantInfo && plantInfo?.beginner == 0 && (
             <button type="button">#초보자용</button>
+          )}
+          {plantInfo && plantInfo?.plantTag == 'cactus' && (
+            <button type="button">#다육/선인장</button>
           )}
           {plantInfo && plantInfo?.plantTag == 'leaf' && (
             <button type="button">#잎이 있는</button>
@@ -29,32 +29,8 @@ export default function PlantContent({ plantInfo }) {
         </StFilterBtnContainer>
       </StContentTitle>
 
-      <StTipContainer>
-        <span>Tip</span>
-        <StTipGrid>
-          <div>
-            <RiTempHotLine />
-            <span className="category_type">{plantInfo?.tempType}</span>
-            <span className="category_text">{plantInfo?.temp}</span>
-          </div>
-          <div>
-            <GiWateringCan />
-            <span className="category_type">{plantInfo?.humidityType}</span>
-            <span className="category_text">{plantInfo?.humidity}</span>
-          </div>
-          <div>
-            <BsSun />
-            <span className="category_type">{plantInfo?.sunshineType}</span>
-            <span className="category_text">{plantInfo?.sunshine}</span>
-          </div>
-          <div>
-            <MdOutlineWaterDrop />
-            <span className="category_type">{plantInfo?.waterType}</span>
-            <span className="category_text">{plantInfo?.water}</span>
-          </div>
-        </StTipGrid>
-      </StTipContainer>
       <StExplanation>
+        <span className="section_title">식물 더 알아보기</span>
         <span>{plantInfo?.content}</span>
       </StExplanation>
     </StContentWrapper>
@@ -69,6 +45,9 @@ const StContentWrapper = styled.div`
     width: 100%;
     padding: 0 2rem;
     box-sizing: border-box;
+  }
+  @media (max-width: 768px) {
+    gap: 2rem 0;
   }
   .plant_name {
     font-size: 2.2rem;
@@ -90,50 +69,12 @@ const StFilterBtnContainer = styled.div`
     border: none;
     border: 1px solid ${palette.mainColor};
     color: ${palette.mainColor};
-    cursor: pointer;
-  }
-`;
-const StTipContainer = styled.div`
-  > span {
-    margin-bottom: 30px;
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 700;
-  }
-`;
-const StTipGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid ${palette.borderColor1};
-  border-bottom: 1px solid ${palette.borderColor1};
-  svg {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-  }
-  .category_type {
-    font-size: 1.3rem;
-    font-weight: 700;
-  }
-  .category_text {
-    font-size: 1.2rem;
-  }
-  > div {
-    padding: 15px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 8px 0;
-    &:first-child {
-      border-bottom: 1px solid ${palette.borderColor1};
-    }
-    &:nth-child(2) {
-      border-bottom: 1px solid ${palette.borderColor1};
-    }
-    &:nth-child(2n-1) {
-      border-right: 1px solid ${palette.borderColor1};
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
     }
   }
 `;
+
 const StContentTitle = styled.div`
   display: flex;
   flex-direction: column;
@@ -146,15 +87,23 @@ const StContentTitle = styled.div`
   }
   @media (max-width: 500px) {
     padding-top: 0;
-    padding-bottom: 25px;
+    padding-bottom: 15px;
   }
 `;
 const StExplanation = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
   span {
-    font-size: 1.3rem;
+    &.section_title {
+      font-weight: 800;
+    }
+    font-size: 1.2rem;
     line-height: 2rem;
+    letter-spacing: 0.5px;
+
     @media (max-width: 500px) {
-      font-size: 1rem;
+      font-size: 0.9rem;
       line-height: 20px;
     }
   }

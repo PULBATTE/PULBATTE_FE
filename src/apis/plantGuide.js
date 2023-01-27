@@ -1,6 +1,6 @@
 import { authInstance } from './axios';
 
-export const getPlantsInfo = async () => {
+export const getPlantsInfoApi = async () => {
   try {
     const data = await authInstance.get(`/api/beginner/plant/my`);
 
@@ -10,7 +10,7 @@ export const getPlantsInfo = async () => {
     return error;
   }
 };
-export const getAllPlantsInfo = async () => {
+export const getAllPlantsInfoApi = async () => {
   try {
     const data = await authInstance.get(`/api/beginner/plant`);
     return data.data;
@@ -18,7 +18,7 @@ export const getAllPlantsInfo = async () => {
     return error;
   }
 };
-export const postSelectPlant = async beginnerName => {
+export const postSelectPlantApi = async beginnerName => {
   try {
     const data = await authInstance.post(`/api/beginner/plant/${beginnerName}`);
     return data.data;
@@ -26,7 +26,7 @@ export const postSelectPlant = async beginnerName => {
     return error;
   }
 };
-export const postPlantsInfo = async (time, value) => {
+export const postPlantsInfoApi = async (time, value) => {
   console.log(time, value);
 
   try {
@@ -40,7 +40,7 @@ export const postPlantsInfo = async (time, value) => {
     return error;
   }
 };
-export const getTestInfo = async () => {
+export const getTestInfoApi = async () => {
   try {
     const data = await authInstance.get(`/api/plantTest`);
 

@@ -29,14 +29,14 @@ export default function SlideModal({
   const location = useLocation();
   const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (token) {
       authInstance
         .get('https://pulbatte.com/api/auth/info')
         .then(response => setUserData(response.data))
         .catch(error => console.log(error));
     }
-  }, [location]);
+  }, [location]); */
   return (
     <StModal className={isClicked ? 'open' : ''}>
       <div className="modal_inner">

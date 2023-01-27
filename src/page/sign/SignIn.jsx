@@ -27,21 +27,22 @@ export default function SignIn() {
         password: result.password,
       })
       .then(response => {
-        console.log(response.headers);
+        console.log(response);
         if (response.data.statusCode == 200) {
           alert('로그인이 되었습니다.');
 
           setCookie('Token', response.headers.authorization);
           setCookie('Refresh_Token', response.headers.refresh_token);
-          /*   const redirectUrl = searchParams.get('redirectUrl');
+          const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
 
-           if (redirectUrl) {
+          if (redirectUrl) {
             return navigate(redirectUrl);
-          } */
-          /*  return navigate('/'); */
+          }
+          return navigate('/');
         }
-        /*    return alert('아이디나 비밀번호를 다시 확인해주세요.'); */
+
+        return alert('아이디나 비밀번호를 다시 확인해주세요.');
       })
       .catch(error => console.log(error));
   };
@@ -60,17 +61,14 @@ export default function SignIn() {
       .string()
       .min(8, '비밀번호는 최소 8글자 이상입니다.')
       .max(15, '비밀번호는 최대 15글자 입니다.')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/g,
-        {
-          message: (
-            <p>
-              비밀번호는 최소 8자 이상, 15자 이하이며 공백을 제외한
-              특수문자,알파벳 대소문자,숫자이어야 합니다.
-            </p>
-          ),
-        },
-      ),
+      .matches(/^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/g, {
+        message: (
+          <p>
+            비밀번호는 최소 8자 이상, 15자 이하이며 공백을 제외한
+            특수문자,알파벳 대소문자,숫자이어야 합니다.
+          </p>
+        ),
+      }),
   });
   const {
     register,
