@@ -303,7 +303,7 @@ const StLink = styled(Link)`
 `;
 const StNavigation = styled.ul`
   position: absolute;
-  top: 38px;
+  top: 35px;
   left: 50%;
   box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
   border-radius: 15px;

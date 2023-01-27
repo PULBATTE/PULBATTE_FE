@@ -187,7 +187,11 @@ export default function Mypage() {
 const StWrapper = styled.div`
   max-width: 1370px;
   width: 90%;
-  margin: 7rem auto 3rem;
+  padding: 4rem 0 3rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 71px);
 
   @media (max-width: 768px) {
     margin: 4rem auto 3rem;

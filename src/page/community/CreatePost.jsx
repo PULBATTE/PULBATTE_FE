@@ -116,6 +116,24 @@ export default function CreatePost() {
 }
 
 const StCreateContainer = styled.div`
+  max-width: 1280px;
+  padding: 4rem 0 3rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 71px);
+  h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.8rem;
+      margin-top: 45px;
+    }
+  }
   /* margin: 0 auto;
   padding: 0px 50px;
   margin-top: 84px;
@@ -144,10 +162,7 @@ const StCreateContainer = styled.div`
     padding: 0 2rem;
     box-sizing: border-box;
   }
-  h3 {
-    font-size: 30px;
-    text-align: center;
-  }
+
   h4 {
     font-size: 26px;
     color: #767676;

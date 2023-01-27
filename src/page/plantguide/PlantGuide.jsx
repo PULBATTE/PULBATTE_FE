@@ -77,7 +77,18 @@ export default function PlantGuide() {
 const StPageWrapper = styled.div`
   max-width: 1100px;
   width: 90%;
-  margin: 7rem auto 3rem;
+  padding: 4rem 0 3rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 71px);
+  position: relative;
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+    height: auto;
+    background: #fff;
+  }
   @media (max-width: 768px) {
     margin-top: 0;
   }

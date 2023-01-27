@@ -73,7 +73,7 @@ const StWrapper = styled.div`
   padding: 4rem 0 3rem;
   box-sizing: border-box;
   width: 100%;
-  height: calc(100vh - 71px);
+  min-height: calc(100vh - 71px);
   position: relative;
   background: linear-gradient(
     175.58deg,
