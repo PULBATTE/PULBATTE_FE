@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Calendar } from 'react-calendar';
 import { format } from 'date-fns';
 import { palette } from '../../styles/palette';
+import { getCalendarDataApi } from '../../apis/plantDiary';
 
 const marks = [
   '15-01-2023',
@@ -13,8 +14,23 @@ const marks = [
   '15-01-2023',
 ];
 
-export default function PlantDiaryCalendar() {
+const MOCK = [
+  { localDate: '2023-01-26', nutrition: 1, repot: 1, water: 1 },
+  { localDate: '2023-01-27', nutrition: 1, repot: 1, water: 1 },
+];
+
+export default function PlantDiaryCalendar({ plantJournalId }) {
   const [value, setValue] = useState([new Date(), new Date('2023-01-26')]);
+  const [diaryValue, setDiaryValue] = useState();
+
+  const getCalendar = useCallback(async () => {
+    const data = await getCalendarDataApi(plantJournalId);
+    setDiaryValue(data.data);
+  }, [plantJournalId]);
+
+  useEffect(() => {
+    getCalendar();
+  }, [getCalendar]);
 
   // console.log([new Date(), new Date('2023-01-26')]);
   return (
@@ -28,13 +44,11 @@ export default function PlantDiaryCalendar() {
           //   console.log({ v });
           //   return true;
           // }}
-          value={value}
           locale="en-EN"
           tileClassName={({ date, view }) => {
-            if (marks.find(x => x === format(date, 'dd-MM-yyyy'))) {
+            if (MOCK.find(x => x.localDate === format(date, 'yyyy-MM-dd'))) {
               return 'highlight';
             }
-
             return '';
           }}
         />

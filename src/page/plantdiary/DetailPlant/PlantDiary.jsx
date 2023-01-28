@@ -1,11 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import PlantDiaryCalendar from '../../../components/plantdiary/PlantDiaryCalendar';
 import PlantDiaryCard from '../../../components/plantdiary/PlantDiaryCard';
-import { getPlantDiaryList, postPlantDiary } from '../../../apis/plantDiary';
+import PlantDiaryCalendar from '../../../components/plantdiary/PlantDiaryCalendar';
+import {
+  getPlantDiaryListApi,
+  postPlantDiaryApi,
+} from '../../../apis/plantDiary';
 import useModal from '../../../hooks/useModal';
-import ConfirmModal from '../../../components/plantguide/ConfirmModal';
 import { palette } from '../../../styles/palette';
 import CreateDiaryModal from '../../../components/plantdiary/CreateDiaryModal';
 
@@ -13,19 +15,19 @@ export default function PlantDiary() {
   const { plantJournalId } = useParams();
   const [plantDiaryList, setPlantDiaryList] = useState([]);
   const [modal, onChangeModalHandler] = useModal();
-  console.log(plantJournalId);
-  const getPlantDiaryListApi = useCallback(async () => {
-    const data = await getPlantDiaryList();
+
+  const getPlantDiaryList = useCallback(async () => {
+    const data = await getPlantDiaryListApi();
+    console.log(data);
     setPlantDiaryList(data.data);
   }, []);
 
   useEffect(() => {
-    getPlantDiaryListApi();
-  }, [getPlantDiaryListApi]);
+    getPlantDiaryList();
+  }, [getPlantDiaryList]);
 
-  // 함수를 정의할 때 사용하는 변수를 매개변수
   const onSubmitDiaryHandler = async diaryContent => {
-    await postPlantDiary(plantJournalId, diaryContent);
+    await postPlantDiaryApi(plantJournalId, diaryContent);
     onChangeModalHandler();
   };
   const closeModal = () => {
@@ -35,7 +37,7 @@ export default function PlantDiary() {
   return (
     <StTabSection>
       <StPlantInfoWrap>
-        <PlantDiaryCalendar />
+        <PlantDiaryCalendar plantJournalId={plantJournalId} />
       </StPlantInfoWrap>
       <StPlantInfoWrap>
         <StPlantInfoHeader>
@@ -46,9 +48,14 @@ export default function PlantDiary() {
           </StButton>
         </StPlantInfoHeader>
         {plantDiaryList.map(v => (
-          <PlantDiaryCard key={v.id} plantDiaryList={v} />
+          <PlantDiaryCard
+            key={v.id}
+            plantDiary={v}
+            onChangeModalHandler={onChangeModalHandler}
+          />
         ))}
       </StPlantInfoWrap>
+      {/* TODO: Redux */}
       <CreateDiaryModal
         modal={modal}
         onSubmitHandler={onSubmitDiaryHandler}

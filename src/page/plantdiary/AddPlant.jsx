@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import PlantInfoSelect from '../../components/plantdiary/PlantInfoSelect';
 import waterIcon from '../../assets/image/water_drop.png';
-import shineIcon from '../../assets/image/wb_sunny.png';
-import airIcon from '../../assets/image/air.png';
 import repottingIcon from '../../assets/image/spa.png';
 import nutritionIcon from '../../assets/image/scatter_plot.png';
 import { palette } from '../../styles/palette';
 import PlantEnv from '../../components/plantdiary/PlantEnv';
-import { createPlantJournal } from '../../apis/plantDiary';
+import { createPlantJournalApi } from '../../apis/plantDiary';
+import HorizontalPlantEnv from '../../components/plantdiary/HorizontalPlantEnv';
 
 // TODO: HookForm
 export default function AddPlant() {
@@ -24,16 +23,15 @@ export default function AddPlant() {
   const [waterCycle, setWaterCycle] = useState();
   const [repottingCycle, setRepottingCycle] = useState();
   const [nutritionCycle, setNutritionCycle] = useState();
-
   const navigate = useNavigate();
   const imgInputRef = useRef();
+
+  console.log(imgSrc);
 
   const onChangePlantName = e => {
     setPlantName(e.target.value);
   };
-
   const onUploadImgHandler = () => {
-    console.log('upload');
     setImgSrc({
       upload: imgInputRef.current.files[0],
       preview: URL.createObjectURL(imgInputRef.current.files[0]),
@@ -51,8 +49,10 @@ export default function AddPlant() {
   };
 
   const onAddPlantHandler = async e => {
-    e.preventDefault();
-
+    if (!imgSrc.upload) {
+      alert('이미지를 추가해 주세요');
+      return;
+    }
     const formData = new FormData();
     const request = {
       plantName,
@@ -69,7 +69,7 @@ export default function AddPlant() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
 
-    await createPlantJournal(formData);
+    await createPlantJournalApi(formData);
 
     navigate(`/plantlist`);
   };
@@ -115,7 +115,7 @@ export default function AddPlant() {
               <h3 className="grid_header">식물환경</h3>
             </StGridHeader>
             <StPlantEnv>
-              <PlantEnv
+              <HorizontalPlantEnv
                 type="water"
                 editable
                 rating={plantWaterData}
@@ -124,7 +124,7 @@ export default function AddPlant() {
                 appendText="분무"
                 afterText="흠뻑"
               />
-              <PlantEnv
+              <HorizontalPlantEnv
                 type="sunny"
                 editable
                 rating={plantShineData}
@@ -133,7 +133,7 @@ export default function AddPlant() {
                 appendText="그늘"
                 afterText="양지"
               />
-              <PlantEnv
+              <HorizontalPlantEnv
                 type="air"
                 editable
                 rating={plantWindeData}

@@ -2,20 +2,20 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
-import { getPlantList } from '../../apis/plantDiary';
+import { getPlantListApi } from '../../apis/plantDiary';
 import PlantListCard from '../../components/plantdiary/PlantListCard';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
-  const getPlantListApi = useCallback(async () => {
-    const data = await getPlantList();
+  const getPlantList = useCallback(async () => {
+    const data = await getPlantListApi();
     console.log(data.data);
     setPlantList(data.data);
   }, []);
 
   useEffect(() => {
-    getPlantListApi();
-  }, [getPlantListApi]);
+    getPlantList();
+  }, [getPlantList]);
 
   const navigate = useNavigate();
   const onAddPlantHandler = () => {

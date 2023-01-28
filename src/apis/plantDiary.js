@@ -1,6 +1,6 @@
 import { authInstance, instance } from './axios';
 
-export const getPlantList = async () => {
+export const getPlantListApi = async () => {
   try {
     const data = await authInstance.get('/api/plantjournals');
     return data;
@@ -9,7 +9,7 @@ export const getPlantList = async () => {
   }
 };
 
-export const getPlantDetail = async plantJournalId => {
+export const getPlantDetailApi = async plantJournalId => {
   try {
     const data = await authInstance.get(`/api/plantjournal/${plantJournalId}`);
     return data;
@@ -18,12 +18,12 @@ export const getPlantDetail = async plantJournalId => {
   }
 };
 
-export const createPlantJournal = async formData => {
+export const createPlantJournalApi = async formData => {
   try {
     console.log(formData);
     const data = await authInstance.post('/api/plantjournal', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multippart/form-data',
       },
     });
     return data;
@@ -32,7 +32,7 @@ export const createPlantJournal = async formData => {
   }
 };
 
-export const doneDdayCheck = async (plantJournalId, clickTag) => {
+export const doneDdayCheckApi = async (plantJournalId, clickTag) => {
   try {
     const temp = await authInstance.post(
       `/api/plantjorunal/${plantJournalId}/click/${clickTag}`,
@@ -44,17 +44,17 @@ export const doneDdayCheck = async (plantJournalId, clickTag) => {
   }
 };
 
-export const getPlantDiaryList = async () => {
+export const getPlantDiaryListApi = async () => {
   try {
     const data = await authInstance.get('/api/plantjournal/diarys');
+    console.log(data);
     return data;
   } catch (error) {
     throw Error(error);
   }
 };
 
-// 실제로 함수가 호출될 때 넘기는 변수값을 인수라고 정의. 매개변수를 순서대로 넘겨받기 때문에 이름은 뭐든 상관 없다.
-export const postPlantDiary = async (plantJournalId, diaryContent) => {
+export const postPlantDiaryApi = async (plantJournalId, diaryContent) => {
   try {
     console.log(plantJournalId, diaryContent);
     const data = await authInstance.post(
@@ -69,7 +69,7 @@ export const postPlantDiary = async (plantJournalId, diaryContent) => {
   }
 };
 
-export const getPlantDiary = async (plantjournalid, plantjournaldiaryid) => {
+export const getPlantDiaryApi = async (plantjournalid, plantjournaldiaryid) => {
   try {
     const data = await authInstance.get(
       `/api/plantjournal/diary/${plantjournalid}/${plantjournaldiaryid}`,
@@ -80,7 +80,7 @@ export const getPlantDiary = async (plantjournalid, plantjournaldiaryid) => {
   }
 };
 
-export const putPlantDiary = async (plantjournalid, plantjournaldiaryid) => {
+export const putPlantDiaryApi = async (plantjournalid, plantjournaldiaryid) => {
   try {
     const data = await authInstance.put(
       `/api/plantjournal/diary/${plantjournalid}/${plantjournaldiaryid}`,
@@ -91,12 +91,27 @@ export const putPlantDiary = async (plantjournalid, plantjournaldiaryid) => {
   }
 };
 
-export const deletePlantDiary = async (plantjournalid, plantjournaldiaryid) => {
+export const deletePlantDiaryApi = async (
+  plantjournalid,
+  plantjournaldiaryid,
+) => {
   try {
     const data = await authInstance.delete(
       `/api/plantjournal/diary/${plantjournalid}/${plantjournaldiaryid}`,
     );
     return data;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
+export const getCalendarDataApi = async plantjournalid => {
+  try {
+    const data = await authInstance.get(
+      `/api/plantjournal/diary/calendar/${plantjournalid}`,
+    );
+    const returnData = data;
+    return returnData;
   } catch (error) {
     throw Error(error);
   }

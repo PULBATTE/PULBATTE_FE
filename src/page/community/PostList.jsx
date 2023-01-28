@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, useCallback } from 'react';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
@@ -7,30 +8,37 @@ import { LeftArrow, RightArrow } from '../../components/community/Arrow';
 import Button from '../../components/common/Button';
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
-import { getBestPostApi, getPostByTag } from '../../apis/community';
+import { getBestPostApi, getPostByTagApi } from '../../apis/community';
 import TagPost from '../../components/community/TagPost';
 import Best5Img from './Best5Img';
 
 export default function PostList() {
   const [bestPostList, setBestPostList] = useState([]);
-  const [tagPostList, setTagPostList] = useState([]);
+  // const [tagPostList, setTagPostList] = useState([]);
   const [tag, setTag] = useState('질문과 답변');
   console.log({ bestPostList });
   const navigate = useNavigate();
+
   const getBestPostList = useCallback(async () => {
     const data = await getBestPostApi();
     setBestPostList(data.data);
   }, []);
 
-  const getPostByTagApi = useCallback(async () => {
-    const data = await getPostByTag(tag);
-    console.log('getPostByTagApi');
-    console.log(data);
-    setTagPostList(data.data.content);
-  }, [tag]);
+  // const getPostByTag = useCallback(async () => {
+  //   const data = await getPostByTagApi(tag);
+  //   console.log('getPostByTag');
+  //   console.log(data);
+  //   setTagPostList(data.data.content);
+  //   return data;
+  // }, [tag]);
 
+  const { isLoading, error, data } = useQuery(tag, getPostByTagApi, {
+    staleTime: 5000,
+  });
+
+  console.log('data');
+  console.log(data);
   const onTagHandler = e => {
-    e.preventDefault();
     console.log(e.target.value);
     setTag(e.target.value);
   };
@@ -39,9 +47,13 @@ export default function PostList() {
     getBestPostList();
   }, [getBestPostList]);
 
-  useEffect(() => {
-    getPostByTagApi();
-  }, [getPostByTagApi]);
+  // useEffect(() => {
+  //   getPostByTag();
+  // }, [getPostByTag]);
+
+  if (isLoading) return 'Loading...';
+
+  if (error) return `An error has occurred:  + ${error.message}`;
 
   return (
     <StPostListContainer>
@@ -86,7 +98,7 @@ export default function PostList() {
       <StHorizontalPaddingLayout>
         <StPostWrapper>
           <StFilterdWrapper>
-            {tagPostList.map(v => (
+            {data.map(v => (
               <TagPost key={v.id} postData={v} />
             ))}
           </StFilterdWrapper>
