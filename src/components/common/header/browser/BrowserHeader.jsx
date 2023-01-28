@@ -255,8 +255,9 @@ const StUtilContainer = styled.div`
   }
 `;
 const StAlarm = styled.img`
-  width: 25px;
-  aspect-ratio: 1/1.1;
+  width: 20px;
+  height: 25px;
+
   image-rendering: -webkit-optimize-contrast;
 `;
 const StMyBtnContainer = styled.div`
@@ -293,7 +294,7 @@ const StMyBtnContainer = styled.div`
   }
 `;
 const StMyBtn = styled.img`
-  width: 25px;
+  width: 20px;
   image-rendering: -webkit-optimize-contrast;
   aspect-ratio: 1/1;
   margin-top: 2px;
