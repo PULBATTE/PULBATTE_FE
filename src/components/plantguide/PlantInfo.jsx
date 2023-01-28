@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import PlantGraph from './plantGraph';
 import PlantEnviroment from './PlantEnviroment';
 import { palette } from '../../styles/palette';
@@ -11,14 +11,21 @@ import { getPlantsInfoApi } from '../../apis/plantGuide';
 
 export default function PlantInfo({ onChangeModalHandler }) {
   /*  const { beginnerName } = useParams(); */
+  const navigate = useNavigate();
   const [plantInfo, setPlantInfo] = useState(null);
   const [graphValue, setGraphValue] = useState([]);
+
   const text = useRef();
   useEffect(() => {
     getPlantsInfoApi()
       .then(res => {
+        console.log(res);
+        if (res.statusCode == 404) {
+          alert('등록된 식물이 없습니다. 테스트 페이지로 넘어갑니다.');
+          return navigate('/planttest');
+        }
         setPlantInfo(res);
-        setGraphValue(res.beginnerGraph);
+        return setGraphValue(res.beginnerGraph);
       })
       .catch(error => console.log(error));
   }, []);
