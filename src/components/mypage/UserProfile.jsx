@@ -4,8 +4,6 @@ import { BiImageAlt } from 'react-icons/bi';
 import Button from '../common/Button';
 import { palette } from '../../styles/palette';
 
-import ImageModal from './ImageModal';
-
 export default function UserProfile({
   onChangeImgHandler,
   uploadProfileImg,
