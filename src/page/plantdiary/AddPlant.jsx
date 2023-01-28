@@ -184,8 +184,13 @@ export default function AddPlant() {
 
 const StAddPlantContainer = styled.div`
   width: 80%;
-  margin: 7rem auto 3rem;
+
   max-width: 900px;
+  padding: 4rem 0 3rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(100vh - 71px);
   @media (max-width: 1280px) {
     box-sizing: border-box;
   }

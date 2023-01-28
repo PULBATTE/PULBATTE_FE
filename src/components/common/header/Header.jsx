@@ -40,6 +40,7 @@ export default function Header() {
 }
 
 const StHeader = styled.header`
+  position: sticky;
   width: 100%;
   top: 0;
   left: 0;
@@ -48,7 +49,6 @@ const StHeader = styled.header`
   padding: 0 1rem;
   box-sizing: border-box;
   border-bottom: 1px solid #eaeaea;
-  position: relative;
   z-index: 2;
   ul {
   }
