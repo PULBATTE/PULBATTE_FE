@@ -80,7 +80,7 @@ const StPageWrapper = styled.div`
   padding: 4rem 0 3rem;
   margin: 0 auto;
   box-sizing: border-box;
-  width: 100%;
+
   min-height: calc(100vh - 71px);
   position: relative;
 
@@ -95,7 +95,7 @@ const StPageWrapper = styled.div`
 
   padding: 4rem 0 3rem;
   box-sizing: border-box;
-  width: 100%;
+
   min-height: calc(100vh - 71px);
   position: relative;
 

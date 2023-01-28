@@ -22,7 +22,7 @@ export default function PlantSearch() {
   const search = useRef();
   const [plantsList, setPlantsList] = useState(null);
   const [category, setCategory] = useState('all');
-  console.log(plantsList);
+
   const { ref, inView } = useInView();
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -66,9 +66,6 @@ export default function PlantSearch() {
           />
         </StSearchContainer>
         <StFilterContainer>
-          <button type="button" onClick={addTodo}>
-            dd
-          </button>
           <CustomLabel
             dataname="all"
             button="#전체"
@@ -114,7 +111,7 @@ export default function PlantSearch() {
         </StFilterContainer>
 
         {isClicked ? (
-          <div>
+          <StContent>
             {data?.pages.map((page, index) => (
               <StListInner key={index}>
                 {page?.posts?.map(post => (
@@ -123,7 +120,7 @@ export default function PlantSearch() {
               </StListInner>
             ))}
             {isFetchingNextPage ? <div>Loading</div> : <div ref={ref} />}
-          </div>
+          </StContent>
         ) : (
           <PlantsList plantsList={plantsList} />
         )}
@@ -219,6 +216,8 @@ const StFilterContainer = styled.div`
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 1.5rem 0 1rem;
+    width: 90%;
   }
   button {
     padding: 10px 30px;
@@ -249,7 +248,6 @@ const StFilterContainer = styled.div`
     }
     @media (max-width: 500px) {
       font-size: 0.8rem;
-      padding: 10px 20px;
     }
   }
 `;
@@ -258,11 +256,8 @@ const StListInner = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   width: 100%;
   max-width: 1372px;
-  gap: 20px;
-  margin: 0 auto 80px;
-  @media (max-width: 1440px) {
-    width: 80%;
-  }
+  gap: 35px 20px;
+
   @media (max-width: 1280px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
@@ -271,6 +266,16 @@ const StListInner = styled.div`
   }
   @media (max-width: 768px) {
     grid-template-columns: 1fr 1fr;
+  }
+`;
+const StContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 35px 0;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
+  @media (max-width: 768px) {
     width: 90%;
   }
 `;

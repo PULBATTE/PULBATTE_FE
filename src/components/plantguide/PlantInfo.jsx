@@ -19,7 +19,6 @@ export default function PlantInfo({ onChangeModalHandler }) {
   useEffect(() => {
     getPlantsInfoApi()
       .then(res => {
-        console.log(res);
         if (res.statusCode == 404) {
           alert('등록된 식물이 없습니다. 테스트 페이지로 넘어갑니다.');
           return navigate('/planttest');
@@ -39,7 +38,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
       <div>
         <StGrid>
           <div className="plant_image_container">
-            <span>내가 고른 식물</span>
+            <span className="section_title">내가 고른 식물</span>
             <div className="image_container">
               <img src={plantInfo && plantInfo.image} alt="식물이미지" />
               <span className="plant_name">
@@ -49,7 +48,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
           </div>
           <div className="graph_container">
             <div>
-              <span>성장그래프</span>
+              <span className="section_title">성장그래프</span>
               <button type="button" onClick={() => onChangeModalHandler()}>
                 식물 키 입력하기
               </button>
@@ -106,10 +105,8 @@ const StContent = styled.div`
   margin-top: 45px;
   display: flex;
   flex-direction: column;
-  gap: 4rem 0;
-  @media (max-width: 768px) {
-    margin: 3rem 0;
-  }
+  gap: 3rem 0;
+
   .comment_message {
     text-align: center;
     font-size: 1.2rem;
@@ -135,11 +132,15 @@ const StGrid = styled.div`
 
     span {
       font-size: 1.2rem;
-      font-weight: 600;
+
       height: 35px;
       display: flex;
       align-items: center;
     }
+  }
+  .section_title {
+    font-size: 1.2rem;
+    font-weight: 600;
   }
   .image_container {
     position: relative;
@@ -166,8 +167,8 @@ const StGrid = styled.div`
   }
   .plant_name {
     position: absolute;
-    left: 20px;
-    bottom: 20px;
+    left: 10px;
+    bottom: 10px;
     font-size: 1.4rem;
     font-weight: 800;
     color: #fff;
@@ -180,12 +181,8 @@ const StGrid = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-
     gap: 15px 0;
-    span {
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
+
     > div {
       width: 100%;
       display: flex;
