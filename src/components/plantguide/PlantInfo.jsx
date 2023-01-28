@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import PlantGraph from './PlantGraph';
+import PlantGraph from './plantGraph';
 import PlantEnviroment from './PlantEnviroment';
 import { palette } from '../../styles/palette';
 import waterIcon from '../../assets/image/water_drop.png';

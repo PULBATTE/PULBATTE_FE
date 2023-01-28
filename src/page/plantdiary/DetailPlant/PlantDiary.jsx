@@ -15,8 +15,10 @@ export default function PlantDiary() {
   const { plantJournalId } = useParams();
   const [plantDiaryList, setPlantDiaryList] = useState([]);
   const [modal, onChangeModalHandler] = useModal();
+
   const getPlantDiaryList = useCallback(async () => {
     const data = await getPlantDiaryListApi();
+    console.log(data);
     setPlantDiaryList(data.data);
   }, []);
 
@@ -24,7 +26,6 @@ export default function PlantDiary() {
     getPlantDiaryList();
   }, [getPlantDiaryList]);
 
-  // 함수를 정의할 때 사용하는 변수를 매개변수
   const onSubmitDiaryHandler = async diaryContent => {
     await postPlantDiaryApi(plantJournalId, diaryContent);
     onChangeModalHandler();

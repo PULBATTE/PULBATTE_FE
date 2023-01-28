@@ -16,9 +16,9 @@ const MockData = [
 
 export default function PlantDiaryCard({ plantDiary, onChangeModalHandler }) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  console.log({ plantDiary });
+  // console.log({ plantDiary });
   const { content, createdAt } = plantDiary;
-  console.log(format(new Date(createdAt), 'M/dd'));
+  // console.log(format(new Date(createdAt), 'M/dd'));
 
   const menuRef = useRef(null);
 

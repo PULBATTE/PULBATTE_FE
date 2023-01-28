@@ -47,13 +47,13 @@ export const doneDdayCheckApi = async (plantJournalId, clickTag) => {
 export const getPlantDiaryListApi = async () => {
   try {
     const data = await authInstance.get('/api/plantjournal/diarys');
+    console.log(data);
     return data;
   } catch (error) {
     throw Error(error);
   }
 };
 
-// 실제로 함수가 호출될 때 넘기는 변수값을 인수라고 정의. 매개변수를 순서대로 넘겨받기 때문에 이름은 뭐든 상관 없다.
 export const postPlantDiaryApi = async (plantJournalId, diaryContent) => {
   try {
     console.log(plantJournalId, diaryContent);

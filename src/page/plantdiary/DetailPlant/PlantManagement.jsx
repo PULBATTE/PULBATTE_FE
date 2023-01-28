@@ -9,6 +9,7 @@ import { doneDdayCheckApi } from '../../../apis/plantDiary';
 import PlantInfoChart from '../../../components/plantdiary/PlantInfoChart';
 
 export default function PlantManagement({ plantDetailData, getPlantDetail }) {
+  console.log(plantDetailData);
   const { image, selectWater, selectSunshine, selectWind } = plantDetailData;
 
   const { plantJournalId } = useParams();
