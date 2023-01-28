@@ -29,8 +29,6 @@ export default function SignIn() {
       .then(response => {
         console.log(response);
         if (response.data.statusCode == 200) {
-          alert('로그인이 되었습니다.');
-
           setCookie('Token', response.headers.authorization);
           setCookie('Refresh_Token', response.headers.refresh_token);
           const redirectUrl = searchParams.get('redirectUrl');
