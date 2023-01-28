@@ -86,8 +86,8 @@ const StContentTitle = styled.div`
     border-top: none;
   }
   @media (max-width: 500px) {
-    padding-top: 0;
-    padding-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 28px;
   }
 `;
 const StExplanation = styled.div`
