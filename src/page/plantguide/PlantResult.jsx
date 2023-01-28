@@ -14,7 +14,9 @@ export default function PlantResult() {
   console.log(testResult);
   useEffect(() => {
     getTestInfoApi()
-      .then(res => setTestResult(res))
+      .then(res => {
+        setTestResult(res);
+      })
       .catch(error => console.log(error));
   }, []);
   return (
