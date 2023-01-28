@@ -4,7 +4,7 @@ import { instance } from './axios';
 export const plantsFilterApi = async (category, pageParam) => {
   try {
     const data = await instance.get(
-      `/api/plants/categories/${category}?page=${pageParam}`,
+      `/api/plants/${category}?page=${pageParam}`,
     );
 
     const { content, last } = data.data;
@@ -17,7 +17,6 @@ export const plantsFilterApi = async (category, pageParam) => {
 export const plantsSearchApi = async plantName => {
   try {
     const data = await instance.get(`/api/plants/search?keyword=${plantName}`);
-
     return data.data.plantList;
   } catch (error) {
     return error;
