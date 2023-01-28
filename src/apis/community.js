@@ -51,10 +51,26 @@ export const postLikeApi = async postId => {
   }
 };
 
-export const getPostByTagApi = async tag => {
+// export const getPostByTagApi = async tagId => {
+//   // get 요청 오류: 파라미터가 배열로 들어감(리액트 쿼리 때문) => string으로 바꿔주기
+//   console.log('tag');
+//   console.log(tagId.queryKey);
+//   const [tag] = tagId.queryKey;
+//   console.log(tag);
+//   try {
+//     const data = await instance.get(`/api/posts/category/${tag}`);
+//     return data;
+//   } catch (error) {
+//     throw Error(error);
+//   }
+// };
+
+export const getPostByTagApi = async ({ queryKey }) => {
+  const [tag] = queryKey;
+  console.log(tag);
   try {
-    const data = await instance.get(`/api/posts/category/${tag}`);
-    return data;
+    const data = await instance.get(`/api/posts/category/${tag}?page=0`);
+    return data.data.content;
   } catch (error) {
     throw Error(error);
   }
