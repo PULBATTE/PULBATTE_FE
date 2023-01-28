@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 
-import { postSignUpApi } from '../../apis/auth';
+import { postSignUpApi, getSignUpCheckApi } from '../../apis/auth';
 import { palette } from '../../styles/palette';
 
 let cnt = 0;
@@ -47,6 +47,7 @@ export default function SignUp() {
 
   const {
     register,
+    getValues,
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
@@ -56,7 +57,21 @@ export default function SignUp() {
   });
   cnt += 1;
 
-  console.log(cnt);
+  const onCheckEmailHandler = async () => {
+    const check =
+      /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    const emailValue = getValues('userId');
+    // 유효성 검사 > 내가 입력한 이메일이 정규식에 매치 안할 때
+    if (!emailValue.match(new RegExp(check))) {
+      return alert('이메일의 양식을 확인해주세요.');
+    }
+    // 유효성 검사 > 내가 입력한 이메일이 정규식에 매치할 때
+    const data = await getSignUpCheckApi(emailValue);
+    if (data.statusCode == 200) {
+      return alert('사용가능한 이메일입니다.');
+    }
+    return alert('중복된 이메일이 존재합니다.');
+  };
 
   return (
     <StSignUpContainer>
@@ -68,6 +83,9 @@ export default function SignUp() {
           placeholder="이메일을 입력해 주세요"
           {...register('userId')}
         />
+        <button type="button" onClick={() => onCheckEmailHandler()}>
+          중복확인
+        </button>
         <StErrorMessage>
           {errors.userId && <p>{errors.userId.message}</p>}
         </StErrorMessage>
