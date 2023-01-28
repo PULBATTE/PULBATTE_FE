@@ -12,11 +12,10 @@ export const postSignUpApi = async ({ userId, password }) => {
   }
 };
 
-export const getSignUpCheckApi = async ({ userId }) => {
+export const getSignUpCheckApi = async userId => {
+  console.log(userId);
   try {
-    const data = await instance.post('/api/auth/idDupleCheck', {
-      userId,
-    });
+    const data = await instance.get(`/api/auth/idDupleCheck?userId=${userId}`);
     return data;
   } catch (error) {
     return error;
