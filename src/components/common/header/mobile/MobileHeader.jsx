@@ -8,6 +8,7 @@ import { BsBellFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import SlideModal from './SlideModal';
 import alarmBtn from '../../../../assets/image/icon_alarm.png';
+import logo from '../../../../assets/image/logo.png';
 
 export default function Mobileheader({ token, logOutEventHandler }) {
   const [isClicked, setIsClicked] = useState(false);
@@ -22,8 +23,7 @@ export default function Mobileheader({ token, logOutEventHandler }) {
     <StMobileNav>
       <div>
         <Link to="/">
-          <img src="" alt="" />
-          로고
+          <img src={logo} alt="로고이미지" />
         </Link>
       </div>
       <StUtilMenu>
@@ -62,6 +62,9 @@ const StMobileNav = styled.div`
   a {
     color: #000;
     text-decoration: none;
+    img {
+      width: 100px;
+    }
   }
   .hamburger {
     display: flex;
