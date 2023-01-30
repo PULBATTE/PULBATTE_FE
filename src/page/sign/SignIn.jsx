@@ -28,7 +28,7 @@ export default function SignIn() {
       })
       .then(response => {
         console.log(response);
-        if (response.data.statusCode == 200) {
+        if (response.status === 200) {
           alert('로그인이 되었습니다.');
 
           setCookie('Token', response.headers.authorization);
