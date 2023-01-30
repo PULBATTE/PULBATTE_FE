@@ -44,9 +44,11 @@ export const doneDdayCheckApi = async (plantJournalId, clickTag) => {
   }
 };
 
-export const getPlantDiaryListApi = async () => {
+export const getPlantDiaryListApi = async plantJournalId => {
   try {
-    const data = await authInstance.get('/api/plantjournal/diarys');
+    const data = await authInstance.get(
+      `/api/plantjournal/diarys/${plantJournalId}`,
+    );
     console.log(data);
     return data;
   } catch (error) {
