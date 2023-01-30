@@ -255,8 +255,9 @@ const StUtilContainer = styled.div`
   }
 `;
 const StAlarm = styled.img`
-  width: 25px;
-  aspect-ratio: 1/1.1;
+  width: 20px;
+  height: 25px;
+
   image-rendering: -webkit-optimize-contrast;
 `;
 const StMyBtnContainer = styled.div`
@@ -293,7 +294,7 @@ const StMyBtnContainer = styled.div`
   }
 `;
 const StMyBtn = styled.img`
-  width: 25px;
+  width: 20px;
   image-rendering: -webkit-optimize-contrast;
   aspect-ratio: 1/1;
   margin-top: 2px;
@@ -303,7 +304,7 @@ const StLink = styled(Link)`
 `;
 const StNavigation = styled.ul`
   position: absolute;
-  top: 38px;
+  top: 35px;
   left: 50%;
   box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
   border-radius: 15px;

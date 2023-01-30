@@ -66,12 +66,12 @@ const StMobileNav = styled.div`
   .hamburger {
     display: flex;
     flex-direction: column;
-    gap: 7px 0;
+    gap: 5px 0;
     cursor: pointer;
     position: relative;
     .line {
-      height: 4px;
-      width: 1.9rem;
+      height: 3px;
+      width: 1.5rem;
       display: block;
       background: black;
       border-radius: 5px;
@@ -89,20 +89,20 @@ const StUtilMenu = styled.div`
     z-index: 5;
   }
   .open:nth-child(1) {
-    transform: rotate(44deg) translate(9px, 7px);
+    transform: rotate(44deg) translate(6px, 7px);
     background: #d27676;
   }
   .open:nth-child(2) {
     opacity: 0;
   }
   .open:nth-child(3) {
-    transform: rotate(-47deg) translate(9px, -6px);
+    transform: rotate(-47deg) translate(5px, -5px);
     background: #d27676;
   }
 `;
 const StAlarm = styled.img`
-  width: 25px;
-  aspect-ratio: 1/1.1;
+  width: 20px;
+  aspect-ratio: 1/1.2;
   cursor: pointer;
   image-rendering: -webkit-optimize-contrast;
 `;

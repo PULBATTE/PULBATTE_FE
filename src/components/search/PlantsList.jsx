@@ -1,8 +1,6 @@
 import React from 'react';
-
 import styled from 'styled-components';
 import Card from './Card';
-
 import NotFound from './NotFound';
 
 export default function PlantsList({ plantsList }) {
