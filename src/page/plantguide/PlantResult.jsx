@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import testImg from '../../assets/image/testResult_01.png';
 import { getTestInfoApi } from '../../apis/plantGuide';
 import { palette } from '../../styles/palette';
-import Button from '../../components/common/Button';
 import { testPath, choicePath } from '../../apis/path';
-import pgBack from '../../assets/image/pg_back.png';
 
 export default function PlantResult() {
   const navigate = useNavigate();
@@ -75,7 +72,7 @@ const StWrapper = styled.div`
   padding: 4rem 0 3rem;
   box-sizing: border-box;
   width: 100%;
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   position: relative;
   background: linear-gradient(
     175.58deg,
@@ -91,6 +88,7 @@ const StWrapper = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
+    color: ${palette.textColor1};
     margin-bottom: 3rem;
     @media (max-width: 768px) {
       font-size: 2rem;

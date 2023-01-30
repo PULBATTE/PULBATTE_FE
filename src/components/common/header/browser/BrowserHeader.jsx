@@ -210,6 +210,7 @@ const StCategory = styled.ul`
       > li {
         > span {
           font-size: 1rem;
+          font-weight: 600;
           @media (max-width: 1024px) {
             font-size: 1.1rem;
           }

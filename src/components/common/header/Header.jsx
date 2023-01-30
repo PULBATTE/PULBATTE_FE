@@ -9,15 +9,14 @@ import MobileHeader from './mobile/MobileHeader';
 import { palette } from '../../../styles/palette';
 
 export default function Header() {
-  const cookies = new Cookies();
-  const token = cookies.get('Token');
+  const token = localStorage.getItem('access_Token');
 
   const navigate = useNavigate();
 
   const logOutEventHandler = async () => {
     const cookie = new Cookies();
-    await cookie.remove('Token');
-
+    await cookie.remove('refresh_Token');
+    await localStorage.removeItem('access_Token');
     navigate('/');
     alert('로그아웃 되었습니다!');
   };
@@ -40,15 +39,13 @@ export default function Header() {
 }
 
 const StHeader = styled.header`
-  position: sticky;
+  position: fixed;
   width: 100%;
   top: 0;
   left: 0;
   z-index: 3;
-  background: #fff;
   padding: 0 1rem;
   box-sizing: border-box;
-  border-bottom: 1px solid #eaeaea;
   z-index: 2;
   ul {
   }

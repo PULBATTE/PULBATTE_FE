@@ -1,16 +1,11 @@
-import { Swiper, SwiperSlide, useSwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import React, { useCallback, useState, useRef } from 'react';
 import MoonLoader from 'react-spinners/MoonLoader';
-import SwiperCore, {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Thumbs,
-  Controller,
-} from 'swiper';
+import SwiperCore, { Navigation, Pagination, Thumbs } from 'swiper';
 import styled from 'styled-components';
-import React, { useState, useEffect, useRef, CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { set } from 'date-fns';
+import useDebounce from '../../hooks/useDebounce';
 import testImg00 from '../../assets/image/guide_test_00.png';
 import testImg01 from '../../assets/image/guide_test_01.png';
 import testImg02 from '../../assets/image/guide_test_02.png';
@@ -19,9 +14,7 @@ import testImg04 from '../../assets/image/guide_test_04.png';
 import testImg05 from '../../assets/image/guide_test_05.png';
 import testImg06 from '../../assets/image/guide_test_06.png';
 import testImg07 from '../../assets/image/guide_test_07.png';
-
 import { palette } from '../../styles/palette';
-import testImage from '../../assets/image/test_01.png';
 import 'swiper/swiper.min.css';
 import pgBack from '../../assets/image/pg_back.png';
 import { testResultPath } from '../../apis/path';
@@ -32,20 +25,26 @@ import PlantSlide from '../../components/plantguide/PlantSlide';
 export default function PlantTest() {
   SwiperCore.use([Navigation, Pagination]);
   const [swiper, setSwiper] = useState();
+  const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(true);
-  let result = '';
+  const answer = useRef('');
+
+  const preventOverClick = useDebounce(() => setIsChecked(false), 1000);
+
   const navigate = useNavigate();
   const checkQuestionHandler = data => {
-    console.log('ok');
-    result += data;
-    console.log(result);
+    if (isChecked) return;
+    setIsChecked(true);
+    preventOverClick();
+    answer.current += data;
     swiper.slideNext();
   };
+
   const lastOrderHandler = async () => {
     try {
       setTimeout(() => {
         authInstance
-          .post(`/api/plantTest/${result}`)
+          .post(`/api/plantTest/${answer.current}`)
           .then(res => {
             navigate(testResultPath);
             setLoading(false);
@@ -100,6 +99,7 @@ export default function PlantTest() {
               questionB="고양이"
               image={testImg01}
               checkQuestionHandler={checkQuestionHandler}
+              isChecked={isChecked}
             />
           </SwiperSlide>
           <SwiperSlide>
@@ -110,6 +110,7 @@ export default function PlantTest() {
               questionB="늘 늦는 친구이므로 나도 늦게 간다"
               image={testImg02}
               checkQuestionHandler={checkQuestionHandler}
+              isChecked={isChecked}
             />
           </SwiperSlide>
           <SwiperSlide>
@@ -119,6 +120,7 @@ export default function PlantTest() {
               questionB="왜우는지 궁금해서 말을 건다"
               image={testImg03}
               checkQuestionHandler={checkQuestionHandler}
+              isChecked={isChecked}
             />
           </SwiperSlide>
           <SwiperSlide>
@@ -128,6 +130,7 @@ export default function PlantTest() {
               questionB="아니다"
               image={testImg04}
               checkQuestionHandler={checkQuestionHandler}
+              isChecked={isChecked}
             />
           </SwiperSlide>
           <SwiperSlide>
@@ -137,6 +140,7 @@ export default function PlantTest() {
               questionB="아니다"
               image={testImg05}
               checkQuestionHandler={checkQuestionHandler}
+              isChecked={isChecked}
             />
           </SwiperSlide>
           <SwiperSlide>
@@ -180,9 +184,10 @@ const StWrapper = styled.div`
   padding: 4rem 0 3rem;
   box-sizing: border-box;
   width: 100%;
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   position: relative;
   background-image: url(${pgBack});
+  background-size: cover;
   @media (max-width: 768px) {
     margin-top: 0;
     height: auto;

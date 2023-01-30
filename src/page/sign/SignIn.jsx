@@ -8,34 +8,36 @@ import styled from 'styled-components';
 import { BsChatFill } from 'react-icons/bs';
 import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { setCookie } from '../../apis/cookie';
-import { instance } from '../../apis/axios';
+import axios from 'axios';
+import { setCookie, getCookie } from '../../apis/cookie';
+import { authInstance, instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
+import { onLoginSuccess, onReissueRefresh } from '../../apis/refresh';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
   const [count, setCount] = useState(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
   const onSigninHandler = result => {
     console.log(result.email, result.password);
 
-    instance
-      .post('/api/auth/signin', {
+    axios
+      .post('https://api.pulbatte.com/api/auth/signin', {
         userId: result.email,
         password: result.password,
       })
       .then(response => {
         console.log(response);
-        if (response.status === 200) {
-          alert('로그인이 되었습니다.');
 
-          setCookie('Token', response.headers.authorization);
-          setCookie('Refresh_Token', response.headers.refresh_token);
+        if (response.status == 200) {
+
           const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
-
+          localStorage.setItem('access_Token', response.data.accessToken);
+          setCookie('refresh_Token', response.data.refreshToken);
           if (redirectUrl) {
             return navigate(redirectUrl);
           }
@@ -46,6 +48,7 @@ export default function SignIn() {
       })
       .catch(error => console.log(error));
   };
+
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -156,7 +159,7 @@ export default function SignIn() {
             background="#ffffff"
             border={`1px solid ${palette.borderColor1}`}
           >
-            이메일로 로그인
+            이메일로 가입하기
           </Button>
         </a>
       </StSignInner>

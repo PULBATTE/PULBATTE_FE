@@ -81,7 +81,7 @@ const StPageWrapper = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
 
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   position: relative;
 
   @media (max-width: 768px) {
@@ -96,7 +96,7 @@ const StPageWrapper = styled.div`
   padding: 4rem 0 3rem;
   box-sizing: border-box;
 
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   position: relative;
 
   @media (max-width: 1280px) {

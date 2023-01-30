@@ -54,7 +54,7 @@ const StPlantListContainer = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   @media (max-width: 768px) {
     width: 100%;
     margin: 4rem auto 3rem;
