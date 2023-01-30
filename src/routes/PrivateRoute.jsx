@@ -8,17 +8,11 @@ import { jwtUtils } from '../util/jwtUtils';
 export default function PrivateRoute(redirectPath, currentPath) {
   // 넘어갈 path , redirect path
 
-  const cookies = new Cookies();
-  const token = cookies.get('Token');
+  const token = localStorage.getItem('access_Token');
 
   // redirectUrl은 로그인이 성공후 돌아갈 화면
   console.log(jwtUtils.isAuth(token));
-  if (!jwtUtils.isAuth(token) && currentPath) {
-    window.location.href = `/community/geust`;
-  }
-  if (jwtUtils.isAuth(token) && currentPath) {
-    window.location.href = `/community/user`;
-  }
+
   if (!jwtUtils.isAuth(token)) {
     alert('로그인이 필요한 페이지입니다');
     window.location.href = `/api/user/signin?redirectUrl=${redirectPath}`;
