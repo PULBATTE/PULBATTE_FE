@@ -49,9 +49,10 @@ export default function CreatePost() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
     if (!tag) {
-      alert('테그를 선택해 주세요');
+      alert('태그를 선택해 주세요');
     }
     const res = await createPostApi(formData);
+    console.log(res);
     const postId = res.data.id;
     navigate(`/donepost/${postId}`);
   };
@@ -121,7 +122,7 @@ const StCreateContainer = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   h3 {
     text-align: center;
     font-size: 2.5rem;
