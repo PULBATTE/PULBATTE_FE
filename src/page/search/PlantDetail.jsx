@@ -65,7 +65,7 @@ const StWrapper = styled.div`
   padding: 4rem 0 3rem;
   box-sizing: border-box;
   width: 100%;
-  min-height: calc(100vh - 71px);
+  min-height: 100vh;
   position: relative;
 
   @media (max-width: 1280px) {

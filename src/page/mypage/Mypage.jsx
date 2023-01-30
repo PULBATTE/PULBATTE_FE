@@ -191,8 +191,10 @@ const StWrapper = styled.div`
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;
-  min-height: calc(100vh - 71px);
-
+  min-height: 100vh;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
   @media (max-width: 768px) {
     margin: 4rem auto 3rem;
   }
@@ -269,6 +271,9 @@ const StProfileInner = styled.div`
 
   @media (max-width: 1024px) {
     width: 100%;
+  }
+  @media (max-width: 500px) {
+    min-width: unset;
   }
 `;
 const StTitleContainer = styled.div`
