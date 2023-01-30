@@ -80,10 +80,19 @@ export const getPlantDiaryApi = async (plantjournalid, plantjournaldiaryid) => {
   }
 };
 
-export const putPlantDiaryApi = async (plantjournalid, plantjournaldiaryid) => {
+export const putPlantDiaryApi = async (
+  plantjournalid,
+  plantjournaldiaryid,
+  content,
+) => {
+  console.log('plantjournalid, plantjournaldiaryid, content');
+  console.log(plantjournalid, plantjournaldiaryid, content);
   try {
     const data = await authInstance.put(
       `/api/plantjournal/diary/${plantjournalid}/${plantjournaldiaryid}`,
+      {
+        content,
+      },
     );
     return data;
   } catch (error) {
