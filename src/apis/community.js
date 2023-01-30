@@ -65,12 +65,14 @@ export const postLikeApi = async postId => {
 //   }
 // };
 
-export const getPostByTagApi = async ({ queryKey }) => {
-  const [tag] = queryKey;
-  console.log(tag);
+export const getPostByTagApi = async ({ tag, pageParam }) => {
   try {
-    const data = await instance.get(`/api/posts/category/${tag}?page=0`);
-    return data.data.content;
+    const data = await instance.get(
+      `/api/posts/category/${tag}?page=${pageParam}`,
+    );
+
+    const { content, last } = data.data;
+    return { content, nextPage: pageParam + 1, isLast: last };
   } catch (error) {
     throw Error(error);
   }
