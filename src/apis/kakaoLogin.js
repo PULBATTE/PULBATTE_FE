@@ -21,9 +21,9 @@ export const kakaoLogin = code => {
     await instance
       .post(`/api/user/kakao/callback?code=${code}`)
       .then(response => {
-        setCookie('Token', response.headers.authorization);
+        localStorage.setItem('access_Token', response.headers.authorization);
         console.log(response);
-        // window.location.href = '/';
+        window.location.href = '/';
       })
       .catch(err => {
         console.log('소셜로그인 에러', err);
