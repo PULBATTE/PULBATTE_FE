@@ -9,6 +9,7 @@ export default function PlantSlide({
   questionA,
   questionB,
   checkQuestionHandler,
+  isChecked,
 }) {
   return (
     <div className="slide_inner">
@@ -18,7 +19,7 @@ export default function PlantSlide({
       </div>
       <StQuestionContainer>
         <div
-          className="next"
+          className={isChecked ? 'next off' : 'next on'}
           onClick={() => checkQuestionHandler('0')}
           aria-hidden="true"
         >
@@ -26,7 +27,7 @@ export default function PlantSlide({
           <span className="second_question">{questionA}</span>
         </div>
         <div
-          className="next"
+          className={isChecked ? 'next off' : 'next on'}
           onClick={() => checkQuestionHandler('1')}
           aria-hidden="true"
         >
@@ -67,6 +68,12 @@ const StQuestionContainer = styled.div`
         font-weight: 800;
       }
     }
+  }
+  .on {
+    pointer-events: fill;
+  }
+  .off {
+    pointer-events: none;
   }
   .first_question {
     font-size: 1.8rem;
