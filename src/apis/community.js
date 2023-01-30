@@ -10,6 +10,7 @@ export const getBestPostApi = async () => {
 };
 
 export const createPostApi = async formData => {
+  console.log(formData);
   try {
     const data = await authInstance.post('/api/posts', formData, {
       headers: {
