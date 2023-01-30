@@ -5,15 +5,9 @@ import { format } from 'date-fns';
 import { palette } from '../../styles/palette';
 import { getCalendarDataApi } from '../../apis/plantDiary';
 
-const MOCK = [
-  { localDate: '2023-01-26', nutrition: 1, repot: 1, water: 1 },
-  { localDate: '2023-01-27', nutrition: 1, repot: 1, water: 0 },
-  { localDate: '2023-01-28', nutrition: 1, repot: 0, water: 1 },
-  { localDate: '2023-01-29', nutrition: 0, repot: 1, water: 1 },
-];
-
 export default function PlantDiaryCalendar({ plantJournalId }) {
   const [diaryValue, setDiaryValue] = useState();
+  console.log(diaryValue);
 
   const getCalendar = useCallback(async () => {
     const data = await getCalendarDataApi(plantJournalId);
@@ -23,20 +17,21 @@ export default function PlantDiaryCalendar({ plantJournalId }) {
   const doneActionColorArr = date => {
     const formatDate = format(date, 'yyyy-MM-dd');
     const colorArr = [];
-    // diaryValue.map(v => {
-    MOCK.map(v => {
-      if (formatDate === v.localDate) {
-        if (v.water) {
-          colorArr.push(palette.card.blue);
+
+    diaryValue &&
+      diaryValue.map(v => {
+        if (formatDate === v.localDate) {
+          if (v.water) {
+            colorArr.push(palette.card.blue);
+          }
+          if (v.repot) {
+            colorArr.push(palette.card.brown);
+          }
+          if (v.nutrition) {
+            colorArr.push(palette.card.green);
+          }
         }
-        if (v.repot) {
-          colorArr.push(palette.card.brown);
-        }
-        if (v.nutrition) {
-          colorArr.push(palette.card.green);
-        }
-      }
-    });
+      });
     return colorArr;
   };
 
