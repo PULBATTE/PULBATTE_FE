@@ -4,25 +4,26 @@ import styled from 'styled-components';
 
 import { useParams } from 'react-router-dom';
 
-import { getPlantDetail } from '../../../apis/plantDiary';
+import { getPlantDetailApi } from '../../../apis/plantDiary';
 
 import { palette } from '../../../styles/palette';
 
 import PlantManagement from './PlantManagement';
 import PlantDiary from './PlantDiary';
+import { ModalProvider } from '../../../context/plantDiary/ModalsProvider';
 
 export default function DetailPlant() {
   const [currentTab, setCurrentTab] = useState(1);
   const [plantDetailData, setPlantDetailData] = useState();
   const { plantJournalId } = useParams();
-  const getPlantDetailApi = useCallback(async () => {
-    const data = await getPlantDetail(plantJournalId);
+  const getPlantDetail = useCallback(async () => {
+    const data = await getPlantDetailApi(plantJournalId);
     setPlantDetailData(data.data);
   }, [plantJournalId]);
 
   useEffect(() => {
-    getPlantDetailApi();
-  }, [getPlantDetailApi]);
+    getPlantDetail();
+  }, [getPlantDetail]);
 
   const onNavHandler = v => {
     setCurrentTab(v);
@@ -33,35 +34,37 @@ export default function DetailPlant() {
   }
 
   return (
-    <StDetailPlantContainer>
-      <StHeader>
-        <h3>식물일지</h3>
-      </StHeader>
-      <StDetailPlantNav>
-        <StNavTab
-          index={1}
-          currentTab={currentTab === 1}
-          onClick={() => onNavHandler(1)}
-        >
-          내 식물 관리
-        </StNavTab>
-        <StNavTab
-          index={2}
-          currentTab={currentTab === 2}
-          onClick={() => onNavHandler(2)}
-        >
-          식물 다이어리
-        </StNavTab>
-      </StDetailPlantNav>
-      {currentTab === 1 ? (
-        <PlantManagement
-          plantDetailData={plantDetailData}
-          getPlantDetailApi={getPlantDetailApi}
-        />
-      ) : (
-        <PlantDiary />
-      )}
-    </StDetailPlantContainer>
+    <ModalProvider>
+      <StDetailPlantContainer>
+        <StHeader>
+          <h3>식물일지</h3>
+        </StHeader>
+        <StDetailPlantNav>
+          <StNavTab
+            index={1}
+            currentTab={currentTab === 1}
+            onClick={() => onNavHandler(1)}
+          >
+            내 식물 관리
+          </StNavTab>
+          <StNavTab
+            index={2}
+            currentTab={currentTab === 2}
+            onClick={() => onNavHandler(2)}
+          >
+            식물 다이어리
+          </StNavTab>
+        </StDetailPlantNav>
+        {currentTab === 1 ? (
+          <PlantManagement
+            plantDetailData={plantDetailData}
+            getPlantDetail={getPlantDetail}
+          />
+        ) : (
+          <PlantDiary />
+        )}
+      </StDetailPlantContainer>
+    </ModalProvider>
   );
 }
 

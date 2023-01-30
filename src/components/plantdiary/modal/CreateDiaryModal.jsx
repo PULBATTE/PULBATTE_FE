@@ -1,33 +1,71 @@
+import ReactModal from 'react-modal';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
-import Modal from '../common/Modal';
-import { palette } from '../../styles/palette';
+import { palette } from '../../../styles/palette';
+import { postPlantDiaryApi } from '../../../apis/plantDiary';
 
-export default function CreateDiaryModal({
-  modal,
-  onSubmitHandler,
-  closeModal,
-}) {
-  const [diaryContent, setDiaryContent] = useState('');
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    zIndex: 5,
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
+export default function CreateDiaryModal(props) {
+  const {
+    // onSubmit, // submit을 modal에서 정의
+    onClose,
+    content,
+    plantJournalId,
+    getPlantDiaryList,
+  } = props;
+  console.log({ props });
+  const [diaryContent, setDiaryContent] = useState(content);
+
+  const onSubmitHandler = async () => {
+    const data = await postPlantDiaryApi(plantJournalId, diaryContent);
+    if (data.status === 200) {
+      alert('작성 완료');
+      onClose();
+      getPlantDiaryList();
+    } else {
+      alert('error');
+    }
+  };
+
+  const onCloseHandler = () => {
+    onClose();
+  };
+
   const onChangeDiaryHandler = e => {
-    console.log(e.target.value);
     setDiaryContent(e.target.value);
   };
 
   return (
-    <Modal modal={modal} width="700px">
+    <ReactModal
+      isOpen
+      style={customStyles}
+      onRequestClose={onCloseHandler}
+      contentLabel="Example Modal"
+      ariaHideApp={false}
+    >
       <StContainer>
-        <StCloseButton onClick={closeModal} />
+        <StCloseButton onClick={onCloseHandler} />
         <StModalContents>
           <h3>일기 작성</h3>
           <textarea value={diaryContent} onChange={onChangeDiaryHandler} />
-          <StButton type="button" onClick={() => onSubmitHandler(diaryContent)}>
-            작성완료
+          <StButton type="button" onClick={onSubmitHandler}>
+            일기 작성
           </StButton>
         </StModalContents>
       </StContainer>
-    </Modal>
+    </ReactModal>
   );
 }
 
@@ -45,7 +83,7 @@ const StModalContents = styled.div`
   textarea {
     display: block;
     box-sizing: border-box;
-    width: 100%;
+    width: 350px;
     padding: 12px 16px;
     height: 250px;
     resize: none;

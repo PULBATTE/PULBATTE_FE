@@ -1,37 +1,41 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, useCallback } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 import { LeftArrow, RightArrow } from '../../components/community/Arrow';
-import Button from '../../components/common/Button';
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
-import { getBestPostApi, getPostByTag } from '../../apis/community';
+import { getBestPostApi, getPostByTagApi } from '../../apis/community';
 import TagPost from '../../components/community/TagPost';
 import Best5Img from './Best5Img';
 
 export default function PostList() {
   const [bestPostList, setBestPostList] = useState([]);
-  const [tagPostList, setTagPostList] = useState([]);
+  // const [tagPostList, setTagPostList] = useState([]);
   const [tag, setTag] = useState('질문과 답변');
-  console.log({ bestPostList });
+  const { ref, inView } = useInView();
+
   const navigate = useNavigate();
+
   const getBestPostList = useCallback(async () => {
     const data = await getBestPostApi();
     setBestPostList(data.data);
   }, []);
 
-  const getPostByTagApi = useCallback(async () => {
-    const data = await getPostByTag(tag);
-    console.log('getPostByTagApi');
-    console.log(data);
-    setTagPostList(data.data.content);
-  }, [tag]);
+  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    [tag],
+    ({ pageParam = 0 }) => getPostByTagApi({ tag, pageParam }),
+    {
+      getNextPageParam: lastPage => {
+        return !lastPage.isLast ? lastPage.nextPage : undefined;
+      },
+    },
+  );
 
   const onTagHandler = e => {
-    e.preventDefault();
-    console.log(e.target.value);
     setTag(e.target.value);
   };
 
@@ -40,8 +44,13 @@ export default function PostList() {
   }, [getBestPostList]);
 
   useEffect(() => {
-    getPostByTagApi();
-  }, [getPostByTagApi]);
+    if (inView) fetchNextPage();
+  }, [fetchNextPage, inView]);
+
+  // TODO: 상황에 맞는 페이지
+  if (status.isLoading) return 'Loading...';
+
+  if (status.error) return `An error has occurred:  + ${status.error.message}`;
 
   return (
     <StPostListContainer>
@@ -86,12 +95,24 @@ export default function PostList() {
       <StHorizontalPaddingLayout>
         <StPostWrapper>
           <StFilterdWrapper>
-            {tagPostList.map(v => (
-              <TagPost key={v.id} postData={v} />
-            ))}
+            {data?.pages.map(v => {
+              return (
+                <div key={v.id}>
+                  {v.content.map(postData => (
+                    <TagPost key={v.id} postData={postData} />
+                  ))}
+                </div>
+              );
+            })}
           </StFilterdWrapper>
         </StPostWrapper>
       </StHorizontalPaddingLayout>
+      {isFetchingNextPage ? (
+        // TODO: animation
+        <>loading</>
+      ) : (
+        <div className="lastChecker" ref={ref} />
+      )}
     </StPostListContainer>
   );
 }
