@@ -3,22 +3,19 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import PlantDiaryCard from '../../../components/plantdiary/PlantDiaryCard';
 import PlantDiaryCalendar from '../../../components/plantdiary/PlantDiaryCalendar';
-import {
-  getPlantDiaryListApi,
-  postPlantDiaryApi,
-} from '../../../apis/plantDiary';
-import useModal from '../../../hooks/useModal';
+import { getPlantDiaryListApi } from '../../../apis/plantDiary';
+
 import { palette } from '../../../styles/palette';
-import CreateDiaryModal from '../../../components/plantdiary/CreateDiaryModal';
+import useContextModal from '../../../hooks/useContextModal';
+import { modals } from '../../../context/plantDiary/Modals';
 
 export default function PlantDiary() {
   const { plantJournalId } = useParams();
   const [plantDiaryList, setPlantDiaryList] = useState([]);
-  const [modal, onChangeModalHandler] = useModal();
+  const { openModal } = useContextModal();
 
   const getPlantDiaryList = useCallback(async () => {
     const data = await getPlantDiaryListApi();
-    console.log(data);
     setPlantDiaryList(data.data);
   }, []);
 
@@ -26,12 +23,12 @@ export default function PlantDiary() {
     getPlantDiaryList();
   }, [getPlantDiaryList]);
 
-  const onSubmitDiaryHandler = async diaryContent => {
-    await postPlantDiaryApi(plantJournalId, diaryContent);
-    onChangeModalHandler();
-  };
-  const closeModal = () => {
-    onChangeModalHandler();
+  // 모달 Component와 모달에서 사용하는 props를 컨텍스트 훅에 값을 넣어준다.
+  const onContextCreateModalHandler = () => {
+    openModal(modals.CreateDiaryModal, {
+      plantJournalId,
+      getPlantDiaryList,
+    });
   };
 
   return (
@@ -42,25 +39,22 @@ export default function PlantDiary() {
       <StPlantInfoWrap>
         <StPlantInfoHeader>
           <h3>작성한 일기</h3>
-          <p>날짜를 누르면 일기를 작성할 수 있어요!</p>
-          <StButton type="button" onClick={() => onChangeModalHandler()}>
+          <StButton type="button" onClick={onContextCreateModalHandler}>
             일기작성
           </StButton>
         </StPlantInfoHeader>
-        {plantDiaryList.map(v => (
-          <PlantDiaryCard
-            key={v.id}
-            plantDiary={v}
-            onChangeModalHandler={onChangeModalHandler}
-          />
-        ))}
+        <PlantDiaryCardContainer>
+          {plantDiaryList.map((v, index) => (
+            <PlantDiaryCard
+              // eslint-disable-next-line react/no-array-index-key
+              key={`${v.id}_${index}`}
+              plantJournalId={plantJournalId}
+              plantDiary={v}
+              getPlantDiaryList={getPlantDiaryList}
+            />
+          ))}
+        </PlantDiaryCardContainer>
       </StPlantInfoWrap>
-      {/* TODO: Redux */}
-      <CreateDiaryModal
-        modal={modal}
-        onSubmitHandler={onSubmitDiaryHandler}
-        closeModal={closeModal}
-      />
     </StTabSection>
   );
 }
@@ -69,7 +63,7 @@ const StTabSection = styled.section`
   display: flex;
   width: 100%;
   gap: 0 60px;
-  margin: 40px 20px 20px 20px;
+  margin: 40px 20px 80px 20px;
   max-width: 1120px;
 
   @media (max-width: 1120px) {
@@ -121,4 +115,11 @@ const StButton = styled.button`
   &:active {
     background: #337461;
   }
+`;
+
+const PlantDiaryCardContainer = styled.div`
+  width: 100%;
+  height: 410px;
+  overflow: scroll;
+  padding-bottom: 50px;
 `;

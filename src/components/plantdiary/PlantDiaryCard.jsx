@@ -1,71 +1,95 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 import moreIcon from '../../assets/image/more_vert.png';
-// import useModal from '../../../hooks/useModal';
+import useContextModal from '../../hooks/useContextModal';
+import { modals } from '../../context/plantDiary/Modals';
+import { deletePlantDiaryApi } from '../../apis/plantDiary';
 
-const MockData = [
-  {
-    plantJournalDiaryId: '0',
-    content: 'string',
-    createdAt: '2023-01-25T13:20:33.270Z',
-    modifiedAt: '2023-01-25T13:20:33.270Z',
-  },
-];
-
-export default function PlantDiaryCard({ plantDiary, onChangeModalHandler }) {
+export default function PlantDiaryCard({
+  plantDiary,
+  plantJournalId,
+  getPlantDiaryList,
+}) {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
-  // console.log({ plantDiary });
-  const { content, createdAt } = plantDiary;
-  // console.log(format(new Date(createdAt), 'M/dd'));
+  const { content, createdAt, plantJournalDiaryId } = plantDiary;
 
   const menuRef = useRef(null);
+
+  // contextModal
+  const { openModal } = useContextModal();
 
   const onClickHandler = () => {
     setIsOpenMenu(_isOpenMenu => !_isOpenMenu);
   };
 
-  // // 사이드바 외부 클릭시 닫히는 함수
-  // const handleClose = async e => {
-  //   console.log(e);
-  //   const sideArea = menuRef.current;
-  //   // const sideCildren = menuRef.current.contains(e.target);
-  //   console.log(sideArea);
-  //   // console.log(sideCildren);
-  //   // if (isOpenMenu && (!sideArea || !sideCildren)) {
-  //   // await setX(-width);
-  //   // await setOpen(false);
-  //   // }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener('click', handleClose);
-  //   return () => {
-  //     window.removeEventListener('click', handleClose);
-  //   };
-  // });
-  const onEditModal = () => {
-    onChangeModalHandler();
+  // 자식 컴포넌트에서 수정 모달에 필요한 값을 모달에 주입 - plantJournalDiaryId
+  const onContextModalHandler = () => {
+    onClickHandler();
+    // 해당모달을 열고 props전달
+    openModal(modals.EditDiaryModal, {
+      content,
+      plantJournalId,
+      plantJournalDiaryId,
+      getPlantDiaryList,
+    });
   };
+
+  const onDeleteHandler = async () => {
+    const data = await deletePlantDiaryApi(plantJournalId, plantJournalDiaryId);
+    console.log(data);
+    if (data.status === 200) {
+      alert('삭제완료');
+      getPlantDiaryList();
+    } else {
+      alert('error');
+    }
+    onClickHandler();
+    getPlantDiaryList();
+  };
+
+  const menuOutSideClick = useCallback(
+    e => {
+      // console.log(menuRef.current.contains(e.target));
+      // contains는 e.target이 menuRef의 자식이냐를 알려주는 것 자식이 아니라면 메뉴를 닫아준다
+      if (isOpenMenu && !menuRef.current.contains(e.target)) {
+        setIsOpenMenu(false);
+      }
+    },
+    [isOpenMenu],
+  );
+
+  useEffect(() => {
+    if (isOpenMenu) document.addEventListener('mousedown', menuOutSideClick);
+    return () => {
+      document.removeEventListener('mousedown', menuOutSideClick);
+    };
+  }, [isOpenMenu, menuOutSideClick]);
+
   return (
     <StDiaryContainer>
       <StDiary>
         <StDateCircle>{format(new Date(createdAt), 'M/dd')}</StDateCircle>
+
         <StPlantDiaryCardContent>{content}</StPlantDiaryCardContent>
         <STMenuButton className="edit_button" onClick={onClickHandler}>
           <img src={moreIcon} alt="수정삭제 아이콘" />
         </STMenuButton>
       </StDiary>
       {isOpenMenu && (
-        <StMenuWrapper ref={menuRef}>
+        <StMenuWrapper id="menuItem" ref={menuRef}>
           <ul>
             <li>
-              <button type="button" onClick={onEditModal}>
+              <button type="button" onClick={onContextModalHandler}>
                 수정
               </button>
             </li>
-            <li>삭제</li>
+            <li>
+              <button type="button" onClick={onDeleteHandler}>
+                삭제
+              </button>
+            </li>
           </ul>
         </StMenuWrapper>
       )}
@@ -90,10 +114,10 @@ const StDiary = styled.div`
   box-sizing: border-box;
 `;
 const StDateCircle = styled.div`
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background-color: white;
+  background-color: ${palette.white};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,14 +155,30 @@ const StMenuWrapper = styled.div`
   border-radius: 10px;
   overflow: hidden;
   ul {
-    margin: 0;
+    width: 100%;
+    height: 100%;
+
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: inherit; */
     padding: 0px;
-    gap: 10px;
   }
   li {
+    flex: 1;
+    width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    &:hover {
+      background-color: ${palette.mainColor};
+      color: ${palette.white};
+      border-radius: 10px;
+      font-weight: bold;
+    }
   }
 `;
