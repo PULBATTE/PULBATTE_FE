@@ -65,7 +65,9 @@ export default function CreatePost() {
       <form onSubmit={onSubmitHandler}>
         <StTopicArea>
           <h4>주제 선택</h4>
-          <h5>작성하려는 글에 맞는 주제를 선택해주세요.</h5>
+          <span className="section_subtitle">
+            작성하려는 글에 맞는 주제를 선택해주세요.
+          </span>
         </StTopicArea>
         <StTagWrapper>
           {TAGS.map(v => (
@@ -81,6 +83,7 @@ export default function CreatePost() {
         </StTagWrapper>
         <StTitleArea
           placeholder="제목을 입력해 주세요"
+          maxLength={30}
           value={title}
           onChange={onChangeTitleHandler}
         />
@@ -127,13 +130,14 @@ const StCreateContainer = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin: 6rem 0 4rem;
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.8rem;
-      margin-top: 45px;
+      font-size: 1.5rem;
+      margin: 2rem 0;
     }
   }
   /* margin: 0 auto;
@@ -174,6 +178,18 @@ const StCreateHeader = styled.div`
   margin-top: 32px;
   text-align: center;
   width: 100%;
+  h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+  }
 `;
 const StTagWrapper = styled.div`
   display: flex;
@@ -184,17 +200,23 @@ const StTopicArea = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+  .section_subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #777777;
+  }
 `;
-const StTitleArea = styled.textarea`
+const StTitleArea = styled.input`
   display: block;
   width: 100%;
   height: 50px;
-  font-size: 45px;
+  font-size: 26px;
+  word-break: break-all;
   word-break: break-all;
   resize: none;
   border: none;
   border-bottom: solid 1px;
-  margin-top: 80px;
+  margin-top: 60px;
 `;
 const StContentArea = styled.textarea`
   display: block;
@@ -202,7 +224,9 @@ const StContentArea = styled.textarea`
   height: 600px;
   margin-top: 30px;
   margin-bottom: 20px;
-  font-size: 25px;
+  font-size: 1.2rem;
+  padding: 20px;
+  box-sizing: border-box;
   word-break: break-all;
   resize: none;
   border: none;
