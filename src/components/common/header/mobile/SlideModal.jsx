@@ -11,6 +11,7 @@ import {
   searchPath,
   diaryPath,
   testPath,
+  mypagePath,
 } from '../../../../apis/path';
 import logo from '../../../../assets/image/logo.png';
 import PrivateRoute from '../../../../routes/PrivateRoute';
@@ -68,7 +69,11 @@ export default function SlideModal({
         )}
         <StCategory>
           {token && (
-            <div className="gnb">
+            <div
+              className="gnb"
+              onClick={() => PrivateRoute(mypagePath)}
+              aria-hidden="true"
+            >
               <span>마이페이지</span>
             </div>
           )}
