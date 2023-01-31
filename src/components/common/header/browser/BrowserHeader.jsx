@@ -110,7 +110,7 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
 
       {token && token ? (
         <StUtilContainer>
-          <StAlarm src={alarmBtn} />
+          <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
           <StMyBtnContainer>
             <StMyBtn src={mypageBtn} onClick={() => setClickBtn(!clickBtn)} />
             <ul className={clickBtn ? 'mypage_modal open' : 'mypage_modal'}>
