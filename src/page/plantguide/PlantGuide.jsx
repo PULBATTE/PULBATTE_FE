@@ -80,8 +80,6 @@ const StPageWrapper = styled.div`
   padding: 4rem 0 3rem;
   margin: 0 auto;
   box-sizing: border-box;
-  width: 100%;
-  min-height: calc(100vh - 71px);
   position: relative;
 
   @media (max-width: 768px) {
@@ -92,12 +90,6 @@ const StPageWrapper = styled.div`
   @media (max-width: 768px) {
     margin-top: 0;
   }
-
-  padding: 4rem 0 3rem;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: calc(100vh - 71px);
-  position: relative;
 
   @media (max-width: 1280px) {
     height: 100%;
