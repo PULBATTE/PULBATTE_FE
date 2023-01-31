@@ -8,7 +8,7 @@ import {
   postCommentApi,
 } from '../../apis/community';
 
-export function Comment({ comment, getPostUserApi, nickName }) {
+export function Comment({ comment, getPostUser, nickName }) {
   /* 객체 비구조화 할당 */
   const {
     replyList,
@@ -20,89 +20,107 @@ export function Comment({ comment, getPostUserApi, nickName }) {
     profileImage,
   } = comment;
 
-  console.log({ comment });
+  console.log({ replyList });
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
-  const [isHideComment, setIsHideComment] = useState(true);
+  // const [isHideComment, setIsHideComment] = useState(true);
 
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
 
-  const onOpenEditCommentHandler = () => {
-    setIsEditable(true);
-  };
-  const onDeleteCommentHandler = async () => {
-    await deleteCommentApi(commentId);
-    await getPostUserApi();
-  };
   const onEditCommentHandler = e => {
     setCommentContent(e.target.value);
   };
-  const onEditCommentDoneHandler = async () => {
-    await editCommentApi(commentId, commentContent);
 
-    await getPostUserApi();
-  };
-  const onOpenReplyHandler = e => {
-    setIsOpenReply(_openReply => !_openReply);
-  };
   const onCreateReplyHandler = e => {
     setCreateReply(e.target.value);
   };
-  const onRegReplyHandler = async () => {
-    await postCommentApi(postId, commentId, createReply);
-    await getPostUserApi();
+
+  const onOpenEditCommentHandler = () => {
+    setIsEditable(true);
   };
+
+  const onOpenReplyHandler = e => {
+    setIsOpenReply(_openReply => !_openReply);
+    setIsEditable(false);
+  };
+
+  const onDeleteCommentHandler = async () => {
+    await deleteCommentApi(commentId);
+    getPostUser();
+  };
+
+  const onEditCommentDoneHandler = async () => {
+    await editCommentApi(commentId, commentContent);
+    setIsEditable(false);
+    getPostUser();
+  };
+
+  const onRegReplyHandler = async () => {
+    const data = await postCommentApi(postId, commentId, createReply);
+    console.log('onRegReplyHandler');
+    console.log(postId, commentId, data);
+
+    setIsEditable(false);
+    setIsOpenReply(false);
+    getPostUser();
+  };
+
   return (
     <StCommentContainer>
-      <StUserInfo>
-        <div className="userProfilecotainer">
-          <img alt="profileImage" src={profileImage} />
-          <div className="usercontainer">
-            <span>{nickname}</span>
-            <span>{formatDate(createdAt)}</span>
+      <StCommentWrapper>
+        <StUserInfo>
+          <div className="userProfilecotainer">
+            <img alt="profileImage" src={profileImage} />
+            <div className="usercontainer">
+              <span>{nickname}</span>
+              <span>{formatDate(createdAt)}</span>
+            </div>
           </div>
-        </div>
-        {comment.nickname === nickName && (
-          <StButtonWrapper>
-            <StButton
-              type="button"
-              value="수정버튼"
-              onClick={onOpenEditCommentHandler}
-            >
-              수정
-            </StButton>
-            <StButton type="button" onClick={onDeleteCommentHandler}>
-              삭제
-            </StButton>
-          </StButtonWrapper>
-        )}
-      </StUserInfo>
-      <StTextFieldWrapper>
-        {isEditable ? (
-          <>
-            <StCommentTextArea
-              value={commentContent}
-              onChange={onEditCommentHandler}
-            />
-            <StEditDoneButtonWrapper>
-              <StEditDoneButton
+          {comment.nickname === nickName && (
+            <StButtonWrapper>
+              <StButton
                 type="button"
-                onClick={onEditCommentDoneHandler}
+                value="수정버튼"
+                onClick={onOpenEditCommentHandler}
               >
-                수정 완료
-              </StEditDoneButton>
-            </StEditDoneButtonWrapper>
-          </>
-        ) : (
-          <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
+                수정
+              </StButton>
+              <StButton type="button" onClick={onDeleteCommentHandler}>
+                삭제
+              </StButton>
+            </StButtonWrapper>
+          )}
+        </StUserInfo>
+        <StTextFieldWrapper>
+          {isEditable ? (
+            <StEditorWrapper>
+              <StCommentTextArea
+                value={commentContent}
+                onChange={onEditCommentHandler}
+              />
+              <StEditDoneButtonWrapper>
+                <StEditDoneButton
+                  type="button"
+                  onClick={onEditCommentDoneHandler}
+                >
+                  수정 완료
+                </StEditDoneButton>
+              </StEditDoneButtonWrapper>
+            </StEditorWrapper>
+          ) : (
+            <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
+          )}
+        </StTextFieldWrapper>
+        {/* TODO: 대댓글 api 수정 전 임시 조치 */}
+        {replyList && (
+          <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+            {isOpenReply ? '숨기기' : '답글 달기'}
+          </StReCommentButton>
         )}
-      </StTextFieldWrapper>
-      <StReCommentButton type="button" onClick={onOpenReplyHandler}>
-        {isOpenReply ? '숨기기' : '답글 달기'}
-      </StReCommentButton>
+      </StCommentWrapper>
       {isOpenReply && (
-        <>
+        <StEditorWrapper>
           <StCommentTextArea
             value={createReply}
             onChange={onCreateReplyHandler}
@@ -110,7 +128,7 @@ export function Comment({ comment, getPostUserApi, nickName }) {
           <StRegReplyButton type="button" onClick={onRegReplyHandler}>
             등록
           </StRegReplyButton>
-        </>
+        </StEditorWrapper>
       )}
       {replyList.length !== 0 &&
         replyList.map(v => (
@@ -119,7 +137,7 @@ export function Comment({ comment, getPostUserApi, nickName }) {
             {/* map함수를 사용해서 replyList를 여러개 생성 */}
             <Comment
               comment={v}
-              getPostUserApi={getPostUserApi}
+              getPostUser={getPostUser}
               nickName={nickName}
             />
           </ReCommentWrapper>
@@ -130,6 +148,9 @@ export function Comment({ comment, getPostUserApi, nickName }) {
 
 const StCommentContainer = styled.div`
   margin-bottom: 8px;
+`;
+const StCommentWrapper = styled.div`
+  padding-bottom: 24px;
 `;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
@@ -152,6 +173,9 @@ const StUserInfo = styled.div`
     display: flex;
     flex-direction: column;
   }
+`;
+const StEditorWrapper = styled.div`
+  margin-bottom: 24px;
 `;
 
 const StTextFieldWrapper = styled.div`
@@ -209,8 +233,10 @@ const StReCommentButton = styled.button`
   cursor: pointer;
 `;
 const ReCommentWrapper = styled.div`
-  padding: 24px 0px 24px 24px;
+  /* padding: 24px 0px 0px 0px; */
+  padding: 24px 24px 0px 24px;
   border-left: 4px solid ${palette.borderColor1};
+  background-color: ${palette.mainBackground};
 `;
 
 const StRegReplyButton = styled.button`

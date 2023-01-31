@@ -64,14 +64,11 @@ export default function DonePost() {
     getPost();
   }, [getInfo, getPost]);
 
-  if (isLoading) {
-    return <div> Loading...</div>;
-  }
-
   const onLikeHandler = () => {
     // -postLikeApi 호출
     if (Token) {
-      postLikeApi();
+      postLike();
+      getPost();
     }
     if (!Token) {
       alert('로그인이 필요합니다.');
@@ -88,7 +85,7 @@ export default function DonePost() {
     await getPost();
     setIsLoading(false);
   };
-  console.log({ postData });
+
   return (
     <StDonePostContainer>
       {postData && (
