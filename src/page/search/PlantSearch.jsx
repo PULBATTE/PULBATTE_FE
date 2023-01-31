@@ -18,11 +18,11 @@ import {
 import PagingCard from '../../components/search/PagingCard';
 
 export default function PlantSearch() {
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(true);
   const search = useRef();
   const [plantsList, setPlantsList] = useState(null);
   const [category, setCategory] = useState('all');
-
+  console.log(category);
   const { ref, inView } = useInView();
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -33,7 +33,6 @@ export default function PlantSearch() {
         !lastPage.isLast ? lastPage.nextPage : undefined,
     },
   );
-
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
@@ -49,8 +48,6 @@ export default function PlantSearch() {
         .catch(error => console.log(error));
     }
   };
-
-  const addTodo = async () => {};
 
   return (
     <StWrapper>

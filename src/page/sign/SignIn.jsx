@@ -13,7 +13,6 @@ import { setCookie, getCookie } from '../../apis/cookie';
 import { authInstance, instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
-import { onLoginSuccess, onReissueRefresh } from '../../apis/refresh';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
