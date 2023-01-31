@@ -12,6 +12,9 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
+    borderRadius: '24px',
+    border: `2px solid ${palette.mainColor}`,
+    backgroundColor: palette.white,
     zIndex: 5,
     transform: 'translate(-50%, -50%)',
   },
@@ -71,25 +74,30 @@ export default function CreateDiaryModal(props) {
 
 const StModalContents = styled.div`
   display: flex;
-  width: 100%;
+  width: 650px;
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  padding: 12px;
   h3 {
     font-size: 20px;
     font-weight: bold;
     margin: 0;
+    color: ${palette.mainColor};
   }
   textarea {
     display: block;
     box-sizing: border-box;
-    width: 350px;
+    width: 100%;
     padding: 12px 16px;
     height: 250px;
     resize: none;
-    z-index: 10;
-    border: 2px solid ${palette.borderColor2};
+    z-index: 2;
+    border: none;
+    background-color: ${palette.mainBackground};
     border-radius: 16px;
+    outline: none;
+    font-size: 16px;
   }
 `;
 const StContainer = styled.div`
@@ -104,11 +112,11 @@ const StButton = styled.button`
   border: none;
   border-radius: 18px;
   background: ${palette.mainColor};
-  color: #fff;
+  color: ${palette.white};
   font-weight: 600;
   cursor: pointer;
   &:active {
-    background: #337461;
+    background: ${palette.mainColor};
   }
 `;
 const StCloseButton = styled(GrFormClose)`
@@ -116,5 +124,6 @@ const StCloseButton = styled(GrFormClose)`
   right: 10px;
   top: 10px;
   font-size: 1.5rem;
+  color: ${palette.mainColor};
   cursor: pointer;
 `;

@@ -7,9 +7,9 @@ import PlantListCard from '../../components/plantdiary/PlantListCard';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
+  console.log({ plantList });
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
-    console.log(data.data);
     setPlantList(data.data);
   }, []);
 

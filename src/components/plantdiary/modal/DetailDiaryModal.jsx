@@ -20,43 +20,11 @@ const customStyles = {
   },
 };
 
-export default function EditDiaryModal(props) {
-  const {
-    // onSubmit, // submit을 modal에서 정의
-    onClose,
-    content,
-    plantJournalId,
-    plantJournalDiaryId,
-    getPlantDiaryList,
-  } = props;
-  const [diaryContent, setDiaryContent] = useState(content);
-
-  // const onSubmitHandler = () => {
-  //   onSubmit();
-  // };
+export default function DetailDiaryModal(props) {
+  const { onClose, content, day } = props;
 
   const onCloseHandler = () => {
     onClose();
-  };
-
-  const onChangeDiaryHandler = e => {
-    setDiaryContent(e.target.value);
-  };
-
-  const onSubmitHandler = async () => {
-    // plantJournalId, plantJournalDiaryId,
-    const data = await putPlantDiaryApi(
-      plantJournalId,
-      plantJournalDiaryId,
-      diaryContent,
-    );
-    if (data.status === 200) {
-      alert('수정완료');
-      onClose();
-      getPlantDiaryList();
-    } else {
-      alert('error');
-    }
   };
 
   return (
@@ -70,10 +38,10 @@ export default function EditDiaryModal(props) {
       <StContainer>
         <StCloseButton onClick={onCloseHandler} />
         <StModalContents>
-          <h3>일기 작성</h3>
-          <textarea value={diaryContent} onChange={onChangeDiaryHandler} />
-          <StButton type="button" onClick={onSubmitHandler}>
-            수정
+          <h3>{day} 일기</h3>
+          <StContentWrapper>{content}</StContentWrapper>
+          <StButton onClick={onCloseHandler} type="button">
+            닫기
           </StButton>
         </StModalContents>
       </StContainer>
@@ -84,6 +52,7 @@ export default function EditDiaryModal(props) {
 const StModalContents = styled.div`
   display: flex;
   width: 650px;
+  height: 300px;
   align-items: center;
   flex-direction: column;
   gap: 20px;
@@ -94,20 +63,12 @@ const StModalContents = styled.div`
     margin: 0;
     color: ${palette.mainColor};
   }
-  textarea {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    padding: 12px 16px;
-    height: 250px;
-    resize: none;
-    z-index: 2;
-    border: none;
-    background-color: ${palette.mainBackground};
-    border-radius: 16px;
-    outline: none;
-    font-size: 16px;
-  }
+`;
+const StContentWrapper = styled.div`
+  width: 100%;
+  padding: 12px 16px;
+  height: 250px;
+  background-color: ${palette.mainBackground};
 `;
 const StContainer = styled.div`
   display: flex;
@@ -121,11 +82,11 @@ const StButton = styled.button`
   border: none;
   border-radius: 18px;
   background: ${palette.mainColor};
-  color: ${palette.white};
+  color: #fff;
   font-weight: 600;
   cursor: pointer;
   &:active {
-    background: ${palette.mainColor};
+    background: #337461;
   }
 `;
 const StCloseButton = styled(GrFormClose)`
@@ -133,6 +94,5 @@ const StCloseButton = styled(GrFormClose)`
   right: 10px;
   top: 10px;
   font-size: 1.5rem;
-  color: ${palette.mainColor};
   cursor: pointer;
 `;

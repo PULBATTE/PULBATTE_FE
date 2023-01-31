@@ -4,10 +4,12 @@ import { useContext } from 'react';
 import { ModalsDispatchContext, ModalsStateContext } from './ModalsContext';
 
 import CreateDiaryModal from '../../components/plantdiary/modal/CreateDiaryModal';
+import DetailDiaryModal from '../../components/plantdiary/modal/DetailDiaryModal';
 import EditDiaryModal from '../../components/plantdiary/modal/EditDiaryModal';
 
 export const modals = {
   CreateDiaryModal,
+  DetailDiaryModal,
   EditDiaryModal,
 };
 

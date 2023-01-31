@@ -20,19 +20,32 @@ export default function PlantDiaryCard({
   // contextModal
   const { openModal } = useContextModal();
 
-  const onClickHandler = () => {
+  const onClickMenuHandler = () => {
+    setIsOpenMenu(_isOpenMenu => !_isOpenMenu);
+  };
+
+  const onClickDetailHandler = () => {
     setIsOpenMenu(_isOpenMenu => !_isOpenMenu);
   };
 
   // 자식 컴포넌트에서 수정 모달에 필요한 값을 모달에 주입 - plantJournalDiaryId
-  const onContextModalHandler = () => {
-    onClickHandler();
+  const onContextEditModalHandler = () => {
+    onClickMenuHandler();
     // 해당모달을 열고 props전달
     openModal(modals.EditDiaryModal, {
       content,
       plantJournalId,
       plantJournalDiaryId,
       getPlantDiaryList,
+    });
+  };
+
+  const onContextDetailModalHandler = () => {
+    console.log('누름');
+    // 해당모달을 열고 props전달
+    openModal(modals.DetailDiaryModal, {
+      content,
+      day: format(new Date(createdAt), 'M/dd'),
     });
   };
 
@@ -45,7 +58,7 @@ export default function PlantDiaryCard({
     } else {
       alert('error');
     }
-    onClickHandler();
+    onClickMenuHandler();
     getPlantDiaryList();
   };
 
@@ -72,8 +85,10 @@ export default function PlantDiaryCard({
       <StDiary>
         <StDateCircle>{format(new Date(createdAt), 'M/dd')}</StDateCircle>
 
-        <StPlantDiaryCardContent>{content}</StPlantDiaryCardContent>
-        <STMenuButton className="edit_button" onClick={onClickHandler}>
+        <StPlantDiaryCardContent onClick={onContextDetailModalHandler}>
+          {content}
+        </StPlantDiaryCardContent>
+        <STMenuButton className="edit_button" onClick={onClickMenuHandler}>
           <img src={moreIcon} alt="수정삭제 아이콘" />
         </STMenuButton>
       </StDiary>
@@ -81,7 +96,7 @@ export default function PlantDiaryCard({
         <StMenuWrapper id="menuItem" ref={menuRef}>
           <ul>
             <li>
-              <button type="button" onClick={onContextModalHandler}>
+              <button type="button" onClick={onContextEditModalHandler}>
                 수정
               </button>
             </li>
@@ -100,40 +115,49 @@ export default function PlantDiaryCard({
 const StDiaryContainer = styled.div`
   position: relative;
   width: 100%;
-  /* height: 150px; */
 `;
 const StDiary = styled.div`
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
+  height: 80px;
   background-color: ${palette.Diary.green};
   border-radius: 14px;
   margin-bottom: 16px;
   padding: 12px 16px;
   box-sizing: border-box;
+  gap: 16px;
 `;
 const StDateCircle = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: ${palette.white};
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 14px;
-  span {
-    font-size: 16px;
-    font-weight: bold;
-    color: ${palette.text.green};
-  }
+  color: ${palette.mainColor};
+  font-size: 12px;
+  font-weight: bold;
 `;
 const StPlantDiaryCardContent = styled.div`
   width: 100%;
+  max-width: 280px;
+  margin-right: 20px;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  cursor: pointer;
 `;
 
 const STMenuButton = styled.button`
+  position: absolute;
+  right: 0px;
   border-style: none;
+  margin: 10px;
   img {
     width: 24px;
     height: 24px;
