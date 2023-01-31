@@ -53,86 +53,98 @@ export default function PostList() {
   if (status.error) return `An error has occurred:  + ${status.error.message}`;
 
   return (
-    <StPostListContainer>
+    <StWrapper>
       <StHorizontalPaddingLayout>
         <StPostListHeader>
           <h3>커뮤니티</h3>
           <span>식집사 이웃들과 다양한 이야기를 나눌 수 있는 공간 입니다</span>
         </StPostListHeader>
       </StHorizontalPaddingLayout>
-      <StBest5Wrapper>
-        <StHorizontalPaddingLayout>
-          <Best5ImgHeader>
-            <h3>인기 게시물 Top5</h3>
-            <button type="button" onClick={() => navigate('/createpost')}>
-              글 작성하기
-            </button>
-          </Best5ImgHeader>
-        </StHorizontalPaddingLayout>
-        <Best5ImgWrapper>
-          <ScrollMenuStInjection>
-            <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-              {bestPostList.map(v => (
-                <Best5Img key={v.id} bestPostList={v} id={v.id} />
-              ))}
-            </ScrollMenu>
-          </ScrollMenuStInjection>
-        </Best5ImgWrapper>
-      </StBest5Wrapper>
-      <StHorizontalPaddingLayout>
-        <StTagWrapper>
-          {TAGS.map(v => (
-            <Tag
-              key={`${v}_tag_key`}
-              active={tag === v} // true
-              value={v}
-              onClick={onTagHandler}
-            >
-              {v}
-            </Tag>
-          ))}
-        </StTagWrapper>
-      </StHorizontalPaddingLayout>
-      <StHorizontalPaddingLayout>
-        <StPostWrapper>
-          <StFilterdWrapper>
-            {data?.pages.map(v => {
-              return (
-                <div key={v.id}>
-                  {v.content.map(postData => (
-                    <TagPost key={v.id} postData={postData} />
-                  ))}
-                </div>
-              );
-            })}
-          </StFilterdWrapper>
-        </StPostWrapper>
-      </StHorizontalPaddingLayout>
+      <StPostListContent>
+        <StBest5Wrapper>
+          <StHorizontalPaddingLayout>
+            <Best5ImgHeader>
+              <h3>인기 게시물 Top5 🖐</h3>
+            </Best5ImgHeader>
+          </StHorizontalPaddingLayout>
+          <Best5ImgWrapper>
+            <ScrollMenuStInjection>
+              <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+                {bestPostList.map(v => (
+                  <Best5Img key={v.id} bestPostList={v} id={v.id} />
+                ))}
+              </ScrollMenu>
+            </ScrollMenuStInjection>
+          </Best5ImgWrapper>
+        </StBest5Wrapper>
+        <StPostListContainer>
+          <StHorizontalPaddingLayout>
+            <StTagWrapper>
+              <StTagContainer>
+                {TAGS.map(v => (
+                  <Tag
+                    props={v}
+                    key={`${v}_tag_key`}
+                    active={tag === v} // true
+                    value={v}
+                    onClick={onTagHandler}
+                  >
+                    {v}
+                  </Tag>
+                ))}
+              </StTagContainer>
+              <StTagButton
+                type="button"
+                onClick={() => navigate('/createpost')}
+              >
+                글 작성하기
+              </StTagButton>
+            </StTagWrapper>
+          </StHorizontalPaddingLayout>
+          <StHorizontalPaddingLayout>
+            <StPostWrapper>
+              <StFilterdWrapper>
+                {data?.pages.map(v => {
+                  return (
+                    <div key={v.id}>
+                      {v.content.map(postData => (
+                        <TagPost key={v.id} postData={postData} />
+                      ))}
+                    </div>
+                  );
+                })}
+              </StFilterdWrapper>
+            </StPostWrapper>
+          </StHorizontalPaddingLayout>
+        </StPostListContainer>
+      </StPostListContent>
+
       {isFetchingNextPage ? (
         // TODO: animation
         <>loading</>
       ) : (
         <div className="lastChecker" ref={ref} />
       )}
-    </StPostListContainer>
+    </StWrapper>
   );
 }
 
 const StHorizontalPaddingLayout = styled.div`
-  @media (max-width: 1280px) {
+  /* @media (max-width: 1280px) {
     padding: 0px 20px;
-  }
+  } */
 `;
-const StPostListContainer = styled.div`
+const StWrapper = styled.div`
   margin: 0 auto;
   max-width: 1280px;
-  width: 80%;
+  width: 90%;
   padding: 4rem 0 2rem;
   box-sizing: border-box;
-  width: 100%;
   min-height: 100vh;
   @media (max-width: 768px) {
     margin: 4rem auto 3rem;
+    padding: unset;
+    width: 100%;
   }
 `;
 const StPostListHeader = styled.div`
@@ -142,35 +154,63 @@ const StPostListHeader = styled.div`
   > h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 4rem 0 3rem;
+    margin: 6rem 0 2rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
       font-size: 1.5rem;
-      margin: 2rem 0;
+      margin: 1rem 0 0.5rem;
     }
   }
   span {
     font-size: 1.2rem;
+    @media (max-width: 500px) {
+      font-size: 0.9rem;
+    }
   }
   @media (max-width: 1280px) {
-    padding: 0px;
+    padding: 0 20px;
+    box-sizing: border-box;
   }
   @media (max-width: 768px) {
     width: 100%;
+    align-items: flex-start;
+  }
+`;
+const StPostListContent = styled.div`
+  padding: 5vw 6vw;
+  box-sizing: border-box;
+  border-radius: 24px;
+  box-shadow: ${palette.containerShadow1};
+  margin-top: 5rem;
+  @media (max-width: 768px) {
+    padding: 20px;
+    margin-top: 3rem;
+    box-shadow: unset;
+  }
+  @media (max-width: 500px) {
+    margin-top: 0rem;
   }
 `;
 const StBest5Wrapper = styled.div``;
 const StPostWrapper = styled.div``;
 const StTagWrapper = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 0 8px;
+  justify-content: space-between;
+  align-items: center;
   flex-flow: wrap;
   padding: 20px 0px;
-  border-top: 1px solid ${palette.borderColor2};
-  border-bottom: 1px solid ${palette.borderColor};
+`;
+const StTagContainer = styled.div`
+  display: flex;
+  gap: 0 8px;
+  flex-wrap: wrap;
+  @media (max-width: 500px) {
+    gap: 8px;
+  }
 `;
 const StFilterdWrapper = styled.div``;
 const Best5ImgHeader = styled.div`
@@ -178,19 +218,11 @@ const Best5ImgHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   h3 {
-    font-size: 32px;
+    font-size: 31px;
     height: 100%;
-  }
-  button {
-    min-width: 125px;
-    padding: 13px 35px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    background: #47ad8e;
-    border-radius: 12px;
-    background: ${palette.mainColor};
-    border: none;
-    color: ${palette.white};
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
   }
 `;
 const Best5ImgWrapper = styled.div`
@@ -203,6 +235,19 @@ const Best5ImgWrapper = styled.div`
 const ScrollMenuStInjection = styled.div`
   width: 1280px;
   overflow: hidden;
+  .react-horizontal-scrolling-menu--scroll-container {
+    gap: 0 10px;
+  }
+  .react-horizontal-scrolling-menu--inner-wrapper {
+    button {
+      @media (max-width: 500px) {
+        display: none;
+      }
+    }
+  }
+  .react-horizontal-scrolling-menu--inner-wrapper::-webkit-scrollbar {
+    display: none;
+  }
   .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
     display: none;
   }
@@ -213,5 +258,25 @@ const ScrollMenuStInjection = styled.div`
     }
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+`;
+const StTagButton = styled.button`
+  min-width: 125px;
+  padding: 10px 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: #47ad8e;
+  border-radius: 12px;
+  background: ${palette.mainColor};
+  border: none;
+  color: ${palette.white};
+  @media (max-width: 500px) {
+    display: none;
+  }
+`;
+const StPostListContainer = styled.div`
+  margin-top: 3.5rem;
+  @media (max-width: 500px) {
+    margin-top: 1.5rem;
   }
 `;
