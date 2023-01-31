@@ -37,11 +37,18 @@ export default function Home() {
   const eventSource = new EventSourcePolyfill(
     `https://api.pulbatte.com/api/user/subscribe`,
     {
-      headers: { Authorization: token },
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+        'X-Accel-Buffering': 'no',
+        Authorization: token,
+      },
+      heartbeatTimeout: 120000,
+      withCredentials: true,
     },
-
-    { withCredentials: true },
   );
+
   useEffect(() => {
     if (token) {
       eventSource.addEventListener('sse', function (event) {
@@ -116,7 +123,7 @@ export default function Home() {
       <div className="main_banner">
         <div className="banner_inner">
           <StBannerContainer>
-            <StTitle>
+            <StTitle className="main_subtitle">
               <span>식물 추천과 관리를 한 곳에서,</span>
               <span>모든 식집사들을 위한 공간</span>
             </StTitle>
@@ -245,8 +252,11 @@ const StWrapper = styled.div`
       margin: 0;
       color: ${palette.mainColor};
       @media (max-width: 768px) {
-        font-size: calc(14px + 3vw);
+        font-size: 38px;
         justify-content: space-evenly;
+      }
+      @media (max-width: 500px) {
+        font-size: 38px;
       }
     }
     .banner_inner {
@@ -260,7 +270,9 @@ const StWrapper = styled.div`
       transform: translateY(-50%);
       width: 80%;
       margin: 0 auto;
-
+      .main_subtitle {
+        align-items: flex-start;
+      }
       @media (max-width: 768px) {
         width: 100%;
         height: 100%;
