@@ -14,7 +14,7 @@ export default function CreateDiaryModal({
     console.log(e.target.value);
     setDiaryContent(e.target.value);
   };
-  console.log(diaryContent);
+
   return (
     <Modal modal={modal} width="700px">
       <StContainer>

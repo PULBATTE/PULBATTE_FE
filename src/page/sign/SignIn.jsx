@@ -30,7 +30,9 @@ export default function SignIn() {
       })
       .then(response => {
         console.log(response);
+
         if (response.status == 200) {
+
           const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
           localStorage.setItem('access_Token', response.data.accessToken);

@@ -7,12 +7,12 @@ import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
 import { Comment } from '../../components/community/Comment';
 import {
-  getPostUser,
-  getPostGuest,
-  postLike,
-  postComment,
+  getPostUserApi,
+  getPostGuestApi,
+  postLikeApi,
+  postCommentApi,
 } from '../../apis/community';
-import { getInfo } from '../../apis/auth';
+import { getInfoApi } from '../../apis/auth';
 import { getCookie } from '../../apis/cookie';
 
 export default function DonePost() {
@@ -25,13 +25,12 @@ export default function DonePost() {
   const { postId } = useParams();
 
   const Token = getCookie('Token');
-
-  const getPostApi = useCallback(async () => {
+  console.log(Token);
+  const getPost = useCallback(async () => {
     setIsLoading(true);
     if (Token) {
       console.log('user');
-      const data = await getPostUser(postId);
-      console.log('postApi : ');
+      const data = await getPostUserApi(postId);
       console.log(data.data);
 
       const { likeStatus } = data.data;
@@ -41,49 +40,42 @@ export default function DonePost() {
       setIsLoading(false);
     } else {
       console.log('guest');
-      const data = await getPostGuest(postId);
+      const data = await getPostGuestApi(postId);
       setPostData(data.data);
       setIsLoading(false);
     }
   }, [Token, postId]);
 
-  const getInfoApi = useCallback(async () => {
-    const data = await getInfo();
+  const getInfo = useCallback(async () => {
+    const data = await getInfoApi();
     setNickName(data.nickName);
     return data;
   }, []);
 
-
-  const postLikeApi = useCallback(async () => {
-
-    const data = await postLike(postId);
+  const postLike = useCallback(async () => {
+    const data = await postLikeApi(postId);
     console.log({ data });
-    setLike(_postLike => !_postLike);
-    await getPostApi();
-  }, [getPostApi, postId]);
+    setLike(_postLikeApi => !_postLikeApi);
+    await getPost();
+  }, [getPost, postId]);
 
   useEffect(() => {
-    getInfoApi();
-    getPostApi();
-  }, [getInfoApi, getPostApi]);
+    getInfo();
+    getPost();
+  }, [getInfo, getPost]);
 
   if (isLoading) {
     return <div> Loading...</div>;
   }
 
   const onLikeHandler = () => {
+    // -postLikeApi 호출
     if (Token) {
-      // -postLikeApi 호출
-
       postLikeApi();
-
     }
     if (!Token) {
       alert('로그인이 필요합니다.');
     }
-    // Token
-    //   ? setIsClicked(_isClicked => !_isClicked)
-    //   :
   };
 
   const onCommentHandler = e => {
@@ -91,9 +83,9 @@ export default function DonePost() {
   };
   const onRegCommentHandler = async () => {
     setIsLoading(true);
-    await postComment(postId, 0, comment);
+    await postCommentApi(postId, 0, comment);
     setComment('');
-    await getPostApi();
+    await getPost();
     setIsLoading(false);
   };
   console.log({ postData });
@@ -111,7 +103,7 @@ export default function DonePost() {
               </div>
             </StUserInfo>
             <StContentWrapper>
-              {postData?.image !== '' ? (
+              {postData.image !== '' ? (
                 <img alt="plantImg" src={postData.image} />
               ) : (
                 ''
@@ -157,7 +149,7 @@ export default function DonePost() {
                 <Comment
                   key={v.commentId}
                   comment={v}
-                  getPostUser={getPostApi}
+                  getPostUser={getPost}
                   nickName={nickName}
                 />
               );
