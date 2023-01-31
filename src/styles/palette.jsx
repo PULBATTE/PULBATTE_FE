@@ -7,7 +7,7 @@ export const palette = {
   borderColor1: '#EAEAEA',
   borderColor2: '#D9D9D9',
   borderColor3: '#777777',
-  borderColor4: '#A5C3BA',
+  borderColor4: '#B2CBC3',
   mainColor: '#47AD8E',
   mainBackground: '#EBF1EC',
   textColor1: '#A3A3A3',
@@ -15,6 +15,7 @@ export const palette = {
   white: '#ffffff',
   inputTextColor: '#bacdc6',
   pageBackgroundGray: '#F8F8F8',
+  containerShadow1: '0px 10px 60px rgba(0, 0, 0, 0.1)',
   text: {
     green: '#0BA47F',
     disabled: '#C6C6C6',
