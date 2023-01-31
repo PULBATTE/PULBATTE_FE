@@ -65,13 +65,14 @@ const StPlantListContainer = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin: 6rem 0 4rem;
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.8rem;
-      margin-top: 45px;
+      font-size: 1.5rem;
+      margin: 2rem 0;
     }
   }
   h4 {

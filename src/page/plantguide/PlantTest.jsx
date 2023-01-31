@@ -196,7 +196,7 @@ const StWrapper = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 4rem 0 3rem;
+    margin: 6rem 0 4rem;
     color: ${palette.textColor1};
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -302,7 +302,7 @@ const StWrapper = styled.div`
       }
 
       .question_title {
-        font-weight: 700;
+        font-weight: 800;
         font-size: 1.4rem;
         font-weight: 700;
         line-height: 2.2rem;

@@ -149,8 +149,21 @@ const StGrid = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+
     @media (max-width: 768px) {
       order: 1;
+    }
+    .plant_name {
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+      @media (max-width: 768px) {
+        font-size: 1.1rem;
+      }
     }
     img {
       width: 100%;
@@ -165,18 +178,7 @@ const StGrid = styled.div`
       }
     }
   }
-  .plant_name {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-    @media (max-width: 768px) {
-      font-size: 1.1rem;
-    }
-  }
+
   .graph_container {
     display: flex;
     align-items: center;

@@ -13,6 +13,7 @@ import { setCookie, getCookie } from '../../apis/cookie';
 import { authInstance, instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
+import logo from '../../assets/image/logo.png';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
@@ -31,8 +32,7 @@ export default function SignIn() {
       .then(response => {
         console.log(response);
 
-        if (response.status == 200) {
-
+        if (response.data.statusCode == 200) {
           const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
           localStorage.setItem('access_Token', response.data.accessToken);
@@ -99,10 +99,7 @@ export default function SignIn() {
         <StFormField action="" onSubmit={handleSubmit(onSigninHandler)}>
           <div className="mobile_logo">
             <a href="/">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ9jAIK5JIQd_fIQjhcupYCHGkS5AyOYtdgw&usqp=CAU"
-                alt="로고이미지"
-              />
+              <img src={logo} alt="로고이미지" />
             </a>
           </div>
           <h2>로그인</h2>
@@ -143,6 +140,7 @@ export default function SignIn() {
             size="md"
             width="100%"
             flex={flex}
+            border="transparent"
             background={palette.kakaoContainer}
           >
             <StKaKaoIcon />
@@ -156,7 +154,7 @@ export default function SignIn() {
             flex={flex}
             width="100%"
             background="#ffffff"
-            border={`1px solid ${palette.borderColor1}`}
+            border={`${palette.borderColor2}`}
           >
             이메일로 가입하기
           </Button>
@@ -216,7 +214,7 @@ const StFormField = styled.form`
   flex-direction: column;
   gap: 15px 0;
   input {
-    height: 35px;
+    height: 50px;
     outline: none;
     text-indent: 10px;
     border: 1px solid ${palette.borderColor1};
@@ -232,7 +230,7 @@ const StFormField = styled.form`
       display: block;
     }
     img {
-      width: 90px;
+      width: 160px;
     }
   }
 `;
