@@ -69,7 +69,7 @@ export default function PlantResult() {
   );
 }
 const StWrapper = styled.div`
-  padding: 4rem 0 3rem;
+  padding: 4rem 0 2rem;
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
@@ -89,7 +89,7 @@ const StWrapper = styled.div`
     text-align: center;
     font-size: 2.5rem;
     color: ${palette.textColor1};
-    margin-bottom: 3rem;
+    margin: 6rem 0 4rem;
     @media (max-width: 768px) {
       font-size: 2rem;
     }
@@ -109,7 +109,7 @@ const StContent = styled.div`
   gap: 0 30px;
   width: 80%;
   max-width: 1372px;
-  width: 80%;
+
   margin-top: 50px;
   @media (max-width: 1280px) {
     flex-direction: column;

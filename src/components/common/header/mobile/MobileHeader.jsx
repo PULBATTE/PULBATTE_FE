@@ -27,7 +27,7 @@ export default function Mobileheader({ token, logOutEventHandler }) {
         </Link>
       </div>
       <StUtilMenu>
-        <StAlarm src={alarmBtn} />
+        <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
         <div
           className="hamburger"
           onClick={() => {

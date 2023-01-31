@@ -49,9 +49,9 @@ const StPostTextBox = styled.div`
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    min-height: 60px;
+    height: 50px;
     @media (max-width: 768px) {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
   }
 `;

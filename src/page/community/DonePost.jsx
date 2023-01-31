@@ -24,7 +24,7 @@ export default function DonePost() {
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
 
-  const Token = getCookie('Token');
+  const Token = localStorage.getItem('access_Token');
   console.log(Token);
   const getPost = useCallback(async () => {
     setIsLoading(true);
@@ -87,17 +87,25 @@ export default function DonePost() {
   };
 
   return (
-    <StDonePostContainer>
+    <StWrapper>
+      <h3>커뮤니티</h3>
       {postData && (
-        <>
+        <StDonePostContainer>
           <StBoardContainer>
             <h3>{postData.title}</h3>
             <StUserInfo>
-              <img alt="profileImg" src={postData.profileImage} />
-              <div className="usercontainer">
-                <span>{postData.nickname}</span>
-                <span>{formatDate(postData.createdAt)}</span>
+              <div className="user">
+                <img alt="profileImg" src={postData.profileImage} />
+                <div className="usercontainer">
+                  <span className="username">{postData.nickname}</span>
+                  <span>{formatDate(postData.createdAt)}</span>
+                </div>
               </div>
+              <StTagWrappeer>
+                <Button size="sd" background={palette.borderColor2}>
+                  {postData.tag}
+                </Button>
+              </StTagWrappeer>
             </StUserInfo>
             <StContentWrapper>
               {postData.image !== '' ? (
@@ -107,73 +115,102 @@ export default function DonePost() {
               )}
               <span>{postData.content}</span>
             </StContentWrapper>
-            <StTagWrappeer>
-              <Button size="sd" background={palette.borderColor2}>
-                {postData.tag}
-              </Button>
-            </StTagWrappeer>
+
             <StDivider />
             {Like === true ? (
               <StLikeWrapper>
-                <BsFillHeartFill onClick={onLikeHandler} />
+                <BsFillHeartFill onClick={postLike} />
                 <span>{postData.likeCnt}</span>
               </StLikeWrapper>
             ) : (
               <StLikeWrapper>
-                <BsHeart onClick={onLikeHandler} />
+                <BsHeart onClick={postLike} />
                 <span>{postData.likeCnt}</span>
               </StLikeWrapper>
             )}
           </StBoardContainer>
           <StCreateCommentWrapper>
-            <span>{postData.commentCnt}개의 댓글</span>
-            <StCreateCommentArea
-              placeholder="댓글을 작성하세요"
-              value={comment}
-              onChange={onCommentHandler}
-            />
+            <span className="count_comment">
+              {postData.commentCnt}개의 댓글
+            </span>
             <div>
-              <StButton type="button" onClick={onRegCommentHandler}>
-                등록
-              </StButton>
+              <StCreateCommentArea
+                placeholder="댓글을 작성하세요"
+                value={comment}
+                onChange={onCommentHandler}
+              />
+              <div>
+                <StButton type="button" onClick={onRegCommentHandler}>
+                  등록
+                </StButton>
+              </div>
             </div>
           </StCreateCommentWrapper>
           {/* map함수를 사용해서 PostComment 여러개 생성 */}
           {/* PostComment는 컴포넌트로 분리 */}
-          {postData.commentList &&
-            postData.commentList.map(v => {
-              return (
-                <Comment
-                  key={v.commentId}
-                  comment={v}
-                  getPostUser={getPost}
-                  nickName={nickName}
-                />
-              );
-            })}
-        </>
+          <StRepleContainer>
+            {postData.commentList &&
+              postData.commentList.map(v => {
+                return (
+                  <Comment
+                    key={v.commentId}
+                    comment={v}
+                    getPostUser={getPost}
+                    nickName={nickName}
+                  />
+                );
+              })}
+          </StRepleContainer>
+        </StDonePostContainer>
       )}
-    </StDonePostContainer>
+    </StWrapper>
   );
 }
 
-const StDonePostContainer = styled.div`
+const StWrapper = styled.div`
   max-width: 1280px;
-  width: 70%;
+  width: 90%;
   margin: 0 auto;
-  margin-top: 50px;
-`;
-const StBoardContainer = styled.div`
-  border: 1.5px solid #eaeaea;
-  border-radius: 8px;
-  padding: 30px;
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
+  padding: 4rem 0 2rem;
+  > h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 6rem 0 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem;
+    }
   }
 `;
+const StBoardContainer = styled.div`
+  border-radius: 8px;
+
+  h3 {
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin: 0 auto 40px;
+  }
+`;
+const StDonePostContainer = styled.div`
+  padding: 5vw 6vw;
+  box-shadow: ${palette.containerShadow1};
+  margin-top: 5rem;
+`;
+const StRepleContainer = styled.div`
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40px 0;
+`;
 const StUserInfo = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 7rem;
+  padding-top: 36px;
+  justify-content: space-between;
+  border-top: 1px solid ${palette.borderColor2};
   display: flex;
   align-items: center;
   gap: 10px;
@@ -182,35 +219,45 @@ const StUserInfo = styled.div`
     height: 50px;
     border-radius: 50%;
   }
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   .usercontainer {
     display: flex;
     flex-direction: column;
+    .username {
+      font-weight: 700;
+    }
   }
 `;
 const StContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   img {
-    max-height: 300px;
-    width: 400px;
-    margin: 0 auto;
+    max-width: 700px;
     margin-bottom: 30px;
+    object-fit: contain;
   }
   span {
+    font-size: 1.2rem;
     line-height: 1.5rem;
     white-space: pre-line;
   }
 `;
 
 const StTagWrappeer = styled.div`
-  margin-top: 30px;
   display: flex;
-  gap: 08px;
+  gap: 0 8px;
   button {
-    border-radius: 16px;
-    padding: 3px 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    border-radius: 20px;
+    border: none;
+    background: ${palette.borderColor4};
+    color: ${palette.white};
+    font-weight: 600;
+    padding: 6px 24px 7px 24px;
+    font-size: 1rem;
   }
 `;
 const StDivider = styled.div`
@@ -222,32 +269,47 @@ const StDivider = styled.div`
 const StLikeWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0 5px;
-  margin-top: 20px;
+  margin: 35px 0;
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+  span {
+    font-size: 1.1rem;
+  }
 `;
 const StCreateCommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  .count_comment {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
 `;
 const StCreateCommentArea = styled.textarea`
   width: 100%;
-  height: 80px;
-  padding: 10px;
+  height: 120px;
+  padding: 14px 16px;
   box-sizing: border-box;
   outline: none;
   resize: none;
-  margin-top: 10px;
+  margin-top: 20px;
+  font-size: 1rem;
+  border: 1px solid ${palette.borderColor2};
+  border-radius: 8px;
 `;
 const StButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
   width: 100px;
-  height: 30px;
+  height: 40px;
   border-radius: 8px;
   border: none;
   font-size: 1rem;
   font-weight: 600;
   float: right;
-  margin-top: 8px;
+  margin-top: 20px;
 `;

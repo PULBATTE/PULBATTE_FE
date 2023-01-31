@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactModal from 'react-modal';
 import React, { useState } from 'react';
 import styled from 'styled-components';

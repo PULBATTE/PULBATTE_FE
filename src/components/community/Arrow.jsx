@@ -13,10 +13,11 @@ function Right({ children, onClick }) {
 
 const Button = styled.button`
   font-size: 32px;
+  font-weight: 800;
   cursor: pointer;
   width: 32px;
-  color: ${palette.mainColor};
-  background-color: ${palette.lightGray};
+  color: red;
+
   opacity: 20%;
   border: 0px;
   cursor: pointer;

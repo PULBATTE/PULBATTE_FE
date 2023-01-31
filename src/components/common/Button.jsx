@@ -38,7 +38,7 @@ function Button({
       flex={option.flex}
       color={color}
       width={width}
-      onClick={() => submit}
+      onClick={() => submit()}
       background={background}
       border={border}
     >

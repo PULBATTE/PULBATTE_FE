@@ -8,7 +8,7 @@ import {
   postCommentApi,
 } from '../../apis/community';
 
-export function Comment({ comment, getPostUser, nickName }) {
+export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
   /* 객체 비구조화 할당 */
   const {
     replyList,
@@ -19,7 +19,7 @@ export function Comment({ comment, getPostUser, nickName }) {
     nickname,
     profileImage,
   } = comment;
-
+  console.log({ tempReplyReject });
   console.log({ replyList });
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
@@ -57,10 +57,7 @@ export function Comment({ comment, getPostUser, nickName }) {
   };
 
   const onRegReplyHandler = async () => {
-    const data = await postCommentApi(postId, commentId, createReply);
-    console.log('onRegReplyHandler');
-    console.log(postId, commentId, data);
-
+    await postCommentApi(postId, commentId, createReply);
     setIsEditable(false);
     setIsOpenReply(false);
     getPostUser();
@@ -99,21 +96,21 @@ export function Comment({ comment, getPostUser, nickName }) {
                 value={commentContent}
                 onChange={onEditCommentHandler}
               />
-              <StEditDoneButtonWrapper>
+              <StAlignRightButtonWrapper>
                 <StEditDoneButton
                   type="button"
                   onClick={onEditCommentDoneHandler}
                 >
                   수정 완료
                 </StEditDoneButton>
-              </StEditDoneButtonWrapper>
+              </StAlignRightButtonWrapper>
             </StEditorWrapper>
           ) : (
             <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
           )}
         </StTextFieldWrapper>
         {/* TODO: 대댓글 api 수정 전 임시 조치 */}
-        {replyList && (
+        {!tempReplyReject && (
           <StReCommentButton type="button" onClick={onOpenReplyHandler}>
             {isOpenReply ? '숨기기' : '답글 달기'}
           </StReCommentButton>
@@ -125,9 +122,11 @@ export function Comment({ comment, getPostUser, nickName }) {
             value={createReply}
             onChange={onCreateReplyHandler}
           />
-          <StRegReplyButton type="button" onClick={onRegReplyHandler}>
-            등록
-          </StRegReplyButton>
+          <StAlignRightButtonWrapper>
+            <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+              등록
+            </StRegReplyButton>
+          </StAlignRightButtonWrapper>
         </StEditorWrapper>
       )}
       {replyList.length !== 0 &&
@@ -139,6 +138,7 @@ export function Comment({ comment, getPostUser, nickName }) {
               comment={v}
               getPostUser={getPostUser}
               nickName={nickName}
+              tempReplyReject
             />
           </ReCommentWrapper>
         ))}
@@ -146,9 +146,7 @@ export function Comment({ comment, getPostUser, nickName }) {
   );
 }
 
-const StCommentContainer = styled.div`
-  margin-bottom: 8px;
-`;
+const StCommentContainer = styled.div``;
 const StCommentWrapper = styled.div`
   padding-bottom: 24px;
 `;
@@ -172,6 +170,7 @@ const StUserInfo = styled.div`
   .usercontainer {
     display: flex;
     flex-direction: column;
+    gap: 3px 0;
   }
 `;
 const StEditorWrapper = styled.div`
@@ -209,7 +208,7 @@ const StCommentContentWrapper = styled.div`
   padding: 10px;
   margin-top: 4px;
 `;
-const StEditDoneButtonWrapper = styled.div`
+const StAlignRightButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -235,7 +234,6 @@ const StReCommentButton = styled.button`
 const ReCommentWrapper = styled.div`
   /* padding: 24px 0px 0px 0px; */
   padding: 24px 24px 0px 24px;
-  border-left: 4px solid ${palette.borderColor1};
   background-color: ${palette.mainBackground};
 `;
 
@@ -248,6 +246,19 @@ const StRegReplyButton = styled.button`
   border: none;
   font-size: 1rem;
   font-weight: 600;
-  float: right;
-  margin-top: 8px;
+
+  margin-top: 20px;
+`;
+
+const StRepleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: ${palette.pageBackgroundGray};
+  .reple_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 `;

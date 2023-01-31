@@ -45,6 +45,7 @@ const StHeader = styled.header`
   left: 0;
   z-index: 3;
   padding: 0 1rem;
+  background: #fff;
   box-sizing: border-box;
   z-index: 2;
   ul {

@@ -4,6 +4,7 @@ import { palette } from '../../styles/palette';
 
 export default function Tagpost({ postData }) {
   const navigate = useNavigate();
+  console.log(postData);
   const {
     id,
     title,
@@ -46,6 +47,9 @@ const StPost = styled.div`
   padding: 36px 0;
   border-bottom: 1px solid ${palette.borderColor2};
   cursor: pointer;
+  &:first-child {
+    border-top: 1px solid ${palette.borderColor1};
+  }
 `;
 const StPostFooter = styled.div`
   display: flex;
@@ -79,6 +83,26 @@ const StPostContent = styled.div`
   overflow: hidden;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  h3 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-word;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 1; // 원하는 라인수
+    -webkit-box-orient: vertical;
+  }
+  p {
+    height: 85px;
+    word-break: keep-all;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-word;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 4; // 원하는 라인수
+    -webkit-box-orient: vertical;
+  }
 `;
 const StPostContentWrapper = styled.div`
   display: flex;
@@ -111,6 +135,7 @@ const StPostImg = styled.img`
   flex-shrink: 0;
   width: 152px;
   height: 152px;
+  border-radius: 16px;
   object-fit: cover;
   @media (max-width: 768px) {
     width: 92px;

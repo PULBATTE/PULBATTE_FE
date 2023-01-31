@@ -1,7 +1,8 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable default-case */
-import React, { useState, useEffect, useUpdateEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
@@ -29,66 +30,81 @@ import pgBack from '../../assets/image/pg_back.png';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [value, setValue] = useState();
+
   const token = localStorage.getItem('access_Token');
+  const [value, setValue] = useState(null);
   console.log(value);
-  if (token) {
-    const eventSource = new EventSourcePolyfill(
-      `https://api.pulbatte.com/api/user/subscribe`,
-      {
-        headers: { Authorization: token },
+  const eventSource = new EventSourcePolyfill(
+    `https://api.pulbatte.com/api/user/subscribe`,
+    {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+        'X-Accel-Buffering': 'no',
+        Authorization: token,
       },
+      heartbeatTimeout: 120000,
+      withCredentials: true,
+    },
+  );
 
-      { withCredentials: true },
-    );
+  useEffect(() => {
+    if (token) {
+      eventSource.addEventListener('sse', function (event) {
+        console.log(event);
 
-    eventSource.addEventListener('sse', function (event) {
-      console.log(event);
+        const data = JSON.parse(event.data);
 
-      const data = JSON.parse(event.data);
+        (async () => {
+          // 브라우저 알림
+          const showNotification = () => {
+            const notification = new Notification('코드 봐줘', {
+              body: data.content,
+            });
 
-      (async () => {
-        // 브라우저 알림
-        const showNotification = () => {
-          const notification = new Notification('코드 봐줘', {
-            body: data.content,
-          });
+            setTimeout(() => {
+              notification.close();
+            }, 10 * 1000);
 
-          setTimeout(() => {
-            notification.close();
-          }, 10 * 1000);
+            notification.addEventListener('click', () => {
+              window.open(data.url, '_blank');
+            });
+          };
 
-          notification.addEventListener('click', () => {
-            window.open(data.url, '_blank');
-          });
-        };
+          // 브라우저 알림 허용 권한
+          let granted = false;
 
-        // 브라우저 알림 허용 권한
-        let granted = false;
+          if (Notification.permission === 'granted') {
+            granted = true;
+          } else if (Notification.permission !== 'denied') {
+            const permission = await Notification.requestPermission();
+            granted = permission === 'granted';
+          }
 
-        if (Notification.permission === 'granted') {
-          granted = true;
-        } else if (Notification.permission !== 'denied') {
-          const permission = await Notification.requestPermission();
-          granted = permission === 'granted';
+          // 알림 보여주기
+          if (granted) {
+            showNotification();
+          }
+        })();
+      });
+
+      eventSource.addEventListener('message', event => {
+        setValue(event.data);
+      });
+      eventSource.addEventListener('error', event => {
+        if (eventSource.readyState === EventSource.CLOSED) {
+          console.error('SSE connection closed.');
+        } else {
+          console.error('SSE error:', event);
         }
+      });
 
-        // 알림 보여주기
-        if (granted) {
-          showNotification();
-        }
-      })();
-    });
-    eventSource.onmessage = result => {
-      console.log(result);
-
-      const data = JSON.parse(result.data);
-      console.log(data);
-    };
-    eventSource.onError = err => {
-      console.log('event error:', err);
-    };
-  }
+      return () => {
+        eventSource.close();
+      };
+    }
+  }, []);
 
   return (
     <StWrapper>
@@ -107,7 +123,7 @@ export default function Home() {
       <div className="main_banner">
         <div className="banner_inner">
           <StBannerContainer>
-            <StTitle>
+            <StTitle className="main_subtitle">
               <span>식물 추천과 관리를 한 곳에서,</span>
               <span>모든 식집사들을 위한 공간</span>
             </StTitle>
@@ -236,8 +252,11 @@ const StWrapper = styled.div`
       margin: 0;
       color: ${palette.mainColor};
       @media (max-width: 768px) {
-        font-size: calc(14px + 3vw);
+        font-size: 38px;
         justify-content: space-evenly;
+      }
+      @media (max-width: 500px) {
+        font-size: 38px;
       }
     }
     .banner_inner {
@@ -251,7 +270,9 @@ const StWrapper = styled.div`
       transform: translateY(-50%);
       width: 80%;
       margin: 0 auto;
-
+      .main_subtitle {
+        align-items: flex-start;
+      }
       @media (max-width: 768px) {
         width: 100%;
         height: 100%;
