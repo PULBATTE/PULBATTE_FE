@@ -50,7 +50,7 @@ const StPlantListContainer = styled.div`
 
   max-width: 1372px;
   width: 80%;
-  padding: 4rem 0 3rem;
+  padding: 4rem 0 2rem;
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;

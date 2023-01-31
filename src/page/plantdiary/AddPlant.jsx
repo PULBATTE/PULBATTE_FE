@@ -186,7 +186,7 @@ const StAddPlantContainer = styled.div`
   width: 80%;
 
   max-width: 900px;
-  padding: 4rem 0 3rem;
+  padding: 4rem 0 2rem;
   margin: 0 auto;
   box-sizing: border-box;
   width: 100%;

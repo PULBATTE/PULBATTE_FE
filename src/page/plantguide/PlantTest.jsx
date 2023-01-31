@@ -181,7 +181,7 @@ export default function PlantTest() {
 }
 
 const StWrapper = styled.div`
-  padding: 4rem 0 3rem;
+  padding: 4rem 0 2rem;
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
@@ -196,7 +196,7 @@ const StWrapper = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin: 4rem 0 3rem;
     color: ${palette.textColor1};
     @media (max-width: 768px) {
       font-size: 2rem;

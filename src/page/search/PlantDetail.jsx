@@ -62,7 +62,7 @@ export default function PlantDetail() {
 }
 
 const StWrapper = styled.div`
-  padding: 4rem 0 3rem;
+  padding: 4rem 0 2rem;
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
