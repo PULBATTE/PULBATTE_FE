@@ -4,7 +4,7 @@ import { ModalsDispatchContext, ModalsStateContext } from './ModalsContext';
 
 export function ModalProvider({ children }) {
   const [openedModals, setOpenedModals] = useState([]);
-
+  // state를 Component와  Component에 넘겨줄 props로 지정
   const open = (Component, props) => {
     console.log('Modal provider Open');
     setOpenedModals(moddals => {

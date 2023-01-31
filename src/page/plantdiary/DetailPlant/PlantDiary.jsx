@@ -13,13 +13,12 @@ export default function PlantDiary() {
   const { plantJournalId } = useParams();
   const [plantDiaryList, setPlantDiaryList] = useState([]);
   const { openModal } = useContextModal();
-  console.log(plantJournalId);
+
   const getPlantDiaryList = useCallback(async () => {
     const data = await getPlantDiaryListApi(plantJournalId);
-    console.log(data);
+
     setPlantDiaryList(data.data);
-  }, []);
-  console.log(plantDiaryList);
+  }, [plantJournalId]);
 
   useEffect(() => {
     getPlantDiaryList();
