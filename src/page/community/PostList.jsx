@@ -48,6 +48,7 @@ export default function PostList() {
       <StHorizontalPaddingLayout>
         <StPostListHeader>
           <h3>커뮤니티</h3>
+          <span>식집사 이웃들과 다양한 이야기를 나눌 수 있는 공간 입니다</span>
         </StPostListHeader>
       </StHorizontalPaddingLayout>
       <StBest5Wrapper>
@@ -105,7 +106,7 @@ const StPostListContainer = styled.div`
   margin: 0 auto;
   max-width: 1280px;
   width: 80%;
-  padding: 4rem 0 3rem;
+  padding: 4rem 0 2rem;
   box-sizing: border-box;
   width: 100%;
   min-height: 100vh;
@@ -114,17 +115,24 @@ const StPostListContainer = styled.div`
   }
 `;
 const StPostListHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   > h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin: 4rem 0 3rem;
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.8rem;
-      margin-top: 45px;
+      font-size: 1.5rem;
+      margin: 2rem 0;
     }
+  }
+  span {
+    font-size: 1.2rem;
   }
   @media (max-width: 1280px) {
     padding: 0px;
