@@ -32,6 +32,7 @@ export default function PlantDiaryCalendar({ plantJournalId }) {
           }
         }
       });
+
     return colorArr;
   };
 
@@ -111,7 +112,7 @@ const StInjection = styled.div`
   & .react-calendar__tile:enabled:hover,
   & .react-calendar__tile:enabled:focus {
     background: #f8f8fa;
-    color: #6f48eb;
+
     border-radius: 6px;
   }
   & .react-calendar__tile--now {
@@ -134,15 +135,9 @@ const StInjection = styled.div`
     background: #f8f8fa;
   }
   & .react-calendar__tile--active {
-    /* background: #6f48eb;
-    border-radius: 6px;
-    font-weight: bold;
-    color: white; */
   }
   & .react-calendar__tile--active:enabled:hover,
   & .react-calendar__tile--active:enabled:focus {
-    /* background: #6f48eb;
-    color: white; */
   }
 `;
 
