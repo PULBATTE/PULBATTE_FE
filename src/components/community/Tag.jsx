@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 
-export default function Tag({ active, value, onClick, children }) {
+export default function Tag({ props, active, value, onClick, children }) {
   return (
     <StTagButton type="button" active={active} value={value} onClick={onClick}>
       {children}
@@ -22,4 +22,9 @@ const StTagButton = styled.button`
   width: 112px;
   cursor: pointer;
   height: 36px;
+  @media (max-width: 500px) {
+    width: fit-content;
+    padding: 4px 20px;
+    align-items: center;
+  }
 `;

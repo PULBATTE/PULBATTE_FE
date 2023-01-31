@@ -21,8 +21,11 @@ export const kakaoLogin = code => {
     await instance
       .post(`/api/user/kakao/callback?code=${code}`)
       .then(response => {
-        localStorage.setItem('access_Token', response.headers.authorization);
         console.log(response);
+        localStorage.setItem('access_Token', response.data.accessToken);
+        setCookie('refresh_Token', response.data.refreshToken);
+        localStorage.setItem('access_Token', response.headers.authorization);
+
         window.location.href = '/';
       })
       .catch(err => {

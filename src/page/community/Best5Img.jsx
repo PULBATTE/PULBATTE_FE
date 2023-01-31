@@ -21,27 +21,36 @@ const StBestContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 24px;
+
   cursor: pointer;
   p {
     margin: 0;
-    margin-top: 8px;
+    width: 100%;
+    letter-spacing: 0.3px;
+
+    margin-top: 10px;
     display: -webkit-box;
     text-overflow: ellipsis;
     overflow: hidden;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    font-size: 1.1rem;
   }
 `;
 const StBest5ImgWrapper = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  width: 180px;
-  height: 180px;
-  overflow: hidden;
+  width: 200px;
+  height: 200px;
   border-radius: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-word;
 
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   ::after {
     content: 'Best';
     position: absolute;
@@ -54,10 +63,19 @@ const StBest5ImgWrapper = styled.div`
     width: 62px;
     height: 36px;
     background-color: ${palette.white};
-    z-index: 2;
+    z-index: 1;
     font-size: 16px;
     font-weight: bold;
     color: ${palette.mainColor};
+    @media (max-width: 500px) {
+      font-size: 12px;
+      width: 45px;
+      height: 30px;
+    }
+  }
+  @media (max-width: 500px) {
+    width: 144px;
+    height: 144px;
   }
 `;
 const StBest5Img = styled.img`

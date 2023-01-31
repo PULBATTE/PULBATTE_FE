@@ -55,75 +55,81 @@ export function Comment({ comment, getPostUserApi, nickName }) {
   };
   return (
     <StCommentContainer>
-      <StUserInfo>
-        <div className="userProfilecotainer">
-          <img alt="profileImage" src={profileImage} />
-          <div className="usercontainer">
-            <span>{nickname}</span>
-            <span>{formatDate(createdAt)}</span>
+      <div>
+        <StUserInfo>
+          <div className="userProfilecotainer">
+            <img alt="profileImage" src={profileImage} />
+            <div className="usercontainer">
+              <span>{nickname}</span>
+              <span>{formatDate(createdAt)}</span>
+            </div>
           </div>
-        </div>
-        {comment.nickname === nickName && (
-          <StButtonWrapper>
-            <StButton
-              type="button"
-              value="수정버튼"
-              onClick={onOpenEditCommentHandler}
-            >
-              수정
-            </StButton>
-            <StButton type="button" onClick={onDeleteCommentHandler}>
-              삭제
-            </StButton>
-          </StButtonWrapper>
-        )}
-      </StUserInfo>
-      <StTextFieldWrapper>
-        {isEditable ? (
-          <>
-            <StCommentTextArea
-              value={commentContent}
-              onChange={onEditCommentHandler}
-            />
-            <StEditDoneButtonWrapper>
-              <StEditDoneButton
+          {comment.nickname === nickName && (
+            <StButtonWrapper>
+              <StButton
                 type="button"
-                onClick={onEditCommentDoneHandler}
+                value="수정버튼"
+                onClick={onOpenEditCommentHandler}
               >
-                수정 완료
-              </StEditDoneButton>
-            </StEditDoneButtonWrapper>
-          </>
-        ) : (
-          <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
-        )}
-      </StTextFieldWrapper>
-      <StReCommentButton type="button" onClick={onOpenReplyHandler}>
-        {isOpenReply ? '숨기기' : '답글 달기'}
-      </StReCommentButton>
+                수정
+              </StButton>
+              <StButton type="button" onClick={onDeleteCommentHandler}>
+                삭제
+              </StButton>
+            </StButtonWrapper>
+          )}
+        </StUserInfo>
+        <StTextFieldWrapper>
+          {isEditable ? (
+            <>
+              <StCommentTextArea
+                value={commentContent}
+                onChange={onEditCommentHandler}
+              />
+              <StEditDoneButtonWrapper>
+                <StEditDoneButton
+                  type="button"
+                  onClick={onEditCommentDoneHandler}
+                >
+                  수정 완료
+                </StEditDoneButton>
+              </StEditDoneButtonWrapper>
+            </>
+          ) : (
+            <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
+          )}
+        </StTextFieldWrapper>
+        <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+          {isOpenReply ? '숨기기' : '답글 달기'}
+        </StReCommentButton>
+      </div>
       {isOpenReply && (
-        <>
-          <StCommentTextArea
-            value={createReply}
-            onChange={onCreateReplyHandler}
-          />
-          <StRegReplyButton type="button" onClick={onRegReplyHandler}>
-            등록
-          </StRegReplyButton>
-        </>
-      )}
-      {replyList.length !== 0 &&
-        replyList.map(v => (
-          <ReCommentWrapper key={v.commentId}>
-            {/* 재귀를 사용해서 자기자신을 불러옴 */}
-            {/* map함수를 사용해서 replyList를 여러개 생성 */}
-            <Comment
-              comment={v}
-              getPostUserApi={getPostUserApi}
-              nickName={nickName}
+        <StRepleWrapper>
+          <div className="reple_container">
+            <StCommentTextArea
+              value={createReply}
+              onChange={onCreateReplyHandler}
             />
+            <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+              등록
+            </StRegReplyButton>
+          </div>
+          <ReCommentWrapper>
+            {replyList.length !== 0 &&
+              replyList.map(v => (
+                <div key={v.commentId}>
+                  {/* 재귀를 사용해서 자기자신을 불러옴 */}
+                  {/* map함수를 사용해서 replyList를 여러개 생성 */}
+                  <Comment
+                    comment={v}
+                    getPostUserApi={getPostUserApi}
+                    nickName={nickName}
+                  />
+                </div>
+              ))}
           </ReCommentWrapper>
-        ))}
+        </StRepleWrapper>
+      )}
     </StCommentContainer>
   );
 }
@@ -151,6 +157,7 @@ const StUserInfo = styled.div`
   .usercontainer {
     display: flex;
     flex-direction: column;
+    gap: 3px 0;
   }
 `;
 
@@ -209,8 +216,14 @@ const StReCommentButton = styled.button`
   cursor: pointer;
 `;
 const ReCommentWrapper = styled.div`
-  padding: 24px 0px 24px 24px;
-  border-left: 4px solid ${palette.borderColor1};
+  > div {
+    padding: 24px 0px 24px 0px;
+    border-top: 1px solid ${palette.borderColor2};
+    border-bottom: 1px solid ${palette.borderColor2};
+    &:first-child {
+      border: none;
+    }
+  }
 `;
 
 const StRegReplyButton = styled.button`
@@ -223,5 +236,18 @@ const StRegReplyButton = styled.button`
   font-size: 1rem;
   font-weight: 600;
   float: right;
-  margin-top: 8px;
+  margin-top: 20px;
+`;
+
+const StRepleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: ${palette.pageBackgroundGray};
+  .reple_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 `;
