@@ -8,7 +8,7 @@ import {
   postCommentApi,
 } from '../../apis/community';
 
-export function Comment({ comment, getPostUserApi, nickName }) {
+export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
   /* 객체 비구조화 할당 */
   const {
     replyList,
@@ -19,43 +19,53 @@ export function Comment({ comment, getPostUserApi, nickName }) {
     nickname,
     profileImage,
   } = comment;
-
-  console.log({ comment });
+  console.log({ tempReplyReject });
+  console.log({ replyList });
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
-  const [isHideComment, setIsHideComment] = useState(true);
+  // const [isHideComment, setIsHideComment] = useState(true);
 
   const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
 
-  const onOpenEditCommentHandler = () => {
-    setIsEditable(true);
-  };
-  const onDeleteCommentHandler = async () => {
-    await deleteCommentApi(commentId);
-    await getPostUserApi();
-  };
   const onEditCommentHandler = e => {
     setCommentContent(e.target.value);
   };
-  const onEditCommentDoneHandler = async () => {
-    await editCommentApi(commentId, commentContent);
 
-    await getPostUserApi();
-  };
-  const onOpenReplyHandler = e => {
-    setIsOpenReply(_openReply => !_openReply);
-  };
   const onCreateReplyHandler = e => {
     setCreateReply(e.target.value);
   };
+
+  const onOpenEditCommentHandler = () => {
+    setIsEditable(true);
+  };
+
+  const onOpenReplyHandler = e => {
+    setIsOpenReply(_openReply => !_openReply);
+    setIsEditable(false);
+  };
+
+  const onDeleteCommentHandler = async () => {
+    await deleteCommentApi(commentId);
+    getPostUser();
+  };
+
+  const onEditCommentDoneHandler = async () => {
+    await editCommentApi(commentId, commentContent);
+    setIsEditable(false);
+    getPostUser();
+  };
+
   const onRegReplyHandler = async () => {
     await postCommentApi(postId, commentId, createReply);
-    await getPostUserApi();
+    setIsEditable(false);
+    setIsOpenReply(false);
+    getPostUser();
   };
+
   return (
     <StCommentContainer>
-      <div>
+      <StCommentWrapper>
         <StUserInfo>
           <div className="userProfilecotainer">
             <img alt="profileImage" src={profileImage} />
@@ -81,61 +91,64 @@ export function Comment({ comment, getPostUserApi, nickName }) {
         </StUserInfo>
         <StTextFieldWrapper>
           {isEditable ? (
-            <>
+            <StEditorWrapper>
               <StCommentTextArea
                 value={commentContent}
                 onChange={onEditCommentHandler}
               />
-              <StEditDoneButtonWrapper>
+              <StAlignRightButtonWrapper>
                 <StEditDoneButton
                   type="button"
                   onClick={onEditCommentDoneHandler}
                 >
                   수정 완료
                 </StEditDoneButton>
-              </StEditDoneButtonWrapper>
-            </>
+              </StAlignRightButtonWrapper>
+            </StEditorWrapper>
           ) : (
             <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
           )}
         </StTextFieldWrapper>
-        <StReCommentButton type="button" onClick={onOpenReplyHandler}>
-          {isOpenReply ? '숨기기' : '답글 달기'}
-        </StReCommentButton>
-      </div>
+        {/* TODO: 대댓글 api 수정 전 임시 조치 */}
+        {!tempReplyReject && (
+          <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+            {isOpenReply ? '숨기기' : '답글 달기'}
+          </StReCommentButton>
+        )}
+      </StCommentWrapper>
       {isOpenReply && (
-        <StRepleWrapper>
-          <div className="reple_container">
-            <StCommentTextArea
-              value={createReply}
-              onChange={onCreateReplyHandler}
-            />
+        <StEditorWrapper>
+          <StCommentTextArea
+            value={createReply}
+            onChange={onCreateReplyHandler}
+          />
+          <StAlignRightButtonWrapper>
             <StRegReplyButton type="button" onClick={onRegReplyHandler}>
               등록
             </StRegReplyButton>
-          </div>
-          <ReCommentWrapper>
-            {replyList.length !== 0 &&
-              replyList.map(v => (
-                <div key={v.commentId}>
-                  {/* 재귀를 사용해서 자기자신을 불러옴 */}
-                  {/* map함수를 사용해서 replyList를 여러개 생성 */}
-                  <Comment
-                    comment={v}
-                    getPostUserApi={getPostUserApi}
-                    nickName={nickName}
-                  />
-                </div>
-              ))}
-          </ReCommentWrapper>
-        </StRepleWrapper>
+          </StAlignRightButtonWrapper>
+        </StEditorWrapper>
       )}
+      {replyList.length !== 0 &&
+        replyList.map(v => (
+          <ReCommentWrapper key={v.commentId}>
+            {/* 재귀를 사용해서 자기자신을 불러옴 */}
+            {/* map함수를 사용해서 replyList를 여러개 생성 */}
+            <Comment
+              comment={v}
+              getPostUser={getPostUser}
+              nickName={nickName}
+              tempReplyReject
+            />
+          </ReCommentWrapper>
+        ))}
     </StCommentContainer>
   );
 }
 
-const StCommentContainer = styled.div`
-  margin-bottom: 8px;
+const StCommentContainer = styled.div``;
+const StCommentWrapper = styled.div`
+  padding-bottom: 24px;
 `;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
@@ -159,6 +172,9 @@ const StUserInfo = styled.div`
     flex-direction: column;
     gap: 3px 0;
   }
+`;
+const StEditorWrapper = styled.div`
+  margin-bottom: 24px;
 `;
 
 const StTextFieldWrapper = styled.div`
@@ -192,7 +208,7 @@ const StCommentContentWrapper = styled.div`
   padding: 10px;
   margin-top: 4px;
 `;
-const StEditDoneButtonWrapper = styled.div`
+const StAlignRightButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -216,14 +232,9 @@ const StReCommentButton = styled.button`
   cursor: pointer;
 `;
 const ReCommentWrapper = styled.div`
-  > div {
-    padding: 24px 0px 24px 0px;
-    border-top: 1px solid ${palette.borderColor2};
-    border-bottom: 1px solid ${palette.borderColor2};
-    &:first-child {
-      border: none;
-    }
-  }
+  /* padding: 24px 0px 0px 0px; */
+  padding: 24px 24px 0px 24px;
+  background-color: ${palette.mainBackground};
 `;
 
 const StRegReplyButton = styled.button`
@@ -235,7 +246,7 @@ const StRegReplyButton = styled.button`
   border: none;
   font-size: 1rem;
   font-weight: 600;
-  float: right;
+
   margin-top: 20px;
 `;
 
