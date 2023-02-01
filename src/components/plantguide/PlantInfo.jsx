@@ -106,7 +106,9 @@ const StContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem 0;
-
+  @media (max-width: 768px) {
+    margin-top: 0px;
+  }
   .comment_message {
     text-align: center;
     font-size: 1.2rem;

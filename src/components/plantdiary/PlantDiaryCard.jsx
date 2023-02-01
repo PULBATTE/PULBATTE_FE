@@ -148,9 +148,13 @@ const StPlantDiaryCardContent = styled.div`
   display: -webkit-box;
   text-overflow: ellipsis;
   overflow: hidden;
+  word-break: break-word;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   cursor: pointer;
+  @media (max-width: 1120px) {
+    max-width: 550px;
+  }
 `;
 
 const STMenuButton = styled.button`

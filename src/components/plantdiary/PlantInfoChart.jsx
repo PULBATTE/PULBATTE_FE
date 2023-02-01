@@ -97,17 +97,19 @@ export default function PlantInfoChart({ chartData }) {
   }, [chartData]);
 
   return (
-    <StChartContainer>
+    <StChartWrapper>
       <h3>달성그래프</h3>
-      <div>
+      <StChartContainer>
         {renderData && (
           <Bar height="320px" options={options} data={renderData} />
         )}
-      </div>
-    </StChartContainer>
+      </StChartContainer>
+    </StChartWrapper>
   );
 }
-
+const StChartWrapper = styled.div`
+  width: 100%;
+`;
 const StChartContainer = styled.section`
   background-color: ${palette.pageBackgroundGray};
   padding: 20px;
@@ -115,7 +117,7 @@ const StChartContainer = styled.section`
   width: 100%;
   border-radius: 20px;
   height: 100%;
-  max-height: 430px;
+  max-height: 270px;
   @media (max-width: 500px) {
     width: 100%;
   }

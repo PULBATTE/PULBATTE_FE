@@ -148,8 +148,7 @@ const StWrapper = styled.div`
     h3 {
       text-align: center;
       font-size: 2.5rem;
-      margin-bottom: 3rem;
-
+      margin: 5rem 0 4rem;
       @media (max-width: 768px) {
         font-size: 2rem;
       }

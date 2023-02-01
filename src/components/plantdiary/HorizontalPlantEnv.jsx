@@ -71,7 +71,7 @@ const StTitleWrapper = styled.div`
   display: flex;
   gap: 8px;
   p {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 0;
     @media (max-width: 768px) {
       font-size: 1rem;

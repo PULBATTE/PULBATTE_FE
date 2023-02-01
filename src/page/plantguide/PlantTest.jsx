@@ -196,7 +196,7 @@ const StWrapper = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 6rem 0 4rem;
+    margin: 5rem 0 4rem;
     color: ${palette.textColor1};
     @media (max-width: 768px) {
       font-size: 2rem;

@@ -217,7 +217,6 @@ const StHeader = styled.div`
     }
     @media (max-width: 500px) {
       font-size: 1.8rem;
-      margin-top: 45px;
     }
   }
 `;

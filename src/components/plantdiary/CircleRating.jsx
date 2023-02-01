@@ -78,13 +78,13 @@ const StCircleContainer = styled.div`
 const StSpan = styled.div`
   background: ${props => (props.checked ? props.color : palette.borderColor1)};
   position: relative;
-  width: 17px;
-  height: 17px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
 
   @media (max-width: 768px) {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
   }
   pointer-events: none;
 `;

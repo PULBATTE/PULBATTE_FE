@@ -89,7 +89,7 @@ const StWrapper = styled.div`
     text-align: center;
     font-size: 2.5rem;
     color: ${palette.textColor1};
-    margin: 6rem 0 4rem;
+    margin: 5rem 0 4rem;
     @media (max-width: 768px) {
       font-size: 2rem;
     }

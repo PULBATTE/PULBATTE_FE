@@ -196,18 +196,19 @@ const StWrapper = styled.div`
     width: 80%;
   }
   @media (max-width: 768px) {
-    margin: 4rem auto 3rem;
+    /*  margin: 4rem auto 3rem; */
   }
 `;
 const StTitle = styled.h2`
   text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 3rem;
+  margin: 5rem 0 2rem;
   @media (max-width: 768px) {
     font-size: 2rem;
   }
   @media (max-width: 500px) {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    margin: 2rem 0;
   }
 
   button {

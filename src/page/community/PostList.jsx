@@ -154,14 +154,14 @@ const StPostListHeader = styled.div`
   > h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 6rem 0 2rem;
+    margin: 5rem 0 2rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
       font-size: 1.5rem;
-      margin: 1rem 0 0.5rem;
+      margin: 2rem 0 0.5rem;
     }
   }
   span {
@@ -176,7 +176,7 @@ const StPostListHeader = styled.div`
   }
   @media (max-width: 768px) {
     width: 100%;
-    align-items: flex-start;
+    align-items: center;
   }
 `;
 const StPostListContent = styled.div`
@@ -191,7 +191,7 @@ const StPostListContent = styled.div`
     box-shadow: unset;
   }
   @media (max-width: 500px) {
-    margin-top: 0rem;
+    margin-top: 1rem;
   }
 `;
 const StBest5Wrapper = styled.div``;

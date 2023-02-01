@@ -57,8 +57,11 @@ export default function PlantGuide() {
             <span>입력한 데이터가 성장 그래프에 반영됩니다.</span>
           </div>
           <div className="modal_input_container">
-            <input type="number" ref={plantValue} maxLength={3} />
-            <span>cm만큼 컸어요</span>
+            <span>현재 내 식물의 키는?</span>
+            <div>
+              <input type="number" ref={plantValue} maxLength={3} />
+              <span>cm</span>
+            </div>
           </div>
           <StButton type="button" onClick={() => onSubmitHandler(beginnerName)}>
             입력
@@ -104,7 +107,7 @@ const StTitle = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 6rem 0 4rem;
+    margin: 5rem 0 4rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -121,6 +124,9 @@ const StTitle = styled.div`
 `;
 const StPageInner = styled.div`
   margin-top: 3rem;
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
 `;
 
 const StContainer = styled.div`

@@ -50,7 +50,7 @@ const StContentWrapper = styled.div`
     gap: 2rem 0;
   }
   .plant_name {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 800;
     @media (max-width: 500px) {
       font-size: 1.2rem;
@@ -63,7 +63,7 @@ const StFilterBtnContainer = styled.div`
   flex-wrap: wrap;
   gap: 0 5px;
   button {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     padding: 6px 20px;
     border-radius: 20px;
     border: none;
@@ -98,8 +98,8 @@ const StExplanation = styled.div`
     &.section_title {
       font-weight: 800;
     }
-    font-size: 1.2rem;
-    line-height: 2rem;
+    font-size: 1rem;
+    line-height: 1.6rem;
     letter-spacing: 0.5px;
 
     @media (max-width: 500px) {
