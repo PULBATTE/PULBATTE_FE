@@ -78,26 +78,6 @@ export default function SlideModal({
             </div>
           )}
           <div className="line" />
-          <div className="gnb">
-            <span
-              onClick={() => {
-                onClickHandler(searchPath);
-              }}
-              aria-hidden="true"
-            >
-              식물 찾아보기
-            </span>
-          </div>
-          <div className="gnb">
-            <span
-              onClick={() => {
-                onClickHandler(boardPath);
-              }}
-              aria-hidden="true"
-            >
-              커뮤니티
-            </span>
-          </div>
           <div
             className={isOpen ? 'gnb close' : 'gnb open'}
             onClick={() => setIsOpen(!isOpen)}
@@ -123,10 +103,31 @@ export default function SlideModal({
             </ul>
           </div>
           <div className="gnb">
+            <span
+              onClick={() => {
+                onClickHandler(searchPath);
+              }}
+              aria-hidden="true"
+            >
+              식물 찾아보기
+            </span>
+          </div>
+          <div className="gnb">
             <span onClick={() => PrivateRoute(diaryPath)} aria-hidden="true">
               식물 일지
             </span>
           </div>
+          <div className="gnb">
+            <span
+              onClick={() => {
+                onClickHandler(boardPath);
+              }}
+              aria-hidden="true"
+            >
+              커뮤니티
+            </span>
+          </div>
+
           <div className="line" />
           <StUtilContainer>
             {token && token ? (
@@ -169,7 +170,7 @@ const StModal = styled.div`
   }
   .modal_inner {
     position: absolute;
-    width: 90%;
+    width: 75%;
     top: 0;
     background: #fff;
     right: 0;
