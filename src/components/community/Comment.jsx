@@ -51,6 +51,10 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
   };
 
   const onEditCommentDoneHandler = async () => {
+    if (!commentContent) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     await editCommentApi(commentId, commentContent);
     setIsEditable(false);
     getPostUser();
@@ -60,7 +64,6 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     await postCommentApi(postId, commentId, createReply);
     setIsEditable(false);
     setCreateReply('');
-    setIsOpenReply(false);
     getPostUser();
   };
 

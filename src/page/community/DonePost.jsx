@@ -82,7 +82,10 @@ export default function DonePost() {
     setComment(e.target.value);
   };
   const onRegCommentHandler = async () => {
-    setIsLoading(true);
+    if (!comment) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     await postCommentApi(postId, 0, comment);
     setComment('');
     await getPost();
