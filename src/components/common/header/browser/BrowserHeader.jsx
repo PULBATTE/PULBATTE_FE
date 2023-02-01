@@ -47,34 +47,6 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
         </Link>
       </StImageContainer>
       <StCategory>
-        <div className="gnb_container">
-          <ul
-            onMouseOver={() => inMouseDisplayHandler(0)}
-            onMouseOut={() => outMouseDisplayHandler(0)}
-          >
-            <li>
-              <span
-                onClick={() => navigate(boardPath)}
-                aria-hidden="true"
-                /*   display={display[1]} */
-              >
-                커뮤니티
-              </span>
-            </li>
-          </ul>
-        </div>
-        <div className="gnb_container">
-          <ul
-            onMouseOver={() => inMouseDisplayHandler(1)}
-            onMouseOut={() => outMouseDisplayHandler(1)}
-          >
-            <li>
-              <span onClick={() => navigate(searchPath)} aria-hidden="true">
-                식물 찾아보기
-              </span>
-            </li>
-          </ul>
-        </div>
         <div
           className="gnb_container"
           onMouseOver={() => inMouseDisplayHandler(2)}
@@ -94,6 +66,20 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
             </li>
           </GlobalNavigationBar>
         </div>
+
+        <div className="gnb_container">
+          <ul
+            onMouseOver={() => inMouseDisplayHandler(1)}
+            onMouseOut={() => outMouseDisplayHandler(1)}
+          >
+            <li>
+              <span onClick={() => navigate(searchPath)} aria-hidden="true">
+                식물 찾아보기
+              </span>
+            </li>
+          </ul>
+        </div>
+
         <div className="gnb_container">
           <ul
             onMouseOver={() => inMouseDisplayHandler(3)}
@@ -102,6 +88,22 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
             <li>
               <span onClick={() => PrivateRoute(diaryPath)} aria-hidden="true">
                 식물 일지
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div className="gnb_container">
+          <ul
+            onMouseOver={() => inMouseDisplayHandler(0)}
+            onMouseOut={() => outMouseDisplayHandler(0)}
+          >
+            <li>
+              <span
+                onClick={() => navigate(boardPath)}
+                aria-hidden="true"
+                /*   display={display[1]} */
+              >
+                커뮤니티
               </span>
             </li>
           </ul>
