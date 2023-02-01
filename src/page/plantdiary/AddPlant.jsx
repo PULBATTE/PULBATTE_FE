@@ -50,7 +50,23 @@ export default function AddPlant() {
 
   const onAddPlantHandler = async e => {
     if (!imgSrc.upload) {
-      alert('이미지를 추가해 주세요');
+      alert('이미지를 추가해 주세요.');
+      return;
+    }
+    if (!plantName) {
+      alert('식물 이름을 입력해 주세요.');
+      return;
+    }
+    if (!waterCycle) {
+      alert('물주기 주기를 선택해 주세요.');
+      return;
+    }
+    if (!repottingCycle) {
+      alert('분갈이 주기를 선택해 주세요.');
+      return;
+    }
+    if (!nutritionCycle) {
+      alert('영양제 주기를 선택해 주세요.');
       return;
     }
     const formData = new FormData();
