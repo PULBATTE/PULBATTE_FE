@@ -50,7 +50,11 @@ export default function AddPlant() {
 
   const onAddPlantHandler = async e => {
     if (!imgSrc.upload) {
-      alert('이미지를 추가해 주세요');
+      alert('이미지를 추가해 주세요.');
+      return;
+    }
+    if (!plantName) {
+      alert('식물 이름을 입력해 주세요.');
       return;
     }
     const formData = new FormData();
