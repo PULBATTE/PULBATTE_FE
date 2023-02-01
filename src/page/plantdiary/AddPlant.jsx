@@ -57,6 +57,18 @@ export default function AddPlant() {
       alert('식물 이름을 입력해 주세요.');
       return;
     }
+    if (!waterCycle) {
+      alert('물주기 주기를 선택해 주세요.');
+      return;
+    }
+    if (!repottingCycle) {
+      alert('분갈이 주기를 선택해 주세요.');
+      return;
+    }
+    if (!nutritionCycle) {
+      alert('영양제 주기를 선택해 주세요.');
+      return;
+    }
     const formData = new FormData();
     const request = {
       plantName,
