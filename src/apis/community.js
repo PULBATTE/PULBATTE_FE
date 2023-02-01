@@ -23,6 +23,46 @@ export const createPostApi = async formData => {
   }
 };
 
+export const editPostApi = async (postId, formData) => {
+  console.log(formData);
+  try {
+    const data = await authInstance.put(`/api/posts/${postId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+export const editPostTextApi = async (postId, formData) => {
+  console.log(formData);
+  try {
+    const data = await authInstance.put(
+      `/api/posts/postContents/${postId}`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deletePostTextApi = async postId => {
+  try {
+    const data = await authInstance.delete(`/api/posts/${postId}`);
+    return data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getPostUserApi = async postId => {
   try {
     console.log(postId);
