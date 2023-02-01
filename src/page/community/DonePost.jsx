@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
@@ -11,6 +11,7 @@ import {
   getPostGuestApi,
   postLikeApi,
   postCommentApi,
+  deletePostTextApi,
 } from '../../apis/community';
 import { getInfoApi } from '../../apis/auth';
 import { getCookie } from '../../apis/cookie';
@@ -23,7 +24,9 @@ export default function DonePost() {
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
-
+  const navigate = useNavigate();
+  console.log('postData', postData);
+  console.log('postId', postId);
   const Token = localStorage.getItem('access_Token');
   console.log(Token);
   const getPost = useCallback(async () => {
@@ -85,7 +88,13 @@ export default function DonePost() {
     await getPost();
     setIsLoading(false);
   };
-
+  const onDeletePostHandler = async () => {
+    const data = await deletePostTextApi(postId);
+    console.log(data);
+    if (data.data.statusCode === 200) {
+      navigate('/postlist');
+    }
+  };
   return (
     <StWrapper>
       <h3>커뮤니티</h3>
@@ -101,11 +110,26 @@ export default function DonePost() {
                   <span>{formatDate(postData.createdAt)}</span>
                 </div>
               </div>
-              <StTagWrappeer>
-                <Button size="sd" background={palette.borderColor2}>
-                  {postData.tag}
-                </Button>
-              </StTagWrappeer>
+              {postData?.nickname == nickName ? (
+                <StEditDeleteBtnContainer>
+                  <span
+                    onClick={() => navigate(`/editPost/${postId}`)}
+                    role="button"
+                    aria-hidden="true"
+                  >
+                    수정
+                  </span>
+                  <span
+                    onClick={() => onDeletePostHandler()}
+                    role="button"
+                    aria-hidden="true"
+                  >
+                    삭제
+                  </span>
+                </StEditDeleteBtnContainer>
+              ) : (
+                ''
+              )}
             </StUserInfo>
             <StContentWrapper>
               {postData.image !== '' ? (
@@ -115,8 +139,11 @@ export default function DonePost() {
               )}
               <span>{postData.content}</span>
             </StContentWrapper>
-
-            <StDivider />
+            <StTagWrappeer>
+              <Button size="sd" background={palette.borderColor2}>
+                {postData.tag}
+              </Button>
+            </StTagWrappeer>
             {Like === true ? (
               <StLikeWrapper>
                 <BsFillHeartFill onClick={postLike} />
@@ -207,7 +234,7 @@ const StRepleContainer = styled.div`
   gap: 40px 0;
 `;
 const StUserInfo = styled.div`
-  margin-bottom: 7rem;
+  margin-bottom: 5rem;
   padding-top: 36px;
   justify-content: space-between;
   border-top: 1px solid ${palette.borderColor2};
@@ -227,14 +254,16 @@ const StUserInfo = styled.div`
   .usercontainer {
     display: flex;
     flex-direction: column;
-    .username {
-      font-weight: 700;
-    }
+    gap: 3px 0;
+  }
+  .username {
+    font-weight: 700;
   }
 `;
 const StContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 400px;
   img {
     max-width: 700px;
     margin-bottom: 30px;
@@ -250,6 +279,7 @@ const StContentWrapper = styled.div`
 const StTagWrappeer = styled.div`
   display: flex;
   gap: 0 8px;
+  margin-top: 4rem;
   button {
     border-radius: 20px;
     border: none;
@@ -258,14 +288,10 @@ const StTagWrappeer = styled.div`
     font-weight: 600;
     padding: 6px 24px 7px 24px;
     font-size: 1rem;
+    cursor: unset;
   }
 `;
-const StDivider = styled.div`
-  width: 100%;
-  height: 1.5px;
-  background-color: #eaeaea;
-  margin-top: 30px;
-`;
+
 const StLikeWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -277,7 +303,7 @@ const StLikeWrapper = styled.div`
     height: 25px;
   }
   span {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 `;
 const StCreateCommentWrapper = styled.div`
@@ -312,4 +338,12 @@ const StButton = styled.button`
   font-weight: 600;
   float: right;
   margin-top: 20px;
+`;
+const StEditDeleteBtnContainer = styled.div`
+  display: flex;
+  gap: 0 10px;
+  span {
+    cursor: pointer;
+    color: gray;
+  }
 `;

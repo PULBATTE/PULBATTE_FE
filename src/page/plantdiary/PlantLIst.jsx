@@ -49,12 +49,14 @@ const StPlantListContainer = styled.div`
   align-items: center;
 
   max-width: 1372px;
-  width: 80%;
+  width: 100%;
   padding: 4rem 0 2rem;
   margin: 0 auto;
   box-sizing: border-box;
-  width: 100%;
   min-height: 100vh;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
   @media (max-width: 768px) {
     width: 100%;
     margin: 4rem auto 3rem;

@@ -270,7 +270,7 @@ const StTagButton = styled.button`
   background: ${palette.mainColor};
   border: none;
   color: ${palette.white};
-  @media (max-width: 500px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;

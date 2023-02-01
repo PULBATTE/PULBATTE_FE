@@ -1,21 +1,37 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+
 import { palette } from '../../styles/palette';
-import { createPostApi } from '../../apis/community';
+import {
+  editPostApi,
+  getPostUserApi,
+  editPostTextApi,
+} from '../../apis/community';
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 import photoFilter from '../../assets/image/photo_filter.png';
 
-export default function CreatePost() {
+export default function EditPost() {
   const [title, setTitle] = useState('');
+  const [checkImage, setCheckImage] = useState(false);
+  const [postData, setPostData] = useState(null);
   const [content, setContent] = useState('');
-  const [tag, setTag] = useState();
+  const [tag, setTag] = useState('');
   const [imgSrc, setImgSrc] = useState({
     preview: undefined,
     upload: '',
   });
 
+  const { currentPostId } = useParams();
+
+  /*   console.log('image', imgSrc.upload);
+  const reader = new FileReader(imgSrc.upload);
+
+  reader.onload = function () {
+    result = reader.result;
+  };
+  console.log(result); */
   const navigate = useNavigate();
   const imgInputRef = useRef(null);
   const onChangeTitleHandler = e => {
@@ -31,19 +47,36 @@ export default function CreatePost() {
   };
   const onUploadImgHandler = () => {
     console.log('?');
+    setCheckImage(true);
     setImgSrc({
       upload: imgInputRef.current.files[0],
       preview: URL.createObjectURL(imgInputRef.current.files[0]),
     });
   };
-  const onSubmitHandler = async e => {
-    if (title == '') {
-      return alert('제목을 입력해주세요.');
-    }
-    if (content == '') {
-      return alert('내용을 입력해주세요.');
-    }
 
+  const onSubmitHandler = async e => {
+    if (checkImage) {
+      e.preventDefault();
+      const formData = new FormData();
+      const request = {
+        title,
+        content,
+        tag,
+      };
+      console.log('requets', request, 'image', imgSrc.upload);
+      const blob = new Blob([JSON.stringify(request)], {
+        type: 'application/json',
+      });
+      formData.append('request', blob);
+      imgSrc.upload && formData.append('image', imgSrc.upload);
+      if (!tag) {
+        alert('태그를 선택해 주세요');
+      }
+      const res = await editPostApi(currentPostId, formData);
+      console.log(res);
+      const postId = res.data.id;
+      return navigate(`/donepost/${postId}`);
+    }
     e.preventDefault();
     const formData = new FormData();
     const request = {
@@ -51,24 +84,46 @@ export default function CreatePost() {
       content,
       tag,
     };
+    console.log('requets', request, 'image', imgSrc.upload);
     const blob = new Blob([JSON.stringify(request)], {
       type: 'application/json',
     });
     formData.append('request', blob);
-    imgSrc.upload && formData.append('image', imgSrc.upload);
+
     if (!tag) {
-      return alert('태그를 선택해 주세요');
+      alert('태그를 선택해 주세요');
     }
-    const res = await createPostApi(formData);
+    const res = await editPostTextApi(currentPostId, formData);
     console.log(res);
     const postId = res.data.id;
     return navigate(`/donepost/${postId}`);
   };
+  const getPost = async () => {
+    const data = await getPostUserApi(currentPostId);
+    console.log('현재페이지 정보 들고옴', data.data);
+    setPostData(data.data);
+    setTitle(data.data.title);
+    setContent(data.data.content);
+    console.log('image', data.data.image);
 
+    setImgSrc({
+      preview: data.data.image,
+      upload: data.data.image,
+    });
+  };
+  console.log('postData', postData);
+
+  useEffect(() => {
+    getPost();
+  }, []);
+
+  useEffect(() => {
+    setTag(postData?.tag);
+  }, [postData]);
   return (
     <StCreateContainer>
       <StCreateHeader>
-        <h3>글 작성하기</h3>
+        <h3>글 수정하기</h3>
       </StCreateHeader>
       <form onSubmit={onSubmitHandler}>
         <StTopicArea>
@@ -92,13 +147,13 @@ export default function CreatePost() {
         <StTitleArea
           placeholder="제목을 입력해 주세요"
           maxLength={30}
-          value={title}
+          defaultValue={postData?.title}
           onChange={onChangeTitleHandler}
         />
         <div>
           <StContentArea
             placeholder="내용을 작성해 주세요"
-            value={content}
+            defaultValue={postData?.content}
             onChange={onChangeContentHandler}
             spellcheck="false"
           />
@@ -120,28 +175,16 @@ export default function CreatePost() {
                 type="file"
                 onChange={onUploadImgHandler}
               />
-              {imgSrc.preview && (
-                <StPrevImg
-                  className="profile_image"
-                  src={imgSrc.preview}
-                  name="uploadImg"
-                  alt="uploadImg"
-                />
-              )}
-              {imgSrc.preview == undefined ? (
-                <StUploadImg>
-                  <img src={photoFilter} alt="사진 이미지" />
-                  <span>사진 추가</span>
-                </StUploadImg>
-              ) : (
-                ''
-              )}
+              <StPrevImg
+                className="profile_image"
+                src={imgSrc.preview || postData?.image}
+                name="uploadImg"
+                alt="uploadImg"
+              />
             </StUploadImgWrapper>
           </label>
         </div>
-        <StSubmitButton type="button" onClick={onSubmitHandler}>
-          글 등록하기
-        </StSubmitButton>
+        <StSubmitButton onClick={onSubmitHandler}>글 등록하기</StSubmitButton>
       </form>
     </StCreateContainer>
   );
