@@ -184,8 +184,10 @@ const StSearchContainer = styled.div`
     outline: none;
     font-size: 1.4rem;
     text-indent: 10px;
+    font-weight: 600;
     &::placeholder {
       font-size: 1.4rem;
+      color: #cbcbcb;
     }
     @media (max-width: 768px) {
       &::placeholder {
@@ -253,7 +255,7 @@ const StListInner = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   width: 100%;
   max-width: 1372px;
-  gap: 35px 20px;
+  gap: 35px 40px;
 
   @media (max-width: 1280px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;

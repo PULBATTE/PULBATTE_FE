@@ -5,6 +5,7 @@ import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
+import photoFilter from '../../assets/image/photo_filter.png';
 
 export default function CreatePost() {
   const [title, setTitle] = useState('');
@@ -36,6 +37,13 @@ export default function CreatePost() {
     });
   };
   const onSubmitHandler = async e => {
+    if (title == '') {
+      return alert('제목을 입력해주세요.');
+    }
+    if (content == '') {
+      return alert('내용을 입력해주세요.');
+    }
+
     e.preventDefault();
     const formData = new FormData();
     const request = {
@@ -49,12 +57,12 @@ export default function CreatePost() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
     if (!tag) {
-      alert('태그를 선택해 주세요');
+      return alert('태그를 선택해 주세요');
     }
     const res = await createPostApi(formData);
     console.log(res);
     const postId = res.data.id;
-    navigate(`/donepost/${postId}`);
+    return navigate(`/donepost/${postId}`);
   };
 
   return (
@@ -92,29 +100,48 @@ export default function CreatePost() {
             placeholder="내용을 작성해 주세요"
             value={content}
             onChange={onChangeContentHandler}
+            spellcheck="false"
           />
         </div>
         {/* <StUploadInputPText>+ 사진 업로드</StUploadInputPText> */}
-        <label htmlFor="image">
-          <StUploadImgWrapper>
-            <input
-              hidden
-              id="image"
-              ref={imgInputRef}
-              type="file"
-              onChange={onUploadImgHandler}
-            />
-            {imgSrc.preview && (
-              <StPrevImg
-                className="profile_image"
-                src={imgSrc.preview}
-                name="uploadImg"
-                alt="uploadImg"
+        <div>
+          <StTopicArea>
+            <h4>사진 추가</h4>
+            <span className="section_subtitle">
+              버튼을 눌러 사진을 추가할 수 있어요.
+            </span>
+          </StTopicArea>
+          <label htmlFor="image">
+            <StUploadImgWrapper>
+              <input
+                hidden
+                id="image"
+                ref={imgInputRef}
+                type="file"
+                onChange={onUploadImgHandler}
               />
-            )}
-          </StUploadImgWrapper>
-        </label>
-        <StSubmitButton onClick={onSubmitHandler}>글 등록하기</StSubmitButton>
+              {imgSrc.preview && (
+                <StPrevImg
+                  className="profile_image"
+                  src={imgSrc.preview}
+                  name="uploadImg"
+                  alt="uploadImg"
+                />
+              )}
+              {imgSrc.preview == undefined ? (
+                <StUploadImg>
+                  <img src={photoFilter} alt="사진 이미지" />
+                  <span>사진 추가</span>
+                </StUploadImg>
+              ) : (
+                ''
+              )}
+            </StUploadImgWrapper>
+          </label>
+        </div>
+        <StSubmitButton type="button" onClick={onSubmitHandler}>
+          글 등록하기
+        </StSubmitButton>
       </form>
     </StCreateContainer>
   );
@@ -225,7 +252,6 @@ const StContentArea = styled.textarea`
   margin-top: 30px;
   margin-bottom: 20px;
   font-size: 1.2rem;
-  padding: 20px;
   box-sizing: border-box;
   word-break: break-all;
   resize: none;
@@ -235,20 +261,22 @@ const StContentArea = styled.textarea`
 const StSubmitButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
-  width: 308px;
-  height: 72px;
+  width: 170px;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 1.1rem;
   border: none;
-  font-size: 24px;
   margin: auto;
   display: block;
 `;
 const StUploadImgWrapper = styled.div`
-  width: 100%;
   padding: 24px;
   height: 200px;
   background-color: ${palette.lightGray};
   border-radius: 8px;
   margin-bottom: 24px;
+  position: relative;
+  cursor: pointer;
 `;
 const StUploadInputPText = styled.p`
   background-color: ${palette.inputTextColor};
@@ -266,4 +294,22 @@ const StUploadInputPText = styled.p`
 `;
 const StPrevImg = styled.img`
   height: 100%;
+`;
+const StUploadImg = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px 0;
+  align-items: center;
+
+  img {
+    width: 40px;
+    aspect-ratio: 1/1;
+  }
+  span {
+    color: ${palette.borderColor3};
+  }
 `;

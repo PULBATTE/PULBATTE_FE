@@ -21,8 +21,11 @@ const StBestContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  width: 200px;
+  padding: 5px;
+  box-sizing: border-box;
   cursor: pointer;
+
   p {
     margin: 0;
     width: 100%;
@@ -32,7 +35,7 @@ const StBestContainer = styled.div`
     display: -webkit-box;
     text-overflow: ellipsis;
     overflow: hidden;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     font-size: 1.1rem;
   }
@@ -41,16 +44,12 @@ const StBest5ImgWrapper = styled.div`
   position: relative;
   align-items: center;
   justify-content: center;
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  aspect-ratio: 1/1;
   border-radius: 16px;
-  text-overflow: ellipsis;
   overflow: hidden;
-  word-break: break-word;
+  box-shadow: 0px 1px 11px 0px rgb(0 0 0 / 8%);
 
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   ::after {
     content: 'Best';
     position: absolute;
@@ -62,6 +61,7 @@ const StBest5ImgWrapper = styled.div`
     top: 10px;
     width: 62px;
     height: 36px;
+    border: 1px solid #e6edeb;
     background-color: ${palette.white};
     z-index: 1;
     font-size: 16px;

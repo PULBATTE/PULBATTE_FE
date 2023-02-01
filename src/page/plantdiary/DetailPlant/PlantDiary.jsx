@@ -93,7 +93,7 @@ const StPlantInfoHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 26px;
+  margin-bottom: 15px;
   p {
     margin: 0;
   }
@@ -121,6 +121,17 @@ const StButton = styled.button`
 const PlantDiaryCardContainer = styled.div`
   width: 100%;
   height: 410px;
-  overflow: scroll;
-  padding-bottom: 50px;
+  overflow-y: scroll;
+  padding: 5px 8px;
+  box-sizing: border-box;
+  &::-webkit-scrollbar-thumb {
+    width: 5px;
+    height: 5px;
+    background: #e1e1e1;
+    /*  border: 1px solid #e6e3e3; */
+    border-radius: 30px;
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
 `;

@@ -143,7 +143,7 @@ const StDateCircle = styled.div`
 `;
 const StPlantDiaryCardContent = styled.div`
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
   margin-right: 20px;
   display: -webkit-box;
   text-overflow: ellipsis;

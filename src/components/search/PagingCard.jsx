@@ -22,6 +22,7 @@ const StCardWrapper = styled.div`
     aspect-ratio: 1/1;
     border-radius: 8px;
     width: 100%;
+    box-shadow: 0px 0px 10px 4px rgb(0 0 0 / 8%);
   }
   span {
     font-size: 1.2rem;
