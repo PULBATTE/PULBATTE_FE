@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import { BsBellFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import SlideModal from './SlideModal';
+import alarmBtn from '../../../../assets/image/icon_alarm.png';
+import logo from '../../../../assets/image/logo.png';
 
 export default function Mobileheader({ token, logOutEventHandler }) {
   const [isClicked, setIsClicked] = useState(false);
@@ -21,12 +23,11 @@ export default function Mobileheader({ token, logOutEventHandler }) {
     <StMobileNav>
       <div>
         <Link to="/">
-          <img src="" alt="" />
-          로고
+          <img src={logo} alt="로고이미지" />
         </Link>
       </div>
       <StUtilMenu>
-        <StAlarm />
+        <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
         <div
           className="hamburger"
           onClick={() => {
@@ -61,16 +62,19 @@ const StMobileNav = styled.div`
   a {
     color: #000;
     text-decoration: none;
+    img {
+      width: 100px;
+    }
   }
   .hamburger {
     display: flex;
     flex-direction: column;
-    gap: 7px 0;
+    gap: 5px 0;
     cursor: pointer;
     position: relative;
     .line {
-      height: 4px;
-      width: 1.9rem;
+      height: 3px;
+      width: 1.5rem;
       display: block;
       background: black;
       border-radius: 5px;
@@ -88,21 +92,22 @@ const StUtilMenu = styled.div`
     z-index: 5;
   }
   .open:nth-child(1) {
-    transform: rotate(44deg) translate(9px, 7px);
+    transform: rotate(44deg) translate(6px, 7px);
     background: #d27676;
   }
   .open:nth-child(2) {
     opacity: 0;
   }
   .open:nth-child(3) {
-    transform: rotate(-47deg) translate(9px, -6px);
+    transform: rotate(-47deg) translate(5px, -5px);
     background: #d27676;
   }
 `;
-const StAlarm = styled(BsBellFill)`
-  font-size: 1.7rem;
-  color: rgba(228 206 103);
+const StAlarm = styled.img`
+  width: 20px;
+  aspect-ratio: 1/1.2;
   cursor: pointer;
+  image-rendering: -webkit-optimize-contrast;
 `;
 const StCurtain = styled.div`
   position: fixed;

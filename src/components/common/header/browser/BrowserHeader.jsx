@@ -2,9 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { BsBellFill } from 'react-icons/bs';
+import { FaUserCircle } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../../../../styles/fonts.css';
 import GlobalNavigationBar from './GlobalNavigationBar';
+import Logo from '../../../../assets/image/logo.png';
+import mypageBtn from '../../../../assets/image/icon_my.png';
+import alarmBtn from '../../../../assets/image/icon_alarm.png';
 import {
   guidePath,
   boardPath,
@@ -12,22 +16,24 @@ import {
   diaryPath,
   testPath,
   choicePath,
+  mypagePath,
 } from '../../../../apis/path';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 
-export default function BrowserHeader({
-  token,
-
-  logOutEventHandler,
-}) {
-  const [display, setDisplay] = useState([false, false, false, false]);
+export default function BrowserHeader({ token, logOutEventHandler }) {
+  const [display, setDisplay] = useState([false, false, false, false, false]);
+  const [clickBtn, setClickBtn] = useState(false);
   const location = useLocation();
-  const outMouseDisplay = index => {
+  const onPageMoveHandler = () => {
+    navigate(mypagePath);
+    setClickBtn(false);
+  };
+  const outMouseDisplayHandler = index => {
     const newDisplay = [...display];
     newDisplay[index] = false;
     setDisplay(newDisplay);
   };
-  const inMouseDisplay = index => {
+  const inMouseDisplayHandler = index => {
     const newDisplay = [...display];
     newDisplay[index] = true;
     setDisplay(newDisplay);
@@ -37,15 +43,14 @@ export default function BrowserHeader({
     <StBrowserNav>
       <StImageContainer>
         <Link to="/">
-          <img src="" alt="" />
-          로고
+          <img src={Logo} alt="" />
         </Link>
       </StImageContainer>
       <StCategory>
         <div className="gnb_container">
           <ul
-            onMouseOver={() => inMouseDisplay(0)}
-            onMouseOut={() => outMouseDisplay(0)}
+            onMouseOver={() => inMouseDisplayHandler(0)}
+            onMouseOut={() => outMouseDisplayHandler(0)}
           >
             <li>
               <span
@@ -60,15 +65,11 @@ export default function BrowserHeader({
         </div>
         <div className="gnb_container">
           <ul
-            onMouseOver={() => inMouseDisplay(1)}
-            onMouseOut={() => outMouseDisplay(1)}
+            onMouseOver={() => inMouseDisplayHandler(1)}
+            onMouseOut={() => outMouseDisplayHandler(1)}
           >
             <li>
-              <span
-                onClick={() => navigate(searchPath)}
-                aria-hidden="true"
-                /*   display={display[2]} */
-              >
+              <span onClick={() => navigate(searchPath)} aria-hidden="true">
                 식물 찾아보기
               </span>
             </li>
@@ -76,14 +77,10 @@ export default function BrowserHeader({
         </div>
         <div
           className="gnb_container"
-          onMouseOver={() => inMouseDisplay(2)}
-          onMouseOut={() => outMouseDisplay(2)}
+          onMouseOver={() => inMouseDisplayHandler(2)}
+          onMouseOut={() => outMouseDisplayHandler(2)}
         >
-          <GlobalNavigationBar
-            /*  setIsOpen={setIsOpen}
-            isOpen={isOpen} */
-            aria-hidden="true"
-          >
+          <GlobalNavigationBar>
             <li>
               <span>나만의 반려식물 찾기</span>
               <StNavigation display={display[2]}>
@@ -99,8 +96,8 @@ export default function BrowserHeader({
         </div>
         <div className="gnb_container">
           <ul
-            onMouseOver={() => inMouseDisplay(3)}
-            onMouseOut={() => outMouseDisplay(3)}
+            onMouseOver={() => inMouseDisplayHandler(3)}
+            onMouseOut={() => outMouseDisplayHandler(3)}
           >
             <li>
               <span onClick={() => PrivateRoute(diaryPath)} aria-hidden="true">
@@ -110,13 +107,34 @@ export default function BrowserHeader({
           </ul>
         </div>
       </StCategory>
-      <StUtilContainer>
-        <StAlarm />
-        {token && token ? (
-          <button type="button" onClick={() => logOutEventHandler()}>
-            로그아웃
-          </button>
-        ) : (
+
+      {token && token ? (
+        <StUtilContainer>
+          <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
+          <StMyBtnContainer>
+            <StMyBtn src={mypageBtn} onClick={() => setClickBtn(!clickBtn)} />
+            <ul className={clickBtn ? 'mypage_modal open' : 'mypage_modal'}>
+              <li>
+                <span onClick={() => onPageMoveHandler()} aria-hidden="true">
+                  마이페이지
+                </span>
+              </li>
+              <li>
+                <span
+                  onClick={() => {
+                    logOutEventHandler();
+                    setClickBtn(!clickBtn);
+                  }}
+                  aria-hidden="true"
+                >
+                  로그아웃
+                </span>
+              </li>
+            </ul>
+          </StMyBtnContainer>
+        </StUtilContainer>
+      ) : (
+        <StUtilContainer>
           <StLink to="/api/user/signin">
             <button
               type="button"
@@ -127,8 +145,8 @@ export default function BrowserHeader({
               로그인
             </button>
           </StLink>
-        )}
-      </StUtilContainer>
+        </StUtilContainer>
+      )}
     </StBrowserNav>
   );
 }
@@ -155,6 +173,11 @@ const StImageContainer = styled.div`
   a {
     text-decoration: none;
     color: #000;
+  }
+  img {
+    @media (max-width: 1000px) {
+      width: 13vw;
+    }
   }
 `;
 const StCategory = styled.ul`
@@ -186,7 +209,8 @@ const StCategory = styled.ul`
       position: relative;
       > li {
         > span {
-          font-size: 1.2rem;
+          font-size: 1rem;
+          font-weight: 600;
           @media (max-width: 1024px) {
             font-size: 1.1rem;
           }
@@ -208,11 +232,18 @@ const StCategory = styled.ul`
       width: 100%;
     }
   }
+  @media (max-width: 1000px) {
+    gap: 0 10px;
+  }
 `;
 
 const StUtilContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  gap: 0 25px;
+  img {
+    cursor: pointer;
+  }
   button {
     line-height: 1;
     border: none;
@@ -220,17 +251,61 @@ const StUtilContainer = styled.div`
     cursor: pointer;
     font-size: 1rem;
   }
+  svg {
+    cursor: pointer;
+  }
 `;
-const StAlarm = styled(BsBellFill)`
-  color: rgba(228 206 103);
-  font-size: 1.7rem;
+const StAlarm = styled.img`
+  width: 20px;
+  height: 25px;
+
+  image-rendering: -webkit-optimize-contrast;
+`;
+const StMyBtnContainer = styled.div`
+  position: relative;
+  .mypage_modal {
+    position: absolute;
+    width: 150px;
+    top: 40px;
+    left: -30%;
+    transform: translateX(-30%);
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
+    transition: all 0.2s ease-in;
+    &.open {
+      background-color: #fff;
+      opacity: 1;
+      pointer-events: fill;
+    }
+    li {
+      padding: 10px;
+      box-sizing: border-box;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 6px;
+      &:hover {
+        background: #eeeeee;
+      }
+    }
+  }
+`;
+const StMyBtn = styled.img`
+  width: 20px;
+  image-rendering: -webkit-optimize-contrast;
+  aspect-ratio: 1/1;
+  margin-top: 2px;
 `;
 const StLink = styled(Link)`
   min-width: fit-content;
 `;
 const StNavigation = styled.ul`
   position: absolute;
-  top: 38px;
+  top: 35px;
   left: 50%;
   box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
   border-radius: 15px;

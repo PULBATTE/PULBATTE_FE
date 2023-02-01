@@ -62,24 +62,10 @@ export const options = {
   },
 };
 
-const MOCK_DATA = {
-  labels: ['물주기', '분무량', '햇빛'],
-  datasets: [
-    {
-      backgroundColor: [
-        palette.card.blue,
-        palette.card.green,
-        palette.card.brown,
-      ],
-      barThickness: 40,
-      data: [10, 60, 100],
-    },
-  ],
-};
-
 // percentage = currentDdayClick / totalDdayClick;
 const calculatePercent = (currentDday, totalDday) => {
   // 분모가 0이면 NAN
+  // console.log(currentDday, totalDday);
   if (totalDday === 0) return 0;
   const percent = (currentDday / totalDday) * 100;
   return percent;
@@ -90,11 +76,11 @@ export default function PlantInfoChart({ chartData }) {
 
   useEffect(() => {
     const chartDataToPercent = chartData.map(v => {
-      // return calculatePercent(v.currentDday, v.totalDday);
-      return calculatePercent(8, 10);
+      return calculatePercent(v.currentDday, v.totalDday);
     });
+    // console.log({ chartDataToPercent });
     const data = {
-      labels: ['물주기', '분무량', '햇빛'],
+      labels: ['물주기', '분갈이', '영양제'],
       datasets: [
         {
           backgroundColor: [
@@ -129,7 +115,7 @@ const StChartContainer = styled.section`
   width: 100%;
   border-radius: 20px;
   height: 100%;
-  max-height: 380px;
+  max-height: 430px;
   @media (max-width: 500px) {
     width: 100%;
   }

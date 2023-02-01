@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import testImage from '../../assets/image/test_01.png';
 import { palette } from '../../styles/palette';
 
 export default function PlantSlide({
   title,
+  image,
   questionA,
   questionB,
   checkQuestionHandler,
+  isChecked,
 }) {
   return (
     <div className="slide_inner">
       <span className="question_title">{title}</span>
       <div className="slide_image_container">
-        <img src={testImage} alt="" />
+        <img src={image} alt="" />
       </div>
       <StQuestionContainer>
         <div
-          className="next"
+          className={isChecked ? 'next off' : 'next on'}
           onClick={() => checkQuestionHandler('0')}
           aria-hidden="true"
         >
@@ -26,7 +27,7 @@ export default function PlantSlide({
           <span className="second_question">{questionA}</span>
         </div>
         <div
-          className="next"
+          className={isChecked ? 'next off' : 'next on'}
           onClick={() => checkQuestionHandler('1')}
           aria-hidden="true"
         >
@@ -44,6 +45,7 @@ const StQuestionContainer = styled.div`
   width: 100%;
   justify-content: center;
   pointer-events: visible;
+  padding: 4px;
   @media (max-width: 500px) {
     gap: 0 10px;
   }
@@ -52,12 +54,13 @@ const StQuestionContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding: 1rem;
-    min-height: 18vh;
-    background: #fff;
+    min-height: 15vh;
+    background: ${palette.pageBackgroundGray};
     border-radius: 15px;
     gap: 20px 0;
     width: 40%;
     cursor: pointer;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
     &:active {
       background: #abc8b2;
       .second_question {
@@ -66,13 +69,19 @@ const StQuestionContainer = styled.div`
       }
     }
   }
+  .on {
+    pointer-events: fill;
+  }
+  .off {
+    pointer-events: none;
+  }
   .first_question {
     font-size: 1.8rem;
     font-weight: 800;
     color: ${palette.mainColor};
   }
   .second_question {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 400;
     @media (max-width: 768px) {
       font-size: 1rem;

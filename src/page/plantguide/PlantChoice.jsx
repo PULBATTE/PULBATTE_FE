@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import styled from 'styled-components';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAllPlantsInfo, postSelectPlant } from '../../apis/plantGuide';
+import { getAllPlantsInfoApi, postSelectPlantApi } from '../../apis/plantGuide';
 import { guidePath } from '../../apis/path';
 import 'swiper/swiper.min.css';
 import 'swiper/components/navigation/navigation.min.css';
@@ -24,8 +24,8 @@ export default function PlantChoice() {
 
   // 모달창 > 확인버튼
   const onSubmitHandler = () => {
-    postSelectPlant(plantName.current)
-      .then(res => navigate(`/api/beginner/plant/my`))
+    postSelectPlantApi(plantName.current)
+      .then(res => navigate(guidePath))
       .catch(error => console.log(error));
   };
   // 식물선택 했을 때
@@ -38,7 +38,7 @@ export default function PlantChoice() {
     onChangeModalHandler();
   };
   // 렌더링될때 식물 중복된 값있는지 판단
-  getAllPlantsInfo()
+  getAllPlantsInfoApi()
     .then(res => {
       console.log(res);
       res
@@ -55,7 +55,7 @@ export default function PlantChoice() {
   SwiperCore.use([Navigation, Pagination]);
 
   useEffect(() => {
-    getAllPlantsInfo()
+    getAllPlantsInfoApi()
       .then(res => {
         console.log(res);
         setPlantInfo(res);
@@ -144,7 +144,7 @@ export default function PlantChoice() {
                     >
                       <div className="plant_img_container">
                         <img className="plant_image" src={data.image} alt="" />
-                        {data.like ? <span>풀밭에 추천</span> : ''}
+                        {data.like && <span>풀밭에 추천</span>}
                       </div>
                       <div className="plant_content_container">
                         <h3>{data.beginnerPlantName}</h3>

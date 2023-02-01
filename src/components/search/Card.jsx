@@ -19,6 +19,7 @@ const StCardWrapper = styled.div`
   gap: 15px 0;
   img {
     aspect-ratio: 1/1;
+    box-shadow: 0px 1px 11px 0px rgb(0 0 0 / 8%);
     border-radius: 8px;
     width: 100%;
   }

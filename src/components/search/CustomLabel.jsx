@@ -1,16 +1,15 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
-import { plantsFilter } from '../../apis/plantsFilter';
+import { plantsFilterApi } from '../../apis/plantsFilter';
 
 export default function CustomLabel(props) {
-  const { dataname, button, setPlantsList, isClicked, setIsClicked } = props;
+  const { dataname, button, setCategory, isClicked, setIsClicked } = props;
 
   const onFilterEventHandler = async e => {
     const { name } = e.target.dataset;
 
-    const res = await plantsFilter(name);
-    setPlantsList(res);
+    setCategory(name);
     setIsClicked(true);
   };
 

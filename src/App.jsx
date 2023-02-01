@@ -1,12 +1,18 @@
 import React from 'react';
 /* eslint import/newline-after-import: "off" */
-
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import Router from './router/Router';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <div>
-      <Router />
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </div>
   );
 }

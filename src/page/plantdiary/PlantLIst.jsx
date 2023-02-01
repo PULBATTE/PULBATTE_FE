@@ -2,20 +2,20 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
-import { getPlantList } from '../../apis/plantDiary';
+import { getPlantListApi } from '../../apis/plantDiary';
 import PlantListCard from '../../components/plantdiary/PlantListCard';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
-  const getPlantListApi = useCallback(async () => {
-    const data = await getPlantList();
-    console.log(data.data);
+  console.log({ plantList });
+  const getPlantList = useCallback(async () => {
+    const data = await getPlantListApi();
     setPlantList(data.data);
   }, []);
 
   useEffect(() => {
-    getPlantListApi();
-  }, [getPlantListApi]);
+    getPlantList();
+  }, [getPlantList]);
 
   const navigate = useNavigate();
   const onAddPlantHandler = () => {
@@ -47,13 +47,19 @@ const StPlantListContainer = styled.div`
   /* display: flex; */
   flex-direction: column;
   align-items: center;
-  margin: 50px;
+
   max-width: 1372px;
-  width: 80%;
-  margin: 7rem auto 3rem;
+  width: 100%;
+  padding: 4rem 0 2rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  min-height: 100vh;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
   @media (max-width: 768px) {
     width: 100%;
-
+    margin: 4rem auto 3rem;
     padding: 0 2rem;
     box-sizing: border-box;
   }
@@ -61,13 +67,14 @@ const StPlantListContainer = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 3rem;
+    margin: 6rem 0 4rem;
+
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
-      font-size: 1.8rem;
-      margin-top: 45px;
+      font-size: 1.5rem;
+      margin: 2rem 0;
     }
   }
   h4 {
@@ -108,7 +115,7 @@ const StAddButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
   width: 135px;
-  height: 45px;
+  height: 40px;
   font-size: 1.1rem;
   font-weight: 600;
   border: none;

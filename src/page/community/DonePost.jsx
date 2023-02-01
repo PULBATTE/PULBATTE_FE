@@ -1,51 +1,81 @@
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
-import { PostComment } from '../../components/community/PostComment';
-import { getPost, postComment } from '../../apis/community';
-import { getInfo } from '../../apis/auth';
+import { Comment } from '../../components/community/Comment';
+import {
+  getPostUserApi,
+  getPostGuestApi,
+  postLikeApi,
+  postCommentApi,
+  deletePostTextApi,
+} from '../../apis/community';
+import { getInfoApi } from '../../apis/auth';
+import { getCookie } from '../../apis/cookie';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
-  const [commentList, setCommentList] = useState();
   const [isClicked, setIsClicked] = useState(false);
   const [nickName, setNickName] = useState('');
+  const [Like, setLike] = useState(false);
   const [comment, setComment] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { postId } = useParams();
-  console.log('postData 있음', postData);
-  console.log('commentList 있음', commentList);
-  // donepost 데이터 불러오기 - 새로고침
-  const getPostApi = useCallback(async () => {
+  const navigate = useNavigate();
+  console.log('postData', postData);
+  console.log('postId', postId);
+  const Token = localStorage.getItem('access_Token');
+  console.log(Token);
+  const getPost = useCallback(async () => {
     setIsLoading(true);
-    const data = await getPost(postId);
-    setPostData(data.data);
-    setIsLoading(false);
-    console.log('postData 설정함');
-  }, [postId]);
+    if (Token) {
+      console.log('user');
+      const data = await getPostUserApi(postId);
+      console.log(data.data);
 
-  const getInfoApi = useCallback(async () => {
-    const data = await getInfo();
-    console.log('nickname', data);
+      const { likeStatus } = data.data;
+      setLike(likeStatus);
+
+      setPostData(data.data);
+      setIsLoading(false);
+    } else {
+      console.log('guest');
+      const data = await getPostGuestApi(postId);
+      setPostData(data.data);
+      setIsLoading(false);
+    }
+  }, [Token, postId]);
+
+  const getInfo = useCallback(async () => {
+    const data = await getInfoApi();
     setNickName(data.nickName);
+    return data;
   }, []);
 
-  console.log({ nickName });
-  useEffect(() => {
-    getPostApi();
-    getInfoApi();
-  }, [getInfoApi, getPostApi]);
+  const postLike = useCallback(async () => {
+    const data = await postLikeApi(postId);
+    console.log({ data });
+    setLike(_postLikeApi => !_postLikeApi);
+    await getPost();
+  }, [getPost, postId]);
 
   useEffect(() => {
-    postData && setCommentList(postData.commentList);
-  }, [postData]);
+    getInfo();
+    getPost();
+  }, [getInfo, getPost]);
 
   const onLikeHandler = () => {
-    setIsClicked(_isClicked => !_isClicked);
+    // -postLikeApi 호출
+    if (Token) {
+      postLike();
+      getPost();
+    }
+    if (!Token) {
+      alert('로그인이 필요합니다.');
+    }
   };
 
   const onCommentHandler = e => {
@@ -53,31 +83,60 @@ export default function DonePost() {
   };
   const onRegCommentHandler = async () => {
     setIsLoading(true);
-    await postComment(postId, 0, comment);
+    await postCommentApi(postId, 0, comment);
     setComment('');
-    await getPostApi();
+    await getPost();
     setIsLoading(false);
   };
+  const onDeletePostHandler = async () => {
+    const data = await deletePostTextApi(postId);
+    console.log(data);
+    if (data.data.statusCode === 200) {
+      navigate('/postlist');
+    }
+  };
   return (
-    <StDonePostContainer>
-      {isLoading ? (
-        <>loading..</>
-      ) : (
-        <>
-          <StNavBar>
-            <span>게시글 목록</span>
-          </StNavBar>
+    <StWrapper>
+      <h3>커뮤니티</h3>
+      {postData && (
+        <StDonePostContainer>
           <StBoardContainer>
             <h3>{postData.title}</h3>
             <StUserInfo>
-              <img alt="profileImg" src={postData.profileImage} />
-              <div className="usercontainer">
-                <span>{postData.nickname}</span>
-                <span>{formatDate(postData.createdAt)}</span>
+              <div className="user">
+                <img alt="profileImg" src={postData.profileImage} />
+                <div className="usercontainer">
+                  <span className="username">{postData.nickname}</span>
+                  <span>{formatDate(postData.createdAt)}</span>
+                </div>
               </div>
+              {postData?.nickname == nickName ? (
+                <StEditDeleteBtnContainer>
+                  <span
+                    onClick={() => navigate(`/editPost/${postId}`)}
+                    role="button"
+                    aria-hidden="true"
+                  >
+                    수정
+                  </span>
+                  <span
+                    onClick={() => onDeletePostHandler()}
+                    role="button"
+                    aria-hidden="true"
+                  >
+                    삭제
+                  </span>
+                </StEditDeleteBtnContainer>
+              ) : (
+                ''
+              )}
             </StUserInfo>
             <StContentWrapper>
-              <img alt="plantImg" src={postData.image} />
+              {postData.image !== '' ? (
+                <img alt="plantImg" src={postData.image} />
+              ) : (
+                ''
+              )}
               <span>{postData.content}</span>
             </StContentWrapper>
             <StTagWrappeer>
@@ -85,76 +144,100 @@ export default function DonePost() {
                 {postData.tag}
               </Button>
             </StTagWrappeer>
-            <StDivider />
-            {postData.likeStatus ? (
+            {Like === true ? (
               <StLikeWrapper>
-                <BsFillHeartFill onClick={onLikeHandler} />
+                <BsFillHeartFill onClick={postLike} />
                 <span>{postData.likeCnt}</span>
               </StLikeWrapper>
             ) : (
               <StLikeWrapper>
-                <BsHeart onClick={onLikeHandler} />
+                <BsHeart onClick={postLike} />
                 <span>{postData.likeCnt}</span>
               </StLikeWrapper>
             )}
           </StBoardContainer>
           <StCreateCommentWrapper>
-            <span>{postData.commentCnt}개의 댓글</span>
-            <StCreateCommentArea
-              placeholder="댓글을 작성하세요"
-              value={comment}
-              onChange={onCommentHandler}
-            />
+            <span className="count_comment">
+              {postData.commentCnt}개의 댓글
+            </span>
             <div>
-              <StButton type="button" onClick={onRegCommentHandler}>
-                등록
-              </StButton>
+              <StCreateCommentArea
+                placeholder="댓글을 작성하세요"
+                value={comment}
+                onChange={onCommentHandler}
+              />
+              <div>
+                <StButton type="button" onClick={onRegCommentHandler}>
+                  등록
+                </StButton>
+              </div>
             </div>
           </StCreateCommentWrapper>
           {/* map함수를 사용해서 PostComment 여러개 생성 */}
           {/* PostComment는 컴포넌트로 분리 */}
-          {commentList &&
-            commentList.map(v => {
-              console.log(v);
-              return (
-                <PostComment
-                  key={v.commentId}
-                  comment={v}
-                  getPost={getPostApi}
-                  nickName={nickName}
-                />
-              );
-            })}
-        </>
+          <StRepleContainer>
+            {postData.commentList &&
+              postData.commentList.map(v => {
+                return (
+                  <Comment
+                    key={v.commentId}
+                    comment={v}
+                    getPostUser={getPost}
+                    nickName={nickName}
+                  />
+                );
+              })}
+          </StRepleContainer>
+        </StDonePostContainer>
       )}
-    </StDonePostContainer>
+    </StWrapper>
   );
 }
 
-const StDonePostContainer = styled.div`
+const StWrapper = styled.div`
   max-width: 1280px;
-  width: 70%;
+  width: 90%;
   margin: 0 auto;
-  margin-top: 50px;
-`;
-const StNavBar = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  span {
-    font-size: 1.1rem;
+  padding: 4rem 0 2rem;
+  > h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 6rem 0 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem;
+    }
   }
 `;
 const StBoardContainer = styled.div`
-  border: 1.5px solid #eaeaea;
   border-radius: 8px;
-  padding: 30px;
+
   h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 2.1rem;
+    font-weight: 700;
+    margin: 0 auto 40px;
   }
 `;
+const StDonePostContainer = styled.div`
+  padding: 5vw 6vw;
+  box-shadow: ${palette.containerShadow1};
+  margin-top: 5rem;
+`;
+const StRepleContainer = styled.div`
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 40px 0;
+`;
 const StUserInfo = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 5rem;
+  padding-top: 36px;
+  justify-content: space-between;
+  border-top: 1px solid ${palette.borderColor2};
   display: flex;
   align-items: center;
   gap: 10px;
@@ -163,71 +246,104 @@ const StUserInfo = styled.div`
     height: 50px;
     border-radius: 50%;
   }
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   .usercontainer {
     display: flex;
     flex-direction: column;
+    gap: 3px 0;
+  }
+  .username {
+    font-weight: 700;
   }
 `;
 const StContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 400px;
   img {
-    max-height: 300px;
-    width: 400px;
-    margin: 0 auto;
+    max-width: 700px;
     margin-bottom: 30px;
+    object-fit: contain;
   }
   span {
+    font-size: 1.2rem;
     line-height: 1.5rem;
+    white-space: pre-line;
   }
 `;
 
 const StTagWrappeer = styled.div`
-  margin-top: 30px;
   display: flex;
-  gap: 08px;
+  gap: 0 8px;
+  margin-top: 4rem;
   button {
-    border-radius: 16px;
-    padding: 3px 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    border-radius: 20px;
+    border: none;
+    background: ${palette.borderColor4};
+    color: ${palette.white};
+    font-weight: 600;
+    padding: 6px 24px 7px 24px;
+    font-size: 1rem;
+    cursor: unset;
   }
 `;
-const StDivider = styled.div`
-  width: 100%;
-  height: 1.5px;
-  background-color: #eaeaea;
-  margin-top: 30px;
-`;
+
 const StLikeWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 0 5px;
-  margin-top: 20px;
+  margin: 35px 0;
+  svg {
+    width: 25px;
+    height: 25px;
+  }
+  span {
+    font-size: 1.3rem;
+  }
 `;
 const StCreateCommentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;
+  .count_comment {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
 `;
 const StCreateCommentArea = styled.textarea`
   width: 100%;
-  height: 80px;
-  padding: 10px;
+  height: 120px;
+  padding: 14px 16px;
   box-sizing: border-box;
   outline: none;
   resize: none;
-  margin-top: 10px;
+  margin-top: 20px;
+  font-size: 1rem;
+  border: 1px solid ${palette.borderColor2};
+  border-radius: 8px;
 `;
 const StButton = styled.button`
   background-color: ${palette.mainColor};
   color: ${palette.white};
   width: 100px;
-  height: 30px;
+  height: 40px;
   border-radius: 8px;
   border: none;
   font-size: 1rem;
   font-weight: 600;
   float: right;
-  margin-top: 8px;
+  margin-top: 20px;
+`;
+const StEditDeleteBtnContainer = styled.div`
+  display: flex;
+  gap: 0 10px;
+  span {
+    cursor: pointer;
+    color: gray;
+  }
 `;

@@ -18,6 +18,8 @@ import PlantChoice from '../page/plantguide/PlantChoice';
 import PlantSearchDetail from '../page/search/PlantDetail';
 import PlantTest from '../page/plantguide/PlantTest';
 import PlantResult from '../page/plantguide/PlantResult';
+import Mypage from '../page/mypage/Mypage';
+import EditPost from '../page/community/EditPost';
 
 export default function Router() {
   return (
@@ -36,6 +38,7 @@ export default function Router() {
         <Route path="/detailplant/:plantJournalId" element={<DetailPlant />} />
         <Route path="/plantlist" element={<PlantList />} />
         <Route path="/donepost/:postId" element={<DonePost />} />
+        <Route path="/editPost/:currentPostId" element={<EditPost />} />
         <Route path="/plantguide" element={<PlantGuide />} />
         <Route path="/plantchoice" element={<PlantChoice />} />
         <Route
@@ -43,7 +46,8 @@ export default function Router() {
           element={<PlantSearchDetail />}
         />
         <Route path="/planttest" element={<PlantTest />} />
-        <Route path="/testresult" element={<PlantResult />} />
+        <Route path="/testresult" element={<PlantResult />} />\
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </BrowserRouter>
   );

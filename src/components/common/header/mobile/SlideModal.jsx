@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -13,7 +11,9 @@ import {
   searchPath,
   diaryPath,
   testPath,
+  mypagePath,
 } from '../../../../apis/path';
+import logo from '../../../../assets/image/logo.png';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 import { authInstance } from '../../../../apis/axios';
 
@@ -32,19 +32,21 @@ export default function SlideModal({
   useEffect(() => {
     if (token) {
       authInstance
-        .get('https://pulbatte.com/api/auth/info')
+        .get('api/auth/info')
         .then(response => setUserData(response.data))
         .catch(error => console.log(error));
     }
   }, [location]);
+
+  const onClickHandler = pathRoute => {
+    navigate(pathRoute);
+    onClickModalHandler();
+  };
   return (
     <StModal className={isClicked ? 'open' : ''}>
       <div className="modal_inner">
         <div className="logo_container">
-          <img
-            src="https://blog.kakaocdn.net/dn/ulsAm/btqB9w2kuwz/o2cNKALorND83K2rrZ9YF1/img.jpg"
-            alt="로고이미지"
-          />
+          <img src={logo} alt="로고이미지" />
         </div>
         {token && userData && userData ? (
           <div className="modal_user_info">
@@ -67,7 +69,11 @@ export default function SlideModal({
         )}
         <StCategory>
           {token && (
-            <div className="gnb">
+            <div
+              className="gnb"
+              onClick={() => PrivateRoute(mypagePath)}
+              aria-hidden="true"
+            >
               <span>마이페이지</span>
             </div>
           )}
@@ -75,8 +81,7 @@ export default function SlideModal({
           <div className="gnb">
             <span
               onClick={() => {
-                navigate(searchPath);
-                onClickModalHandler();
+                onClickHandler(searchPath);
               }}
               aria-hidden="true"
             >
@@ -86,8 +91,7 @@ export default function SlideModal({
           <div className="gnb">
             <span
               onClick={() => {
-                navigate(boardPath);
-                onClickModalHandler();
+                onClickHandler(boardPath);
               }}
               aria-hidden="true"
             >
@@ -97,6 +101,7 @@ export default function SlideModal({
           <div
             className={isOpen ? 'gnb close' : 'gnb open'}
             onClick={() => setIsOpen(!isOpen)}
+            role="button"
           >
             <span>
               나만의 반려식물 찾기 <MdKeyboardArrowRight />
@@ -179,7 +184,7 @@ const StModal = styled.div`
       height: 50.5px;
       align-items: center;
       img {
-        width: 80px;
+        height: 20px;
       }
     }
     .modal_user_info {

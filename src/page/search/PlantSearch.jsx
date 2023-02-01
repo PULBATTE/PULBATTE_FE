@@ -1,33 +1,50 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { HiOutlineSearch } from 'react-icons/hi';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery, useMutation, useQueryClient } from 'react-query';
 import CustomLabel from '../../components/search/CustomLabel';
 import { palette } from '../../styles/palette';
 import PlantsList from '../../components/search/PlantsList';
-import { plantsSearch, plantsGlobalList } from '../../apis/plantsFilter';
+import {
+  plantsSearchApi,
+  plantsGlobalListApi,
+  plantsSearchBeginnerlApi,
+  plantsFilterApi,
+} from '../../apis/plantsFilter';
+import PagingCard from '../../components/search/PagingCard';
 
 export default function PlantSearch() {
-  /*   const [filter, setFilter] = useState(null); */
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(true);
   const search = useRef();
   const [plantsList, setPlantsList] = useState(null);
+  const [category, setCategory] = useState('all');
+  console.log(category);
+  const { ref, inView } = useInView();
 
-  // 식물 전체 리스트
+  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
+    ['category', category],
+    ({ pageParam = 0 }) => plantsFilterApi(category, pageParam),
+    {
+      getNextPageParam: lastPage =>
+        !lastPage.isLast ? lastPage.nextPage : undefined,
+    },
+  );
   useEffect(() => {
-    onCheckList();
-  }, []);
+    if (inView) fetchNextPage();
+  }, [inView]);
 
-  const onCheckList = () => {
-    plantsGlobalList()
-      .then(res => setPlantsList(res.data.plantList), setIsClicked(false))
-      .catch(error => console.log(error));
-  };
+  /*   if (status === 'loading') return console.log('loading');
+  if (status === 'error') return console.log('error'); */
 
   const onSearchHandler = () => {
     if (window.event.keyCode == 13) {
-      plantsSearch(search.current.value)
-        .then(res => setPlantsList(res), setIsClicked(false))
+      setIsClicked(false);
+      plantsSearchApi(search.current.value)
+        .then(res => setPlantsList(res))
         .catch(error => console.log(error));
     }
   };
@@ -46,49 +63,78 @@ export default function PlantSearch() {
           />
         </StSearchContainer>
         <StFilterContainer>
-          <button
-            type="button"
-            className="globalBtn"
-            onClick={() => onCheckList()}
-          >
-            전체
-          </button>
           <CustomLabel
-            dataname="cactus"
-            button="#초보자"
-            setPlantsList={setPlantsList}
+            dataname="all"
+            button="#전체"
             isClicked={isClicked}
             setIsClicked={setIsClicked}
+            setCategory={setCategory}
+          />
+          <CustomLabel
+            dataname="beginner"
+            button="#초보자"
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+            setCategory={setCategory}
           />
           <CustomLabel
             dataname="leaf"
             button="#잎이있는"
-            setPlantsList={setPlantsList}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
+            setCategory={setCategory}
           />
           <CustomLabel
             dataname="flower"
             button="#꽃이피는"
-            setPlantsList={setPlantsList}
+            setCategory={setCategory}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
           />
           <CustomLabel
             dataname="fruit"
             button="#열매가있는"
-            setPlantsList={setPlantsList}
+            setCategory={setCategory}
+            isClicked={isClicked}
+            setIsClicked={setIsClicked}
+          />
+          <CustomLabel
+            dataname="cactus"
+            button="#다육/선인장"
+            setCategory={setCategory}
             isClicked={isClicked}
             setIsClicked={setIsClicked}
           />
         </StFilterContainer>
-        <PlantsList plantsList={plantsList} />
+
+        {isClicked ? (
+          <StContent>
+            {data?.pages.map((page, index) => (
+              <StListInner key={index}>
+                {page?.posts?.map(post => (
+                  <PagingCard key={post.id} post={post} />
+                ))}
+              </StListInner>
+            ))}
+            {isFetchingNextPage ? <div>Loading</div> : <div ref={ref} />}
+          </StContent>
+        ) : (
+          <PlantsList plantsList={plantsList} />
+        )}
       </div>
     </StWrapper>
   );
 }
 const StWrapper = styled.div`
-  margin: 5rem auto 3rem;
+  padding: 4rem 0 3rem;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+
+  @media (max-width: 1280px) {
+    height: 100%;
+  }
   @media (max-width: 768px) {
     margin-top: 0;
   }
@@ -96,16 +142,20 @@ const StWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 768px) {
+      gap: 20px 0;
+    }
     h3 {
       text-align: center;
       font-size: 2.5rem;
       margin-bottom: 3rem;
+
       @media (max-width: 768px) {
         font-size: 2rem;
       }
       @media (max-width: 500px) {
-        font-size: 1.8rem;
-        margin-top: 45px;
+        font-size: 1.5rem;
+        margin: 2rem 0;
       }
     }
   }
@@ -134,8 +184,10 @@ const StSearchContainer = styled.div`
     outline: none;
     font-size: 1.4rem;
     text-indent: 10px;
+    font-weight: 600;
     &::placeholder {
       font-size: 1.4rem;
+      color: #cbcbcb;
     }
     @media (max-width: 768px) {
       &::placeholder {
@@ -155,12 +207,16 @@ const StSearchContainer = styled.div`
 `;
 const StFilterContainer = styled.div`
   display: flex;
-  gap: 0 20px;
+  gap: 20px;
   margin: 2.5rem 0 6rem;
+  flex-wrap: wrap;
+  justify-content: center;
   @media (max-width: 768px) {
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 1.5rem 0 1rem;
+    width: 90%;
   }
   button {
     padding: 10px 30px;
@@ -170,6 +226,10 @@ const StFilterContainer = styled.div`
     border: 1px solid #d9d9d9;
     color: #d9d9d9;
     cursor: pointer;
+    @media (max-width: 768px) {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
     &.globalBtn {
       color: white;
       background: ${palette.mainColor};
@@ -178,16 +238,43 @@ const StFilterContainer = styled.div`
         border: none;
       }
     }
-    &:active {
-      border: 1px solid red;
+    &.beginnerBtn {
     }
+
     @media (max-width: 768px) {
       font-size: 1rem;
       padding: 6px 15px;
     }
     @media (max-width: 500px) {
       font-size: 0.8rem;
-      padding: 10px 20px;
     }
+  }
+`;
+const StListInner = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
+  max-width: 1372px;
+  gap: 35px 40px;
+
+  @media (max-width: 1280px) {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+const StContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 35px 0;
+  @media (max-width: 1440px) {
+    width: 80%;
+  }
+  @media (max-width: 768px) {
+    width: 90%;
   }
 `;

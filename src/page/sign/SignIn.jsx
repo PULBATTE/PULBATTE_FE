@@ -1,61 +1,53 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import styled from 'styled-components';
 import { BsChatFill } from 'react-icons/bs';
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
-import { instance } from '../../apis/axios';
+import axios from 'axios';
+import { setCookie, getCookie } from '../../apis/cookie';
+import { authInstance, instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
-
-const cookies = new Cookies();
-export const setCookie = (name, value, option) => {
-  return cookies.set(name, value, { path: '/' });
-};
-
-export const getCookie = name => {
-  return cookies.get(name);
-};
-
-export const removeCookie = name => {
-  return cookies.remove(name);
-};
+import logo from '../../assets/image/logo.png';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
-
+  const [count, setCount] = useState(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
   const onSigninHandler = result => {
     console.log(result.email, result.password);
 
-    instance
-      .post('/api/auth/signin', {
+    axios
+      .post('https://api.pulbatte.com/api/auth/signin', {
         userId: result.email,
         password: result.password,
       })
       .then(response => {
+        console.log(response);
+
         if (response.data.statusCode == 200) {
-          console.log(console.log(response));
-          alert('로그인이 되었습니다.');
-
-          setCookie('Token', response.headers.authorization);
-
           const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);
-
+          localStorage.setItem('access_Token', response.data.accessToken);
+          setCookie('refresh_Token', response.data.refreshToken);
           if (redirectUrl) {
             return navigate(redirectUrl);
           }
           return navigate('/');
         }
+
         return alert('아이디나 비밀번호를 다시 확인해주세요.');
       })
       .catch(error => console.log(error));
   };
+
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -71,17 +63,14 @@ export default function SignIn() {
       .string()
       .min(8, '비밀번호는 최소 8글자 이상입니다.')
       .max(15, '비밀번호는 최대 15글자 입니다.')
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/g,
-        {
-          message: (
-            <p>
-              비밀번호는 최소 8자 이상, 15자 이하이며 공백을 제외한
-              특수문자,알파벳 대소문자,숫자이어야 합니다.
-            </p>
-          ),
-        },
-      ),
+      .matches(/^(?=.*[a-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]/g, {
+        message: (
+          <p>
+            비밀번호는 최소 8자 이상, 15자 이하이며 공백을 제외한
+            특수문자,알파벳 대소문자,숫자이어야 합니다.
+          </p>
+        ),
+      }),
   });
   const {
     register,
@@ -110,10 +99,7 @@ export default function SignIn() {
         <StFormField action="" onSubmit={handleSubmit(onSigninHandler)}>
           <div className="mobile_logo">
             <a href="/">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ9jAIK5JIQd_fIQjhcupYCHGkS5AyOYtdgw&usqp=CAU"
-                alt="로고이미지"
-              />
+              <img src={logo} alt="로고이미지" />
             </a>
           </div>
           <h2>로그인</h2>
@@ -154,6 +140,7 @@ export default function SignIn() {
             size="md"
             width="100%"
             flex={flex}
+            border="transparent"
             background={palette.kakaoContainer}
           >
             <StKaKaoIcon />
@@ -167,9 +154,9 @@ export default function SignIn() {
             flex={flex}
             width="100%"
             background="#ffffff"
-            border={`1px solid ${palette.borderColor1}`}
+            border={`${palette.borderColor2}`}
           >
-            이메일로 로그인
+            이메일로 가입하기
           </Button>
         </a>
       </StSignInner>
@@ -227,7 +214,7 @@ const StFormField = styled.form`
   flex-direction: column;
   gap: 15px 0;
   input {
-    height: 35px;
+    height: 50px;
     outline: none;
     text-indent: 10px;
     border: 1px solid ${palette.borderColor1};
@@ -243,7 +230,7 @@ const StFormField = styled.form`
       display: block;
     }
     img {
-      width: 90px;
+      width: 160px;
     }
   }
 `;
