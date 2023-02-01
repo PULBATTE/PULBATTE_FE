@@ -59,6 +59,7 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
   const onRegReplyHandler = async () => {
     await postCommentApi(postId, commentId, createReply);
     setIsEditable(false);
+    setCreateReply('');
     setIsOpenReply(false);
     getPostUser();
   };
@@ -70,7 +71,7 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
           <div className="userProfilecotainer">
             <img alt="profileImage" src={profileImage} />
             <div className="usercontainer">
-              <span>{nickname}</span>
+              <span className="username">{nickname}</span>
               <span>{formatDate(createdAt)}</span>
             </div>
           </div>
@@ -110,43 +111,63 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
           )}
         </StTextFieldWrapper>
         {/* TODO: 대댓글 api 수정 전 임시 조치 */}
-        {!tempReplyReject && (
-          <StReCommentButton type="button" onClick={onOpenReplyHandler}>
-            {isOpenReply ? '숨기기' : '답글 달기'}
-          </StReCommentButton>
-        )}
+        <div>
+          {!tempReplyReject && (
+            <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+              {isOpenReply ? '숨기기' : '답글 달기'}
+            </StReCommentButton>
+          )}
+        </div>
       </StCommentWrapper>
       {isOpenReply && (
-        <StEditorWrapper>
-          <StCommentTextArea
-            value={createReply}
-            onChange={onCreateReplyHandler}
-          />
-          <StAlignRightButtonWrapper>
-            <StRegReplyButton type="button" onClick={onRegReplyHandler}>
-              등록
-            </StRegReplyButton>
-          </StAlignRightButtonWrapper>
-        </StEditorWrapper>
-      )}
-      {replyList.length !== 0 &&
-        replyList.map(v => (
-          <ReCommentWrapper key={v.commentId}>
-            {/* 재귀를 사용해서 자기자신을 불러옴 */}
-            {/* map함수를 사용해서 replyList를 여러개 생성 */}
-            <Comment
-              comment={v}
-              getPostUser={getPostUser}
-              nickName={nickName}
-              tempReplyReject
+        <div className="recomment_container">
+          <StEditorWrapper>
+            <StCommentTextArea
+              value={createReply}
+              onChange={onCreateReplyHandler}
             />
-          </ReCommentWrapper>
-        ))}
+            <StAlignRightButtonWrapper>
+              <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+                등록
+              </StRegReplyButton>
+            </StAlignRightButtonWrapper>
+          </StEditorWrapper>
+          <div className="recomment_wrapper">
+            {replyList.length !== 0 &&
+              replyList.map(v => (
+                <ReCommentWrapper key={v.commentId}>
+                  {/* 재귀를 사용해서 자기자신을 불러옴 */}
+                  {/* map함수를 사용해서 replyList를 여러개 생성 */}
+                  <Comment
+                    comment={v}
+                    getPostUser={getPostUser}
+                    nickName={nickName}
+                    tempReplyReject
+                  />
+                </ReCommentWrapper>
+              ))}
+          </div>
+        </div>
+      )}
     </StCommentContainer>
   );
 }
 
-const StCommentContainer = styled.div``;
+const StCommentContainer = styled.div`
+  .recomment_container {
+    background-color: ${palette.mainBackground};
+    border-top: 1px solid ${palette.borderColor5};
+    border-bottom: 1px solid ${palette.borderColor5};
+  }
+  .usercontainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3px 0;
+    .username {
+      font-weight: 700;
+    }
+  }
+`;
 const StCommentWrapper = styled.div`
   padding-bottom: 24px;
 `;
@@ -167,14 +188,10 @@ const StUserInfo = styled.div`
     align-items: center;
     gap: 16px;
   }
-  .usercontainer {
-    display: flex;
-    flex-direction: column;
-    gap: 3px 0;
-  }
 `;
 const StEditorWrapper = styled.div`
   margin-bottom: 24px;
+  padding: 24px;
 `;
 
 const StTextFieldWrapper = styled.div`
@@ -192,7 +209,7 @@ const StCommentTextArea = styled.textarea`
   outline: none;
   resize: none;
   border-radius: 4px;
-  border-color: lightgray;
+  border-color: ${palette.borderColor5};
 `;
 const StButtonWrapper = styled.div`
   float: right;
@@ -203,6 +220,7 @@ const StButton = styled.button`
   cursor: pointer;
   color: gray;
   margin: 10px;
+  font-size: 15px;
 `;
 const StCommentContentWrapper = styled.div`
   padding: 10px;
@@ -232,9 +250,8 @@ const StReCommentButton = styled.button`
   cursor: pointer;
 `;
 const ReCommentWrapper = styled.div`
-  /* padding: 24px 0px 0px 0px; */
-  padding: 24px 24px 0px 24px;
-  background-color: ${palette.mainBackground};
+  border-top: 1px solid #d8eadb;
+  padding: 24px;
 `;
 
 const StRegReplyButton = styled.button`
