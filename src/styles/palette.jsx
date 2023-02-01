@@ -8,6 +8,7 @@ export const palette = {
   borderColor2: '#D9D9D9',
   borderColor3: '#777777',
   borderColor4: '#B2CBC3',
+  borderColor5: '#f0f0f0cc',
   mainColor: '#47AD8E',
   mainBackground: '#EBF1EC',
   textColor1: '#A3A3A3',
