@@ -35,10 +35,10 @@ export default function PlantListCard({ plantList }) {
           <ImgLoading />
         </StAbsolutePositionBox>
       )} */}
-      <StDdayAlarm>
+      {/* <StDdayAlarm>
         <img src={alarmBtn} alt="alarm" />
         <p>할일</p>
-      </StDdayAlarm>
+      </StDdayAlarm> */}
     </StCard>
   );
 }
