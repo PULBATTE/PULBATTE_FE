@@ -57,6 +57,8 @@ export default function PlantDiaryCalendar({ plantJournalId }) {
     <StInjection>
       <div className="calendar-container">
         <Calendar
+          prev2Label={null}
+          next2Label={null}
           tileContent={renderColorChips} // titleContent옵션은 날짜에 테그를 추가 할 수 있음
           onClickDay={date => {
             console.log(format(date, 'yyyy-MM-dd'));
