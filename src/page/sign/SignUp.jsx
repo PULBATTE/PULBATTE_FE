@@ -1,5 +1,6 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,6 +14,7 @@ let cnt = 0;
 
 export default function SignUp() {
   const Navigate = useNavigate();
+  const [checkEmail, setCheckEmail] = useState(false);
   const formSchema = yup.object({
     userId: yup
       .string()
@@ -37,11 +39,13 @@ export default function SignUp() {
   });
 
   const onSubmit = async ({ userId, password }) => {
+    if (!checkEmail) return alert('이메일 중복확인을 확인해주세요.');
+
     const res = await postSignUpApi({ userId, password });
     console.log(res);
     if (res.status == 200) {
       alert('회원가입이 완료되었습니다.');
-      Navigate('/api/user/signin');
+      return Navigate('/api/user/signin');
     }
   };
 
@@ -67,7 +71,9 @@ export default function SignUp() {
     }
     // 유효성 검사 > 내가 입력한 이메일이 정규식에 매치할 때
     const data = await getSignUpCheckApi(emailValue);
-    if (data.statusCode == 200) {
+    console.log(data);
+    if (data.data.statusCode == 200) {
+      setCheckEmail(true);
       return alert('사용가능한 이메일입니다.');
     }
     return alert('중복된 이메일이 존재합니다.');
@@ -76,16 +82,18 @@ export default function SignUp() {
   return (
     <StSignUpContainer>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h1>회원가입</h1>
+        <h2>회원가입</h2>
         <p>이메일</p>
-        <StInput
-          name="userId"
-          placeholder="이메일을 입력해 주세요"
-          {...register('userId')}
-        />
-        <button type="button" onClick={() => onCheckEmailHandler()}>
-          중복확인
-        </button>
+        <div className="email_field">
+          <StInput
+            name="userId"
+            placeholder="이메일을 입력해 주세요"
+            {...register('userId')}
+          />
+          <button type="button" onClick={() => onCheckEmailHandler()}>
+            중복확인
+          </button>
+        </div>
         <StErrorMessage>
           {errors.userId && <p>{errors.userId.message}</p>}
         </StErrorMessage>
@@ -124,18 +132,35 @@ const StSignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 50px;
-  h1 {
+  margin: 6rem auto;
+  > form {
+    padding: 2rem;
+    box-sizing: border-box;
+    max-width: 460px;
+    width: 100%;
+  }
+  h2 {
     text-align: center;
+  }
+  .email_field {
+    display: flex;
+    gap: 0 10px;
+
+    button {
+      min-width: fit-content;
+      border: 1px solid #eaeaea;
+      padding: 0 10px;
+      cursor: pointer;
+    }
   }
 `;
 const StInput = styled.input`
-  width: 360px;
+  width: 100%;
   height: 50px;
   display: block;
   border: 1px solid #eaeaea;
   border-radius: 4px;
-  padding-left: 10px;
+  text-indent: 10px;
 `;
 const StSubmitButton = styled.button`
   background-color: ${palette.mainColor};
@@ -143,10 +168,11 @@ const StSubmitButton = styled.button`
   border-radius: 4px;
   display: block;
   color: white;
-  width: 372px;
+  width: 100%;
   height: 50px;
   font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
 `;
 const StErrorMessage = styled.span`
   min-height: 20px;
