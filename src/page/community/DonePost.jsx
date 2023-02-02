@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,34 +18,29 @@ import { getCookie } from '../../apis/cookie';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
-  const [isClicked, setIsClicked] = useState(false);
   const [nickName, setNickName] = useState('');
   const [Like, setLike] = useState(false);
   const [comment, setComment] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const commentRef = useRef();
+
   const { postId } = useParams();
+
   const navigate = useNavigate();
-  console.log('postData', postData);
-  console.log('postId', postId);
+
   const Token = localStorage.getItem('access_Token');
-  console.log(Token);
+
   const getPost = useCallback(async () => {
-    setIsLoading(true);
     if (Token) {
       console.log('user');
       const data = await getPostUserApi(postId);
-      console.log(data.data);
-
       const { likeStatus } = data.data;
       setLike(likeStatus);
 
       setPostData(data.data);
-      setIsLoading(false);
     } else {
       console.log('guest');
       const data = await getPostGuestApi(postId);
       setPostData(data.data);
-      setIsLoading(false);
     }
   }, [Token, postId]);
 
@@ -59,7 +54,7 @@ export default function DonePost() {
     const data = await postLikeApi(postId);
     console.log({ data });
     setLike(_postLikeApi => !_postLikeApi);
-    await getPost();
+    getPost();
   }, [getPost, postId]);
 
   useEffect(() => {
@@ -79,6 +74,9 @@ export default function DonePost() {
   };
 
   const onCommentHandler = e => {
+    // commentRef.current = e.target.value;
+    // console.log(commentRef.current);
+    // console.log(commentRef);
     setComment(e.target.value);
   };
   const onRegCommentHandler = async () => {
@@ -86,10 +84,11 @@ export default function DonePost() {
       alert('내용을 입력해주세요.');
       return;
     }
-    await postCommentApi(postId, 0, comment);
+    const data = await postCommentApi(postId, 0, comment);
+    const alertMsg = data.data.msg;
+    alert(alertMsg);
     setComment('');
-    await getPost();
-    setIsLoading(false);
+    getPost();
   };
   const onDeletePostHandler = async () => {
     const data = await deletePostTextApi(postId);
@@ -168,6 +167,7 @@ export default function DonePost() {
                 placeholder="댓글을 작성하세요"
                 value={comment}
                 onChange={onCommentHandler}
+                ref={commentRef}
               />
               <div>
                 <StButton type="button" onClick={onRegCommentHandler}>

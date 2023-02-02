@@ -36,35 +36,48 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     setCreateReply(e.target.value);
   };
 
+  // 댓글 수정
   const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
 
+  // 답글달기 / 숨기기
   const onOpenReplyHandler = e => {
     setIsOpenReply(_openReply => !_openReply);
-    setIsEditable(false);
   };
 
   const onDeleteCommentHandler = async () => {
-    await deleteCommentApi(commentId);
+    const data = await deleteCommentApi(commentId);
+    const alertMsg = data.data.msg;
+    alert(alertMsg);
     getPostUser();
   };
 
+  // 수정 완료
   const onEditCommentDoneHandler = async () => {
     if (!commentContent) {
       alert('내용을 입력해주세요.');
-      return;
+    } else {
+      const data = await editCommentApi(commentId, commentContent);
+      const alertMsg = data.data.msg;
+      alert(alertMsg);
+      setIsEditable(false);
+      getPostUser();
     }
-    await editCommentApi(commentId, commentContent);
-    setIsEditable(false);
-    getPostUser();
   };
 
+  // 대댓글작성
   const onRegReplyHandler = async () => {
-    await postCommentApi(postId, commentId, createReply);
-    setIsEditable(false);
-    setCreateReply('');
-    getPostUser();
+    if (!createReply) {
+      alert('내용을 입력해주세요.');
+    } else {
+      const data = await postCommentApi(postId, commentId, createReply);
+      const alertMsg = data.data.msg;
+      alert(alertMsg);
+      setIsEditable(false);
+      setCreateReply('');
+      getPostUser();
+    }
   };
 
   return (
