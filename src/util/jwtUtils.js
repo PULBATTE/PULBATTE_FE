@@ -4,10 +4,9 @@ export class jwtUtils {
   // 토큰 유효성 검사
   static isAuth(token) {
     if (!token) {
-      console.log('false');
       return false;
     }
-    console.log(true);
+
     return true;
   }
 
