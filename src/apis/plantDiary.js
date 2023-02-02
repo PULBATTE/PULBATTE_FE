@@ -20,7 +20,6 @@ export const getPlantDetailApi = async plantJournalId => {
 
 export const createPlantJournalApi = async formData => {
   try {
-    console.log(formData);
     const data = await authInstance.post('/api/plantjournal', formData, {
       headers: {
         'Content-Type': 'multippart/form-data',
@@ -49,7 +48,7 @@ export const getPlantDiaryListApi = async plantJournalId => {
     const data = await authInstance.get(
       `/api/plantjournal/diarys/${plantJournalId}`,
     );
-    console.log(data);
+
     return data;
   } catch (error) {
     throw Error(error);
@@ -58,7 +57,6 @@ export const getPlantDiaryListApi = async plantJournalId => {
 
 export const postPlantDiaryApi = async (plantJournalId, diaryContent) => {
   try {
-    console.log(plantJournalId, diaryContent);
     const data = await authInstance.post(
       `/api/plantjournal/diary/${plantJournalId}`,
       {
@@ -87,8 +85,6 @@ export const putPlantDiaryApi = async (
   plantjournaldiaryid,
   content,
 ) => {
-  console.log('plantjournalid, plantjournaldiaryid, content');
-  console.log(plantjournalid, plantjournaldiaryid, content);
   try {
     const data = await authInstance.put(
       `/api/plantjournal/diary/${plantjournalid}/${plantjournaldiaryid}`,

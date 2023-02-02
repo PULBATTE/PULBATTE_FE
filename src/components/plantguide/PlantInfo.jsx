@@ -28,8 +28,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
       })
       .catch(error => console.log(error));
   }, []);
-  /*  text.current.value('d').innerHTML = <br />; */
-  console.log(text.current?.value);
+
   return (
     <StContent>
       <div className="comment_message">

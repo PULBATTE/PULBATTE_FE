@@ -21,7 +21,7 @@ export default function PlantChoice() {
   const plantName = useRef();
   const navigate = useNavigate();
   const [modal, onChangeModalHandler] = useModal();
-
+  console.log(plantInfo);
   // 모달창 > 확인버튼
   const onSubmitHandler = () => {
     postSelectPlantApi(plantName.current)
@@ -40,15 +40,12 @@ export default function PlantChoice() {
   // 렌더링될때 식물 중복된 값있는지 판단
   getAllPlantsInfoApi()
     .then(res => {
-      console.log(res);
-      res
-        .map(data => {
-          if (data.overlap) {
-            alert('선택된 식물이 있습니다. 가이드 페이지로 이동합니다.');
-            navigate(guidePath);
-          }
-        })
-        .catch(error => console.log(error));
+      res.map(data => {
+        if (data.overlap) {
+          alert('선택된 식물이 있습니다. 가이드 페이지로 이동합니다.');
+          navigate(guidePath);
+        }
+      });
     })
     .catch(error => console.log(error));
 
@@ -57,7 +54,6 @@ export default function PlantChoice() {
   useEffect(() => {
     getAllPlantsInfoApi()
       .then(res => {
-        console.log(res);
         setPlantInfo(res);
       })
       .catch(error => console.log(error));
@@ -137,6 +133,7 @@ export default function PlantChoice() {
             >
               {plantInfo &&
                 plantInfo.map(data => {
+                  console.log(data);
                   return (
                     <SwiperSlide
                       key={data.beginnerPlantName}
@@ -166,14 +163,10 @@ export default function PlantChoice() {
                           />
                         </StGridInner>
                         <StTip>
-                          {data.tipList.map(item => {
-                            return (
-                              <div className="item_list" key={item}>
-                                <span>∙</span>
-                                <span>{item}</span>
-                              </div>
-                            );
-                          })}
+                          <div className="item_list">
+                            <span>∙</span>
+                            <span>{data.resultPlantString}</span>
+                          </div>
                         </StTip>
                       </div>
                     </SwiperSlide>
@@ -227,8 +220,11 @@ const StWrapper = styled.div`
   }
   .plant_img_container {
     position: relative;
+    min-height: -webkit-fit-content;
+    min-height: -moz-fit-content;
     min-height: fit-content;
     overflow: hidden;
+    min-height: 23vh;
     span {
       position: absolute;
       top: 10px;
@@ -243,7 +239,7 @@ const StWrapper = styled.div`
     }
   }
   .plant_content_container {
-    height: 36vh;
+    height: 20vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -313,8 +309,8 @@ const StSwiper = styled(Swiper)`
   }
   .plant_image {
     width: 100%;
-    aspect-ratio: 1/1;
-    max-height: 200px;
+    aspect-ratio: 2/6;
+    max-height: 400px;
     object-fit: cover;
   }
   .swiper-slide {
@@ -352,6 +348,12 @@ const StSwiper = styled(Swiper)`
       font-size: 1.1rem;
       font-weight: 600;
       color: black;
+    }
+    &:hover {
+      background: rgba(35, 146, 112, 0.4);
+      &::after {
+        color: white;
+      }
     }
   }
   .swiper-button-next {

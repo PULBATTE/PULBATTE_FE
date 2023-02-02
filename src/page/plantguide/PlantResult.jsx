@@ -8,7 +8,7 @@ import { testPath, choicePath } from '../../apis/path';
 export default function PlantResult() {
   const navigate = useNavigate();
   const [testResult, setTestResult] = useState(null);
-  console.log(testResult);
+
   useEffect(() => {
     getTestInfoApi()
       .then(res => {
@@ -154,6 +154,7 @@ const StTypeCard = styled.div`
   span {
     font-size: 1.1rem;
     line-height: 1.6rem;
+    white-space: pre-line;
     @media (max-width: 500px) {
       font-size: 0.9rem;
     }
@@ -211,6 +212,7 @@ const StPlantCard = styled.div`
     .recommend_plants_described {
       font-size: 1.2rem;
       line-height: 25px;
+      white-space: pre-line;
       @media (max-width: 500px) {
         font-size: 0.9rem;
         line-height: 1.3rem;
@@ -220,6 +222,7 @@ const StPlantCard = styled.div`
       display: flex;
       flex-direction: column;
       gap: 10px 0;
+
       @media (max-width: 768px) {
         align-items: center;
       }

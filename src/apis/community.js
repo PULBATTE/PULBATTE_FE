@@ -10,7 +10,6 @@ export const getBestPostApi = async () => {
 };
 
 export const createPostApi = async formData => {
-  console.log(formData);
   try {
     const data = await authInstance.post('/api/posts', formData, {
       headers: {
@@ -24,7 +23,6 @@ export const createPostApi = async formData => {
 };
 
 export const editPostApi = async (postId, formData) => {
-  console.log(formData);
   try {
     const data = await authInstance.put(`/api/posts/${postId}`, formData, {
       headers: {
@@ -37,7 +35,6 @@ export const editPostApi = async (postId, formData) => {
   }
 };
 export const editPostTextApi = async (postId, formData) => {
-  console.log(formData);
   try {
     const data = await authInstance.put(
       `/api/posts/postContents/${postId}`,
@@ -65,7 +62,6 @@ export const deletePostTextApi = async postId => {
 
 export const getPostUserApi = async postId => {
   try {
-    console.log(postId);
     const data = await authInstance.get(`/api/posts/user/${postId}`);
     return data;
   } catch (error) {
@@ -83,7 +79,6 @@ export const getPostGuestApi = async postId => {
 };
 
 export const postLikeApi = async postId => {
-  console.log({ postId });
   try {
     const data = await authInstance.post(`/api/posts/${postId}/postLike`);
     return data;
@@ -142,7 +137,6 @@ export const deleteCommentApi = async commentId => {
 
 export const editCommentApi = async (commentId, content) => {
   try {
-    console.log({ content });
     const data = await authInstance.put(`/api/posts/comments/${commentId}`, {
       content,
     });

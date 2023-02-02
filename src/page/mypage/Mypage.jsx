@@ -118,7 +118,6 @@ export default function Mypage() {
 
   useEffect(() => {
     getUserProfileApi();
-    console.log('rendering');
   }, [changeProfile]);
 
   return (

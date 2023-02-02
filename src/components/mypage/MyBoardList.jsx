@@ -5,7 +5,7 @@ import { palette } from '../../styles/palette';
 
 export default function MyBoardList({ post }) {
   const { title, content, likeCnt, image, commentCnt } = post;
-  console.log(title);
+
   return (
     <>
       <div className="content_container">

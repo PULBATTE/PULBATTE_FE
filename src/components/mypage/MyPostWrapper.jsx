@@ -22,9 +22,7 @@ export default function MyPostWrapper() {
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
-  console.log(data);
-  if (status === 'loading') return console.log('loading');
-  if (status === 'error') return console.log('error');
+
   return (
     <StMyPostWrapper>
       <div className="post_inner">

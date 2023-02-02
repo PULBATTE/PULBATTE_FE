@@ -33,7 +33,7 @@ export default function Home() {
 
   const token = localStorage.getItem('access_Token');
   const [value, setValue] = useState(null);
-  console.log(value);
+
   const eventSource = new EventSourcePolyfill(
     `https://api.pulbatte.com/api/user/subscribe`,
     {
@@ -52,8 +52,6 @@ export default function Home() {
   useEffect(() => {
     if (token) {
       eventSource.addEventListener('sse', function (event) {
-        console.log(event);
-
         const data = JSON.parse(event.data);
 
         (async () => {
@@ -139,6 +137,28 @@ export default function Home() {
         <StBannerInner>
           <StBannerContainer>
             <StTitle>
+              <span>내 성향에 맞는 식물</span>
+              <span>키우기 도전!</span>
+            </StTitle>
+            <div className="subtitle_container">
+              <div className="subtitle">
+                <span>테스트로 내 성향에 맞는 식물을 알아보고,</span>
+                <span>성장 그래프를 따라 초보자용 식물을 키워보세요.</span>
+              </div>
+              <button type="button" onClick={() => PrivateRoute(testPath)}>
+                식집사 테스트 해보기
+                <StArrowRight />
+              </button>
+            </div>
+          </StBannerContainer>
+          <StMainImage src={MainImage4} alt="" />
+        </StBannerInner>
+      </StBannerList>
+
+      <StBannerList className="background_accent">
+        <StBannerInner>
+          <StBannerContainer className="order-02">
+            <StTitle>
               <span>내가 원하는 식물을</span>
               <span>간편하게 검색</span>
             </StTitle>
@@ -153,28 +173,6 @@ export default function Home() {
             </div>
           </StBannerContainer>
           <StMainImage src={MainImage2} alt="" />
-        </StBannerInner>
-      </StBannerList>
-      <StBannerList className="background_accent">
-        <StBannerInner>
-          <StBannerContainer className="order-02">
-            <StTitle>
-              <span>질문하기, 식물자랑</span>
-              <span>식집사들과 소통해요 </span>
-            </StTitle>
-            <div className="subtitle_container">
-              <div className="subtitle">
-                <span>
-                  궁금한 점을 물어보거나 내가 키운 식물을 자랑해보세요.
-                </span>
-                <span>식집사 이웃들과 다양한 정보를 공유할 수 있습니다.</span>
-              </div>
-              <button type="button" onClick={() => navigate(boardPath)}>
-                커뮤니티 구경가기 <StArrowRight />
-              </button>
-            </div>
-          </StBannerContainer>
-          <StMainImage src={MainImage3} alt="" />
         </StBannerInner>
       </StBannerList>
       <StBannerList>
@@ -203,23 +201,24 @@ export default function Home() {
       </StBannerList>
       <StBannerList className="background_accent">
         <StBannerInner>
-          <StBannerContainer>
+          <StBannerContainer className="order-02">
             <StTitle>
-              <span>내 성향에 맞는 식물</span>
-              <span>키우기 도전!</span>
+              <span>질문하기, 식물자랑</span>
+              <span>식집사들과 소통해요 </span>
             </StTitle>
             <div className="subtitle_container">
               <div className="subtitle">
-                <span>테스트로 내 성향에 맞는 식물을 알아보고,</span>
-                <span>성장 그래프를 따라 초보자용 식물을 키워보세요.</span>
+                <span>
+                  궁금한 점을 물어보거나 내가 키운 식물을 자랑해보세요.
+                </span>
+                <span>식집사 이웃들과 다양한 정보를 공유할 수 있습니다.</span>
               </div>
-              <button type="button" onClick={() => PrivateRoute(testPath)}>
-                식집사 테스트 해보기
-                <StArrowRight />
+              <button type="button" onClick={() => navigate(boardPath)}>
+                커뮤니티 구경가기 <StArrowRight />
               </button>
             </div>
           </StBannerContainer>
-          <StMainImage src={MainImage4} alt="" />
+          <StMainImage src={MainImage3} alt="" />
         </StBannerInner>
       </StBannerList>
     </StWrapper>

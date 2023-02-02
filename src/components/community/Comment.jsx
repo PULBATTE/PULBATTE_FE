@@ -19,8 +19,7 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     nickname,
     profileImage,
   } = comment;
-  console.log({ tempReplyReject });
-  console.log({ replyList });
+
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
   // const [isHideComment, setIsHideComment] = useState(true);

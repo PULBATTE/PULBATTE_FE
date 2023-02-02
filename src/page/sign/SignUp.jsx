@@ -42,7 +42,6 @@ export default function SignUp() {
     if (!checkEmail) return alert('이메일 중복확인을 확인해주세요.');
 
     const res = await postSignUpApi({ userId, password });
-    console.log(res);
     if (res.status == 200) {
       alert('회원가입이 완료되었습니다.');
       return Navigate('/api/user/signin');
@@ -71,7 +70,6 @@ export default function SignUp() {
     }
     // 유효성 검사 > 내가 입력한 이메일이 정규식에 매치할 때
     const data = await getSignUpCheckApi(emailValue);
-    console.log(data);
     if (data.data.statusCode == 200) {
       setCheckEmail(true);
       return alert('사용가능한 이메일입니다.');

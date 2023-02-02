@@ -11,7 +11,6 @@ export default function CreateDiaryModal({
 }) {
   const [diaryContent, setDiaryContent] = useState('');
   const onChangeDiaryHandler = e => {
-    console.log(e.target.value);
     setDiaryContent(e.target.value);
   };
 
