@@ -19,6 +19,7 @@ export default function MyPostWrapper() {
         !lastPage.isLast ? lastPage.nextPage : undefined,
     },
   );
+
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
@@ -62,7 +63,7 @@ const StMyPostWrapper = styled.div`
     .board_img {
       max-width: 128px;
       aspect-ratio: 1/1;
-      object-fit: cover;
+      object-fit: contain;
       height: 100%;
       border-radius: 16px;
       @media (max-width: 768px) {

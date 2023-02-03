@@ -180,6 +180,7 @@ const StSearchContainer = styled.div`
     font-size: 1.4rem;
     text-indent: 10px;
     font-weight: 600;
+    -webkit-appearance: none;
     &::placeholder {
       font-size: 1.4rem;
       color: #cbcbcb;

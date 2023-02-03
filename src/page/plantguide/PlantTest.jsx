@@ -235,7 +235,7 @@ const StWrapper = styled.div`
       padding: 3rem;
     }
     @media (max-width: 500px) {
-      padding: 2rem;
+      padding: 1.5rem;
       width: 90%;
     }
     h4 {
@@ -260,7 +260,7 @@ const StWrapper = styled.div`
     }
     img {
       @media (max-width: 500px) {
-        max-width: 100px;
+        max-width: 160px;
         object-fit: contain;
       }
     }
@@ -276,14 +276,19 @@ const StWrapper = styled.div`
         flex-direction: column;
         align-items: center;
         gap: 30px 0;
-        padding-top: 45px;
+        padding-top: 15px;
+        @media (max-width: 500px) {
+          gap: 20px 0;
+        }
         h4 {
           margin: 0;
         }
         span {
           font-size: 1.2rem;
           @media (max-width: 500px) {
-            font-size: 1rem;
+            font-size: 0.9rem;
+            word-break: keep-all;
+            text-align: center;
           }
         }
         button {
@@ -319,8 +324,9 @@ const StWrapper = styled.div`
           line-height: 2rem;
         }
         @media (max-width: 500px) {
-          font-size: 1.2rem;
-          line-height: 1.8rem;
+          font-size: 1rem;
+          line-height: 1.3rem;
+          min-height: unset;
         }
       }
     }

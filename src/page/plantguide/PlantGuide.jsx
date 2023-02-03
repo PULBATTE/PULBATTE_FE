@@ -107,7 +107,7 @@ const StTitle = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 5rem 0 4rem;
+    margin: 5rem 0 0rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
