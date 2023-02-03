@@ -4,7 +4,6 @@ import { palette } from '../../styles/palette';
 
 export default function Tagpost({ postData }) {
   const navigate = useNavigate();
-  console.log(postData);
   const {
     id,
     title,
@@ -15,7 +14,6 @@ export default function Tagpost({ postData }) {
     commentCnt,
     nickname,
   } = postData;
-  console.log(image);
   return (
     <StPost onClick={() => navigate(`/donepost/${id}`)}>
       <StPostContentWrapper>

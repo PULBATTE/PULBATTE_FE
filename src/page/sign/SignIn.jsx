@@ -22,16 +22,12 @@ export default function SignIn() {
   const [searchParams, setSearchParams] = useSearchParams();
   const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
   const onSigninHandler = result => {
-    console.log(result.email, result.password);
-
     axios
       .post('https://api.pulbatte.com/api/auth/signin', {
         userId: result.email,
         password: result.password,
       })
       .then(response => {
-        console.log(response);
-
         if (response.data.statusCode == 200) {
           const redirectUrl = searchParams.get('redirectUrl');
           console.log('redicert', redirectUrl);

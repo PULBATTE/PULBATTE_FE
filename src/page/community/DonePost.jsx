@@ -38,7 +38,6 @@ export default function DonePost() {
 
       setPostData(data.data);
     } else {
-      console.log('guest');
       const data = await getPostGuestApi(postId);
       setPostData(data.data);
     }

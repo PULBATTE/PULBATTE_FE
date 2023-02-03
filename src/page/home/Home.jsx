@@ -33,7 +33,6 @@ export default function Home() {
 
   const token = localStorage.getItem('access_Token');
   const [value, setValue] = useState(null);
-  console.log(value);
   const eventSource = new EventSourcePolyfill(
     `https://api.pulbatte.com/api/user/subscribe`,
     {
@@ -52,8 +51,6 @@ export default function Home() {
   useEffect(() => {
     if (token) {
       eventSource.addEventListener('sse', function (event) {
-        console.log(event);
-
         const data = JSON.parse(event.data);
 
         (async () => {
