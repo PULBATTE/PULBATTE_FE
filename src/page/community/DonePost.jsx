@@ -51,8 +51,7 @@ export default function DonePost() {
   }, []);
 
   const postLike = useCallback(async () => {
-    const data = await postLikeApi(postId);
-    console.log({ data });
+    await postLikeApi(postId);
     setLike(_postLikeApi => !_postLikeApi);
     getPost();
   }, [getPost, postId]);
@@ -74,9 +73,6 @@ export default function DonePost() {
   };
 
   const onCommentHandler = e => {
-    // commentRef.current = e.target.value;
-    // console.log(commentRef.current);
-    // console.log(commentRef);
     setComment(e.target.value);
   };
   const onRegCommentHandler = async () => {
@@ -112,7 +108,7 @@ export default function DonePost() {
                   <span>{formatDate(postData.createdAt)}</span>
                 </div>
               </div>
-              {postData?.nickname == nickName ? (
+              {postData && postData.nickname === nickName && (
                 <StEditDeleteBtnContainer>
                   <span
                     onClick={() => navigate(`/editPost/${postId}`)}
@@ -129,8 +125,6 @@ export default function DonePost() {
                     삭제
                   </span>
                 </StEditDeleteBtnContainer>
-              ) : (
-                ''
               )}
             </StUserInfo>
             <StContentWrapper>
@@ -139,7 +133,7 @@ export default function DonePost() {
               ) : (
                 ''
               )}
-              <span>{postData.content}</span>
+              <StContent>{postData.content}</StContent>
             </StContentWrapper>
             <StTagWrappeer>
               <Button size="sd" background={palette.borderColor2}>
@@ -272,11 +266,17 @@ const StContentWrapper = styled.div`
     margin-bottom: 30px;
     object-fit: contain;
   }
-  span {
+  p {
+    width: 100%;
     font-size: 1.2rem;
     line-height: 1.5rem;
     white-space: pre-line;
   }
+`;
+const StContent = styled.p`
+  width: 100px;
+  overflow: hidden;
+  word-wrap: break-word;
 `;
 
 const StTagWrappeer = styled.div`
@@ -318,6 +318,7 @@ const StCreateCommentWrapper = styled.div`
     font-weight: 600;
   }
 `;
+
 const StCreateCommentArea = styled.textarea`
   width: 100%;
   height: 120px;
