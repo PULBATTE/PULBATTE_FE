@@ -30,78 +30,67 @@ import pgBack from '../../assets/image/pg_back.png';
 
 export default function Home() {
   const navigate = useNavigate();
-
+  const [listening, setListening] = useState(false);
   const token = localStorage.getItem('access_Token');
   const [value, setValue] = useState(null);
 
-  const eventSource = new EventSourcePolyfill(
+  const EventSource = EventSourcePolyfill || NativeEventSource;
+  const eventSource = new EventSource(
     `https://api.pulbatte.com/api/user/subscribe`,
     {
       headers: {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        Connection: 'keep-alive',
-        'X-Accel-Buffering': 'no',
         Authorization: token,
       },
-      heartbeatTimeout: 120000,
+      /*  Accept: "application / json", */
       withCredentials: true,
+      heartbeatTimeout: 300 * 1000,
     },
   );
-
   useEffect(() => {
-    if (token) {
-      eventSource.addEventListener('sse', function (event) {
-        const data = JSON.parse(event.data);
+    console.log('매번 실행되는지');
+    console.log('listening', listening);
 
-        (async () => {
-          // 브라우저 알림
-          const showNotification = () => {
-            const notification = new Notification('코드 봐줘', {
-              body: data.content,
-            });
+    if (!listening) {
+      console.log('구독시작!');
+    }
+    if (!listening && !!token) {
+      const fetchData = async () => {
+        try {
+          console.log('EVENT_SOURCE 선언!', eventSource);
+          eventSource.onopen = event => {
+            console.log('connection opened', event);
+            // console.log('connection opened', event);
+          };
+          eventSource.onmessage = event => {
+            const result = JSON.parse(event.data);
 
-            setTimeout(() => {
-              notification.close();
-            }, 10 * 1000);
+            if (result.notificationType === 'Notice') {
+              console.log(result.message);
+            }
 
-            notification.addEventListener('click', () => {
-              window.open(data.url, '_blank');
-            });
+            if (!result.read && result.notificationType !== 'Notice') {
+              console.log(old => [...old, result]);
+            }
           };
 
-          // 브라우저 알림 허용 권한
-          let granted = false;
+          eventSource.onerror = event => {
+            console.log('ERROR', event);
+          };
 
-          if (Notification.permission === 'granted') {
-            granted = true;
-          } else if (Notification.permission !== 'denied') {
-            const permission = await Notification.requestPermission();
-            granted = permission === 'granted';
-          }
-
-          // 알림 보여주기
-          if (granted) {
-            showNotification();
-          }
-        })();
-      });
-
-      eventSource.addEventListener('message', event => {
-        setValue(event.data);
-      });
-      eventSource.addEventListener('error', event => {
-        if (eventSource.readyState === EventSource.CLOSED) {
-          console.error('SSE connection closed.');
-        } else {
-          console.error('SSE error:', event);
+          eventSource.addEventListener('connect', function (event) {
+            const data = JSON.parse(event.data);
+            console.log(data);
+          });
+        } catch (error) {
+          console.log(error);
         }
-      });
-
-      return () => {
-        eventSource.close();
       };
+      fetchData();
     }
+    setListening(true);
+    return () => {
+      eventSource.close();
+    };
   }, []);
 
   return (
@@ -224,7 +213,6 @@ export default function Home() {
     </StWrapper>
   );
 }
-
 const StWrapper = styled.div`
   .main_banner {
     position: relative;

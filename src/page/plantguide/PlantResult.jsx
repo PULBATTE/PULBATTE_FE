@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getTestInfoApi } from '../../apis/plantGuide';
 import { palette } from '../../styles/palette';
-import { testPath, choicePath } from '../../apis/path';
+import { testPath, testResultPath, choicePath } from '../../apis/path';
 
 export default function PlantResult() {
   const navigate = useNavigate();
@@ -130,7 +130,7 @@ const StTypeCard = styled.div`
   padding: 4vw;
   box-sizing: border-box;
   background: ${palette.white};
-  max-width: 400px;
+  max-width: 440px;
   gap: 10px 0;
 
   justify-content: space-between;
@@ -269,7 +269,7 @@ const StButton = styled.button`
   }
 `;
 const StGuideComment = styled.div`
-  padding: 24px;
+  padding: 40px;
   box-sizing: border-box;
   border-radius: 24px;
 

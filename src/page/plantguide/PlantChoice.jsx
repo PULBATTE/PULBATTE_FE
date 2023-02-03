@@ -16,6 +16,8 @@ import airIcon from '../../assets/image/air.png';
 import useModal from '../../hooks/useModal';
 import ConfirmModal from '../../components/plantguide/ConfirmModal';
 
+SwiperCore.use([Navigation, Pagination]);
+
 export default function PlantChoice() {
   const [plantInfo, setPlantInfo] = useState(null);
   const plantName = useRef();
@@ -48,8 +50,6 @@ export default function PlantChoice() {
       });
     })
     .catch(error => console.log(error));
-
-  SwiperCore.use([Navigation, Pagination]);
 
   useEffect(() => {
     getAllPlantsInfoApi()
@@ -133,7 +133,6 @@ export default function PlantChoice() {
             >
               {plantInfo &&
                 plantInfo.map(data => {
-                  console.log(data);
                   return (
                     <SwiperSlide
                       key={data.beginnerPlantName}
@@ -239,13 +238,14 @@ const StWrapper = styled.div`
     }
   }
   .plant_content_container {
-    height: 20vh;
+    height: 24vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
     @media (max-width: 500px) {
       gap: 0;
+      min-height: 30vh;
     }
     > div {
       order: 1;
@@ -304,13 +304,13 @@ const StSwiper = styled(Swiper)`
       }
     }
     .swiper-pagination-bullet-active {
-      background: ${palette.borderCOlor3};
+      background: ${palette.borderColor3};
     }
   }
   .plant_image {
     width: 100%;
     aspect-ratio: 2/6;
-    max-height: 400px;
+    max-height: 40vh;
     object-fit: cover;
   }
   .swiper-slide {
@@ -384,7 +384,8 @@ const StTip = styled.div`
     span {
       font-size: 0.8rem;
       @media (max-width: 500px) {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        line-height: 20px;
       }
     }
   }
