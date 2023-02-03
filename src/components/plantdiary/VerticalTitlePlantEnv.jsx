@@ -25,7 +25,7 @@ const ratingType = {
 };
 
 // type = water | sunny | air
-export default function PlantEnv({
+export default function VerticalTitlePlantEnv({
   type,
   rating,
   gap,

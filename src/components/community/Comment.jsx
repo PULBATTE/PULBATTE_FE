@@ -238,6 +238,8 @@ const StButton = styled.button`
   font-size: 15px;
 `;
 const StCommentContentWrapper = styled.div`
+  overflow: hidden;
+  word-wrap: break-word;
   padding: 10px;
   margin-top: 4px;
 `;

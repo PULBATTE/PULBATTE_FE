@@ -25,13 +25,6 @@ export default function EditPost() {
 
   const { currentPostId } = useParams();
 
-  /*   console.log('image', imgSrc.upload);
-  const reader = new FileReader(imgSrc.upload);
-
-  reader.onload = function () {
-    result = reader.result;
-  };
-  console.log(result); */
   const navigate = useNavigate();
   const imgInputRef = useRef(null);
   const onChangeTitleHandler = e => {
@@ -42,11 +35,9 @@ export default function EditPost() {
   };
   const onTagHandler = e => {
     e.preventDefault();
-    console.log(e.target.value);
     setTag(e.target.value);
   };
   const onUploadImgHandler = () => {
-    console.log('?');
     setCheckImage(true);
     setImgSrc({
       upload: imgInputRef.current.files[0],
@@ -63,7 +54,6 @@ export default function EditPost() {
         content,
         tag,
       };
-      console.log('requets', request, 'image', imgSrc.upload);
       const blob = new Blob([JSON.stringify(request)], {
         type: 'application/json',
       });
@@ -73,7 +63,6 @@ export default function EditPost() {
         alert('태그를 선택해 주세요');
       }
       const res = await editPostApi(currentPostId, formData);
-      console.log(res);
       const postId = res.data.id;
       return navigate(`/donepost/${postId}`);
     }
@@ -84,7 +73,7 @@ export default function EditPost() {
       content,
       tag,
     };
-    console.log('requets', request, 'image', imgSrc.upload);
+
     const blob = new Blob([JSON.stringify(request)], {
       type: 'application/json',
     });
@@ -94,32 +83,31 @@ export default function EditPost() {
       alert('태그를 선택해 주세요');
     }
     const res = await editPostTextApi(currentPostId, formData);
-    console.log(res);
     const postId = res.data.id;
     return navigate(`/donepost/${postId}`);
   };
-  const getPost = async () => {
+
+  const getPost = useCallback(async () => {
     const data = await getPostUserApi(currentPostId);
-    console.log('현재페이지 정보 들고옴', data.data);
+
     setPostData(data.data);
     setTitle(data.data.title);
     setContent(data.data.content);
-    console.log('image', data.data.image);
 
     setImgSrc({
       preview: data.data.image,
       upload: data.data.image,
     });
-  };
-  console.log('postData', postData);
+  }, [currentPostId]);
 
   useEffect(() => {
     getPost();
-  }, []);
+  }, [getPost]);
 
   useEffect(() => {
     setTag(postData?.tag);
   }, [postData]);
+
   return (
     <StCreateContainer>
       <StCreateHeader>
@@ -175,12 +163,19 @@ export default function EditPost() {
                 type="file"
                 onChange={onUploadImgHandler}
               />
-              <StPrevImg
-                className="profile_image"
-                src={imgSrc.preview || postData?.image}
-                name="uploadImg"
-                alt="uploadImg"
-              />
+              {imgSrc.preview ? (
+                <StPrevImg
+                  className="profile_image"
+                  src={imgSrc.preview}
+                  name="uploadImg"
+                  alt="uploadImg"
+                />
+              ) : (
+                <StUploadImg>
+                  <img src={photoFilter} alt="사진 이미지" />
+                  <span>사진 추가</span>
+                </StUploadImg>
+              )}
             </StUploadImgWrapper>
           </label>
         </div>
@@ -210,23 +205,7 @@ const StCreateContainer = styled.div`
       margin: 2rem 0;
     }
   }
-  /* margin: 0 auto;
-  padding: 0px 50px;
-  margin-top: 84px;
-  margin-bottom: 84px;
-  width: 1280px;
-  h3 {
-    font-size: 30px;
-    text-align: center;
-  }
-  h4 {
-    font-size: 26px;
-  }
-  @media (max-width: 1280px) {
-    padding: 0px 20px;
-    width: 100%;
-  } */
-  /* display: flex; */
+
   flex-direction: column;
   align-items: center;
   margin: 50px;
@@ -241,7 +220,7 @@ const StCreateContainer = styled.div`
 
   h4 {
     font-size: 26px;
-    color: #767676;
+    color: ${palette.text.gray_7};
   }
 `;
 const StCreateHeader = styled.div`
@@ -273,7 +252,7 @@ const StTopicArea = styled.div`
   .section_subtitle {
     font-size: 1.1rem;
     font-weight: 400;
-    color: #777777;
+    color: ${palette.text.gray_7};
   }
 `;
 const StTitleArea = styled.input`
@@ -321,20 +300,7 @@ const StUploadImgWrapper = styled.div`
   position: relative;
   cursor: pointer;
 `;
-const StUploadInputPText = styled.p`
-  background-color: ${palette.inputTextColor};
-  font-size: 14px;
-  color: ${palette.white};
-  border-radius: 30px;
-  font-weight: bold;
-  border: none;
-  padding: 4px 8px;
-  width: 112px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
 const StPrevImg = styled.img`
   height: 100%;
 `;

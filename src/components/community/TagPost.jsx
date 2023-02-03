@@ -93,7 +93,7 @@ const StPostContent = styled.div`
     -webkit-box-orient: vertical;
   }
   p {
-    height: 85px;
+    height: 90px;
     word-break: keep-all;
     text-overflow: ellipsis;
     overflow: hidden;

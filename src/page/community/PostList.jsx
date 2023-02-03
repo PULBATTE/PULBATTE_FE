@@ -11,10 +11,10 @@ import { TAGS } from '../../assets/constants';
 import { getBestPostApi, getPostByTagApi } from '../../apis/community';
 import TagPost from '../../components/community/TagPost';
 import Best5Img from './Best5Img';
+import { flexSpaceBetween, flexVerticalAlignCenter } from '../../styles/mixns';
 
 export default function PostList() {
   const [bestPostList, setBestPostList] = useState([]);
-  // const [tagPostList, setTagPostList] = useState([]);
   const [tag, setTag] = useState('질문과 답변');
   const { ref, inView } = useInView();
 
@@ -47,7 +47,6 @@ export default function PostList() {
     if (inView) fetchNextPage();
   }, [fetchNextPage, inView]);
 
-  // TODO: 상황에 맞는 페이지
   if (status.isLoading) return 'Loading...';
 
   if (status.error) return `An error has occurred:  + ${status.error.message}`;
@@ -148,9 +147,7 @@ const StWrapper = styled.div`
   }
 `;
 const StPostListHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  ${flexVerticalAlignCenter}
   > h3 {
     text-align: center;
     font-size: 2.5rem;
@@ -197,10 +194,8 @@ const StPostListContent = styled.div`
 const StBest5Wrapper = styled.div``;
 const StPostWrapper = styled.div``;
 const StTagWrapper = styled.div`
-  display: flex;
+  ${flexSpaceBetween}
   gap: 0 8px;
-  justify-content: space-between;
-  align-items: center;
   flex-flow: wrap;
   padding: 20px 0px;
 `;
@@ -214,9 +209,7 @@ const StTagContainer = styled.div`
 `;
 const StFilterdWrapper = styled.div``;
 const Best5ImgHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${flexSpaceBetween}
   h3 {
     font-size: 31px;
     height: 100%;

@@ -1,6 +1,6 @@
 import React from 'react';
 /* eslint import/newline-after-import: "off" */
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import Router from './router/Router';
 
