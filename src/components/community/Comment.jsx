@@ -226,6 +226,7 @@ const StCommentTextArea = styled.textarea`
   resize: none;
   border-radius: 4px;
   border-color: ${palette.borderColor5};
+  white-space: pre-line;
 `;
 const StButtonWrapper = styled.div`
   float: right;

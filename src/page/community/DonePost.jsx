@@ -228,6 +228,7 @@ const StRepleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px 0;
+  white-space: pre-line;
 `;
 const StUserInfo = styled.div`
   margin-bottom: 5rem;
