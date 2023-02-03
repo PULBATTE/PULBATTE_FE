@@ -46,3 +46,11 @@ export const getTestInfoApi = async () => {
     return error;
   }
 };
+export const deleteGuidePlantApi = async () => {
+  try {
+    const data = await authInstance.delete(`/api/beginner/plant`);
+    return data.data;
+  } catch (error) {
+    return error;
+  }
+};
