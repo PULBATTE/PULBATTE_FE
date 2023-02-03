@@ -38,7 +38,7 @@ export default function CircleRating(props) {
         // eslint-disable-next-line react/no-array-index-key
         <div key={`rating_${i}`}>
           <label htmlFor={i}>
-            <input
+            <StInput
               id={i}
               type="checkbox"
               disabled={!editable}
@@ -63,18 +63,19 @@ const StCircleContainer = styled.div`
   label {
     position: relative;
   }
-
-  input {
-    cursor: pointer;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-  }
 `;
+const StInput = styled.input`
+  /* cursor: pointer; */
+  cursor: ${props => (props.disabled ? 'default' : 'pointer')};
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+`;
+
 const StSpan = styled.div`
   background: ${props => (props.checked ? props.color : palette.borderColor1)};
   position: relative;
