@@ -6,9 +6,9 @@ import waterIcon from '../../assets/image/water_drop.png';
 import repottingIcon from '../../assets/image/spa.png';
 import nutritionIcon from '../../assets/image/scatter_plot.png';
 import { palette } from '../../styles/palette';
-import PlantEnv from '../../components/plantdiary/PlantEnv';
 import { createPlantJournalApi } from '../../apis/plantDiary';
-import HorizontalPlantEnv from '../../components/plantdiary/HorizontalPlantEnv';
+import HorizontalPlantEnv from '../../components/plantdiary/HorizontalTitlePlantEnv';
+import photoFilter from '../../assets/image/photo_filter.png';
 
 // TODO: HookForm
 export default function AddPlant() {
@@ -121,6 +121,14 @@ export default function AddPlant() {
                   name="uploadImg"
                   alt="uploadImg"
                 />
+              )}
+              {imgSrc.preview == undefined ? (
+                <StUploadImg>
+                  <img src={photoFilter} alt="사진 이미지" />
+                  <span>사진 추가</span>
+                </StUploadImg>
+              ) : (
+                ''
               )}
             </StImageWrapper>
           </label>
@@ -272,6 +280,7 @@ const StImageWrapper = styled.div`
   cursor: pointer;
   display: flex;
   justify-content: center;
+  position: relative;
   aspect-ratio: 16 / 9;
   border: 5px dashed ${palette.borderColor1};
   border-radius: 16px;
@@ -280,6 +289,23 @@ const StImageWrapper = styled.div`
 `;
 const StPrevImg = styled.img`
   height: 100%;
+`;
+const StUploadImg = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px 0;
+  align-items: center;
+  img {
+    width: 60px;
+    aspect-ratio: 1/1;
+  }
+  span {
+    color: ${palette.borderColor3};
+  }
 `;
 
 const StGridContainer = styled.div`
