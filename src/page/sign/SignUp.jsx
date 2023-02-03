@@ -101,7 +101,7 @@ export default function SignUp() {
         <StInput
           type="password"
           name="password"
-          placeholder="영문, 숫자 조합 8글자 이상"
+          placeholder="영문, 숫자, 특수문자 조합 8글자 이상"
           {...register('password')}
         />
         <StErrorMessage>
