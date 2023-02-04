@@ -27,7 +27,10 @@ export default function PlantChoice() {
   // 모달창 > 확인버튼
   const onSubmitHandler = () => {
     postSelectPlantApi(plantName.current)
-      .then(res => navigate(guidePath))
+      .then(res => {
+        console.log(res);
+        navigate(guidePath);
+      })
       .catch(error => console.log(error));
   };
   // 식물선택 했을 때

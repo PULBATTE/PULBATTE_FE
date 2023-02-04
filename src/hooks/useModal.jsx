@@ -8,6 +8,7 @@ const useModal = () => {
       ? (document.body.style.overflowY = 'visible')
       : (document.body.style.overflowY = 'hidden');
   };
+
   return [modal, handler];
 };
 

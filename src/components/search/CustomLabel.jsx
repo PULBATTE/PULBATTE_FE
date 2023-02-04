@@ -50,7 +50,8 @@ const StCustomLabel = styled.label`
     height: 100%;
   }
   input.clicked:checked + button {
-    color: ${palette.mainColor};
-    border: 1px solid ${palette.mainColor};
+    color: #fff;
+    background: ${palette.mainColor};
+    /*     border: 1px solid ${palette.mainColor}; */
   }
 `;
