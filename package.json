@@ -41,6 +41,7 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-tabs": "^6.0.0",
+    "react-toastify": "^9.1.1",
     "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.8",
     "react-window-infinite-loader": "^1.0.8",
