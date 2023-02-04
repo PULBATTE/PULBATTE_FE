@@ -13,6 +13,7 @@ export const palette = {
   mainBackground: '#EBF1EC',
   textColor1: '#A3A3A3',
   lightGray: '#f1f1f1',
+  black: '#000000',
   white: '#ffffff',
   inputTextColor: '#bacdc6',
   pageBackgroundGray: '#F8F8F8',
