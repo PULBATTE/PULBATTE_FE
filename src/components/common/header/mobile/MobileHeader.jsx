@@ -15,9 +15,9 @@ export default function Mobileheader({ token, logOutEventHandler }) {
   const [isOpen, setIsOpen] = useState(true);
   const onClickModalHandler = () => {
     setIsClicked(!isClicked);
-    isOpen
+    /*  isOpen
       ? (document.body.style.overflowY = 'visible')
-      : (document.body.style.overflowY = 'hidden');
+      : (document.body.style.overflowY = 'hidden'); */
   };
   return (
     <StMobileNav>
