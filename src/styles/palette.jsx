@@ -20,9 +20,9 @@ export const palette = {
   text: {
     green: '#0BA47F',
     disabled: '#C6C6C6',
-    gray_A3: '#A3A3A3',
-    gray_7: '#777777',
     gray_90: '#909090',
+    gray_7: '#777777',
+    gray_A3: '#A3A3A3',
     gray_3: '#333333',
     black_e1: '#1E1E1E',
   },

@@ -25,7 +25,7 @@ const ratingType = {
 };
 
 // type = water | sunny | air
-export default function HorizontalPlantEnv({
+export default function VerticalTitlePlantEnv({
   type,
   rating,
   gap,
@@ -69,6 +69,8 @@ const StGridList = styled.div`
 `;
 const StTitleWrapper = styled.div`
   display: flex;
+  align-items: center;
+  flex-direction: column;
   gap: 8px;
   p {
     font-size: 1.2rem;
@@ -76,9 +78,5 @@ const StTitleWrapper = styled.div`
     @media (max-width: 768px) {
       font-size: 1rem;
     }
-  }
-  img {
-    width: 24px;
-    height: 24px;
   }
 `;

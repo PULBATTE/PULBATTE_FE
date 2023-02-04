@@ -13,7 +13,6 @@ export const postSignUpApi = async ({ userId, password }) => {
 };
 
 export const getSignUpCheckApi = async userId => {
-  console.log(userId);
   try {
     const data = await instance.get(`/api/auth/idDupleCheck?userId=${userId}`);
     return data;

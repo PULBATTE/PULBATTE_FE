@@ -17,14 +17,13 @@ import grain from '../../assets/image/grain.png';
 export default function PlantDetail() {
   const { plantId } = useParams();
   const [plantInfo, setPlantInfo] = useState(null);
-  console.log(plantInfo);
   useEffect(() => {
     plantsSearchDetailApi(plantId).then(res => setPlantInfo(res.data));
   }, []);
   return (
     <StWrapper>
       <div className="container_inner">
-        <h3>식물 찾아보기</h3>
+        {/*  <h3>식물 찾아보기</h3> */}
         <StContent>
           <div className="image_container">
             <img src={plantInfo?.image} alt="" />
@@ -80,8 +79,10 @@ const StWrapper = styled.div`
     max-width: 1370px;
     margin: 0 auto;
     gap: 40px 0;
+    padding-top: 7rem;
     @media (max-width: 768px) {
       gap: 20px 0;
+      padding-top: 0rem;
     }
     > button {
       display: flex;
@@ -93,7 +94,7 @@ const StWrapper = styled.div`
     h3 {
       text-align: center;
       font-size: 2.5rem;
-      margin-bottom: 3rem;
+      margin: 5rem 0 2rem;
 
       @media (max-width: 768px) {
         font-size: 2rem;
@@ -145,7 +146,7 @@ const StTipContainer = styled.div`
   border-radius: 16px;
   > span {
     display: block;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     text-align: center;
     font-weight: 700;
     @media (max-width: 768px) {
@@ -171,7 +172,7 @@ const StTipGrid = styled.div`
     margin-bottom: 10px;
   }
   .category_type {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 700;
     margin-top: 10px;
     @media (max-width: 768px) {
@@ -179,7 +180,7 @@ const StTipGrid = styled.div`
     }
   }
   .category_text {
-    font-size: 1.2rem;
+    font-size: 1rem;
     @media (max-width: 768px) {
       font-size: 0.9rem;
     }

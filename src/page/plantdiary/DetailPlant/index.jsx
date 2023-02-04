@@ -72,9 +72,10 @@ const StDetailPlantContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px 0;
+  gap: 10px 0;
   width: 80%;
   margin: 0 auto;
+  padding: 4rem 0 0rem;
   @media (max-width: 500px) {
     width: 100%;
   }
@@ -84,14 +85,14 @@ const StHeader = styled.div`
   width: 100%;
   font-size: 34px;
   h3 {
-    font-size: 2.1rem;
-    margin-top: 7rem;
+    font-size: 2.5rem;
+    margin-top: 5rem;
     @media (max-width: 768px) {
       font-size: 1.9rem;
     }
     @media (max-width: 500px) {
       font-size: 1.5rem;
-      margin-top: 45px;
+      margin: 2rem 0;
     }
   }
 `;

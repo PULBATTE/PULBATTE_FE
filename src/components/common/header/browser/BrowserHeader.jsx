@@ -9,12 +9,14 @@ import GlobalNavigationBar from './GlobalNavigationBar';
 import Logo from '../../../../assets/image/logo.png';
 import mypageBtn from '../../../../assets/image/icon_my.png';
 import alarmBtn from '../../../../assets/image/icon_alarm.png';
+import { getTestInfoApi } from '../../../../apis/plantGuide';
 import {
   guidePath,
   boardPath,
   searchPath,
   diaryPath,
   testPath,
+  testResultPath,
   choicePath,
   mypagePath,
 } from '../../../../apis/path';
@@ -38,6 +40,20 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
     newDisplay[index] = true;
     setDisplay(newDisplay);
   };
+  const checkTestResult = async () => {
+    await getTestInfoApi()
+      .then(res => {
+        console.log(res);
+
+        if (res.response?.status === 500) {
+          return PrivateRoute(testPath);
+        }
+        return PrivateRoute(testResultPath);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const navigate = useNavigate();
   return (
     <StBrowserNav>
@@ -47,22 +63,26 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
         </Link>
       </StImageContainer>
       <StCategory>
-        <div className="gnb_container">
-          <ul
-            onMouseOver={() => inMouseDisplayHandler(0)}
-            onMouseOut={() => outMouseDisplayHandler(0)}
-          >
+        <div
+          className="gnb_container"
+          onMouseOver={() => inMouseDisplayHandler(2)}
+          onMouseOut={() => outMouseDisplayHandler(2)}
+        >
+          <GlobalNavigationBar>
             <li>
-              <span
-                onClick={() => navigate(boardPath)}
-                aria-hidden="true"
-                /*   display={display[1]} */
-              >
-                커뮤니티
-              </span>
+              <span>나만의 반려식물 찾기</span>
+              <StNavigation display={display[2]}>
+                <li onClick={() => checkTestResult()} aria-hidden="true">
+                  <span aria-hidden="true">식집사 테스트</span>
+                </li>
+                <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">
+                  <span>식집사 가이드</span>
+                </li>
+              </StNavigation>
             </li>
-          </ul>
+          </GlobalNavigationBar>
         </div>
+
         <div className="gnb_container">
           <ul
             onMouseOver={() => inMouseDisplayHandler(1)}
@@ -75,25 +95,7 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
             </li>
           </ul>
         </div>
-        <div
-          className="gnb_container"
-          onMouseOver={() => inMouseDisplayHandler(2)}
-          onMouseOut={() => outMouseDisplayHandler(2)}
-        >
-          <GlobalNavigationBar>
-            <li>
-              <span>나만의 반려식물 찾기</span>
-              <StNavigation display={display[2]}>
-                <li onClick={() => PrivateRoute(testPath)} aria-hidden="true">
-                  <span aria-hidden="true">식집사 테스트</span>
-                </li>
-                <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">
-                  <span>식집사 가이드</span>
-                </li>
-              </StNavigation>
-            </li>
-          </GlobalNavigationBar>
-        </div>
+
         <div className="gnb_container">
           <ul
             onMouseOver={() => inMouseDisplayHandler(3)}
@@ -102,6 +104,22 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
             <li>
               <span onClick={() => PrivateRoute(diaryPath)} aria-hidden="true">
                 식물 일지
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div className="gnb_container">
+          <ul
+            onMouseOver={() => inMouseDisplayHandler(0)}
+            onMouseOut={() => outMouseDisplayHandler(0)}
+          >
+            <li>
+              <span
+                onClick={() => navigate(boardPath)}
+                aria-hidden="true"
+                /*   display={display[1]} */
+              >
+                커뮤니티
               </span>
             </li>
           </ul>

@@ -7,7 +7,6 @@ export default function Kakao() {
 
   // 인가코드
   const code = new URL(window.location.href).searchParams.get('code');
-  console.log('code:', code);
   dispatch(kakaoLogin(code));
 
   return <div />;

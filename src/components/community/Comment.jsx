@@ -19,8 +19,7 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     nickname,
     profileImage,
   } = comment;
-  console.log({ tempReplyReject });
-  console.log({ replyList });
+
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
   // const [isHideComment, setIsHideComment] = useState(true);
@@ -36,32 +35,48 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     setCreateReply(e.target.value);
   };
 
+  // 댓글 수정
   const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
 
+  // 답글달기 / 숨기기
   const onOpenReplyHandler = e => {
     setIsOpenReply(_openReply => !_openReply);
-    setIsEditable(false);
   };
 
   const onDeleteCommentHandler = async () => {
-    await deleteCommentApi(commentId);
+    const data = await deleteCommentApi(commentId);
+    const alertMsg = data.data.msg;
+    alert(alertMsg);
     getPostUser();
   };
 
+  // 수정 완료
   const onEditCommentDoneHandler = async () => {
-    await editCommentApi(commentId, commentContent);
-    setIsEditable(false);
-    getPostUser();
+    if (!commentContent) {
+      alert('내용을 입력해주세요.');
+    } else {
+      const data = await editCommentApi(commentId, commentContent);
+      const alertMsg = data.data.msg;
+      alert(alertMsg);
+      setIsEditable(false);
+      getPostUser();
+    }
   };
 
+  // 대댓글작성
   const onRegReplyHandler = async () => {
-    await postCommentApi(postId, commentId, createReply);
-    setIsEditable(false);
-    setCreateReply('');
-    setIsOpenReply(false);
-    getPostUser();
+    if (!createReply) {
+      alert('내용을 입력해주세요.');
+    } else {
+      const data = await postCommentApi(postId, commentId, createReply);
+      const alertMsg = data.data.msg;
+      alert(alertMsg);
+      setIsEditable(false);
+      setCreateReply('');
+      getPostUser();
+    }
   };
 
   return (
@@ -223,6 +238,8 @@ const StButton = styled.button`
   font-size: 15px;
 `;
 const StCommentContentWrapper = styled.div`
+  overflow: hidden;
+  word-wrap: break-word;
   padding: 10px;
   margin-top: 4px;
 `;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import PlantEnv from '../../../components/plantdiary/PlantEnv';
+import VerticalTitlePlantEnv from '../../../components/plantdiary/VerticalTitlePlantEnv';
 import { palette } from '../../../styles/palette';
 import repottingImg from '../../../assets/image/Repot_white.png';
 import nutritionImg from '../../../assets/image/Nutrition_white.png';
@@ -30,14 +30,22 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
       {/* section */}
       <StPlantInfoWrap>
         <StPlantInfoImg src={image} />
-        <StPlantEnvWrapper>
+        <StVerticalTitlePlantEnvWrapper>
           <h3>환경</h3>
-          <StPlantEnv>
-            <PlantEnv type="water" rating={selectWater} gap="8px" />
-            <PlantEnv type="sunny" rating={selectSunshine} gap="8px" />
-            <PlantEnv type="air" rating={selectWind} gap="8px" />
-          </StPlantEnv>
-        </StPlantEnvWrapper>
+          <StVerticalTitlePlantEnv>
+            <VerticalTitlePlantEnv
+              type="water"
+              rating={selectWater}
+              gap="8px"
+            />
+            <VerticalTitlePlantEnv
+              type="sunny"
+              rating={selectSunshine}
+              gap="8px"
+            />
+            <VerticalTitlePlantEnv type="air" rating={selectWind} gap="8px" />
+          </StVerticalTitlePlantEnv>
+        </StVerticalTitlePlantEnvWrapper>
       </StPlantInfoWrap>
       <StPlantInfoWrap>
         <StPlantDdayCardWrapper>
@@ -120,9 +128,11 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
 const StTabSection = styled.section`
   display: flex;
   gap: 0 5rem;
-  margin: 40px 20px 20px 20px;
+  margin: 40px 0px 20px 0px;
   max-width: 1120px;
-
+  padding: 5vw 6vw;
+  border-radius: 24px;
+  box-shadow: 0px 10px 60px rgb(0 0 0 / 10%);
   @media (max-width: 1120px) {
     flex-direction: column;
     width: 100%;
@@ -139,7 +149,7 @@ const StPlantInfoWrap = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px 0;
+  gap: 10px 0;
   @media (max-width: 1120px) {
     padding: 0px;
   }
@@ -148,15 +158,17 @@ const StPlantInfoImg = styled.img`
   width: 100%;
   object-fit: cover;
   aspect-ratio: 1.2/1;
+  max-width: 370px;
+  max-height: 300px;
   @media (max-width: 1120px) {
     width: 100%;
   }
 `;
-const StPlantEnvWrapper = styled.section`
+const StVerticalTitlePlantEnvWrapper = styled.section`
   display: flex;
   flex-direction: column;
 `;
-const StPlantEnv = styled.div`
+const StVerticalTitlePlantEnv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,7 +204,7 @@ const StPlantDdayCard = styled.div`
   justify-content: space-between;
   padding: 15px;
   background-color: ${props => props.color};
-  gap: 5px 0;
+  gap: 10px 0;
   align-items: center;
   border-radius: 16px;
   color: ${palette.white};
@@ -208,7 +220,7 @@ const StPlantDdayCard = styled.div`
   }
   h3 {
     font-size: 1.1rem;
-    margin: 8px 0px;
+    margin: 0px;
   }
 `;
 const StDdayConfirmButton = styled.button`

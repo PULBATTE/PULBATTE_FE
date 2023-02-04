@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
+import { flexAlignCenter, ImageExpandAnimation } from '../../styles/mixns';
 
 export default function Best5Img({ bestPostList }) {
   const { title, image, id } = bestPostList;
   const navigate = useNavigate();
-  console.log(id);
-  /*  const { postId } = useParams(); */
+
   return (
     <StBestContainer onClick={() => navigate(`/donepost/${id}`)}>
       <StBest5ImgWrapper>
@@ -30,7 +30,6 @@ const StBestContainer = styled.div`
     margin: 0;
     width: 100%;
     letter-spacing: 0.3px;
-
     margin-top: 10px;
     display: -webkit-box;
     text-overflow: ellipsis;
@@ -42,8 +41,6 @@ const StBestContainer = styled.div`
 `;
 const StBest5ImgWrapper = styled.div`
   position: relative;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 16px;
@@ -51,11 +48,9 @@ const StBest5ImgWrapper = styled.div`
   box-shadow: 0px 1px 11px 0px rgb(0 0 0 / 8%);
 
   ::after {
+    ${flexAlignCenter}
     content: 'Best';
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 8px;
     left: 10px;
     top: 10px;
@@ -83,4 +78,6 @@ const StBest5Img = styled.img`
   height: 100%;
   object-fit: cover;
   -webkit-user-drag: none;
+  // TODO: css MIXNS 사용 하기
+  ${ImageExpandAnimation}
 `;

@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { getTestInfoApi } from '../../apis/plantGuide';
 import { palette } from '../../styles/palette';
-import { testPath, choicePath } from '../../apis/path';
+import { testPath, testResultPath, choicePath } from '../../apis/path';
 
 export default function PlantResult() {
   const navigate = useNavigate();
   const [testResult, setTestResult] = useState(null);
-  console.log(testResult);
+
   useEffect(() => {
     getTestInfoApi()
       .then(res => {
@@ -89,7 +89,7 @@ const StWrapper = styled.div`
     text-align: center;
     font-size: 2.5rem;
     color: ${palette.textColor1};
-    margin: 6rem 0 4rem;
+    margin: 5rem 0 4rem;
     @media (max-width: 768px) {
       font-size: 2rem;
     }
@@ -130,7 +130,7 @@ const StTypeCard = styled.div`
   padding: 4vw;
   box-sizing: border-box;
   background: ${palette.white};
-  max-width: 400px;
+  max-width: 440px;
   gap: 10px 0;
 
   justify-content: space-between;
@@ -154,6 +154,7 @@ const StTypeCard = styled.div`
   span {
     font-size: 1.1rem;
     line-height: 1.6rem;
+    white-space: pre-line;
     @media (max-width: 500px) {
       font-size: 0.9rem;
     }
@@ -211,6 +212,7 @@ const StPlantCard = styled.div`
     .recommend_plants_described {
       font-size: 1.2rem;
       line-height: 25px;
+      white-space: pre-line;
       @media (max-width: 500px) {
         font-size: 0.9rem;
         line-height: 1.3rem;
@@ -220,6 +222,7 @@ const StPlantCard = styled.div`
       display: flex;
       flex-direction: column;
       gap: 10px 0;
+
       @media (max-width: 768px) {
         align-items: center;
       }
@@ -266,7 +269,7 @@ const StButton = styled.button`
   }
 `;
 const StGuideComment = styled.div`
-  padding: 24px;
+  padding: 40px;
   box-sizing: border-box;
   border-radius: 24px;
 

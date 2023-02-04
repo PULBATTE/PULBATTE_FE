@@ -59,15 +59,13 @@ const StPlantListContainer = styled.div`
   }
   @media (max-width: 768px) {
     width: 100%;
-    margin: 4rem auto 3rem;
-    padding: 0 2rem;
     box-sizing: border-box;
   }
 
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 6rem 0 4rem;
+    margin: 5rem 0 4rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -99,6 +97,10 @@ const StPlantDiaryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 768px) {
+    width: 90%;
+    margin: 0 auto;
+  }
 `;
 const StPlantHeader = styled.div`
   display: flex;

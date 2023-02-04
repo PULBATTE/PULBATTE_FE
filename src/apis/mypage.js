@@ -11,7 +11,6 @@ export const getUserProfileInfo = async () => {
 
 export const putUserProfileInfo = async formData => {
   try {
-    console.log(formData);
     const data = await authInstance.put('/api/user/mypage/profile', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -25,7 +24,6 @@ export const putUserProfileInfo = async formData => {
 
 export const putUserNickNameInfo = async formData => {
   try {
-    console.log(formData);
     const data = await authInstance.put(
       '/api/user/mypage/profilename',
       formData,
@@ -42,7 +40,6 @@ export const putUserNickNameInfo = async formData => {
 };
 
 export const postUserNickName = async nickName => {
-  console.log(nickName);
   try {
     const data = await authInstance.post(
       '/api/user/mypage/nickDupleCheck',
@@ -59,7 +56,7 @@ export const getBoardList = async pageParam => {
     const data = await authInstance.get(
       `/api/user/mypage/mypost?page=${pageParam}`,
     );
-    console.log(data, pageParam);
+
     const { content, last } = data.data;
     return { posts: content, nextPage: pageParam + 1, isLast: last };
   } catch (error) {

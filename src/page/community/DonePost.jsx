@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,34 +18,29 @@ import { getCookie } from '../../apis/cookie';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
-  const [isClicked, setIsClicked] = useState(false);
   const [nickName, setNickName] = useState('');
   const [Like, setLike] = useState(false);
   const [comment, setComment] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+  const commentRef = useRef();
+
   const { postId } = useParams();
+
   const navigate = useNavigate();
-  console.log('postData', postData);
-  console.log('postId', postId);
+
   const Token = localStorage.getItem('access_Token');
-  console.log(Token);
+
   const getPost = useCallback(async () => {
-    setIsLoading(true);
     if (Token) {
       console.log('user');
       const data = await getPostUserApi(postId);
-      console.log(data.data);
-
       const { likeStatus } = data.data;
       setLike(likeStatus);
 
       setPostData(data.data);
-      setIsLoading(false);
     } else {
       console.log('guest');
       const data = await getPostGuestApi(postId);
       setPostData(data.data);
-      setIsLoading(false);
     }
   }, [Token, postId]);
 
@@ -56,10 +51,9 @@ export default function DonePost() {
   }, []);
 
   const postLike = useCallback(async () => {
-    const data = await postLikeApi(postId);
-    console.log({ data });
+    await postLikeApi(postId);
     setLike(_postLikeApi => !_postLikeApi);
-    await getPost();
+    getPost();
   }, [getPost, postId]);
 
   useEffect(() => {
@@ -82,11 +76,15 @@ export default function DonePost() {
     setComment(e.target.value);
   };
   const onRegCommentHandler = async () => {
-    setIsLoading(true);
-    await postCommentApi(postId, 0, comment);
+    if (!comment) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+    const data = await postCommentApi(postId, 0, comment);
+    const alertMsg = data.data.msg;
+    alert(alertMsg);
     setComment('');
-    await getPost();
-    setIsLoading(false);
+    getPost();
   };
   const onDeletePostHandler = async () => {
     const data = await deletePostTextApi(postId);
@@ -110,7 +108,7 @@ export default function DonePost() {
                   <span>{formatDate(postData.createdAt)}</span>
                 </div>
               </div>
-              {postData?.nickname == nickName ? (
+              {postData && postData.nickname === nickName && (
                 <StEditDeleteBtnContainer>
                   <span
                     onClick={() => navigate(`/editPost/${postId}`)}
@@ -127,8 +125,6 @@ export default function DonePost() {
                     삭제
                   </span>
                 </StEditDeleteBtnContainer>
-              ) : (
-                ''
               )}
             </StUserInfo>
             <StContentWrapper>
@@ -137,7 +133,7 @@ export default function DonePost() {
               ) : (
                 ''
               )}
-              <span>{postData.content}</span>
+              <StContent>{postData.content}</StContent>
             </StContentWrapper>
             <StTagWrappeer>
               <Button size="sd" background={palette.borderColor2}>
@@ -165,6 +161,7 @@ export default function DonePost() {
                 placeholder="댓글을 작성하세요"
                 value={comment}
                 onChange={onCommentHandler}
+                ref={commentRef}
               />
               <div>
                 <StButton type="button" onClick={onRegCommentHandler}>
@@ -202,7 +199,7 @@ const StWrapper = styled.div`
   > h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 6rem 0 2rem;
+    margin: 5rem 0 2rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -269,11 +266,17 @@ const StContentWrapper = styled.div`
     margin-bottom: 30px;
     object-fit: contain;
   }
-  span {
+  p {
+    width: 100%;
     font-size: 1.2rem;
     line-height: 1.5rem;
     white-space: pre-line;
   }
+`;
+const StContent = styled.p`
+  width: 100px;
+  overflow: hidden;
+  word-wrap: break-word;
 `;
 
 const StTagWrappeer = styled.div`
@@ -315,6 +318,7 @@ const StCreateCommentWrapper = styled.div`
     font-weight: 600;
   }
 `;
+
 const StCreateCommentArea = styled.textarea`
   width: 100%;
   height: 120px;

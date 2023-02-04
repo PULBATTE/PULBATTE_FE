@@ -4,7 +4,7 @@ import { palette } from '../../styles/palette';
 
 export default function Tagpost({ postData }) {
   const navigate = useNavigate();
-  console.log(postData);
+
   const {
     id,
     title,
@@ -15,7 +15,7 @@ export default function Tagpost({ postData }) {
     commentCnt,
     nickname,
   } = postData;
-  console.log(image);
+
   return (
     <StPost onClick={() => navigate(`/donepost/${id}`)}>
       <StPostContentWrapper>
@@ -93,7 +93,7 @@ const StPostContent = styled.div`
     -webkit-box-orient: vertical;
   }
   p {
-    height: 85px;
+    height: 90px;
     word-break: keep-all;
     text-overflow: ellipsis;
     overflow: hidden;

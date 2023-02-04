@@ -22,7 +22,6 @@ export default function PlantSearch() {
   const search = useRef();
   const [plantsList, setPlantsList] = useState(null);
   const [category, setCategory] = useState('all');
-  console.log(category);
   const { ref, inView } = useInView();
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -36,9 +35,6 @@ export default function PlantSearch() {
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
-
-  /*   if (status === 'loading') return console.log('loading');
-  if (status === 'error') return console.log('error'); */
 
   const onSearchHandler = () => {
     if (window.event.keyCode == 13) {
@@ -148,8 +144,7 @@ const StWrapper = styled.div`
     h3 {
       text-align: center;
       font-size: 2.5rem;
-      margin-bottom: 3rem;
-
+      margin: 5rem 0 4rem;
       @media (max-width: 768px) {
         font-size: 2rem;
       }
@@ -185,6 +180,7 @@ const StSearchContainer = styled.div`
     font-size: 1.4rem;
     text-indent: 10px;
     font-weight: 600;
+    -webkit-appearance: none;
     &::placeholder {
       font-size: 1.4rem;
       color: #cbcbcb;
@@ -223,8 +219,9 @@ const StFilterContainer = styled.div`
     border-radius: 25px;
     font-size: 1.2rem;
     border: none;
-    border: 1px solid #d9d9d9;
-    color: #d9d9d9;
+
+    border: 1px solid ${palette.mainColor};
+    color: ${palette.mainColor};
     cursor: pointer;
     @media (max-width: 768px) {
       font-size: 0.8rem;

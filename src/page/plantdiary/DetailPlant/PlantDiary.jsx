@@ -66,11 +66,15 @@ const StTabSection = styled.section`
   gap: 0 60px;
   margin: 40px 20px 80px 20px;
   max-width: 1120px;
-
+  padding: 5vw 6vw;
+  box-sizing: border-box;
+  border-radius: 24px;
+  box-shadow: 0px 10px 60px rgb(0 0 0 / 10%);
   @media (max-width: 1120px) {
     flex-direction: column;
     width: 100%;
     min-width: 350px;
+    box-sizing: border-box;
     gap: 4rem 0;
   }
   @media (max-width: 500px) {

@@ -120,21 +120,18 @@ export default function CreatePost() {
                 type="file"
                 onChange={onUploadImgHandler}
               />
-              {imgSrc.preview && (
+              {imgSrc.preview ? (
                 <StPrevImg
                   className="profile_image"
                   src={imgSrc.preview}
                   name="uploadImg"
                   alt="uploadImg"
                 />
-              )}
-              {imgSrc.preview == undefined ? (
+              ) : (
                 <StUploadImg>
                   <img src={photoFilter} alt="사진 이미지" />
                   <span>사진 추가</span>
                 </StUploadImg>
-              ) : (
-                ''
               )}
             </StUploadImgWrapper>
           </label>
@@ -157,7 +154,7 @@ const StCreateContainer = styled.div`
   h3 {
     text-align: center;
     font-size: 2.5rem;
-    margin: 6rem 0 4rem;
+    margin: 5rem 0 4rem;
 
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -167,23 +164,6 @@ const StCreateContainer = styled.div`
       margin: 2rem 0;
     }
   }
-  /* margin: 0 auto;
-  padding: 0px 50px;
-  margin-top: 84px;
-  margin-bottom: 84px;
-  width: 1280px;
-  h3 {
-    font-size: 30px;
-    text-align: center;
-  }
-  h4 {
-    font-size: 26px;
-  }
-  @media (max-width: 1280px) {
-    padding: 0px 20px;
-    width: 100%;
-  } */
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
   margin: 50px;
@@ -277,20 +257,6 @@ const StUploadImgWrapper = styled.div`
   margin-bottom: 24px;
   position: relative;
   cursor: pointer;
-`;
-const StUploadInputPText = styled.p`
-  background-color: ${palette.inputTextColor};
-  font-size: 14px;
-  color: ${palette.white};
-  border-radius: 30px;
-  font-weight: bold;
-  border: none;
-  padding: 4px 8px;
-  width: 112px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 const StPrevImg = styled.img`
   height: 100%;

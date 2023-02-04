@@ -10,7 +10,6 @@ import {
   postUserNickName,
   putUserNickNameInfo,
 } from '../../apis/mypage';
-import ImageModal from '../../components/mypage/ImageModal';
 import UserProfile from '../../components/mypage/UserProfile';
 import MyPostWrapper from '../../components/mypage/MyPostWrapper';
 
@@ -112,13 +111,8 @@ export default function Mypage() {
     });
   }, []);
 
-  const onConfirmImageHandler = useCallback(() => {
-    setImageModal(!imageModal);
-  }, []);
-
   useEffect(() => {
     getUserProfileApi();
-    console.log('rendering');
   }, [changeProfile]);
 
   return (
@@ -179,7 +173,6 @@ export default function Mypage() {
             <MyPostWrapper />
           </StProfileWrapper>
         </div>
-        {/*  <ImageModal /> */}
       </div>
     </StWrapper>
   );
@@ -195,19 +188,17 @@ const StWrapper = styled.div`
   @media (max-width: 1440px) {
     width: 80%;
   }
-  @media (max-width: 768px) {
-    margin: 4rem auto 3rem;
-  }
 `;
 const StTitle = styled.h2`
   text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 3rem;
+  margin: 5rem 0 2rem;
   @media (max-width: 768px) {
     font-size: 2rem;
   }
   @media (max-width: 500px) {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    margin: 2rem 0;
   }
 
   button {
@@ -313,11 +304,11 @@ const StUserInfo = styled.div`
       padding: 1rem;
     }
     img {
-      border-radius: 50%;
       height: 100%;
-      max-width: 150px;
+      width: 100%;
+      border-radius: 50%;
       aspect-ratio: 1/1;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
   .nickname {
