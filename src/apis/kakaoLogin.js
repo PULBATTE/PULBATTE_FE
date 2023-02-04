@@ -16,12 +16,9 @@ export const removeCookie = name => {
 
 export const kakaoLogin = code => {
   return async function () {
-    console.log(code);
-
     await instance
       .post(`/api/user/kakao/callback?code=${code}`)
       .then(response => {
-        console.log(response);
         localStorage.setItem('access_Token', response.data.accessToken);
         setCookie('refresh_Token', response.data.refreshToken);
         localStorage.setItem('access_Token', response.headers.authorization);
@@ -29,7 +26,6 @@ export const kakaoLogin = code => {
         window.location.href = '/';
       })
       .catch(err => {
-        console.log('소셜로그인 에러', err);
         window.alert('로그인에 실패하였습니다.');
       });
   };

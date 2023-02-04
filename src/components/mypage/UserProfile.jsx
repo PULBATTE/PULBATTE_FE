@@ -90,9 +90,13 @@ export default function UserProfile({
 }
 const StUserImageContainer = styled.div`
   position: relative;
-  &:hover .background_container {
-    opacity: 1;
-  }
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 const StBackgroundContainer = styled.div`
   position: absolute;
@@ -103,7 +107,7 @@ const StBackgroundContainer = styled.div`
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.4);
   transition: all 0.2s ease-in-out;
-  opacity: 0;
+  opacity: 1;
   label {
     display: flex;
     flex-direction: column;

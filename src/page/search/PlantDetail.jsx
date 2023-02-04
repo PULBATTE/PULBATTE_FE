@@ -17,7 +17,6 @@ import grain from '../../assets/image/grain.png';
 export default function PlantDetail() {
   const { plantId } = useParams();
   const [plantInfo, setPlantInfo] = useState(null);
-  console.log(plantInfo);
   useEffect(() => {
     plantsSearchDetailApi(plantId).then(res => setPlantInfo(res.data));
   }, []);

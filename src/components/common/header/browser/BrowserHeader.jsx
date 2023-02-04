@@ -9,12 +9,14 @@ import GlobalNavigationBar from './GlobalNavigationBar';
 import Logo from '../../../../assets/image/logo.png';
 import mypageBtn from '../../../../assets/image/icon_my.png';
 import alarmBtn from '../../../../assets/image/icon_alarm.png';
+import { getTestInfoApi } from '../../../../apis/plantGuide';
 import {
   guidePath,
   boardPath,
   searchPath,
   diaryPath,
   testPath,
+  testResultPath,
   choicePath,
   mypagePath,
 } from '../../../../apis/path';
@@ -38,6 +40,20 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
     newDisplay[index] = true;
     setDisplay(newDisplay);
   };
+  const checkTestResult = async () => {
+    await getTestInfoApi()
+      .then(res => {
+        console.log(res);
+
+        if (res.response?.status === 500) {
+          return PrivateRoute(testPath);
+        }
+        return PrivateRoute(testResultPath);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
   const navigate = useNavigate();
   return (
     <StBrowserNav>
@@ -56,7 +72,7 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
             <li>
               <span>나만의 반려식물 찾기</span>
               <StNavigation display={display[2]}>
-                <li onClick={() => PrivateRoute(testPath)} aria-hidden="true">
+                <li onClick={() => checkTestResult()} aria-hidden="true">
                   <span aria-hidden="true">식집사 테스트</span>
                 </li>
                 <li onClick={() => PrivateRoute(guidePath)} aria-hidden="true">

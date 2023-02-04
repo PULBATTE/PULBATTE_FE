@@ -68,6 +68,9 @@ const StQuestionContainer = styled.div`
         font-weight: 800;
       }
     }
+    @media (max-width: 768px) {
+      gap: 7px 0;
+    }
   }
   .on {
     pointer-events: fill;
@@ -79,12 +82,15 @@ const StQuestionContainer = styled.div`
     font-size: 1.8rem;
     font-weight: 800;
     color: ${palette.mainColor};
+    @media (max-width: 768px) {
+      font-size: 1.4rem;
+    }
   }
   .second_question {
     font-size: 1.2rem;
     font-weight: 400;
     @media (max-width: 768px) {
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
   }
 `;

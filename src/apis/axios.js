@@ -33,10 +33,11 @@ authInstance.interceptors.response.use(
     if (error.response.data.statuscode === 401) {
       if (error.response.data.msg === 'Token Error') {
         const originalRequest = config;
-        const accessToken = localStorage.getItem('access_Token');
-        const userEmail = jwtDecode(accessToken).sub;
+        const expiredToken = localStorage.getItem('access_Token');
+        const userEmail = jwtDecode(expiredToken).sub;
 
         const refreshToken = await getCookie('refresh_Token');
+        console.log(refreshToken, '만료된 토큰 - 쿠키에서 가져옴');
 
         // token refresh 요청
         const data = await axios.post(
@@ -44,12 +45,15 @@ authInstance.interceptors.response.use(
           { refreshToken, userEmail }, // token refresh api
         );
 
+        console.log('새로운 토큰을 받음', data);
+
         // 새로운 토큰 저장
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           data.data;
-
+        localStorage.settItem('access_Token', newAccessToken);
         setCookie('refresh_Token', newRefreshToken);
         originalRequest.headers.authorization = newAccessToken;
+
         // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
         return axios(originalRequest);
       }

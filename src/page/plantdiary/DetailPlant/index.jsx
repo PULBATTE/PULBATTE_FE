@@ -72,10 +72,10 @@ const StDetailPlantContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px 0;
+  gap: 10px 0;
   width: 80%;
   margin: 0 auto;
-  padding: 4rem 0 2rem;
+  padding: 4rem 0 0rem;
   @media (max-width: 500px) {
     width: 100%;
   }
