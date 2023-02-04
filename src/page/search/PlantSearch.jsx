@@ -219,8 +219,9 @@ const StFilterContainer = styled.div`
     border-radius: 25px;
     font-size: 1.2rem;
     border: none;
-    border: 1px solid #d9d9d9;
-    color: #d9d9d9;
+
+    border: 1px solid ${palette.mainColor};
+    color: ${palette.mainColor};
     cursor: pointer;
     @media (max-width: 768px) {
       font-size: 0.8rem;
