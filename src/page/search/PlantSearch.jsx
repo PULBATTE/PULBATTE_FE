@@ -22,7 +22,6 @@ export default function PlantSearch() {
   const search = useRef();
   const [plantsList, setPlantsList] = useState(null);
   const [category, setCategory] = useState('all');
-  console.log(category);
   const { ref, inView } = useInView();
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
@@ -36,9 +35,6 @@ export default function PlantSearch() {
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
-
-  /*   if (status === 'loading') return console.log('loading');
-  if (status === 'error') return console.log('error'); */
 
   const onSearchHandler = () => {
     if (window.event.keyCode == 13) {
@@ -184,6 +180,7 @@ const StSearchContainer = styled.div`
     font-size: 1.4rem;
     text-indent: 10px;
     font-weight: 600;
+    -webkit-appearance: none;
     &::placeholder {
       font-size: 1.4rem;
       color: #cbcbcb;

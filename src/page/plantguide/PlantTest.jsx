@@ -4,7 +4,7 @@ import MoonLoader from 'react-spinners/MoonLoader';
 import SwiperCore, { Navigation, Pagination, Thumbs } from 'swiper';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { set } from 'date-fns';
+
 import useDebounce from '../../hooks/useDebounce';
 import testImg00 from '../../assets/image/guide_test_00.png';
 import testImg01 from '../../assets/image/guide_test_01.png';
@@ -40,7 +40,7 @@ export default function PlantTest() {
     swiper.slideNext();
   };
 
-  const lastOrderHandler = async () => {
+  const lastOrderHandler = useCallback(async () => {
     try {
       setTimeout(() => {
         authInstance
@@ -50,11 +50,11 @@ export default function PlantTest() {
             setLoading(false);
           })
           .catch(err => console.log(err));
-      }, [1500]);
+      }, [1700]);
     } catch (e) {
       console.log(e);
     }
-  };
+  }, []);
 
   return (
     <StWrapper>
@@ -188,6 +188,11 @@ const StWrapper = styled.div`
   position: relative;
   background-image: url(${pgBack});
   background-size: cover;
+  .swiper-slide-active,
+  .swiper-slide-prev,
+  .swiper-slide-next {
+    pointer-events: none;
+  }
   @media (max-width: 768px) {
     margin-top: 0;
     height: auto;
@@ -230,7 +235,7 @@ const StWrapper = styled.div`
       padding: 3rem;
     }
     @media (max-width: 500px) {
-      padding: 2rem;
+      padding: 1.5rem;
       width: 90%;
     }
     h4 {
@@ -244,7 +249,6 @@ const StWrapper = styled.div`
         font-size: 1.2rem;
       }
     }
-
     .swiper-container {
       height: 100%;
     }
@@ -256,7 +260,7 @@ const StWrapper = styled.div`
     }
     img {
       @media (max-width: 500px) {
-        max-width: 100px;
+        max-width: 160px;
         object-fit: contain;
       }
     }
@@ -272,14 +276,19 @@ const StWrapper = styled.div`
         flex-direction: column;
         align-items: center;
         gap: 30px 0;
-        padding-top: 45px;
+        padding-top: 15px;
+        @media (max-width: 500px) {
+          gap: 20px 0;
+        }
         h4 {
           margin: 0;
         }
         span {
           font-size: 1.2rem;
           @media (max-width: 500px) {
-            font-size: 1rem;
+            font-size: 0.9rem;
+            word-break: keep-all;
+            text-align: center;
           }
         }
         button {
@@ -300,7 +309,6 @@ const StWrapper = styled.div`
           }
         }
       }
-
       .question_title {
         font-weight: 800;
         font-size: 1.4rem;
@@ -316,8 +324,9 @@ const StWrapper = styled.div`
           line-height: 2rem;
         }
         @media (max-width: 500px) {
-          font-size: 1.2rem;
-          line-height: 1.8rem;
+          font-size: 1rem;
+          line-height: 1.3rem;
+          min-height: unset;
         }
       }
     }

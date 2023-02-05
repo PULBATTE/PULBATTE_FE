@@ -74,6 +74,7 @@ const StTabSection = styled.section`
     flex-direction: column;
     width: 100%;
     min-width: 350px;
+    box-sizing: border-box;
     gap: 4rem 0;
   }
   @media (max-width: 500px) {

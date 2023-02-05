@@ -7,7 +7,6 @@ import { getCalendarDataApi } from '../../apis/plantDiary';
 
 export default function PlantDiaryCalendar({ plantJournalId }) {
   const [diaryValue, setDiaryValue] = useState();
-  console.log(diaryValue);
 
   const getCalendar = useCallback(async () => {
     const data = await getCalendarDataApi(plantJournalId);

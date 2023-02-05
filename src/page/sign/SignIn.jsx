@@ -30,7 +30,6 @@ export default function SignIn() {
       .then(response => {
         if (response.data.statusCode == 200) {
           const redirectUrl = searchParams.get('redirectUrl');
-          console.log('redicert', redirectUrl);
           localStorage.setItem('access_Token', response.data.accessToken);
           setCookie('refresh_Token', response.data.refreshToken);
           if (redirectUrl) {

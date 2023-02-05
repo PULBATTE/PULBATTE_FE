@@ -20,9 +20,7 @@ export default function Header() {
     navigate('/');
     alert('로그아웃 되었습니다!');
   };
-  const clickNaviHandler = () => {
-    console.log('ok');
-  };
+  const clickNaviHandler = () => {};
 
   return (
     <StHeader>

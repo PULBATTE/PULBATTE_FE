@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
 import PlantGraph from './plantGraph';
@@ -7,15 +7,21 @@ import { palette } from '../../styles/palette';
 import waterIcon from '../../assets/image/water_drop.png';
 import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
-import { getPlantsInfoApi } from '../../apis/plantGuide';
+import { getPlantsInfoApi, deleteGuidePlantApi } from '../../apis/plantGuide';
+import useModal from '../../hooks/useModal';
 
 export default function PlantInfo({ onChangeModalHandler }) {
   /*  const { beginnerName } = useParams(); */
+  /*   const [modal, modalHandler] = useModal; */
   const navigate = useNavigate();
   const [plantInfo, setPlantInfo] = useState(null);
   const [graphValue, setGraphValue] = useState([]);
+  const onChooseAgainHandler = async () => {
+    const data = await deleteGuidePlantApi();
+    navigate('/planttest');
+    console.log(data);
+  };
 
-  const text = useRef();
   useEffect(() => {
     getPlantsInfoApi()
       .then(res => {
@@ -28,8 +34,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
       })
       .catch(error => console.log(error));
   }, []);
-  /*  text.current.value('d').innerHTML = <br />; */
-  console.log(text.current?.value);
+
   return (
     <StContent>
       <div className="comment_message">
@@ -38,7 +43,16 @@ export default function PlantInfo({ onChangeModalHandler }) {
       <div>
         <StGrid>
           <div className="plant_image_container">
-            <span className="section_title">내가 고른 식물</span>
+            <div className="section_title_container">
+              <span className="section_title">내가 고른 식물</span>
+              <span
+                className="plant_delete_btn"
+                /*   onClick={() => modalHandler()} */
+                aria-hidden="true"
+              >
+                식물 다시 선택하기
+              </span>
+            </div>
             <div className="image_container">
               <img src={plantInfo && plantInfo.image} alt="식물이미지" />
               <span className="plant_name">
@@ -102,10 +116,10 @@ export default function PlantInfo({ onChangeModalHandler }) {
   );
 }
 const StContent = styled.div`
-  margin-top: 45px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
-  gap: 3rem 0;
+  gap: 5rem 0;
   @media (max-width: 768px) {
     margin-top: 0px;
   }
@@ -122,7 +136,7 @@ const StContent = styled.div`
 const StGrid = styled.div`
   display: grid;
   grid-template-columns: calc(150px + 15vw) 1.5fr;
-  gap: 1rem;
+  gap: 1rem 3rem;
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 3rem 0;
@@ -139,11 +153,21 @@ const StGrid = styled.div`
       display: flex;
       align-items: center;
     }
+    .plant_delete_btn {
+      font-size: 0.9rem;
+      color: ${palette.text.gray_A3};
+      cursor: pointer;
+    }
+  }
+  .section_title_container {
+    display: flex;
+    justify-content: space-between;
   }
   .section_title {
     font-size: 1.2rem;
     font-weight: 600;
   }
+
   .image_container {
     position: relative;
     width: fit-content;
@@ -167,6 +191,7 @@ const StGrid = styled.div`
         font-size: 1.1rem;
       }
     }
+
     img {
       width: 100%;
       border-radius: 20px;

@@ -159,6 +159,7 @@ const StPlantInfoImg = styled.img`
   object-fit: cover;
   aspect-ratio: 1.2/1;
   max-width: 370px;
+  max-height: 300px;
   @media (max-width: 1120px) {
     width: 100%;
   }

@@ -11,6 +11,7 @@ import {
   searchPath,
   diaryPath,
   testPath,
+  testResultPath,
   mypagePath,
 } from '../../../../apis/path';
 import logo from '../../../../assets/image/logo.png';
@@ -88,7 +89,10 @@ export default function SlideModal({
             </span>
             <ul className="lnb">
               <li>
-                <span onClick={() => PrivateRoute(testPath)} aria-hidden="true">
+                <span
+                  onClick={() => PrivateRoute(testResultPath)}
+                  aria-hidden="true"
+                >
                   식집사 테스트
                 </span>
               </li>

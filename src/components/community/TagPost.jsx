@@ -14,6 +14,7 @@ export default function Tagpost({ postData }) {
     commentCnt,
     nickname,
   } = postData;
+
   return (
     <StPost onClick={() => navigate(`/donepost/${id}`)}>
       <StPostContentWrapper>

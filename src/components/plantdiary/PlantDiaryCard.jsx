@@ -41,7 +41,6 @@ export default function PlantDiaryCard({
   };
 
   const onContextDetailModalHandler = () => {
-    console.log('누름');
     // 해당모달을 열고 props전달
     openModal(modals.DetailDiaryModal, {
       content,
@@ -51,7 +50,6 @@ export default function PlantDiaryCard({
 
   const onDeleteHandler = async () => {
     const data = await deletePlantDiaryApi(plantJournalId, plantJournalDiaryId);
-    console.log(data);
     if (data.status === 200) {
       alert('삭제완료');
       getPlantDiaryList();

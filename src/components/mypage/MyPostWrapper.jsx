@@ -19,12 +19,11 @@ export default function MyPostWrapper() {
         !lastPage.isLast ? lastPage.nextPage : undefined,
     },
   );
+
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
-  console.log(data);
-  if (status === 'loading') return console.log('loading');
-  if (status === 'error') return console.log('error');
+
   return (
     <StMyPostWrapper>
       <div className="post_inner">
@@ -64,7 +63,7 @@ const StMyPostWrapper = styled.div`
     .board_img {
       max-width: 128px;
       aspect-ratio: 1/1;
-      object-fit: cover;
+      object-fit: contain;
       height: 100%;
       border-radius: 16px;
       @media (max-width: 768px) {
