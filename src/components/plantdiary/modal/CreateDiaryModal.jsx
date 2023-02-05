@@ -28,12 +28,18 @@ export default function CreateDiaryModal(props) {
     content,
     plantJournalId,
     getPlantDiaryList,
+    selectedDate,
   } = props;
+  console.log('createModal Props');
   console.log({ props });
   const [diaryContent, setDiaryContent] = useState(content);
 
   const onSubmitHandler = async () => {
-    const data = await postPlantDiaryApi(plantJournalId, diaryContent);
+    const data = await postPlantDiaryApi(
+      plantJournalId,
+      diaryContent,
+      selectedDate,
+    );
     if (data.status === 200) {
       alert('작성 완료');
       onClose();
