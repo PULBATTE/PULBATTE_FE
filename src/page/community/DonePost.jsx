@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
+import { RxDoubleArrowLeft } from 'react-icons/rx';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
@@ -112,7 +113,13 @@ export default function DonePost() {
   };
   return (
     <StWrapper>
-      <h3>커뮤니티</h3>
+      <StTitle>
+        {/* <RxDoubleArrowLeft /> */}
+        <button type="button" onClick={() => navigate('/postlist')}>
+          게시글 목록
+        </button>
+        <h3>커뮤니티</h3>
+      </StTitle>
       {postData && (
         <StDonePostContainer>
           <StBoardContainer>
@@ -220,6 +227,22 @@ const StWrapper = styled.div`
   width: 90%;
   margin: 0 auto;
   padding: 4rem 0 2rem;
+  /* > h3 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 5rem 0 2rem;
+
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+    @media (max-width: 500px) {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem;
+    }
+  } */
+`;
+const StTitle = styled.div`
+  display: flex;
   > h3 {
     text-align: center;
     font-size: 2.5rem;
