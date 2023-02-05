@@ -4,7 +4,6 @@ import { palette } from '../../styles/palette';
 
 export default function Tagpost({ postData }) {
   const navigate = useNavigate();
-
   const {
     id,
     title,

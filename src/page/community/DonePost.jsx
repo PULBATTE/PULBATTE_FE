@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -14,7 +16,7 @@ import {
   deletePostTextApi,
 } from '../../apis/community';
 import { getInfoApi } from '../../apis/auth';
-import { getCookie } from '../../apis/cookie';
+import { customNotify } from '../../util/toastMessage';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
@@ -29,16 +31,17 @@ export default function DonePost() {
 
   const Token = localStorage.getItem('access_Token');
 
+  useEffect(() => {
+    if (postData) {
+      setLike(postData.likeStatus);
+    }
+  }, [postData]);
+
   const getPost = useCallback(async () => {
     if (Token) {
-      console.log('user');
       const data = await getPostUserApi(postId);
-      const { likeStatus } = data.data;
-      setLike(likeStatus);
-
       setPostData(data.data);
     } else {
-      console.log('guest');
       const data = await getPostGuestApi(postId);
       setPostData(data.data);
     }
@@ -51,46 +54,60 @@ export default function DonePost() {
   }, []);
 
   const postLike = useCallback(async () => {
-    await postLikeApi(postId);
-    setLike(_postLikeApi => !_postLikeApi);
-    getPost();
-  }, [getPost, postId]);
+    try {
+      await postLikeApi(postId);
+      Like
+        ? customNotify.success('좋아요를 취소했어요 :(')
+        : customNotify.success('좋아요를 눌렀어요 :)');
+    } catch (error) {
+      const isNotSignIn = error.message.indexOf('403');
+      if (isNotSignIn) {
+        customNotify.error('로그인이 필요합니다.');
+      } else {
+        customNotify.error();
+      }
+    } finally {
+      getPost();
+    }
+  }, [Like, getPost, postId]);
 
   useEffect(() => {
     getInfo();
     getPost();
   }, [getInfo, getPost]);
 
-  const onLikeHandler = () => {
-    // -postLikeApi 호출
-    if (Token) {
-      postLike();
-      getPost();
-    }
-    if (!Token) {
-      alert('로그인이 필요합니다.');
-    }
-  };
-
   const onCommentHandler = e => {
     setComment(e.target.value);
   };
+
   const onRegCommentHandler = async () => {
     if (!comment) {
-      alert('내용을 입력해주세요.');
+      customNotify.error('댓글을 작성하세요');
       return;
     }
-    const data = await postCommentApi(postId, 0, comment);
-    const alertMsg = data.data.msg;
-    alert(alertMsg);
-    setComment('');
-    getPost();
+    try {
+      const data = await postCommentApi(postId, 0, comment);
+      const { msg } = data.data.msg;
+      customNotify.success(msg);
+    } catch (error) {
+      const isNotSignIn = error.message.indexOf('403');
+      if (isNotSignIn) {
+        customNotify.error('로그인이 필요합니다.');
+      } else {
+        customNotify.error();
+      }
+    } finally {
+      setComment('');
+      getPost();
+    }
   };
   const onDeletePostHandler = async () => {
-    const data = await deletePostTextApi(postId);
-    console.log(data);
-    if (data.data.statusCode === 200) {
+    try {
+      await deletePostTextApi(postId);
+      customNotify.error('삭제 되었습니다.');
       navigate('/postlist');
+    } catch (error) {
+      customNotify.error();
     }
   };
   return (
@@ -187,6 +204,13 @@ export default function DonePost() {
           </StRepleContainer>
         </StDonePostContainer>
       )}
+      <ToastContainer
+        position="bottom-center" // 알람 위치 지정
+        closeOnClick // 클릭으로 알람 닫기
+        rtl={false} // 알림 좌우 반전
+        theme="colored"
+        limit={2} // 알람 개수 제한
+      />
     </StWrapper>
   );
 }
@@ -229,6 +253,7 @@ const StRepleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px 0;
+  white-space: pre-line;
 `;
 const StUserInfo = styled.div`
   margin-bottom: 5rem;

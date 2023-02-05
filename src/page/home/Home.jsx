@@ -33,7 +33,6 @@ export default function Home() {
   const [listening, setListening] = useState(false);
   const token = localStorage.getItem('access_Token');
   const [value, setValue] = useState(null);
-
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const eventSource = new EventSource(
     `https://api.pulbatte.com/api/user/subscribe`,
@@ -47,9 +46,9 @@ export default function Home() {
     },
   );
   useEffect(() => {
-    console.log('매번 실행되는지');
-    console.log('listening', listening);
-
+    if (token) {
+      eventSource.addEventListener('sse', function (event) {
+        const data = JSON.parse(event.data);
     if (!listening) {
       console.log('구독시작!');
     }
