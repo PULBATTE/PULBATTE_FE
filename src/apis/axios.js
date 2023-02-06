@@ -38,8 +38,8 @@ authInstance.interceptors.response.use(
     if (error.response.data.statuscode === 401) {
       if (error.response.data.msg === 'Token Error') {
         const originalRequest = config;
-
         const refreshToken = getCookie('refresh_Token');
+
 
         // token refresh 요청
         const data = await axios.post(
@@ -65,8 +65,6 @@ authInstance.interceptors.response.use(
         /*      return axios(originalRequest); */
       }
     }
-
-    console.log('response error', error);
     return Promise.reject(error);
   },
 );

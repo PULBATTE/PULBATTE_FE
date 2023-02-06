@@ -23,7 +23,6 @@ export default function PlantChoice() {
   const plantName = useRef();
   const navigate = useNavigate();
   const [modal, onChangeModalHandler] = useModal();
-  console.log(plantInfo);
   // 모달창 > 확인버튼
   const onSubmitHandler = () => {
     postSelectPlantApi(plantName.current)
