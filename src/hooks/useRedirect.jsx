@@ -9,7 +9,6 @@ import { jwtUtils } from '../util/jwtUtils';
 export default function useRequireAuth(redirectUrl = '/') {
   const [userId, setUserId] = useState();
   const navigate = useNavigate();
-  const cookie1 = new Cookies();
 
   const logout = () => {
     const cookie = new Cookies();
@@ -22,6 +21,7 @@ export default function useRequireAuth(redirectUrl = '/') {
     // localStorage에 있는 accessToken을 확인
     const getAccess = localStorage.getItem('access_Token');
     if (!jwtUtils.isAuth(getAccess)) {
+      // eslint-disable-next-line no-alert
       alert('로그인 정보가 확인되지 않습니다.');
       logout();
       navigate(redirectUrl);

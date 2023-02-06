@@ -15,8 +15,6 @@ import {
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 
-const calculatedArr = [7, 2, 5];
-
 ChartJS.register(
   CategoryScale,
   LinearScale,

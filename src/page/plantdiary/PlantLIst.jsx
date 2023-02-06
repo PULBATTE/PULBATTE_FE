@@ -11,6 +11,7 @@ export default function PlantList() {
 
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
+    console.log(data);
     setPlantList(data.data);
   }, []);
 
