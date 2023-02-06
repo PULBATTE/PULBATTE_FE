@@ -10,6 +10,7 @@ import infoImg from '../../../assets/image/info/detailPlantInfo1.png';
 import info from '../../../assets/image/info/info.png';
 import { doneDdayCheckApi } from '../../../apis/plantDiary';
 import PlantInfoChart from '../../../components/plantdiary/PlantInfoChart';
+import DdayCheckerCard from '../../../components/plantdiary/DdayCheckerCard';
 
 export default function PlantManagement({ plantDetailData, getPlantDetail }) {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
@@ -34,6 +35,24 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
     }
     getPlantDetail();
   };
+
+  const ChartData = [
+    {
+      type: 'water',
+      totalDday: plantDetailData.totalWaterDDayClick,
+      currentDday: plantDetailData.currentWaterDdayClick,
+    },
+    {
+      type: 'repotting',
+      totalDday: plantDetailData.totalRepottingDDayClick,
+      currentDday: plantDetailData.currentRepottingDDayClick,
+    },
+    {
+      type: 'Nutrition',
+      totalDday: plantDetailData.totalNutritionDDayClick,
+      currentDday: plantDetailData.currentNutritionDDayClick,
+    },
+  ];
 
   return (
     <StTabSection>
@@ -71,77 +90,32 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
       </StPlantInfoWrap>
       <StPlantInfoWrap>
         <StPlantDdayCardWrapper>
-          <StPlantDdayCard color={palette.card.blue}>
-            <>
-              <img alt="waterImg" src={waterImg} />
-              <h3>물 주는 날</h3>
-              {plantDetailData.waterDDay === 0 ? (
-                <h3>D-day</h3>
-              ) : (
-                <h3>{`${plantDetailData.waterDDay}일 남음`}</h3>
-              )}
-            </>
-            <StDdayConfirmButton
-              type="button"
-              onClick={() => onCompeteHandler('water')}
-            >
-              {plantDetailData.waterCheck ? '완료' : '완료하기'}
-            </StDdayConfirmButton>
-          </StPlantDdayCard>
-          <StPlantDdayCard color={palette.card.green}>
-            <>
-              <img alt="repottingImg" src={repottingImg} />
-              <h3>분갈이</h3>
-              {plantDetailData.repottingDDay === 0 ? (
-                <h3>D-day</h3>
-              ) : (
-                <h3>{`${plantDetailData.repottingDDay}일 남음`}</h3>
-              )}
-            </>
-            <StDdayConfirmButton
-              type="button"
-              onClick={() => onCompeteHandler('repotting')}
-            >
-              {plantDetailData.repottingCheck ? '완료' : '완료하기'}
-            </StDdayConfirmButton>
-          </StPlantDdayCard>
-          <StPlantDdayCard color={palette.card.brown}>
-            <>
-              <img alt="nutritionImg" src={nutritionImg} />
-              <h3>영양제</h3>
-              {plantDetailData.nutritionDDay === 0 ? (
-                <h3>D-day</h3>
-              ) : (
-                <h3>{`${plantDetailData.nutritionDDay}일 남음`}</h3>
-              )}
-            </>
-            <StDdayConfirmButton
-              type="button"
-              onClick={() => onCompeteHandler('nutrition')}
-            >
-              {plantDetailData.nutritionCheck ? '완료' : '완료하기'}
-            </StDdayConfirmButton>
-          </StPlantDdayCard>
+          <DdayCheckerCard
+            color={palette.card.blue}
+            title="물 주는 날"
+            img={waterImg}
+            Dday={plantDetailData.waterDDay}
+            onCompeteHandler={() => onCompeteHandler('water')}
+            checkState={plantDetailData.waterCheck}
+          />
+          <DdayCheckerCard
+            color={palette.card.green}
+            title="분갈이"
+            img={repottingImg}
+            Dday={plantDetailData.repottingDDay}
+            onCompeteHandler={() => onCompeteHandler('repotting')}
+            checkState={plantDetailData.repottingCheck}
+          />
+          <DdayCheckerCard
+            color={palette.card.brown}
+            title="영양제"
+            img={nutritionImg}
+            Dday={plantDetailData.nutritionDDay}
+            onCompeteHandler={() => onCompeteHandler('nutrition')}
+            checkState={plantDetailData.nutritionCheck}
+          />
         </StPlantDdayCardWrapper>
-        <PlantInfoChart
-          chartData={[
-            {
-              type: 'water',
-              totalDday: plantDetailData.totalWaterDDayClick,
-              currentDday: plantDetailData.currentWaterDdayClick,
-            },
-            {
-              type: 'repotting',
-              totalDday: plantDetailData.totalRepottingDDayClick,
-              currentDday: plantDetailData.currentRepottingDDayClick,
-            },
-            {
-              type: 'Nutrition',
-              totalDday: plantDetailData.totalNutritionDDayClick,
-              currentDday: plantDetailData.currentNutritionDDayClick,
-            },
-          ]}
-        />
+        <PlantInfoChart chartData={ChartData} />
       </StPlantInfoWrap>
       {isOpenInfo && (
         <StInfo>
