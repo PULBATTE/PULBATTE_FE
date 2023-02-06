@@ -11,7 +11,6 @@ export default function App() {
     <div>
       <QueryClientProvider client={queryClient}>
         <Router />
-        {/*  <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </div>
   );

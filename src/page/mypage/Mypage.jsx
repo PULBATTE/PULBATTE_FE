@@ -312,7 +312,8 @@ const StUserInfo = styled.div`
     }
     img {
       height: 100%;
-      width: 70%;
+      width: 100%;
+      border-radius: 50%;
       aspect-ratio: 1/1;
       object-fit: contain;
     }

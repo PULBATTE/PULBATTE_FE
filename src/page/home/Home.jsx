@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
-
 import { searchPath, boardPath, testPath, diaryPath } from '../../apis/path';
 import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
@@ -20,7 +19,6 @@ import pgBack from '../../assets/image/pg_back.png';
 
 export default function Home() {
   const navigate = useNavigate();
-
   return (
     <StWrapper>
       <div className="main_banner">

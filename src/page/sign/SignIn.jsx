@@ -10,7 +10,6 @@ import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { setCookie, getCookie } from '../../apis/cookie';
-import { authInstance, instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import logo from '../../assets/image/logo.png';
@@ -31,6 +30,7 @@ export default function SignIn() {
         if (response.data.statusCode == 200) {
           const redirectUrl = searchParams.get('redirectUrl');
           localStorage.setItem('access_Token', response.data.accessToken);
+
           setCookie('refresh_Token', response.data.refreshToken);
           if (redirectUrl) {
             return navigate(redirectUrl);
