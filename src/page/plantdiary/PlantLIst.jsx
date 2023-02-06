@@ -10,6 +10,7 @@ export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
+    console.log(data);
     setPlantList(data.data);
   }, []);
 
