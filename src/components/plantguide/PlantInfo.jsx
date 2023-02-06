@@ -19,7 +19,6 @@ export default function PlantInfo({ onChangeModalHandler }) {
   const onChooseAgainHandler = async () => {
     const data = await deleteGuidePlantApi();
     navigate('/planttest');
-    console.log(data);
   };
 
   useEffect(() => {
@@ -27,6 +26,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
       .then(res => {
         if (res.statusCode == 404) {
           alert('등록된 식물이 없습니다. 테스트 페이지로 넘어갑니다.');
+
           return navigate('/planttest');
         }
         setPlantInfo(res);
@@ -47,7 +47,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
               <span className="section_title">내가 고른 식물</span>
               <span
                 className="plant_delete_btn"
-                /*   onClick={() => modalHandler()} */
+                onClick={() => onChooseAgainHandler()}
                 aria-hidden="true"
               >
                 식물 다시 선택하기
