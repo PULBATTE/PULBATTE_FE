@@ -10,14 +10,11 @@ import SlideModal from './SlideModal';
 import alarmBtn from '../../../../assets/image/icon_alarm.png';
 import logo from '../../../../assets/image/logo.png';
 
-export default function Mobileheader({ token, logOutEventHandler }) {
+export default function Mobileheader({ token, logOutEventHandler, alarmList }) {
   const [isClicked, setIsClicked] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const onClickModalHandler = () => {
     setIsClicked(!isClicked);
-    /*  isOpen
-      ? (document.body.style.overflowY = 'visible')
-      : (document.body.style.overflowY = 'hidden'); */
   };
   return (
     <StMobileNav>
