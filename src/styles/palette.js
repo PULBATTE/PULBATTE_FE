@@ -18,6 +18,7 @@ export const palette = {
   inputTextColor: '#bacdc6',
   pageBackgroundGray: '#F8F8F8',
   containerShadow1: '0px 10px 60px rgba(0, 0, 0, 0.1)',
+  red: '#FF0000',
   text: {
     green: '#0BA47F',
     disabled: '#C6C6C6',

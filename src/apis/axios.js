@@ -37,15 +37,12 @@ authInstance.interceptors.response.use(
         const userEmail = jwtDecode(expiredToken).sub;
 
         const refreshToken = await getCookie('refresh_Token');
-        console.log(refreshToken, '만료된 토큰 - 쿠키에서 가져옴');
 
         // token refresh 요청
         const data = await axios.post(
           `https://api.pulbatte.com/api/auth/issue/token`,
           { refreshToken, userEmail }, // token refresh api
         );
-
-        console.log('새로운 토큰을 받음', data);
 
         // 새로운 토큰 저장
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
@@ -58,8 +55,6 @@ authInstance.interceptors.response.use(
         return axios(originalRequest);
       }
     }
-
-    console.log('response error', error);
     return Promise.reject(error);
   },
 );

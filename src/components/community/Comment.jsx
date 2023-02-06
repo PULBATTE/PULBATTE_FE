@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ToastContainer } from 'react-toastify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
 import {
@@ -9,6 +9,7 @@ import {
   postCommentApi,
 } from '../../apis/community';
 import { customNotify } from '../../util/toastMessage';
+import DeleteConfirmModal from './modal/DeleteConfirmModal';
 
 export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
   const {
@@ -20,23 +21,14 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     nickname,
     profileImage,
   } = comment;
-
-  const replyButtonText = () => {
-    const replylength = comment.replyList.length;
-    if (isOpenReply) {
-      return '숨기기';
-    }
-    if (replylength) {
-      return `${replylength}개의 답글`;
-    }
-    return '답글달기';
-  };
-
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
-  const [isOpenReplyEditor, setIsOpenReplyEditor] = useState(false);
-  const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
+
+  const [isOpenComments, setIsOpenComments] = useState(false);
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
+
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const onEditCommentHandler = e => {
     setCommentContent(e.target.value);
@@ -51,7 +43,10 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
   };
 
   const onOpenReplyHandler = e => {
-    setIsOpenReply(_openReply => !_openReply);
+    if (isOpenComments) {
+      setIsOpenEditor(false);
+    }
+    setIsOpenComments(_openReply => !_openReply);
   };
 
   const onDeleteCommentHandler = async () => {
@@ -73,6 +68,35 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     }
   };
 
+  const replyButton = () => {
+    const replylength = comment.replyList.length;
+    if (isOpenComments) {
+      return (
+        <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+          숨기기
+        </StReCommentButton>
+      );
+    }
+    if (replylength) {
+      return (
+        <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+          {replylength} 개의 답글
+        </StReCommentButton>
+      );
+    }
+    return (
+      <StReCommentButton
+        type="button"
+        onClick={() => {
+          setIsOpenEditor(true);
+          setIsOpenComments(true);
+        }}
+      >
+        답글 달기
+      </StReCommentButton>
+    );
+  };
+
   const onRegReplyHandler = async () => {
     if (!createReply) {
       customNotify.error('내용을 입력해주세요.');
@@ -91,10 +115,20 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
         }
       } finally {
         setCreateReply('');
+        setIsOpenEditor(false);
         getPostUser();
       }
     }
   };
+  const onCloseDeleteModal = () => {
+    setIsDeleteModal(false);
+  };
+  useEffect(() => {
+    if (replyList.length === 0) {
+      setIsOpenEditor(false);
+      setIsOpenComments(false);
+    }
+  }, [replyList.length]);
 
   return (
     <StCommentContainer>
@@ -116,7 +150,12 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
               >
                 수정
               </StButton>
-              <StButton type="button" onClick={onDeleteCommentHandler}>
+              <StButton
+                type="button"
+                onClick={() => {
+                  setIsDeleteModal(true);
+                }}
+              >
                 삭제
               </StButton>
             </StButtonWrapper>
@@ -141,20 +180,13 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
           ) : (
             <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
           )}
+          <div>{!tempReplyReject && replyButton()}</div>
         </StTextFieldWrapper>
-        {/* TODO: 대댓글 api 수정 전 임시 조치 */}
-        <div>
-          {!tempReplyReject && (
-            <StReCommentButton type="button" onClick={onOpenReplyHandler}>
-              {replyButtonText()}
-            </StReCommentButton>
-          )}
-        </div>
       </StCommentWrapper>
-      {isOpenReply && (
+      {isOpenComments && (
         <div className="recomment_container">
           <div className="recomment_wrapper">
-            {replyList.length !== 0 &&
+            {!!replyList.length &&
               replyList.map(v => (
                 <ReCommentWrapper key={v.commentId}>
                   {/* 재귀를 사용해서 자기자신을 불러옴 */}
@@ -167,37 +199,37 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
                   />
                 </ReCommentWrapper>
               ))}
-          </div>
-          {isOpenReplyEditor ? (
-            <StEditorWrapper>
-              <StCommentTextArea
-                value={createReply}
-                onChange={onCreateReplyHandler}
-              />
-              <StAlignRightButtonWrapper>
-                <StRegReplyButton
+            {isOpenEditor ? (
+              <StEditorWrapper>
+                <StCommentTextArea
+                  value={createReply}
+                  onChange={onCreateReplyHandler}
+                />
+                <StAlignRightButtonWrapper>
+                  <StRegReplyButton
+                    type="button"
+                    onClick={() => {
+                      setIsOpenEditor(false);
+                    }}
+                  >
+                    취소
+                  </StRegReplyButton>
+                  <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+                    등록
+                  </StRegReplyButton>
+                </StAlignRightButtonWrapper>
+              </StEditorWrapper>
+            ) : (
+              <StOpenReplyButtonWrapper>
+                <StOpenReplyButton
                   type="button"
-                  onClick={() => {
-                    setIsOpenReplyEditor(false);
-                  }}
+                  onClick={() => setIsOpenEditor(true)}
                 >
-                  취소
-                </StRegReplyButton>
-                <StRegReplyButton type="button" onClick={onRegReplyHandler}>
-                  등록
-                </StRegReplyButton>
-              </StAlignRightButtonWrapper>
-            </StEditorWrapper>
-          ) : (
-            <StOpenReplyButtonWrapper>
-              <StOpenReplyButton
-                type="button"
-                onClick={() => setIsOpenReplyEditor(true)}
-              >
-                답글 달기
-              </StOpenReplyButton>
-            </StOpenReplyButtonWrapper>
-          )}
+                  답글 달기
+                </StOpenReplyButton>
+              </StOpenReplyButtonWrapper>
+            )}
+          </div>
         </div>
       )}
       <ToastContainer
@@ -207,6 +239,11 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
         theme="colored"
         limit={2} // 알람 개수 제한
       />
+      <DeleteConfirmModal
+        open={isDeleteModal}
+        onCloseHandler={onCloseDeleteModal}
+        onDeleteHandler={onDeleteCommentHandler}
+      />
     </StCommentContainer>
   );
 }
@@ -215,6 +252,7 @@ const StCommentContainer = styled.div`
   .recomment_container {
     background-color: ${palette.mainBackground};
     border-radius: 16px;
+    padding: 18px;
   }
   .usercontainer {
     display: flex;
@@ -244,9 +282,7 @@ const StUserInfo = styled.div`
     gap: 16px;
   }
 `;
-const StEditorWrapper = styled.div`
-  padding: 0px 24px 24px 24px;
-`;
+const StEditorWrapper = styled.div``;
 
 const StTextFieldWrapper = styled.div`
   margin-bottom: 8px;
@@ -309,7 +345,6 @@ const StReCommentButton = styled.button`
 `;
 const ReCommentWrapper = styled.div`
   margin-top: 8px;
-  padding: 24px;
 `;
 const StOpenReplyButtonWrapper = styled.div`
   -webkit-box-sizing: border-box;

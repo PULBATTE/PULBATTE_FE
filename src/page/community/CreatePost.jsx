@@ -1,11 +1,13 @@
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useRef } from 'react';
+import { ToastContainer } from 'react-toastify';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 import photoFilter from '../../assets/image/photo_filter.png';
+import { customNotify } from '../../util/toastMessage';
 
 export default function CreatePost() {
   const [title, setTitle] = useState('');
@@ -26,22 +28,20 @@ export default function CreatePost() {
   };
   const onTagHandler = e => {
     e.preventDefault();
-    console.log(e.target.value);
     setTag(e.target.value);
   };
   const onUploadImgHandler = () => {
-    console.log('?');
     setImgSrc({
       upload: imgInputRef.current.files[0],
       preview: URL.createObjectURL(imgInputRef.current.files[0]),
     });
   };
   const onSubmitHandler = async e => {
-    if (title == '') {
-      return alert('제목을 입력해주세요.');
+    if (title === '') {
+      return customNotify.warnning('제목을 입력해주세요.');
     }
-    if (content == '') {
-      return alert('내용을 입력해주세요.');
+    if (content === '') {
+      return customNotify.warnning('내용을 입력해주세요.');
     }
 
     e.preventDefault();
@@ -57,10 +57,9 @@ export default function CreatePost() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
     if (!tag) {
-      return alert('태그를 선택해 주세요');
+      return customNotify.warnning('태그를 선택해 주세요');
     }
     const res = await createPostApi(formData);
-    console.log(res);
     const postId = res.data.id;
     return navigate(`/donepost/${postId}`);
   };
@@ -140,6 +139,13 @@ export default function CreatePost() {
           글 등록하기
         </StSubmitButton>
       </form>
+      <ToastContainer
+        position="bottom-center" // 알람 위치 지정
+        closeOnClick // 클릭으로 알람 닫기
+        rtl={false} // 알림 좌우 반전
+        theme="colored"
+        limit={2} // 알람 개수 제한
+      />
     </StCreateContainer>
   );
 }
@@ -178,7 +184,7 @@ const StCreateContainer = styled.div`
 
   h4 {
     font-size: 26px;
-    color: #767676;
+    color: ${palette.text.gray_7};
   }
 `;
 const StCreateHeader = styled.div`
@@ -210,7 +216,7 @@ const StTopicArea = styled.div`
   .section_subtitle {
     font-size: 1.1rem;
     font-weight: 400;
-    color: #777777;
+    color: ${palette.text.gray_7};
   }
 `;
 const StTitleArea = styled.input`

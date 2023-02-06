@@ -11,4 +11,9 @@ export const customNotify = {
       type: 'error',
       autoClose: 500,
     }),
+  warnning: (toastMessage = '다시 시도해 주세요') =>
+    toast(toastMessage, {
+      type: 'warning',
+      autoClose: 500,
+    }),
 };

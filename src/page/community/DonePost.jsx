@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { RxDoubleArrowLeft } from 'react-icons/rx';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
-import { Comment } from '../../components/community/Comment';
 import {
   getPostUserApi,
   getPostGuestApi,
@@ -17,25 +16,20 @@ import {
 } from '../../apis/community';
 import { getInfoApi } from '../../apis/auth';
 import { customNotify } from '../../util/toastMessage';
+import DeleteConfirmModal from '../../components/community/modal/DeleteConfirmModal';
+import { Comment } from '../../components/community/Comment';
+import Button from '../../components/common/Button';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
   const [nickName, setNickName] = useState('');
   const [Like, setLike] = useState(false);
   const [comment, setComment] = useState('');
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const commentRef = useRef();
-
   const { postId } = useParams();
-
   const navigate = useNavigate();
-
   const Token = localStorage.getItem('access_Token');
-
-  useEffect(() => {
-    if (postData) {
-      setLike(postData.likeStatus);
-    }
-  }, [postData]);
 
   const getPost = useCallback(async () => {
     if (Token) {
@@ -72,6 +66,12 @@ export default function DonePost() {
   }, [Like, getPost, postId]);
 
   useEffect(() => {
+    if (postData) {
+      setLike(postData.likeStatus);
+    }
+  }, [postData]);
+
+  useEffect(() => {
     getInfo();
     getPost();
   }, [getInfo, getPost]);
@@ -87,7 +87,7 @@ export default function DonePost() {
     }
     try {
       const data = await postCommentApi(postId, 0, comment);
-      const { msg } = data.data.msg;
+      const { msg } = data.data;
       customNotify.success(msg);
     } catch (error) {
       const isNotSignIn = error.message.indexOf('403');
@@ -101,6 +101,7 @@ export default function DonePost() {
       getPost();
     }
   };
+
   const onDeletePostHandler = async () => {
     try {
       await deletePostTextApi(postId);
@@ -110,9 +111,19 @@ export default function DonePost() {
       customNotify.error();
     }
   };
+  const onCloseDeleteModal = () => {
+    setIsDeleteModal(false);
+  };
+
   return (
     <StWrapper>
-      <h3>커뮤니티</h3>
+      <StTitle>
+        <StNavListBtn type="button" onClick={() => navigate('/postlist')}>
+          <RxDoubleArrowLeft />
+          게시글 목록
+        </StNavListBtn>
+        <h3>커뮤니티</h3>
+      </StTitle>
       {postData && (
         <StDonePostContainer>
           <StBoardContainer>
@@ -135,7 +146,9 @@ export default function DonePost() {
                     수정
                   </span>
                   <span
-                    onClick={() => onDeletePostHandler()}
+                    onClick={() => {
+                      setIsDeleteModal(true);
+                    }}
                     role="button"
                     aria-hidden="true"
                   >
@@ -187,8 +200,6 @@ export default function DonePost() {
               </div>
             </div>
           </StCreateCommentWrapper>
-          {/* map함수를 사용해서 PostComment 여러개 생성 */}
-          {/* PostComment는 컴포넌트로 분리 */}
           <StRepleContainer>
             {postData.commentList &&
               postData.commentList.map(v => {
@@ -211,6 +222,11 @@ export default function DonePost() {
         theme="colored"
         limit={2} // 알람 개수 제한
       />
+      <DeleteConfirmModal
+        open={isDeleteModal}
+        onCloseHandler={onCloseDeleteModal}
+        onDeleteHandler={onDeletePostHandler}
+      />
     </StWrapper>
   );
 }
@@ -220,19 +236,37 @@ const StWrapper = styled.div`
   width: 90%;
   margin: 0 auto;
   padding: 4rem 0 2rem;
+`;
+const StTitle = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5rem 0 2rem;
+  @media (max-width: 500px) {
+    font-size: 1.5rem;
+    margin: 1rem 0 0.5rem;
+  }
   > h3 {
-    text-align: center;
     font-size: 2.5rem;
-    margin: 5rem 0 2rem;
-
+    margin: 0;
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
       font-size: 1.5rem;
-      margin: 1rem 0 0.5rem;
     }
   }
+`;
+const StNavListBtn = styled.button`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 0;
+  border: none;
+  font-size: 24px;
+  gap: 8px;
+  cursor: pointer;
 `;
 const StBoardContainer = styled.div`
   border-radius: 8px;
@@ -373,6 +407,6 @@ const StEditDeleteBtnContainer = styled.div`
   gap: 0 10px;
   span {
     cursor: pointer;
-    color: gray;
+    color: ${palette.text.gray_7};
   }
 `;

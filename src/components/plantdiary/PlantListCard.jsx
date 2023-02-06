@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
-import ImgLoading from '../common/ImgLoading';
-import alarmBtn from '../../assets/image/watch_later.png';
 
 export default function PlantListCard({ plantList }) {
   const { image, plantName, withPlantDay, id } = plantList;
@@ -29,49 +27,9 @@ export default function PlantListCard({ plantList }) {
         <StInfoTitle>{plantName}</StInfoTitle>
         <StInfoDday>D+{withPlantDay}일</StInfoDday>
       </StPlantListInfo>
-      {/* TODO: Lazy Loading */}
-      {/* {isLoadingImg && (
-        <StAbsolutePositionBox>
-          <ImgLoading />
-        </StAbsolutePositionBox>
-      )} */}
-      {/* <StDdayAlarm>
-        <img src={alarmBtn} alt="alarm" />
-        <p>할일</p>
-      </StDdayAlarm> */}
     </StCard>
   );
 }
-const StDdayAlarm = styled.div`
-  position: absolute;
-  background-color: ${palette.white};
-  padding: 8px 15px;
-  font-size: 0px;
-  z-index: 10;
-  top: 0px;
-  right: 0px;
-  margin: 20px;
-  border-radius: 24px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  p {
-    margin: 0;
-    color: ${palette.mainColor};
-    font-size: 18px;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 100%;
-  }
-`;
-const StAbsolutePositionBox = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  top: 0;
-`;
 
 const StCard = styled.div`
   position: relative;
