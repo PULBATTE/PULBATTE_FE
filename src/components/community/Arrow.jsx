@@ -16,8 +16,7 @@ const Button = styled.button`
   font-weight: 800;
   cursor: pointer;
   width: 32px;
-  color: red;
-
+  color: ${palette.red};
   opacity: 20%;
   border: 0px;
   cursor: pointer;
