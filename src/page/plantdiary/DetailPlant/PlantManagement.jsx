@@ -218,7 +218,6 @@ const StCard = styled.div`
 const StPlantInfoImg = styled.img`
   width: 100%;
   object-fit: cover;
-  aspect-ratio: 1.2/1;
   max-width: 370px;
   max-height: 300px;
   @media (max-width: 1120px) {
