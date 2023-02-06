@@ -85,7 +85,10 @@ export default function AddPlant() {
 
     await createPlantJournalApi(formData);
 
-    navigate(`/plantlist`);
+    alert('식물을 등록했습니다.');
+    setTimeout(() => {
+      navigate(`/plantlist`);
+    }, 700);
   };
 
   return (

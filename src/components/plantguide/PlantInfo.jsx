@@ -54,7 +54,7 @@ export default function PlantInfo({ onChangeModalHandler }) {
               </span>
             </div>
             <div className="image_container">
-              <img src={plantInfo && plantInfo.image} alt="식물이미지" />
+              {plantInfo && <img src={plantInfo.image} alt="식물이미지" />}
               <span className="plant_name">
                 {plantInfo && plantInfo.beginnerPlantName}
               </span>
