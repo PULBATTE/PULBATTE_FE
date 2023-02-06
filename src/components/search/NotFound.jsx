@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export default function NotFound() {
   return (
     <StNotFound>
-      <h2>잘못 검색된 내용입니다.</h2>
+      <h2>검색된 내용이 데이터에 존재하지 않습니다.</h2>
       <span>다시 한번 식물 이름을 검색해주세요.</span>
     </StNotFound>
   );
