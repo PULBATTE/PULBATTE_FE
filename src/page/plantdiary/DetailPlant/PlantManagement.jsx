@@ -90,7 +90,7 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
         </StVerticalTitlePlantEnvWrapper>
       </StPlantInfoWrap>
       <StPlantInfoWrap>
-        <StPlantDdayCardWrapper>
+        <StPlantDdayCheckerCardWrapper>
           <DdayCheckerCard
             color={palette.card.blue}
             title="물 주는 날"
@@ -115,7 +115,7 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
             onCompeteHandler={() => onCompeteHandler('nutrition')}
             checkState={plantDetailData.nutritionCheck}
           />
-        </StPlantDdayCardWrapper>
+        </StPlantDdayCheckerCardWrapper>
         <PlantInfoChart chartData={ChartData} />
       </StPlantInfoWrap>
       {isOpenInfo && (
@@ -274,7 +274,7 @@ const StVerticalTitlePlantEnv = styled.div`
     min-width: 350px;
   }
 `;
-const StPlantDdayCardWrapper = styled.div`
+const StPlantDdayCheckerCardWrapper = styled.div`
   width: 100%;
   display: flex;
   gap: 0 10px;
@@ -290,7 +290,7 @@ const StPlantDdayCardWrapper = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
   }
 `;
-const StPlantDdayCard = styled.div`
+const StPlantDdayCheckerCard = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -314,18 +314,5 @@ const StPlantDdayCard = styled.div`
   h3 {
     font-size: 1.1rem;
     margin: 0px;
-  }
-`;
-const StDdayConfirmButton = styled.button`
-  bottom: 0;
-  background-color: ${palette.white};
-  color: ${palette.text.green};
-  border-color: transparent;
-  width: 118px;
-  height: 43px;
-  font-size: 16px;
-  border-radius: 12px;
-  @media (max-width: 500px) {
-    width: 100%;
   }
 `;

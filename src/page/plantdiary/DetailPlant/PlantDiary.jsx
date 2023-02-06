@@ -62,9 +62,6 @@ export default function PlantDiary() {
       <StPlantInfoWrap>
         <StPlantInfoHeader>
           <h3>작성한 일기</h3>
-          {/* <StButton type="button" onClick={onContextCreateModalHandler}>
-            일기작성
-          </StButton> */}
         </StPlantInfoHeader>
         <PlantDiaryCardContainer>
           {plantDiaryList.map((v, index) => (
