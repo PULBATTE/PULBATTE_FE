@@ -8,7 +8,6 @@ import useRequireAuth from '../../hooks/useRedirect';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
-  console.log({ plantList });
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
     setPlantList(data.data);

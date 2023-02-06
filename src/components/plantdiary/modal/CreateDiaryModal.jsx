@@ -30,8 +30,6 @@ export default function CreateDiaryModal(props) {
     getPlantDiaryList,
     selectedDate,
   } = props;
-  console.log('createModal Props');
-  console.log({ props });
   const [diaryContent, setDiaryContent] = useState(content);
 
   const onSubmitHandler = async () => {

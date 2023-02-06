@@ -10,7 +10,6 @@ export default function useRequireAuth(redirectUrl = '/') {
   const [userId, setUserId] = useState();
   const navigate = useNavigate();
   const cookie1 = new Cookies();
-  console.log({ cookie1 });
 
   const logout = () => {
     const cookie = new Cookies();

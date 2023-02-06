@@ -71,7 +71,6 @@ export default function PlantTest() {
             setSwiper(ev);
           }}
           onReachEnd={() => {
-            console.log('end');
             lastOrderHandler();
           }}
           watchSlidesProgress

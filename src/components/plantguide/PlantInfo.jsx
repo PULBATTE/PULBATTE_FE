@@ -19,7 +19,6 @@ export default function PlantInfo({ onChangeModalHandler }) {
   const onChooseAgainHandler = async () => {
     const data = await deleteGuidePlantApi();
     navigate('/planttest');
-    console.log(data);
   };
 
   useEffect(() => {
