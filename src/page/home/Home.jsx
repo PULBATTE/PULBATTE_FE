@@ -8,8 +8,6 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { SlArrowRight } from 'react-icons/sl';
 import { useNavigate } from 'react-router-dom';
 import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
-import { queryClient } from 'react-query';
-import axios from 'axios';
 import { searchPath, boardPath, testPath, diaryPath } from '../../apis/path';
 import mainImage from '../../assets/image/main.png';
 import MainImage2 from '../../assets/image/main_02.png';
@@ -19,94 +17,13 @@ import MainImage5 from '../../assets/image/main_05.png';
 import PrivateRoute from '../../routes/PrivateRoute';
 import { palette } from '../../styles/palette';
 import pgBack from '../../assets/image/pg_back.png';
-/* const eventSource = new EventSourcePolyfill(
-  `https://api.pulbatte.com/api/user/subscribe`,
-  {
-    headers: { Authorization: token },
-  },
-
-  { withCredentials: true },
-); */
 
 export default function Home() {
   const navigate = useNavigate();
-  const [listening, setListening] = useState(false);
   const token = localStorage.getItem('access_Token');
-  const [value, setValue] = useState(null);
-
-  const EventSource = EventSourcePolyfill || NativeEventSource;
-  const eventSource = new EventSource(
-    `https://api.pulbatte.com/api/user/subscribe`,
-    {
-      headers: {
-        Authorization: token,
-      },
-      /*  Accept: "application / json", */
-      withCredentials: true,
-      heartbeatTimeout: 300 * 1000,
-    },
-  );
-  useEffect(() => {
-    console.log('매번 실행되는지');
-    console.log('listening', listening);
-
-    if (!listening) {
-      console.log('구독시작!');
-    }
-    if (!listening && !!token) {
-      const fetchData = async () => {
-        try {
-          console.log('EVENT_SOURCE 선언!', eventSource);
-          eventSource.onopen = event => {
-            console.log('connection opened', event);
-            // console.log('connection opened', event);
-          };
-          eventSource.onmessage = event => {
-            const result = JSON.parse(event.data);
-
-            if (result.notificationType === 'Notice') {
-              console.log(result.message);
-            }
-
-            if (!result.read && result.notificationType !== 'Notice') {
-              console.log(old => [...old, result]);
-            }
-          };
-
-          eventSource.onerror = event => {
-            console.log('ERROR', event);
-          };
-
-          eventSource.addEventListener('connect', function (event) {
-            const data = JSON.parse(event.data);
-            console.log(data);
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchData();
-    }
-    setListening(true);
-    return () => {
-      eventSource.close();
-    };
-  }, []);
 
   return (
     <StWrapper>
-      {/* <div className="App">
-        <header className="App-header">
-          <div style={{ backgroundColor: 'white' }}>
-            Received Data:
-            {data.map((d, index) => (
-              <span key={index}>{d}</span>
-            ))}
-          </div>
-        </header>
-        <div>value: {value}</div>
-      </div> */}
-
       <div className="main_banner">
         <div className="banner_inner">
           <StBannerContainer>
@@ -221,9 +138,6 @@ const StWrapper = styled.div`
     box-sizing: border-box;
     background: url(${pgBack}) no-repeat;
     background-size: cover;
-    /*  @media (max-width: 1280px) {
-      height: calc(10vh + 50vw);
-    } */
 
     @media (max-width: 768px) {
       padding: 3rem 2rem 2rem;
