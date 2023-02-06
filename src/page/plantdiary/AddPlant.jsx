@@ -26,8 +26,6 @@ export default function AddPlant() {
   const navigate = useNavigate();
   const imgInputRef = useRef();
 
-  console.log(imgSrc);
-
   const onChangePlantName = e => {
     setPlantName(e.target.value);
   };

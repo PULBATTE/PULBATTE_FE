@@ -40,7 +40,6 @@ authInstance.interceptors.response.use(
         const originalRequest = config;
         const refreshToken = getCookie('refresh_Token');
 
-
         // token refresh 요청
         const data = await axios.post(
           `https://api.pulbatte.com/api/token/retoken`,
@@ -52,10 +51,8 @@ authInstance.interceptors.response.use(
           },
         );
         // 새로운 토큰 저장
-        console.log(data);
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           data.data;
-        console.log(newAccessToken, '새로발급받은 토큰');
         localStorage.setItem('access_Token', newAccessToken);
         setCookie('refresh_Token', newRefreshToken);
 

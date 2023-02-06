@@ -28,7 +28,7 @@ export default function Router() {
   const [listening, setListening] = useState(false);
   const token = localStorage.getItem('access_Token');
   const [alarmList, setAlarmList] = useState([]);
-  console.log(alarmList);
+
   const EventSource = EventSourcePolyfill || NativeEventSource;
 
   useEffect(() => {

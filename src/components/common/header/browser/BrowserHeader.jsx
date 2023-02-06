@@ -56,16 +56,12 @@ export default function BrowserHeader({
   const checkTestResult = async () => {
     await getTestInfoApi()
       .then(res => {
-    
-
         if (res.response?.status === 500) {
           return PrivateRoute(testPath);
         }
         return PrivateRoute(testResultPath);
       })
-      .catch(error => {
-       
-      });
+      .catch(error => {});
   };
   const navigate = useNavigate();
   return (
