@@ -9,6 +9,7 @@ import { palette } from '../../../styles/palette';
 import useContextModal from '../../../hooks/useContextModal';
 import { modals } from '../../../context/plantDiary/Modals';
 import infoImg from '../../../assets/image/info/detailPlantInfo2.png';
+import useRequireAuth from '../../../hooks/useRedirect';
 
 export default function PlantDiary() {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
@@ -25,6 +26,8 @@ export default function PlantDiary() {
   useEffect(() => {
     getPlantDiaryList();
   }, [getPlantDiaryList]);
+
+  useRequireAuth('/api/user/signin');
 
   // 모달 Component와 모달에서 사용하는 props를 컨텍스트 훅에 값을 넣어준다.
   const onContextCreateModalHandler = date => {

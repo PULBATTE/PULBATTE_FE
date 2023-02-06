@@ -11,6 +11,7 @@ import info from '../../../assets/image/info/info.png';
 import { doneDdayCheckApi } from '../../../apis/plantDiary';
 import PlantInfoChart from '../../../components/plantdiary/PlantInfoChart';
 import DdayCheckerCard from '../../../components/plantdiary/DdayCheckerCard';
+import useRequireAuth from '../../../hooks/useRedirect';
 
 export default function PlantManagement({ plantDetailData, getPlantDetail }) {
   const [isOpenInfo, setIsOpenInfo] = useState(false);
@@ -23,8 +24,8 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
     selectWind,
   } = plantDetailData;
 
+  useRequireAuth('/api/user/signin');
   const { plantJournalId } = useParams();
-
   const onCompeteHandler = async clicktag => {
     const data = await doneDdayCheckApi(plantJournalId, clicktag);
     // 데이터 형식을 변환

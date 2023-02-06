@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 import { getPlantListApi } from '../../apis/plantDiary';
 import PlantListCard from '../../components/plantdiary/PlantListCard';
+import useRequireAuth from '../../hooks/useRedirect';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
@@ -21,6 +22,8 @@ export default function PlantList() {
   const onAddPlantHandler = () => {
     navigate('/addplant');
   };
+
+  useRequireAuth('/api/user/signin');
 
   return (
     <StPlantListContainer>

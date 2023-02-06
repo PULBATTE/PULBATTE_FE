@@ -11,6 +11,7 @@ import Modal from '../../components/common/Modal';
 import useModal from '../../hooks/useModal';
 import PlantInfo from '../../components/plantguide/PlantInfo';
 import { postPlantsInfoApi } from '../../apis/plantGuide';
+import useRequireAuth from '../../hooks/useRedirect';
 
 export default function PlantGuide() {
   const [modal, onChangeModalHandler] = useModal();
@@ -40,6 +41,8 @@ export default function PlantGuide() {
     plantValue.current.value = '';
     onChangeModalHandler();
   };
+
+  useRequireAuth('/api/user/signin');
 
   return (
     <StPageWrapper>
