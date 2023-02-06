@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import jwtDecode from 'jwt-decode';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { getCookie, setCookie } from './cookie';
 
 export const authInstance = axios.create({
@@ -9,21 +9,18 @@ export const authInstance = axios.create({
 });
 
 authInstance.interceptors.request.use(config => {
-  if (config.headers === undefined) return;
+  if (config.headers === undefined) console.log(config.headers);
   const token = localStorage.getItem('access_Token');
-
-  /*   if (token == undefined) {
-    alert('토큰 확인이 되지않습니다. 다시 로그인을 해주세요.');
-    window.location.href = '/api/user/signin';
-  } */
+  if (token == 'undefined') {
+    alert('페이지에 문제가 생겨 다시 로그인을 해주세요.');
+    localStorage.removeItem('access_Token');
+    window.location.href = 'api/user/signin';
+    return;
+  }
   config.headers.Authorization = token;
 
   // eslint-disable-next-line consistent-return
   return config;
-});
-
-export const instance = authInstance.create({
-  baseURL: 'https://api.pulbatte.com',
 });
 
 authInstance.interceptors.response.use(
@@ -35,37 +32,37 @@ authInstance.interceptors.response.use(
       config,
       response: { status },
     } = error;
-    const expiredToken = localStorage.getItem('access_Token');
-    const userEmail = jwtDecode(expiredToken).sub;
-    console.log(expiredToken);
+    const currentAToken = localStorage.getItem('access_Token');
+    const userEmail = jwtDecode(currentAToken).sub;
 
     if (error.response.data.statuscode === 401) {
       if (error.response.data.msg === 'Token Error') {
         const originalRequest = config;
-        console.log('config', originalRequest);
-        const refreshToken = await getCookie('refresh_Token');
-        console.log(refreshToken, '만료된 토큰 - 쿠키에서 가져옴');
-        console.log(userEmail, '현재 유저의 이메일');
+
+        const refreshToken = getCookie('refresh_Token');
+
         // token refresh 요청
         const data = await axios.post(
-          `https://api.pulbatte.com/api/auth/issue/token`,
+          `https://api.pulbatte.com/api/token/retoken`,
           { refreshToken, userEmail }, // token refresh api
+          {
+            headers: {
+              Authorization: currentAToken,
+            },
+          },
         );
-
-        console.log('새로운 토큰을 받음', data);
-
         // 새로운 토큰 저장
+        console.log(data);
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           data.data;
-        console.log(newAccessToken);
-        console.log(newRefreshToken);
+        console.log(newAccessToken, '새로발급받은 토큰');
         localStorage.setItem('access_Token', newAccessToken);
         setCookie('refresh_Token', newRefreshToken);
-        console.log('저장완료', localStorage.getItem('access_Token'));
+
         originalRequest.headers.authorization = newAccessToken;
 
         // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
-        return axios(originalRequest);
+        /*      return axios(originalRequest); */
       }
     }
 
@@ -73,3 +70,7 @@ authInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+export const instance = axios.create({
+  baseURL: 'https://api.pulbatte.com',
+});
