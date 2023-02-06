@@ -37,7 +37,7 @@ export default function DetailPlant() {
     <ModalProvider>
       <StDetailPlantContainer>
         <StHeader>
-          <h3>식물일지</h3>
+          <h3>식물 일지</h3>
         </StHeader>
         <StDetailPlantNav>
           <StNavTab
