@@ -15,7 +15,6 @@ import { ModalProvider } from '../../../context/plantDiary/ModalsProvider';
 export default function DetailPlant() {
   const [currentTab, setCurrentTab] = useState(1);
   const [plantDetailData, setPlantDetailData] = useState();
-  console.log(plantDetailData);
   const { plantJournalId } = useParams();
   const getPlantDetail = useCallback(async () => {
     const data = await getPlantDetailApi(plantJournalId);

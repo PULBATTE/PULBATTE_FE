@@ -133,6 +133,7 @@ const StCardContainer = styled.div`
   display: grid;
   padding: 20px 0;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
   gap: 24px;
 
   @media (max-width: 1024px) {
