@@ -43,16 +43,12 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
   const checkTestResult = async () => {
     await getTestInfoApi()
       .then(res => {
-    
-
         if (res.response?.status === 500) {
           return PrivateRoute(testPath);
         }
         return PrivateRoute(testResultPath);
       })
-      .catch(error => {
-       
-      });
+      .catch(error => {});
   };
   const navigate = useNavigate();
   return (
