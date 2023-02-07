@@ -83,9 +83,9 @@ export default function AddPlant() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
 
-    await createPlantJournalApi(formData);
-
-    navigate(`/plantlist`);
+    const res = await createPlantJournalApi(formData);
+    const plantJournalId = res.data.id;
+    navigate(`/detailplant/${plantJournalId}`);
   };
 
   return (
