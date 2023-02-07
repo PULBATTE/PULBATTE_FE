@@ -10,7 +10,7 @@ import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 import { getBestPostApi, getPostByTagApi } from '../../apis/community';
 import TagPost from '../../components/community/TagPost';
-import Best5Img from './Best5Img';
+import Best5Img from '../../components/community/Best5Img';
 import { flexSpaceBetween, flexVerticalAlignCenter } from '../../styles/mixns';
 
 export default function PostList() {
