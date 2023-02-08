@@ -264,9 +264,17 @@ const StNavListBtn = styled.button`
   align-items: center;
   left: 0;
   border: none;
-  font-size: 24px;
+  font-size: 1.5rem;
   gap: 8px;
   cursor: pointer;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    gap: 6px;
+  }
+  @media (max-width: 500px) {
+    font-size: 0.8rem;
+    gap: 4px;
+  }
 `;
 const StBoardContainer = styled.div`
   border-radius: 8px;
