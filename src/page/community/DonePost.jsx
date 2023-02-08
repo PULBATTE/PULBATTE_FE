@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { ToastContainer } from 'react-toastify';
 import { RxDoubleArrowLeft } from 'react-icons/rx';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
@@ -215,13 +214,7 @@ export default function DonePost() {
           </StRepleContainer>
         </StDonePostContainer>
       )}
-      <ToastContainer
-        position="bottom-center" // 알람 위치 지정
-        closeOnClick // 클릭으로 알람 닫기
-        rtl={false} // 알림 좌우 반전
-        theme="colored"
-        limit={2} // 알람 개수 제한
-      />
+
       <DeleteConfirmModal
         open={isDeleteModal}
         onCloseHandler={onCloseDeleteModal}

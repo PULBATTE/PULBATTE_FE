@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 import { palette } from '../../styles/palette';
 import { createPostApi } from '../../apis/community';
 import Tag from '../../components/community/Tag';
@@ -59,8 +58,8 @@ export default function CreatePost() {
     if (!tag) {
       return customNotify.warnning('태그를 선택해 주세요');
     }
-    const res = await createPostApi(formData);
-    const postId = res.data.id;
+    const data = await createPostApi(formData);
+    const postId = data.data.id;
     return navigate(`/donepost/${postId}`);
   };
 
@@ -139,13 +138,6 @@ export default function CreatePost() {
           글 등록하기
         </StSubmitButton>
       </form>
-      <ToastContainer
-        position="bottom-center" // 알람 위치 지정
-        closeOnClick // 클릭으로 알람 닫기
-        rtl={false} // 알림 좌우 반전
-        theme="colored"
-        limit={2} // 알람 개수 제한
-      />
     </StCreateContainer>
   );
 }
