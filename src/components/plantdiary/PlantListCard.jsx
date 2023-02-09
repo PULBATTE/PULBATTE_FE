@@ -1,77 +1,47 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { CgTrash } from 'react-icons/cg';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
-import ImgLoading from '../common/ImgLoading';
-import alarmBtn from '../../assets/image/watch_later.png';
+import { deletePlantApi } from '../../apis/plantDiary';
+import { customNotify } from '../../util/toastMessage';
 
-export default function PlantListCard({ plantList }) {
-  const { image, plantName, withPlantDay, id } = plantList;
-  const [isLoadingImg, setIsLoadingImg] = useState(true);
-
+export default function PlantListCard({ plantInfo, getPlantList }) {
+  const { image, plantName, withPlantDay, id } = plantInfo;
+  console.log('plantInfo', plantInfo);
   const navigate = useNavigate();
   const onPlantHandler = () => {
     navigate(`/detailplant/${id}`);
   };
 
+  const onDeletePlant = async e => {
+    e.stopPropagation();
+    try {
+      const data = await deletePlantApi(id);
+      console.log(data);
+      // getPlantList();
+      window.location.reload();
+      console.log('getPlantList', getPlantList);
+    } catch (error) {
+      console.log(error);
+      customNotify.error();
+    }
+  };
+
   return (
     <StCard onClick={onPlantHandler}>
       <StCardImgWrpper>
-        <StPlantListImg
-          alt="plantImg"
-          src={image}
-          onLoad={() => {
-            setIsLoadingImg(false);
-          }}
-        />
+        <StPlantListImg alt="plantImg" src={image} />
       </StCardImgWrpper>
       <StPlantListInfo>
         <StInfoTitle>{plantName}</StInfoTitle>
         <StInfoDday>D+{withPlantDay}일</StInfoDday>
       </StPlantListInfo>
-      {/* TODO: Lazy Loading */}
-      {/* {isLoadingImg && (
-        <StAbsolutePositionBox>
-          <ImgLoading />
-        </StAbsolutePositionBox>
-      )} */}
-      {/* <StDdayAlarm>
-        <img src={alarmBtn} alt="alarm" />
-        <p>할일</p>
-      </StDdayAlarm> */}
+      <StDeleteBtn type="button" onClick={onDeletePlant}>
+        <CgTrash size="20px" color={palette.white} />
+      </StDeleteBtn>
     </StCard>
   );
 }
-const StDdayAlarm = styled.div`
-  position: absolute;
-  background-color: ${palette.white};
-  padding: 8px 15px;
-  font-size: 0px;
-  z-index: 10;
-  top: 0px;
-  right: 0px;
-  margin: 20px;
-  border-radius: 24px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  p {
-    margin: 0;
-    color: ${palette.mainColor};
-    font-size: 18px;
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 100%;
-  }
-`;
-const StAbsolutePositionBox = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  top: 0;
-`;
 
 const StCard = styled.div`
   position: relative;
@@ -119,19 +89,33 @@ const StPlantListInfo = styled.div`
     color: ${palette.white};
   }
 `;
+
+const StDeleteBtn = styled.button`
+  border: none;
+  position: absolute;
+  right: 15px;
+  bottom: 16px;
+  cursor: pointer;
+  z-index: 3;
+  @media (max-width: 500px) {
+    right: 10px;
+    bottom: 10px;
+  }
+`;
+
 const StInfoTitle = styled.p`
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 18px;
   font-weight: 700;
   @media (max-width: 500px) {
-    font-size: 15px;
+    font-size: 14px;
   }
 `;
 const StInfoDday = styled.p`
   margin: 0;
-  font-size: 1.7rem;
+  font-size: 14px;
   font-weight: 800;
   @media (max-width: 500px) {
-    font-size: 18px;
+    font-size: 10px;
   }
 `;

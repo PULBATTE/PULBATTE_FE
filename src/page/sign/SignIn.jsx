@@ -10,20 +10,19 @@ import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { setCookie, getCookie } from '../../apis/cookie';
-import { authInstance, instance } from '../../apis/axios';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import logo from '../../assets/image/logo.png';
+import pbBack from '../../assets/image/pg_back.png';
 
 export default function SignIn() {
   const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_REST_KEY}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
   const [count, setCount] = useState(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const JWT_EXPIRY_TIME = 24 * 3600 * 1000;
   const onSigninHandler = result => {
     axios
-      .post('https://api.pulbatte.com/api/auth/signin', {
+      .post(`${process.env.REACT_APP_BASE_URL}/api/auth/signin`, {
         userId: result.email,
         password: result.password,
       })
@@ -31,6 +30,7 @@ export default function SignIn() {
         if (response.data.statusCode == 200) {
           const redirectUrl = searchParams.get('redirectUrl');
           localStorage.setItem('access_Token', response.data.accessToken);
+
           setCookie('refresh_Token', response.data.refreshToken);
           if (redirectUrl) {
             return navigate(redirectUrl);
@@ -62,7 +62,7 @@ export default function SignIn() {
         message: (
           <p>
             비밀번호는 최소 8자 이상, 15자 이하이며 공백을 제외한
-            특수문자,알파벳 대소문자,숫자이어야 합니다.
+            특수문자,알파벳 소문자,숫자이어야 합니다.
           </p>
         ),
       }),
@@ -171,11 +171,14 @@ const StErrorMessage = styled.span`
   }
 `;
 const StSignConatainer = styled.div`
-  max-width: 460px;
-  margin: 6rem auto;
+  margin-top: 5rem;
   display: flex;
   flex-direction: column;
   gap: 20px 0;
+  height: calc(100vh - 80px);
+  padding-top: 3rem;
+  box-sizing: border-box;
+  background: url(${pbBack}) no-repeat;
   @media (max-width: 768px) {
     max-width: none;
     padding: 2rem 0;
@@ -196,7 +199,10 @@ const StSignInner = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  max-width: 460px;
+  width: 100%;
   gap: 2rem 0;
+  margin: 0 auto;
   @media (max-width: 500px) {
     gap: 1rem 0;
   }

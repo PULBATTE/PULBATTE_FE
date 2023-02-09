@@ -3,23 +3,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import { SlTag } from 'react-icons/sl';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Cookies } from 'react-cookie';
+import { removeCookie } from '../../../apis/cookie';
 import BrowserHeader from './browser/BrowserHeader';
 import MobileHeader from './mobile/MobileHeader';
 import { palette } from '../../../styles/palette';
+import { authInstance } from '../../../apis/axios';
+import { customNotify } from '../../../util/toastMessage';
 
-export default function Header() {
+export default function Header({ alarmList }) {
   const token = localStorage.getItem('access_Token');
-
   const navigate = useNavigate();
 
   const logOutEventHandler = async () => {
-    const cookie = new Cookies();
-    await cookie.remove('refresh_Token');
-    await localStorage.removeItem('access_Token');
-    navigate('/');
-    alert('로그아웃 되었습니다!');
+    const data = await authInstance.delete('api/token/deletetoken');
+    if (data.status === 200) {
+      removeCookie('refresh_Token');
+      localStorage.removeItem('access_Token');
+      customNotify.success('로그아웃 되었습니다!');
+      navigate('/');
+    }
   };
+
   const clickNaviHandler = () => {};
 
   return (
@@ -45,6 +49,7 @@ const StHeader = styled.header`
   padding: 0 1rem;
   background: #fff;
   box-sizing: border-box;
+  box-shadow: 0 0px 11px -4px rgb(0 0 0 / 10%);
   z-index: 2;
   ul {
   }

@@ -1,11 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { useState } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import ReactModal from 'react-modal';
+import React from 'react';
 import styled from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
 import { palette } from '../../../styles/palette';
-import { putPlantDiaryApi } from '../../../apis/plantDiary';
-import { customNotify } from '../../../util/toastMessage';
 
 const customStyles = {
   content: {
@@ -22,59 +20,28 @@ const customStyles = {
   },
 };
 
-export default function EditDiaryModal(props) {
-  const {
-    // onSubmit, // submit을 modal에서 정의
-    onClose,
-    content,
-    plantJournalId,
-    plantJournalDiaryId,
-    getPlantDiaryList,
-  } = props;
-  const [diaryContent, setDiaryContent] = useState(content);
-
-  // const onSubmitHandler = () => {
-  //   onSubmit();
-  // };
-
-  const onCloseHandler = () => {
-    onClose();
-  };
-
-  const onChangeDiaryHandler = e => {
-    setDiaryContent(e.target.value);
-  };
-
-  const onSubmitHandler = async () => {
-    // plantJournalId, plantJournalDiaryId,
-    const data = await putPlantDiaryApi(
-      plantJournalId,
-      plantJournalDiaryId,
-      diaryContent,
-    );
-    const alertMsg = data.data.msg;
-    customNotify.success(alertMsg);
-    onClose();
-    getPlantDiaryList();
-  };
+export default function DeleteConfirmModal(props) {
+  const { open, onCloseHandler, onDeleteHandler } = props;
 
   return (
     <ReactModal
-      isOpen
+      isOpen={open}
       style={customStyles}
       onRequestClose={onCloseHandler}
-      contentLabel="Example Modal"
+      contentLabel="Delete Modal"
       ariaHideApp={false}
     >
       <StContainer>
         <StCloseButton onClick={onCloseHandler} />
-        <StModalContents>
-          <h3>일기 작성</h3>
-          <textarea value={diaryContent} onChange={onChangeDiaryHandler} />
-          <StButton type="button" onClick={onSubmitHandler}>
-            수정
+        <StModalContents>삭제 하시겠습니까?</StModalContents>
+        <StModalFooter>
+          <StButton type="button" btnStyle="outline" onClick={onCloseHandler}>
+            취소
           </StButton>
-        </StModalContents>
+          <StButton type="button" onClick={onDeleteHandler}>
+            삭제
+          </StButton>
+        </StModalFooter>
       </StContainer>
     </ReactModal>
   );
@@ -82,11 +49,12 @@ export default function EditDiaryModal(props) {
 
 const StModalContents = styled.div`
   display: flex;
-  width: 650px;
+  width: 240px;
   align-items: center;
   flex-direction: column;
   gap: 20px;
   padding: 12px;
+  margin: 18px 0px;
   h3 {
     font-size: 20px;
     font-weight: bold;
@@ -117,15 +85,15 @@ const StButton = styled.button`
   padding: 8px 15px;
   width: 100px;
   height: 40px;
-  border: none;
+  border: ${props =>
+    props.btnStyle === 'outline' ? `2px solid ${palette.mainColor}` : 'none'};
   border-radius: 18px;
-  background: ${palette.mainColor};
-  color: ${palette.white};
+  background: ${props =>
+    props.btnStyle === 'outline' ? palette.white : `${palette.mainColor}`};
+  color: ${props =>
+    props.btnStyle === 'outline' ? palette.mainColor : `${palette.white}`};
   font-weight: 600;
   cursor: pointer;
-  &:active {
-    background: ${palette.mainColor};
-  }
 `;
 const StCloseButton = styled(GrFormClose)`
   position: absolute;
@@ -134,4 +102,11 @@ const StCloseButton = styled(GrFormClose)`
   font-size: 1.5rem;
   color: ${palette.mainColor};
   cursor: pointer;
+`;
+
+const StModalFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
 `;

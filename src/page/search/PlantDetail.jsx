@@ -4,7 +4,7 @@ import { BsSun } from 'react-icons/bs';
 import { GiWateringCan } from 'react-icons/gi';
 import { CiTempHigh } from 'react-icons/ci';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import PlantContent from '../../components/search/PlantContent';
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
@@ -17,16 +17,24 @@ import grain from '../../assets/image/grain.png';
 export default function PlantDetail() {
   const { plantId } = useParams();
   const [plantInfo, setPlantInfo] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     plantsSearchDetailApi(plantId).then(res => setPlantInfo(res.data));
   }, []);
   return (
     <StWrapper>
       <div className="container_inner">
-        {/*  <h3>식물 찾아보기</h3> */}
         <StContent>
           <div className="image_container">
             <img src={plantInfo?.image} alt="" />
+            <StLinkBtn
+              type="button"
+              onClick={() =>
+                window.open(`https://www.instagram.com/${plantInfo?.holder}`)
+              }
+            >
+              {plantInfo?.holder}
+            </StLinkBtn>
           </div>
           <PlantContent plantInfo={plantInfo} />
         </StContent>
@@ -105,6 +113,7 @@ const StWrapper = styled.div`
       }
     }
     .image_container {
+      position: relative;
       img {
         width: 100%;
         aspect-ratio: 1/1;
@@ -212,4 +221,20 @@ const StImg = styled.img`
     width: 25px;
     height: 25px;
   }
+`;
+
+const StLinkBtn = styled.div`
+  padding: 8px 10px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  color: #797979;
+  position: absolute;
+  min-width: 100px;
+  text-align: center;
+  left: 2rem;
+  bottom: 2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0px 20px rgb(0 0 0 / 10%);
+  cursor: pointer;
 `;

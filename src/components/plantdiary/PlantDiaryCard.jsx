@@ -6,6 +6,7 @@ import moreIcon from '../../assets/image/more_vert.png';
 import useContextModal from '../../hooks/useContextModal';
 import { modals } from '../../context/plantDiary/Modals';
 import { deletePlantDiaryApi } from '../../apis/plantDiary';
+import { customNotify } from '../../util/toastMessage';
 
 export default function PlantDiaryCard({
   plantDiary,
@@ -50,19 +51,15 @@ export default function PlantDiaryCard({
 
   const onDeleteHandler = async () => {
     const data = await deletePlantDiaryApi(plantJournalId, plantJournalDiaryId);
-    if (data.status === 200) {
-      alert('삭제완료');
-      getPlantDiaryList();
-    } else {
-      alert('error');
-    }
+    const alertMsg = data.data.msg;
+    customNotify.success(alertMsg);
+    getPlantDiaryList();
     onClickMenuHandler();
     getPlantDiaryList();
   };
 
   const menuOutSideClick = useCallback(
     e => {
-      // console.log(menuRef.current.contains(e.target));
       // contains는 e.target이 menuRef의 자식이냐를 알려주는 것 자식이 아니라면 메뉴를 닫아준다
       if (isOpenMenu && !menuRef.current.contains(e.target)) {
         setIsOpenMenu(false);

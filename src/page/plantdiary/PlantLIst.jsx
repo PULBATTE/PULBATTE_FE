@@ -4,28 +4,33 @@ import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 import { getPlantListApi } from '../../apis/plantDiary';
 import PlantListCard from '../../components/plantdiary/PlantListCard';
+import useRequireAuth from '../../hooks/useRedirect';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
-  console.log({ plantList });
+
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
+    console.log('data', data);
     setPlantList(data.data);
-  }, []);
+  }, [getPlantListApi]);
 
   useEffect(() => {
     getPlantList();
-  }, [getPlantList]);
+  }, []);
 
+  console.log(plantList);
   const navigate = useNavigate();
   const onAddPlantHandler = () => {
     navigate('/addplant');
   };
 
+  useRequireAuth('/api/user/signin');
+
   return (
     <StPlantListContainer>
       <StHeader>
-        <h3>식물일지</h3>
+        <h3>식물 일지</h3>
       </StHeader>
       <StPlantDiaryContainer>
         <StPlantHeader>
@@ -35,7 +40,7 @@ export default function PlantList() {
         <StDivider />
         <StCardContainer>
           {plantList.map(v => (
-            <PlantListCard key={v.id} plantList={v} />
+            <PlantListCard key={v.id} plantInfo={v} />
           ))}
         </StCardContainer>
       </StPlantDiaryContainer>
@@ -44,7 +49,6 @@ export default function PlantList() {
 }
 
 const StPlantListContainer = styled.div`
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
 
@@ -133,6 +137,7 @@ const StCardContainer = styled.div`
   display: grid;
   padding: 20px 0;
   grid-template-columns: 1fr 1fr 1fr 1fr;
+  width: 100%;
   gap: 24px;
 
   @media (max-width: 1024px) {

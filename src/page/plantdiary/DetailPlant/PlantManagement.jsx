@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import VerticalTitlePlantEnv from '../../../components/plantdiary/VerticalTitlePlantEnv';
@@ -5,15 +6,26 @@ import { palette } from '../../../styles/palette';
 import repottingImg from '../../../assets/image/Repot_white.png';
 import nutritionImg from '../../../assets/image/Nutrition_white.png';
 import waterImg from '../../../assets/image/waterdrop_white.png';
+import infoImg from '../../../assets/image/info/detailPlantInfo1.png';
+import info from '../../../assets/image/info/info.png';
 import { doneDdayCheckApi } from '../../../apis/plantDiary';
 import PlantInfoChart from '../../../components/plantdiary/PlantInfoChart';
+import DdayCheckerCard from '../../../components/plantdiary/DdayCheckerCard';
+import useRequireAuth from '../../../hooks/useRedirect';
 
 export default function PlantManagement({ plantDetailData, getPlantDetail }) {
-  console.log(plantDetailData);
-  const { image, selectWater, selectSunshine, selectWind } = plantDetailData;
+  const [isOpenInfo, setIsOpenInfo] = useState(false);
+  const {
+    image,
+    plantName,
+    withPlantDay,
+    selectWater,
+    selectSunshine,
+    selectWind,
+  } = plantDetailData;
 
+  useRequireAuth('/api/user/signin');
   const { plantJournalId } = useParams();
-
   const onCompeteHandler = async clicktag => {
     const data = await doneDdayCheckApi(plantJournalId, clicktag);
     // 데이터 형식을 변환
@@ -25,11 +37,41 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
     getPlantDetail();
   };
 
+  const ChartData = [
+    {
+      type: 'water',
+      totalDday: plantDetailData.totalWaterDDayClick,
+      currentDday: plantDetailData.currentWaterDdayClick,
+    },
+    {
+      type: 'repotting',
+      totalDday: plantDetailData.totalRepottingDDayClick,
+      currentDday: plantDetailData.currentRepottingDDayClick,
+    },
+    {
+      type: 'Nutrition',
+      totalDday: plantDetailData.totalNutritionDDayClick,
+      currentDday: plantDetailData.currentNutritionDDayClick,
+    },
+  ];
+
   return (
     <StTabSection>
-      {/* section */}
       <StPlantInfoWrap>
-        <StPlantInfoImg src={image} />
+        <StInfoButton
+          onClick={() => {
+            setIsOpenInfo(true);
+          }}
+        >
+          <img src={info} alt="info" />
+        </StInfoButton>
+        <StCard>
+          <StPlantInfoImg src={image} />
+          <StPlantListInfo>
+            <StInfoName>{plantName}</StInfoName>
+            <StInfoWithPlantDay>함께한지+{withPlantDay}일</StInfoWithPlantDay>
+          </StPlantListInfo>
+        </StCard>
         <StVerticalTitlePlantEnvWrapper>
           <h3>환경</h3>
           <StVerticalTitlePlantEnv>
@@ -48,84 +90,99 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
         </StVerticalTitlePlantEnvWrapper>
       </StPlantInfoWrap>
       <StPlantInfoWrap>
-        <StPlantDdayCardWrapper>
-          <StPlantDdayCard color={palette.card.blue}>
-            <>
-              <img alt="waterImg" src={waterImg} />
-              <h3>물 주는 날</h3>
-              {plantDetailData.waterDDay === 0 ? (
-                <h3>D-day</h3>
-              ) : (
-                <h3>{`${plantDetailData.waterDDay}일 남음`}</h3>
-              )}
-            </>
-            <StDdayConfirmButton
-              type="button"
-              onClick={() => onCompeteHandler('water')}
-            >
-              {plantDetailData.waterCheck ? '완료' : '완료하기'}
-            </StDdayConfirmButton>
-          </StPlantDdayCard>
-          <StPlantDdayCard color={palette.card.green}>
-            <>
-              <img alt="repottingImg" src={repottingImg} />
-              <h3>분갈이</h3>
-              {plantDetailData.repottingDDay === 0 ? (
-                <h3>D-day</h3>
-              ) : (
-                <h3>{`${plantDetailData.repottingDDay}일 남음`}</h3>
-              )}
-            </>
-            <StDdayConfirmButton
-              type="button"
-              onClick={() => onCompeteHandler('repotting')}
-            >
-              {plantDetailData.repottingCheck ? '완료' : '완료하기'}
-            </StDdayConfirmButton>
-          </StPlantDdayCard>
-          <StPlantDdayCard color={palette.card.brown}>
-            <>
-              <img alt="nutritionImg" src={nutritionImg} />
-              <h3>영양제</h3>
-              {plantDetailData.nutritionDDay === 0 ? (
-                <h3>D-day</h3>
-              ) : (
-                <h3>{`${plantDetailData.nutritionDDay}일 남음`}</h3>
-              )}
-            </>
-            <StDdayConfirmButton
-              type="button"
-              onClick={() => onCompeteHandler('nutrition')}
-            >
-              {plantDetailData.nutritionCheck ? '완료' : '완료하기'}
-            </StDdayConfirmButton>
-          </StPlantDdayCard>
-        </StPlantDdayCardWrapper>
-        <PlantInfoChart
-          chartData={[
-            {
-              type: 'water',
-              totalDday: plantDetailData.totalWaterDDayClick,
-              currentDday: plantDetailData.currentWaterDdayClick,
-            },
-            {
-              type: 'repotting',
-              totalDday: plantDetailData.totalRepottingDDayClick,
-              currentDday: plantDetailData.currentRepottingDDayClick,
-            },
-            {
-              type: 'Nutrition',
-              totalDday: plantDetailData.totalNutritionDDayClick,
-              currentDday: plantDetailData.currentNutritionDDayClick,
-            },
-          ]}
-        />
+        <StPlantDdayCheckerCardWrapper>
+          <DdayCheckerCard
+            color={palette.card.blue}
+            title="물 주는 날"
+            img={waterImg}
+            Dday={plantDetailData.waterDDay}
+            onCompeteHandler={() => onCompeteHandler('water')}
+            checkState={plantDetailData.waterCheck}
+          />
+          <DdayCheckerCard
+            color={palette.card.green}
+            title="분갈이"
+            img={repottingImg}
+            Dday={plantDetailData.repottingDDay}
+            onCompeteHandler={() => onCompeteHandler('repotting')}
+            checkState={plantDetailData.repottingCheck}
+          />
+          <DdayCheckerCard
+            color={palette.card.brown}
+            title="영양제"
+            img={nutritionImg}
+            Dday={plantDetailData.nutritionDDay}
+            onCompeteHandler={() => onCompeteHandler('nutrition')}
+            checkState={plantDetailData.nutritionCheck}
+          />
+        </StPlantDdayCheckerCardWrapper>
+        <PlantInfoChart chartData={ChartData} />
       </StPlantInfoWrap>
+      {isOpenInfo && (
+        <StInfo>
+          <StImageContainer>
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpenInfo(false);
+              }}
+            >
+              x
+            </button>
+            <img alt="infoModal" src={infoImg} />
+          </StImageContainer>
+        </StInfo>
+      )}
     </StTabSection>
   );
 }
+const StInfoButton = styled.button`
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 20px;
+  border: none;
+  cursor: pointer;
+  @media (max-width: 1120px) {
+    margin: 12px;
+  }
+`;
+const StInfo = styled.div`
+  position: absolute;
+  padding: 0px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #333333cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const StImageContainer = styled.div`
+  position: relative;
+  width: 100%;
+
+  button {
+    font-size: 32px;
+    margin-right: 30px;
+    position: absolute;
+    right: 0;
+    border: none;
+    background-color: transparent;
+    font-weight: 700;
+    color: ${palette.white};
+    cursor: pointer;
+  }
+  img {
+    width: 90%;
+    margin: auto;
+    display: block;
+  }
+`;
 
 const StTabSection = styled.section`
+  position: relative;
   display: flex;
   gap: 0 5rem;
   margin: 40px 0px 20px 0px;
@@ -133,6 +190,7 @@ const StTabSection = styled.section`
   padding: 5vw 6vw;
   border-radius: 24px;
   box-shadow: 0px 10px 60px rgb(0 0 0 / 10%);
+  overflow: hidden;
   @media (max-width: 1120px) {
     flex-direction: column;
     width: 100%;
@@ -141,6 +199,7 @@ const StTabSection = styled.section`
   }
   @media (max-width: 500px) {
     gap: 25px 0;
+    padding: 24px 8px;
   }
 `;
 
@@ -152,18 +211,56 @@ const StPlantInfoWrap = styled.article`
   gap: 10px 0;
   @media (max-width: 1120px) {
     padding: 0px;
+    padding-top: 32px;
   }
+`;
+const StCard = styled.div`
+  position: relative;
+  background-color: #f7f7f7;
+  border-radius: 16px;
+  cursor: pointer;
 `;
 const StPlantInfoImg = styled.img`
   width: 100%;
   object-fit: cover;
-  aspect-ratio: 1.2/1;
   max-width: 370px;
   max-height: 300px;
   @media (max-width: 1120px) {
     width: 100%;
   }
 `;
+const StPlantListInfo = styled.div`
+  flex-direction: column;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  @media (max-width: 500px) {
+    bottom: 10px;
+    left: 10px;
+  }
+  p {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+
+    color: ${palette.white};
+  }
+`;
+const StInfoName = styled.p`
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  @media (max-width: 500px) {
+    font-size: 15px;
+  }
+`;
+const StInfoWithPlantDay = styled.p`
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  @media (max-width: 500px) {
+    font-size: 18px;
+  }
+`;
+
 const StVerticalTitlePlantEnvWrapper = styled.section`
   display: flex;
   flex-direction: column;
@@ -181,7 +278,7 @@ const StVerticalTitlePlantEnv = styled.div`
     min-width: 350px;
   }
 `;
-const StPlantDdayCardWrapper = styled.div`
+const StPlantDdayCheckerCardWrapper = styled.div`
   width: 100%;
   display: flex;
   gap: 0 10px;
@@ -197,7 +294,7 @@ const StPlantDdayCardWrapper = styled.div`
     grid-template-columns: 1fr 1fr 1fr;
   }
 `;
-const StPlantDdayCard = styled.div`
+const StPlantDdayCheckerCard = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -221,18 +318,5 @@ const StPlantDdayCard = styled.div`
   h3 {
     font-size: 1.1rem;
     margin: 0px;
-  }
-`;
-const StDdayConfirmButton = styled.button`
-  bottom: 0;
-  background-color: ${palette.white};
-  color: ${palette.text.green};
-  border-color: transparent;
-  width: 118px;
-  height: 43px;
-  font-size: 16px;
-  border-radius: 12px;
-  @media (max-width: 500px) {
-    width: 100%;
   }
 `;

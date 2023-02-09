@@ -12,6 +12,7 @@ import {
 } from '../../apis/mypage';
 import UserProfile from '../../components/mypage/UserProfile';
 import MyPostWrapper from '../../components/mypage/MyPostWrapper';
+import useRequireAuth from '../../hooks/useRedirect';
 
 export default function Mypage() {
   const [changeProfile, setChangeProfile] = useState(false);
@@ -25,6 +26,12 @@ export default function Mypage() {
     image: null,
     preview: null,
   });
+
+  // useRequireAuth();
+  // redirect Path지정 가능
+  useRequireAuth('/api/user/signin');
+  // token에 있는 id (이메일)을 가져올 수 있음
+  // const { uerId } = useRequireAuth('/api/user/signin');
 
   const getUserProfileApi = useCallback(async () => {
     await getUserProfileInfo().then(res => {

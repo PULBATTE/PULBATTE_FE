@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { palette } from '../../styles/palette';
 import { getCalendarDataApi } from '../../apis/plantDiary';
 
-export default function PlantDiaryCalendar({ plantJournalId }) {
+export default function PlantDiaryCalendar({ plantJournalId, modalHandler }) {
   const [diaryValue, setDiaryValue] = useState();
 
   const getCalendar = useCallback(async () => {
@@ -60,7 +60,7 @@ export default function PlantDiaryCalendar({ plantJournalId }) {
           next2Label={null}
           tileContent={renderColorChips} // titleContent옵션은 날짜에 테그를 추가 할 수 있음
           onClickDay={date => {
-            console.log(format(date, 'yyyy-MM-dd'));
+            modalHandler(format(date, 'yyyy-MM-dd'));
           }}
           locale="en-EN"
         />

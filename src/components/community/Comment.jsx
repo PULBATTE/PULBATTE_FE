@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
 import {
@@ -7,9 +7,10 @@ import {
   editCommentApi,
   postCommentApi,
 } from '../../apis/community';
+import { customNotify } from '../../util/toastMessage';
+import DeleteConfirmModal from './modal/DeleteConfirmModal';
 
 export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
-  /* 객체 비구조화 할당 */
   const {
     replyList,
     content,
@@ -19,13 +20,14 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     nickname,
     profileImage,
   } = comment;
-
   const [commentContent, setCommentContent] = useState(content);
   const [isEditable, setIsEditable] = useState(false);
-  // const [isHideComment, setIsHideComment] = useState(true);
-
-  const [isOpenReply, setIsOpenReply] = useState(false);
   const [createReply, setCreateReply] = useState();
+
+  const [isOpenComments, setIsOpenComments] = useState(false);
+  const [isOpenEditor, setIsOpenEditor] = useState(false);
+
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
 
   const onEditCommentHandler = e => {
     setCommentContent(e.target.value);
@@ -35,49 +37,97 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
     setCreateReply(e.target.value);
   };
 
-  // 댓글 수정
   const onOpenEditCommentHandler = () => {
     setIsEditable(true);
   };
 
-  // 답글달기 / 숨기기
   const onOpenReplyHandler = e => {
-    setIsOpenReply(_openReply => !_openReply);
+    if (isOpenComments) {
+      setIsOpenEditor(false);
+    }
+    setIsOpenComments(_openReply => !_openReply);
   };
 
   const onDeleteCommentHandler = async () => {
     const data = await deleteCommentApi(commentId);
     const alertMsg = data.data.msg;
-    alert(alertMsg);
+    customNotify.success(alertMsg);
     getPostUser();
   };
 
-  // 수정 완료
   const onEditCommentDoneHandler = async () => {
     if (!commentContent) {
-      alert('내용을 입력해주세요.');
+      customNotify.error('내용을 입력해주세요.');
     } else {
       const data = await editCommentApi(commentId, commentContent);
       const alertMsg = data.data.msg;
-      alert(alertMsg);
+      customNotify.success(alertMsg);
       setIsEditable(false);
       getPostUser();
     }
   };
 
-  // 대댓글작성
+  const replyButton = () => {
+    const replylength = comment.replyList.length;
+    if (isOpenComments) {
+      return (
+        <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+          숨기기
+        </StReCommentButton>
+      );
+    }
+    if (replylength) {
+      return (
+        <StReCommentButton type="button" onClick={onOpenReplyHandler}>
+          {replylength} 개의 답글
+        </StReCommentButton>
+      );
+    }
+    return (
+      <StReCommentButton
+        type="button"
+        onClick={() => {
+          setIsOpenEditor(true);
+          setIsOpenComments(true);
+        }}
+      >
+        답글 달기
+      </StReCommentButton>
+    );
+  };
+
   const onRegReplyHandler = async () => {
     if (!createReply) {
-      alert('내용을 입력해주세요.');
+      customNotify.error('내용을 입력해주세요.');
     } else {
-      const data = await postCommentApi(postId, commentId, createReply);
-      const alertMsg = data.data.msg;
-      alert(alertMsg);
-      setIsEditable(false);
-      setCreateReply('');
-      getPostUser();
+      try {
+        const data = await postCommentApi(postId, commentId, createReply);
+        const alertMsg = data.data.msg;
+        customNotify.success(alertMsg);
+        setIsEditable(false);
+      } catch (error) {
+        const isNotSignIn = error.message.indexOf('403');
+        if (isNotSignIn) {
+          customNotify.error('로그인이 필요합니다.');
+        } else {
+          customNotify.error();
+        }
+      } finally {
+        setCreateReply('');
+        setIsOpenEditor(false);
+        getPostUser();
+      }
     }
   };
+  const onCloseDeleteModal = () => {
+    setIsDeleteModal(false);
+  };
+  useEffect(() => {
+    if (replyList.length === 0) {
+      setIsOpenEditor(false);
+      setIsOpenComments(false);
+    }
+  }, [replyList.length]);
 
   return (
     <StCommentContainer>
@@ -99,7 +149,12 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
               >
                 수정
               </StButton>
-              <StButton type="button" onClick={onDeleteCommentHandler}>
+              <StButton
+                type="button"
+                onClick={() => {
+                  setIsDeleteModal(true);
+                }}
+              >
                 삭제
               </StButton>
             </StButtonWrapper>
@@ -124,31 +179,13 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
           ) : (
             <StCommentContentWrapper>{commentContent}</StCommentContentWrapper>
           )}
+          <div>{!tempReplyReject && replyButton()}</div>
         </StTextFieldWrapper>
-        {/* TODO: 대댓글 api 수정 전 임시 조치 */}
-        <div>
-          {!tempReplyReject && (
-            <StReCommentButton type="button" onClick={onOpenReplyHandler}>
-              {isOpenReply ? '숨기기' : '답글 달기'}
-            </StReCommentButton>
-          )}
-        </div>
       </StCommentWrapper>
-      {isOpenReply && (
+      {isOpenComments && (
         <div className="recomment_container">
-          <StEditorWrapper>
-            <StCommentTextArea
-              value={createReply}
-              onChange={onCreateReplyHandler}
-            />
-            <StAlignRightButtonWrapper>
-              <StRegReplyButton type="button" onClick={onRegReplyHandler}>
-                등록
-              </StRegReplyButton>
-            </StAlignRightButtonWrapper>
-          </StEditorWrapper>
           <div className="recomment_wrapper">
-            {replyList.length !== 0 &&
+            {!!replyList.length &&
               replyList.map(v => (
                 <ReCommentWrapper key={v.commentId}>
                   {/* 재귀를 사용해서 자기자신을 불러옴 */}
@@ -161,9 +198,44 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
                   />
                 </ReCommentWrapper>
               ))}
+            {isOpenEditor ? (
+              <StEditorWrapper>
+                <StCommentTextArea
+                  value={createReply}
+                  onChange={onCreateReplyHandler}
+                />
+                <StAlignRightButtonWrapper>
+                  <StRegReplyButton
+                    type="button"
+                    onClick={() => {
+                      setIsOpenEditor(false);
+                    }}
+                  >
+                    취소
+                  </StRegReplyButton>
+                  <StRegReplyButton type="button" onClick={onRegReplyHandler}>
+                    등록
+                  </StRegReplyButton>
+                </StAlignRightButtonWrapper>
+              </StEditorWrapper>
+            ) : (
+              <StOpenReplyButtonWrapper>
+                <StOpenReplyButton
+                  type="button"
+                  onClick={() => setIsOpenEditor(true)}
+                >
+                  답글 달기
+                </StOpenReplyButton>
+              </StOpenReplyButtonWrapper>
+            )}
           </div>
         </div>
       )}
+      <DeleteConfirmModal
+        open={isDeleteModal}
+        onCloseHandler={onCloseDeleteModal}
+        onDeleteHandler={onDeleteCommentHandler}
+      />
     </StCommentContainer>
   );
 }
@@ -171,8 +243,8 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
 const StCommentContainer = styled.div`
   .recomment_container {
     background-color: ${palette.mainBackground};
-    border-top: 1px solid ${palette.borderColor5};
-    border-bottom: 1px solid ${palette.borderColor5};
+    border-radius: 16px;
+    padding: 18px;
   }
   .usercontainer {
     display: flex;
@@ -183,9 +255,7 @@ const StCommentContainer = styled.div`
     }
   }
 `;
-const StCommentWrapper = styled.div`
-  padding-bottom: 24px;
-`;
+const StCommentWrapper = styled.div``;
 const StUserInfo = styled.div`
   margin-bottom: 8px;
   display: flex;
@@ -204,10 +274,7 @@ const StUserInfo = styled.div`
     gap: 16px;
   }
 `;
-const StEditorWrapper = styled.div`
-  margin-bottom: 24px;
-  padding: 24px;
-`;
+const StEditorWrapper = styled.div``;
 
 const StTextFieldWrapper = styled.div`
   margin-bottom: 8px;
@@ -225,6 +292,7 @@ const StCommentTextArea = styled.textarea`
   resize: none;
   border-radius: 4px;
   border-color: ${palette.borderColor5};
+  white-space: pre-line;
 `;
 const StButtonWrapper = styled.div`
   float: right;
@@ -247,10 +315,11 @@ const StAlignRightButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 8px;
 `;
 const StEditDoneButton = styled.button`
-  background-color: #47ad8e;
-  color: white;
+  background-color: ${palette.mainColor};
+  color: ${palette.white};
   width: 100px;
   height: 30px;
   border-radius: 8px;
@@ -267,8 +336,24 @@ const StReCommentButton = styled.button`
   cursor: pointer;
 `;
 const ReCommentWrapper = styled.div`
-  border-top: 1px solid #d8eadb;
-  padding: 24px;
+  margin-top: 8px;
+`;
+const StOpenReplyButtonWrapper = styled.div`
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 24px;
+  background-color: inherit;
+`;
+const StOpenReplyButton = styled.button`
+  background-color: ${palette.white};
+  color: ${palette.mainColor};
+  width: 100%;
+  height: 40px;
+  border: 2px solid ${palette.mainColor};
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
 `;
 
 const StRegReplyButton = styled.button`
@@ -282,17 +367,4 @@ const StRegReplyButton = styled.button`
   font-weight: 600;
 
   margin-top: 20px;
-`;
-
-const StRepleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  box-sizing: border-box;
-  background: ${palette.pageBackgroundGray};
-  .reple_container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
 `;

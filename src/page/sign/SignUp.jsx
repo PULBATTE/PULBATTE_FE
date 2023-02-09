@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-
+import pbBack from '../../assets/image/pg_back.png';
 import { postSignUpApi, getSignUpCheckApi } from '../../apis/auth';
 import { palette } from '../../styles/palette';
 
@@ -99,7 +99,7 @@ export default function SignUp() {
         <StInput
           type="password"
           name="password"
-          placeholder="영문, 숫자 조합 8글자 이상"
+          placeholder="영문, 숫자, 특수문자 조합 8글자 이상"
           {...register('password')}
         />
         <StErrorMessage>
@@ -130,7 +130,11 @@ const StSignUpContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 6rem auto;
+  margin-top: 5rem;
+  height: calc(100vh - 80px);
+  padding-top: 3rem;
+  box-sizing: border-box;
+  background: url(${pbBack}) no-repeat;
   > form {
     padding: 2rem;
     box-sizing: border-box;
@@ -148,6 +152,8 @@ const StSignUpContainer = styled.div`
       min-width: fit-content;
       border: 1px solid #eaeaea;
       padding: 0 10px;
+      background: #fff;
+      border-radius: 4px;
       cursor: pointer;
     }
   }

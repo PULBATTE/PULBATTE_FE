@@ -256,6 +256,8 @@ const StButton = styled.button`
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+
   &:last-child {
     background: ${palette.white};
     color: ${palette.text.gray_90};

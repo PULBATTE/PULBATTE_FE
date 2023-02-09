@@ -9,6 +9,20 @@ export const getBestPostApi = async () => {
   }
 };
 
+export const getPostByTagApi = async ({ tag, pageParam }) => {
+  try {
+    const data = await instance.get(
+      `/api/posts/category/${tag}?page=${pageParam}`,
+    );
+    console.log('data', data.data);
+
+    const { content, last } = data.data;
+    return { content, nextPage: pageParam + 1, isLast: last };
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
 export const createPostApi = async formData => {
   try {
     const data = await authInstance.post('/api/posts', formData, {
@@ -82,33 +96,6 @@ export const postLikeApi = async postId => {
   try {
     const data = await authInstance.post(`/api/posts/${postId}/postLike`);
     return data;
-  } catch (error) {
-    throw Error(error);
-  }
-};
-
-// export const getPostByTagApi = async tagId => {
-//   // get 요청 오류: 파라미터가 배열로 들어감(리액트 쿼리 때문) => string으로 바꿔주기
-//   console.log('tag');
-//   console.log(tagId.queryKey);
-//   const [tag] = tagId.queryKey;
-//   console.log(tag);
-//   try {
-//     const data = await instance.get(`/api/posts/category/${tag}`);
-//     return data;
-//   } catch (error) {
-//     throw Error(error);
-//   }
-// };
-
-export const getPostByTagApi = async ({ tag, pageParam }) => {
-  try {
-    const data = await instance.get(
-      `/api/posts/category/${tag}?page=${pageParam}`,
-    );
-
-    const { content, last } = data.data;
-    return { content, nextPage: pageParam + 1, isLast: last };
   } catch (error) {
     throw Error(error);
   }
