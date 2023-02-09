@@ -21,9 +21,6 @@ export const kakaoLogin = code => {
       .then(response => {
         localStorage.setItem('access_Token', response.data.accessToken);
         setCookie('refresh_Token', response.data.refreshToken);
-
-        localStorage.setItem('access_Token', response.headers.authorization);
-
         window.location.href = '/';
       })
       .catch(err => {
