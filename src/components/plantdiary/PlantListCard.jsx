@@ -1,32 +1,44 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { CgTrash } from 'react-icons/cg';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
+import { deletePlantApi } from '../../apis/plantDiary';
+import { customNotify } from '../../util/toastMessage';
 
-export default function PlantListCard({ plantList }) {
-  const { image, plantName, withPlantDay, id } = plantList;
-  const [isLoadingImg, setIsLoadingImg] = useState(true);
-
+export default function PlantListCard({ plantInfo, getPlantList }) {
+  const { image, plantName, withPlantDay, id } = plantInfo;
+  console.log('plantInfo', plantInfo);
   const navigate = useNavigate();
   const onPlantHandler = () => {
     navigate(`/detailplant/${id}`);
   };
 
+  const onDeletePlant = async e => {
+    e.stopPropagation();
+    try {
+      const data = await deletePlantApi(id);
+      console.log(data);
+      // getPlantList();
+      window.location.reload();
+      console.log('getPlantList', getPlantList);
+    } catch (error) {
+      console.log(error);
+      customNotify.error();
+    }
+  };
+
   return (
     <StCard onClick={onPlantHandler}>
       <StCardImgWrpper>
-        <StPlantListImg
-          alt="plantImg"
-          src={image}
-          onLoad={() => {
-            setIsLoadingImg(false);
-          }}
-        />
+        <StPlantListImg alt="plantImg" src={image} />
       </StCardImgWrpper>
       <StPlantListInfo>
         <StInfoTitle>{plantName}</StInfoTitle>
         <StInfoDday>D+{withPlantDay}일</StInfoDday>
       </StPlantListInfo>
+      <StDeleteBtn type="button" onClick={onDeletePlant}>
+        <CgTrash size="20px" color={palette.white} />
+      </StDeleteBtn>
     </StCard>
   );
 }
@@ -77,19 +89,33 @@ const StPlantListInfo = styled.div`
     color: ${palette.white};
   }
 `;
+
+const StDeleteBtn = styled.button`
+  border: none;
+  position: absolute;
+  right: 15px;
+  bottom: 16px;
+  cursor: pointer;
+  z-index: 3;
+  @media (max-width: 500px) {
+    right: 10px;
+    bottom: 10px;
+  }
+`;
+
 const StInfoTitle = styled.p`
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 18px;
   font-weight: 700;
   @media (max-width: 500px) {
-    font-size: 15px;
+    font-size: 14px;
   }
 `;
 const StInfoDday = styled.p`
   margin: 0;
-  font-size: 1.7rem;
+  font-size: 14px;
   font-weight: 800;
   @media (max-width: 500px) {
-    font-size: 18px;
+    font-size: 10px;
   }
 `;
