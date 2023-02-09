@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
 import { palette } from '../../../styles/palette';
 import { putPlantDiaryApi } from '../../../apis/plantDiary';
+import { customNotify } from '../../../util/toastMessage';
 
 const customStyles = {
   content: {
@@ -51,13 +52,10 @@ export default function EditDiaryModal(props) {
       plantJournalDiaryId,
       diaryContent,
     );
-    if (data.status === 200) {
-      alert('수정완료');
-      onClose();
-      getPlantDiaryList();
-    } else {
-      alert('error');
-    }
+    const alertMsg = data.data.msg;
+    customNotify.success(alertMsg);
+    onClose();
+    getPlantDiaryList();
   };
 
   return (

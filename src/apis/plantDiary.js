@@ -18,6 +18,17 @@ export const getPlantDetailApi = async plantJournalId => {
   }
 };
 
+export const deletePlantApi = async plantjournalId => {
+  try {
+    const data = await authInstance.delete(
+      `/api/plantjournal/${plantjournalId}`,
+    );
+    return data;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
 export const createPlantJournalApi = async formData => {
   try {
     const data = await authInstance.post('/api/plantjournal', formData, {

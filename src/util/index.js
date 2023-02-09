@@ -1,5 +1,9 @@
 import { ko } from 'date-fns/locale';
 import { formatDistanceToNow, format } from 'date-fns';
+import ReactGA from 'react-ga';
+
+const TRACKING_ID = process.env.REACT_APP_GOOGLE_ANALYTICS_TRACKING_ID;
+ReactGA.initialize(TRACKING_ID);
 /**
  *
  * @param {string} createdAt ex) 2023-01-12T00:04:45.020757
