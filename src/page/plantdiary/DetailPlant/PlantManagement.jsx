@@ -57,14 +57,14 @@ export default function PlantManagement({ plantDetailData, getPlantDetail }) {
 
   return (
     <StTabSection>
-      <StInfoButton
-        onClick={() => {
-          setIsOpenInfo(true);
-        }}
-      >
-        <img src={info} alt="" />
-      </StInfoButton>
       <StPlantInfoWrap>
+        <StInfoButton
+          onClick={() => {
+            setIsOpenInfo(true);
+          }}
+        >
+          <img src={info} alt="info" />
+        </StInfoButton>
         <StCard>
           <StPlantInfoImg src={image} />
           <StPlantListInfo>
@@ -143,6 +143,9 @@ const StInfoButton = styled.button`
   margin: 20px;
   border: none;
   cursor: pointer;
+  @media (max-width: 1120px) {
+    margin: 12px;
+  }
 `;
 const StInfo = styled.div`
   position: absolute;
@@ -196,6 +199,7 @@ const StTabSection = styled.section`
   }
   @media (max-width: 500px) {
     gap: 25px 0;
+    padding: 24px 8px;
   }
 `;
 
@@ -207,6 +211,7 @@ const StPlantInfoWrap = styled.article`
   gap: 10px 0;
   @media (max-width: 1120px) {
     padding: 0px;
+    padding-top: 32px;
   }
 `;
 const StCard = styled.div`
