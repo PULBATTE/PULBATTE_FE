@@ -87,6 +87,7 @@ export default function AddPlant() {
     const res = await createPlantJournalApi(formData);
     const plantJournalId = res.data.id;
     navigate(`/detailplant/${plantJournalId}`);
+
   };
 
   return (

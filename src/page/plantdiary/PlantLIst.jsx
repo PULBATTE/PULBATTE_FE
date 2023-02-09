@@ -8,6 +8,7 @@ import useRequireAuth from '../../hooks/useRedirect';
 
 export default function PlantList() {
   const [plantList, setPlantList] = useState([]);
+
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
     console.log('data', data);
@@ -16,7 +17,7 @@ export default function PlantList() {
 
   useEffect(() => {
     getPlantList();
-  }, [getPlantList]);
+  }, []);
 
   console.log(plantList);
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function PlantList() {
   return (
     <StPlantListContainer>
       <StHeader>
-        <h3>식물일지</h3>
+        <h3>식물 일지</h3>
       </StHeader>
       <StPlantDiaryContainer>
         <StPlantHeader>
