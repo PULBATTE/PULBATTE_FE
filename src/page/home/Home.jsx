@@ -162,10 +162,9 @@ const StWrapper = styled.div`
       align-items: center;
       justify-content: space-between;
       max-width: 1350px;
-      margin: 0 auto;
       position: relative;
       top: 45%;
-      transform: translateY(-50%);
+      transform: translateY(-40%);
       width: 80%;
       margin: 0 auto;
       .main_subtitle {
@@ -215,6 +214,7 @@ const StBannerContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px 0;
+  min-width: fit-content;
   .subtitle_container {
     display: flex;
     flex-direction: column;
@@ -242,7 +242,7 @@ const StBannerContainer = styled.div`
     border: none;
     font-size: 1rem;
     cursor: pointer;
-    padding: 9px 13px;
+    padding: 11px 13px 9px 13px;
     width: fit-content;
     font-weight: 600;
     border-radius: 30px;
@@ -271,6 +271,7 @@ const StTitle = styled.div`
   span {
     font-size: calc(12px + 1.5vw);
     color: ${palette.text.black_e1};
+
     font-weight: 600;
     @media (max-width: 768px) {
       text-align: center;
@@ -308,6 +309,8 @@ const StBannerList = styled.div`
   height: 56vw;
   box-sizing: border-box;
   position: relative;
+  margin-top: 80px;
+
   &.background_accent {
     background: ${palette.mainBackground};
   }
