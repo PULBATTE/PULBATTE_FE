@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import { ScrollMenu } from 'react-horizontal-scrolling-menu';
+import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { palette } from '../../styles/palette';
 import { LeftArrow, RightArrow } from '../../components/community/Arrow';
@@ -10,13 +11,22 @@ import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 import { getBestPostApi, getPostByTagApi } from '../../apis/community';
 import TagPost from '../../components/community/TagPost';
-import Best5Img from './Best5Img';
-import { flexSpaceBetween, flexVerticalAlignCenter } from '../../styles/mixns';
+import Best5Img from '../../components/community/Best5Img';
+import {
+  flexAlignCenter,
+  flexSpaceBetween,
+  flexVerticalAlignCenter,
+  ImageExpandAnimation,
+} from '../../styles/mixns';
+import photoFilter from '../../assets/image/photo_filter.png';
+
+import createImg from '../../assets/image/create.png';
 
 export default function PostList() {
   const [bestPostList, setBestPostList] = useState([]);
   const [tag, setTag] = useState('질문과 답변');
   const { ref, inView } = useInView();
+  const isMobile = useMediaQuery({ query: '(max-width:768px)' });
 
   const navigate = useNavigate();
 
@@ -51,6 +61,7 @@ export default function PostList() {
 
   if (status.error) return `An error has occurred:  + ${status.error.message}`;
 
+  const onCreatePost = () => navigate('/createpost');
   return (
     <StWrapper>
       <StHorizontalPaddingLayout>
@@ -92,12 +103,11 @@ export default function PostList() {
                   </Tag>
                 ))}
               </StTagContainer>
-              <StTagButton
-                type="button"
-                onClick={() => navigate('/createpost')}
-              >
-                글 작성하기
-              </StTagButton>
+              {!isMobile && (
+                <StTagButton type="button" onClick={onCreatePost}>
+                  글 작성하기
+                </StTagButton>
+              )}
             </StTagWrapper>
           </StHorizontalPaddingLayout>
           <StHorizontalPaddingLayout>
@@ -117,12 +127,16 @@ export default function PostList() {
           </StHorizontalPaddingLayout>
         </StPostListContainer>
       </StPostListContent>
-
       {isFetchingNextPage ? (
         // TODO: animation
         <>loading</>
       ) : (
         <div className="lastChecker" ref={ref} />
+      )}
+      {isMobile && (
+        <StFloatingAddBtn onClick={onCreatePost}>
+          <img alt="Floating" src={createImg} />
+        </StFloatingAddBtn>
       )}
     </StWrapper>
   );
@@ -254,11 +268,10 @@ const ScrollMenuStInjection = styled.div`
   }
 `;
 const StTagButton = styled.button`
-  min-width: 125px;
-  padding: 10px 30px;
-  font-size: 1.1rem;
+  padding: 10px 16px;
+  font-size: 14px;
   cursor: pointer;
-  background: #47ad8e;
+  background: ${palette.mainColor};
   border-radius: 12px;
   background: ${palette.mainColor};
   border: none;
@@ -272,4 +285,18 @@ const StPostListContainer = styled.div`
   @media (max-width: 500px) {
     margin-top: 1.5rem;
   }
+`;
+const StFloatingAddBtn = styled.button`
+  ${flexAlignCenter}
+  border: none;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: ${palette.mainColor};
+  z-index: 4;
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  cursor: pointer;
 `;

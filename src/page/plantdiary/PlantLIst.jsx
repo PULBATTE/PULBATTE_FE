@@ -11,14 +11,15 @@ export default function PlantList() {
 
   const getPlantList = useCallback(async () => {
     const data = await getPlantListApi();
-    console.log(data);
+    console.log('data', data);
     setPlantList(data.data);
-  }, []);
+  }, [getPlantListApi]);
 
   useEffect(() => {
     getPlantList();
   }, []);
 
+  console.log(plantList);
   const navigate = useNavigate();
   const onAddPlantHandler = () => {
     navigate('/addplant');
@@ -39,7 +40,7 @@ export default function PlantList() {
         <StDivider />
         <StCardContainer>
           {plantList.map(v => (
-            <PlantListCard key={v.id} plantList={v} />
+            <PlantListCard key={v.id} plantInfo={v} />
           ))}
         </StCardContainer>
       </StPlantDiaryContainer>
@@ -48,7 +49,6 @@ export default function PlantList() {
 }
 
 const StPlantListContainer = styled.div`
-  /* display: flex; */
   flex-direction: column;
   align-items: center;
 

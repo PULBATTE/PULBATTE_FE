@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ToastContainer } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { formatDate } from '../../util/index';
 import { palette } from '../../styles/palette';
@@ -232,13 +231,6 @@ export function Comment({ comment, getPostUser, nickName, tempReplyReject }) {
           </div>
         </div>
       )}
-      <ToastContainer
-        position="bottom-center" // 알람 위치 지정
-        closeOnClick // 클릭으로 알람 닫기
-        rtl={false} // 알림 좌우 반전
-        theme="colored"
-        limit={2} // 알람 개수 제한
-      />
       <DeleteConfirmModal
         open={isDeleteModal}
         onCloseHandler={onCloseDeleteModal}
