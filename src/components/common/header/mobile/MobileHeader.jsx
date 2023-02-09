@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -24,7 +23,7 @@ export default function Mobileheader({ token, logOutEventHandler, alarmList }) {
         </Link>
       </div>
       <StUtilMenu>
-        <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
+        {/*  <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} /> */}
         <div
           className="hamburger"
           onClick={() => {

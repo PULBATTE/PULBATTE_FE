@@ -23,7 +23,6 @@ export default function PlantSearch() {
   const [plantsList, setPlantsList] = useState(null);
   const [category, setCategory] = useState('all');
   const { ref, inView } = useInView();
-
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ['category', category],
     ({ pageParam = 0 }) => plantsFilterApi(category, pageParam),

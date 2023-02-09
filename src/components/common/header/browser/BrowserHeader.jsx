@@ -137,7 +137,7 @@ export default function BrowserHeader({
 
       {token && token ? (
         <StUtilContainer>
-          <StAlarmContainer>
+          {/* <StAlarmContainer>
             <StAlarm
               src={alarmBtn}
               onClick={() => onBtnEventHandler(!clickBtn.myAlarm, false)}
@@ -155,7 +155,7 @@ export default function BrowserHeader({
                 <StArrow />
               </div>
             </div>
-          </StAlarmContainer>
+          </StAlarmContainer> */}
 
           <StMyBtnContainer>
             <StMyBtn
