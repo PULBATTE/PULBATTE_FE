@@ -8,6 +8,7 @@ import BrowserHeader from './browser/BrowserHeader';
 import MobileHeader from './mobile/MobileHeader';
 import { palette } from '../../../styles/palette';
 import { authInstance } from '../../../apis/axios';
+import { customNotify } from '../../../util/toastMessage';
 
 export default function Header({ alarmList }) {
   const token = localStorage.getItem('access_Token');
@@ -18,7 +19,7 @@ export default function Header({ alarmList }) {
     if (data.status === 200) {
       removeCookie('refresh_Token');
       localStorage.removeItem('access_Token');
-      alert('로그아웃 되었습니다!');
+      customNotify.success('로그아웃 되었습니다!');
       navigate('/');
     }
   };

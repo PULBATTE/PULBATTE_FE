@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import PlantGraph from './plantGraph';
 import PlantEnviroment from './PlantEnviroment';
 import { palette } from '../../styles/palette';
@@ -9,6 +10,7 @@ import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
 import { getPlantsInfoApi, deleteGuidePlantApi } from '../../apis/plantGuide';
 import useModal from '../../hooks/useModal';
+import { customNotify } from '../../util/toastMessage';
 
 export default function PlantInfo({ onChangeModalHandler }) {
   /*  const { beginnerName } = useParams(); */
@@ -18,14 +20,14 @@ export default function PlantInfo({ onChangeModalHandler }) {
   const [graphValue, setGraphValue] = useState([]);
   const onChooseAgainHandler = async () => {
     const data = await deleteGuidePlantApi();
-    navigate('/planttest');
+    navigate('/testresult');
   };
 
   useEffect(() => {
     getPlantsInfoApi()
       .then(res => {
         if (res.statusCode == 404) {
-          alert('등록된 식물이 없습니다. 테스트 페이지로 넘어갑니다.');
+          customNotify.error('등록된 식물이 없습니다');
 
           return navigate('/planttest');
         }
