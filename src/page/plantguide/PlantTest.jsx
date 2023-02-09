@@ -302,9 +302,14 @@ const StWrapper = styled.div`
           background: ${palette.mainColor};
           cursor: pointer;
           pointer-events: fill;
+
           @media (max-width: 500px) {
             font-size: 1.2rem;
             line-height: 45px;
+          }
+
+          &:active {
+            background: #35866d;
           }
         }
       }
