@@ -11,15 +11,7 @@ export const authInstance = axios.create({
 authInstance.interceptors.request.use(config => {
   if (config.headers === undefined) console.log(config.headers);
   const token = localStorage.getItem('access_Token');
-  if (token == 'undefined') {
-    alert('페이지에 문제가 생겨 다시 로그인을 해주세요.');
-    localStorage.removeItem('access_Token');
-    window.location.href = 'api/user/signin';
-    return;
-  }
   config.headers.Authorization = token;
-
-  // eslint-disable-next-line consistent-return
   return config;
 });
 
@@ -32,8 +24,9 @@ authInstance.interceptors.response.use(
       config,
       response: { status },
     } = error;
-    const currentAToken = localStorage.getItem('access_Token');
-    const userEmail = jwtDecode(currentAToken).sub;
+    const currentToken = localStorage.getItem('access_Token');
+
+    const userEmail = jwtDecode(currentToken).sub;
 
     if (error.response.data.statuscode === 401) {
       if (error.response.data.msg === 'Token Error') {
@@ -46,10 +39,11 @@ authInstance.interceptors.response.use(
           { refreshToken, userEmail }, // token refresh api
           {
             headers: {
-              Authorization: currentAToken,
+              Authorization: currentToken,
             },
           },
         );
+
         // 새로운 토큰 저장
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           data.data;
@@ -59,7 +53,7 @@ authInstance.interceptors.response.use(
         originalRequest.headers.authorization = newAccessToken;
 
         // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
-        /*      return axios(originalRequest); */
+        return axios(originalRequest);
       }
     }
     return Promise.reject(error);
