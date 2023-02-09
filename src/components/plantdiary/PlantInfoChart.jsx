@@ -15,8 +15,6 @@ import {
 import styled from 'styled-components';
 import { palette } from '../../styles/palette';
 
-const calculatedArr = [7, 2, 5];
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -109,6 +107,11 @@ export default function PlantInfoChart({ chartData }) {
 }
 const StChartWrapper = styled.div`
   width: 100%;
+  h3 {
+    @media (max-width: 500px) {
+      margin: 20px;
+    }
+  }
 `;
 const StChartContainer = styled.section`
   background-color: ${palette.pageBackgroundGray};
@@ -118,6 +121,7 @@ const StChartContainer = styled.section`
   border-radius: 20px;
   height: 100%;
   max-height: 270px;
+
   @media (max-width: 500px) {
     width: 100%;
   }

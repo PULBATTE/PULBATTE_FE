@@ -9,7 +9,7 @@ export default function PlantContent({ plantInfo }) {
       <StContentTitle>
         <span className="plant_name">{plantInfo && plantInfo?.plantName}</span>
         <StFilterBtnContainer>
-          {plantInfo && plantInfo?.beginner == 0 && (
+          {plantInfo && plantInfo?.beginner == 1 && (
             <button type="button">#초보자용</button>
           )}
           {plantInfo && plantInfo?.plantTag == 'cactus' && (

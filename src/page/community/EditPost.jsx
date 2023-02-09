@@ -11,6 +11,7 @@ import {
 import Tag from '../../components/community/Tag';
 import { TAGS } from '../../assets/constants';
 import photoFilter from '../../assets/image/photo_filter.png';
+import { customNotify } from '../../util/toastMessage';
 
 export default function EditPost() {
   const [title, setTitle] = useState('');
@@ -46,6 +47,18 @@ export default function EditPost() {
   };
 
   const onSubmitHandler = async e => {
+    console.log(title, content);
+    if (!title) {
+      return customNotify.warnning('제목을 입력해주세요.');
+    }
+    if (content === '') {
+      return customNotify.warnning('내용을 입력해주세요.');
+    }
+
+    if (!tag) {
+      return customNotify.warnning('태그를 선택해 주세요');
+    }
+    console.log('??');
     if (checkImage) {
       e.preventDefault();
       const formData = new FormData();
@@ -59,9 +72,7 @@ export default function EditPost() {
       });
       formData.append('request', blob);
       imgSrc.upload && formData.append('image', imgSrc.upload);
-      if (!tag) {
-        alert('태그를 선택해 주세요');
-      }
+
       const res = await editPostApi(currentPostId, formData);
       const postId = res.data.id;
       return navigate(`/donepost/${postId}`);
@@ -80,7 +91,7 @@ export default function EditPost() {
     formData.append('request', blob);
 
     if (!tag) {
-      alert('태그를 선택해 주세요');
+      customNotify.warnning('태그를 선택해 주세요');
     }
     const res = await editPostTextApi(currentPostId, formData);
     const postId = res.data.id;

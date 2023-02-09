@@ -23,7 +23,7 @@ export default function ConfirmModal({ modal, onSubmitHandler, closeModal }) {
             취소
           </StButton>
           <StButton type="button" onClick={() => onSubmitHandler()}>
-            입력
+            확인
           </StButton>
         </div>
       </StContainer>

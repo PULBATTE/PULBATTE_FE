@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { BsBellFill } from 'react-icons/bs';
-import { FaUserCircle } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import '../../../../styles/fonts.css';
+import { IoIosArrowForward } from 'react-icons/io';
 import GlobalNavigationBar from './GlobalNavigationBar';
 import Logo from '../../../../assets/image/logo.png';
 import mypageBtn from '../../../../assets/image/icon_my.png';
@@ -22,10 +21,24 @@ import {
 } from '../../../../apis/path';
 import PrivateRoute from '../../../../routes/PrivateRoute';
 
-export default function BrowserHeader({ token, logOutEventHandler }) {
+export default function BrowserHeader({
+  token,
+  logOutEventHandler,
+  alarmList,
+}) {
   const [display, setDisplay] = useState([false, false, false, false, false]);
-  const [clickBtn, setClickBtn] = useState(false);
+  const [clickBtn, setClickBtn] = useState({
+    myBtn: false,
+    myAlarm: false,
+  });
+
   const location = useLocation();
+  const onBtnEventHandler = (alarmCheck, mybtnCheck) => {
+    setClickBtn({
+      myAlarm: alarmCheck,
+      myBtn: mybtnCheck,
+    });
+  };
   const onPageMoveHandler = () => {
     navigate(mypagePath);
     setClickBtn(false);
@@ -43,16 +56,12 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
   const checkTestResult = async () => {
     await getTestInfoApi()
       .then(res => {
-        console.log(res);
-
         if (res.response?.status === 500) {
           return PrivateRoute(testPath);
         }
         return PrivateRoute(testResultPath);
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => {});
   };
   const navigate = useNavigate();
   return (
@@ -128,10 +137,34 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
 
       {token && token ? (
         <StUtilContainer>
-          <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
+          {/* <StAlarmContainer>
+            <StAlarm
+              src={alarmBtn}
+              onClick={() => onBtnEventHandler(!clickBtn.myAlarm, false)}
+            />
+            <div
+              className={clickBtn.myAlarm ? 'alarm_modal open' : 'alarm_modal'}
+            >
+              <div className="modal_inner">
+                <StAlarmContent>
+                  <span>
+                    풀밭 님의 게시글 [식물 추천해주세요]에 댓글이 달렸습니다.
+                  </span>
+                  <span>2021.22.22</span>
+                </StAlarmContent>
+                <StArrow />
+              </div>
+            </div>
+          </StAlarmContainer> */}
+
           <StMyBtnContainer>
-            <StMyBtn src={mypageBtn} onClick={() => setClickBtn(!clickBtn)} />
-            <ul className={clickBtn ? 'mypage_modal open' : 'mypage_modal'}>
+            <StMyBtn
+              src={mypageBtn}
+              onClick={() => onBtnEventHandler(false, !clickBtn.myBtn)}
+            />
+            <ul
+              className={clickBtn.myBtn ? 'mypage_modal open' : 'mypage_modal'}
+            >
               <li>
                 <span onClick={() => onPageMoveHandler()} aria-hidden="true">
                   마이페이지
@@ -172,14 +205,11 @@ export default function BrowserHeader({ token, logOutEventHandler }) {
 const StBrowserNav = styled.div`
   display: flex;
   align-items: center;
-  height: 70px;
+  height: 80px;
   justify-content: space-between;
   max-width: 1372px;
   margin: 0 auto;
   width: 100%;
-  @media (max-width: 1440px) {
-    width: 80%;
-  }
 
   @media (max-width: 768px) {
     display: none;
@@ -227,8 +257,9 @@ const StCategory = styled.ul`
       position: relative;
       > li {
         > span {
-          font-size: 1rem;
+          font-size: 1.2rem;
           font-weight: 600;
+          color: #4e4e4e;
           @media (max-width: 1024px) {
             font-size: 1.1rem;
           }
@@ -259,6 +290,9 @@ const StUtilContainer = styled.div`
   display: flex;
   align-items: stretch;
   gap: 0 25px;
+  margin-right: 70px;
+  @media (max-width: 1500px) {
+  }
   img {
     cursor: pointer;
   }
@@ -267,7 +301,9 @@ const StUtilContainer = styled.div`
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: grey;
   }
   svg {
     cursor: pointer;
@@ -285,8 +321,8 @@ const StMyBtnContainer = styled.div`
     position: absolute;
     width: 150px;
     top: 40px;
-    left: -30%;
-    transform: translateX(-30%);
+    left: 50%;
+    transform: translateX(-50%);
     padding: 10px;
     box-sizing: border-box;
     border-radius: 15px;
@@ -295,6 +331,10 @@ const StMyBtnContainer = styled.div`
     pointer-events: none;
     box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
     transition: all 0.2s ease-in;
+    .modal_inner {
+      display: flex;
+      align-items: center;
+    }
     &.open {
       background-color: #fff;
       opacity: 1;
@@ -323,7 +363,7 @@ const StLink = styled(Link)`
 `;
 const StNavigation = styled.ul`
   position: absolute;
-  top: 35px;
+  top: 38px;
   left: 50%;
   box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
   border-radius: 15px;
@@ -368,4 +408,47 @@ const StNavigation = styled.ul`
     background: #cbcbcb;
     width: 100vw;
   }
+`;
+const StAlarmContainer = styled.div`
+  position: relative;
+  .alarm_modal {
+    position: absolute;
+    width: 300px;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 15px;
+    margin: 0;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 0 5px 1px rgb(0 0 0 / 15%);
+    transition: all 0.2s ease-in;
+    padding: 10px;
+    box-sizing: border-box;
+    .modal_inner {
+      display: flex;
+      align-items: center;
+      gap: 0 30px;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      &:hover {
+        background: #eeeeee;
+      }
+    }
+    &.open {
+      background-color: #fff;
+      opacity: 1;
+      pointer-events: fill;
+    }
+  }
+`;
+const StAlarmContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
+`;
+const StArrow = styled(IoIosArrowForward)`
+  font-size: 2.3rem;
 `;

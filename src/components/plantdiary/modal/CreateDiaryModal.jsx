@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { GrFormClose } from 'react-icons/gr';
 import { palette } from '../../../styles/palette';
 import { postPlantDiaryApi } from '../../../apis/plantDiary';
+import { customNotify } from '../../../util/toastMessage';
 
 const customStyles = {
   content: {
@@ -28,18 +29,23 @@ export default function CreateDiaryModal(props) {
     content,
     plantJournalId,
     getPlantDiaryList,
+    selectedDate,
   } = props;
-  console.log({ props });
   const [diaryContent, setDiaryContent] = useState(content);
 
   const onSubmitHandler = async () => {
-    const data = await postPlantDiaryApi(plantJournalId, diaryContent);
-    if (data.status === 200) {
-      alert('작성 완료');
+    if (!diaryContent) {
+      customNotify.error('내용을 입력해주세요.');
+    } else {
+      const data = await postPlantDiaryApi(
+        plantJournalId,
+        diaryContent,
+        selectedDate,
+      );
+      const alertMsg = data.data.msg;
+      customNotify.success(alertMsg);
       onClose();
       getPlantDiaryList();
-    } else {
-      alert('error');
     }
   };
 

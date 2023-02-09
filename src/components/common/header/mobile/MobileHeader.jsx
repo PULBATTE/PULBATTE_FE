@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -10,14 +9,11 @@ import SlideModal from './SlideModal';
 import alarmBtn from '../../../../assets/image/icon_alarm.png';
 import logo from '../../../../assets/image/logo.png';
 
-export default function Mobileheader({ token, logOutEventHandler }) {
+export default function Mobileheader({ token, logOutEventHandler, alarmList }) {
   const [isClicked, setIsClicked] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const onClickModalHandler = () => {
     setIsClicked(!isClicked);
-    /*  isOpen
-      ? (document.body.style.overflowY = 'visible')
-      : (document.body.style.overflowY = 'hidden'); */
   };
   return (
     <StMobileNav>
@@ -27,7 +23,7 @@ export default function Mobileheader({ token, logOutEventHandler }) {
         </Link>
       </div>
       <StUtilMenu>
-        <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} />
+        {/*  <StAlarm src={alarmBtn} onClick={() => alert('현재 준비중입니다.')} /> */}
         <div
           className="hamburger"
           onClick={() => {

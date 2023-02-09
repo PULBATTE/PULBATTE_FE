@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { RxDoubleArrowLeft } from 'react-icons/rx';
+import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 import { BsHeart, BsFillHeartFill } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import { formatDate } from '../../util/index';
-import { Comment } from '../../components/community/Comment';
 import {
   getPostUserApi,
   getPostGuestApi,
@@ -14,31 +14,27 @@ import {
   deletePostTextApi,
 } from '../../apis/community';
 import { getInfoApi } from '../../apis/auth';
-import { getCookie } from '../../apis/cookie';
+import { customNotify } from '../../util/toastMessage';
+import DeleteConfirmModal from '../../components/community/modal/DeleteConfirmModal';
+import { Comment } from '../../components/community/Comment';
+import Button from '../../components/common/Button';
 
 export default function DonePost() {
   const [postData, setPostData] = useState();
   const [nickName, setNickName] = useState('');
   const [Like, setLike] = useState(false);
   const [comment, setComment] = useState('');
+  const [isDeleteModal, setIsDeleteModal] = useState(false);
   const commentRef = useRef();
-
   const { postId } = useParams();
-
   const navigate = useNavigate();
-
   const Token = localStorage.getItem('access_Token');
 
   const getPost = useCallback(async () => {
     if (Token) {
-      console.log('user');
       const data = await getPostUserApi(postId);
-      const { likeStatus } = data.data;
-      setLike(likeStatus);
-
       setPostData(data.data);
     } else {
-      console.log('guest');
       const data = await getPostGuestApi(postId);
       setPostData(data.data);
     }
@@ -51,51 +47,82 @@ export default function DonePost() {
   }, []);
 
   const postLike = useCallback(async () => {
-    await postLikeApi(postId);
-    setLike(_postLikeApi => !_postLikeApi);
-    getPost();
-  }, [getPost, postId]);
+    try {
+      await postLikeApi(postId);
+      Like
+        ? customNotify.success('좋아요를 취소했어요 :(')
+        : customNotify.success('좋아요를 눌렀어요 :)');
+    } catch (error) {
+      const isNotSignIn = error.message.indexOf('403');
+      if (isNotSignIn) {
+        customNotify.error('로그인이 필요합니다.');
+      } else {
+        customNotify.error();
+      }
+    } finally {
+      getPost();
+    }
+  }, [Like, getPost, postId]);
+
+  useEffect(() => {
+    if (postData) {
+      setLike(postData.likeStatus);
+    }
+  }, [postData]);
 
   useEffect(() => {
     getInfo();
     getPost();
   }, [getInfo, getPost]);
 
-  const onLikeHandler = () => {
-    // -postLikeApi 호출
-    if (Token) {
-      postLike();
-      getPost();
-    }
-    if (!Token) {
-      alert('로그인이 필요합니다.');
-    }
-  };
-
   const onCommentHandler = e => {
     setComment(e.target.value);
   };
+
   const onRegCommentHandler = async () => {
     if (!comment) {
-      alert('내용을 입력해주세요.');
+      customNotify.error('댓글을 작성하세요');
       return;
     }
-    const data = await postCommentApi(postId, 0, comment);
-    const alertMsg = data.data.msg;
-    alert(alertMsg);
-    setComment('');
-    getPost();
-  };
-  const onDeletePostHandler = async () => {
-    const data = await deletePostTextApi(postId);
-    console.log(data);
-    if (data.data.statusCode === 200) {
-      navigate('/postlist');
+    try {
+      const data = await postCommentApi(postId, 0, comment);
+      const { msg } = data.data;
+      customNotify.success(msg);
+    } catch (error) {
+      const isNotSignIn = error.message.indexOf('403');
+      if (isNotSignIn) {
+        customNotify.error('로그인이 필요합니다.');
+      } else {
+        customNotify.error();
+      }
+    } finally {
+      setComment('');
+      getPost();
     }
   };
+
+  const onDeletePostHandler = async () => {
+    try {
+      await deletePostTextApi(postId);
+      customNotify.error('삭제 되었습니다.');
+      navigate('/postlist');
+    } catch (error) {
+      customNotify.error();
+    }
+  };
+  const onCloseDeleteModal = () => {
+    setIsDeleteModal(false);
+  };
+
   return (
     <StWrapper>
-      <h3>커뮤니티</h3>
+      <StTitle>
+        <StNavListBtn type="button" onClick={() => navigate('/postlist')}>
+          <RxDoubleArrowLeft />
+          게시글 목록
+        </StNavListBtn>
+        <h3>커뮤니티</h3>
+      </StTitle>
       {postData && (
         <StDonePostContainer>
           <StBoardContainer>
@@ -118,7 +145,9 @@ export default function DonePost() {
                     수정
                   </span>
                   <span
-                    onClick={() => onDeletePostHandler()}
+                    onClick={() => {
+                      setIsDeleteModal(true);
+                    }}
                     role="button"
                     aria-hidden="true"
                   >
@@ -170,8 +199,6 @@ export default function DonePost() {
               </div>
             </div>
           </StCreateCommentWrapper>
-          {/* map함수를 사용해서 PostComment 여러개 생성 */}
-          {/* PostComment는 컴포넌트로 분리 */}
           <StRepleContainer>
             {postData.commentList &&
               postData.commentList.map(v => {
@@ -187,6 +214,12 @@ export default function DonePost() {
           </StRepleContainer>
         </StDonePostContainer>
       )}
+
+      <DeleteConfirmModal
+        open={isDeleteModal}
+        onCloseHandler={onCloseDeleteModal}
+        onDeleteHandler={onDeletePostHandler}
+      />
     </StWrapper>
   );
 }
@@ -196,18 +229,44 @@ const StWrapper = styled.div`
   width: 90%;
   margin: 0 auto;
   padding: 4rem 0 2rem;
+`;
+const StTitle = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5rem 0 2rem;
+  @media (max-width: 500px) {
+    font-size: 1.5rem;
+    margin: 1rem 0 0.5rem;
+  }
   > h3 {
-    text-align: center;
     font-size: 2.5rem;
-    margin: 5rem 0 2rem;
-
+    margin: 0;
     @media (max-width: 768px) {
       font-size: 2rem;
     }
     @media (max-width: 500px) {
       font-size: 1.5rem;
-      margin: 1rem 0 0.5rem;
     }
+  }
+`;
+const StNavListBtn = styled.button`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 0;
+  border: none;
+  font-size: 1.5rem;
+  gap: 8px;
+  cursor: pointer;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    gap: 6px;
+  }
+  @media (max-width: 500px) {
+    font-size: 0.8rem;
+    gap: 4px;
   }
 `;
 const StBoardContainer = styled.div`
@@ -229,6 +288,7 @@ const StRepleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px 0;
+  white-space: pre-line;
 `;
 const StUserInfo = styled.div`
   margin-bottom: 5rem;
@@ -348,6 +408,6 @@ const StEditDeleteBtnContainer = styled.div`
   gap: 0 10px;
   span {
     cursor: pointer;
-    color: gray;
+    color: ${palette.text.gray_7};
   }
 `;

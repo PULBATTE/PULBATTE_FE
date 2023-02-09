@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import PlantGraph from './plantGraph';
 import PlantEnviroment from './PlantEnviroment';
 import { palette } from '../../styles/palette';
@@ -9,6 +10,7 @@ import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
 import { getPlantsInfoApi, deleteGuidePlantApi } from '../../apis/plantGuide';
 import useModal from '../../hooks/useModal';
+import { customNotify } from '../../util/toastMessage';
 
 export default function PlantInfo({ onChangeModalHandler }) {
   /*  const { beginnerName } = useParams(); */
@@ -18,15 +20,15 @@ export default function PlantInfo({ onChangeModalHandler }) {
   const [graphValue, setGraphValue] = useState([]);
   const onChooseAgainHandler = async () => {
     const data = await deleteGuidePlantApi();
-    navigate('/planttest');
-    console.log(data);
+    navigate('/testresult');
   };
 
   useEffect(() => {
     getPlantsInfoApi()
       .then(res => {
         if (res.statusCode == 404) {
-          alert('등록된 식물이 없습니다. 테스트 페이지로 넘어갑니다.');
+          customNotify.error('등록된 식물이 없습니다');
+
           return navigate('/planttest');
         }
         setPlantInfo(res);
@@ -47,14 +49,14 @@ export default function PlantInfo({ onChangeModalHandler }) {
               <span className="section_title">내가 고른 식물</span>
               <span
                 className="plant_delete_btn"
-                /*   onClick={() => modalHandler()} */
+                onClick={() => onChooseAgainHandler()}
                 aria-hidden="true"
               >
                 식물 다시 선택하기
               </span>
             </div>
             <div className="image_container">
-              <img src={plantInfo && plantInfo.image} alt="식물이미지" />
+              {plantInfo && <img src={plantInfo.image} alt="식물이미지" />}
               <span className="plant_name">
                 {plantInfo && plantInfo.beginnerPlantName}
               </span>

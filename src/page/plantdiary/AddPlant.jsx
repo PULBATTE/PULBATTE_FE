@@ -9,6 +9,7 @@ import { palette } from '../../styles/palette';
 import { createPlantJournalApi } from '../../apis/plantDiary';
 import HorizontalPlantEnv from '../../components/plantdiary/HorizontalTitlePlantEnv';
 import photoFilter from '../../assets/image/photo_filter.png';
+import { customNotify } from '../../util/toastMessage';
 
 // TODO: HookForm
 export default function AddPlant() {
@@ -25,8 +26,6 @@ export default function AddPlant() {
   const [nutritionCycle, setNutritionCycle] = useState();
   const navigate = useNavigate();
   const imgInputRef = useRef();
-
-  console.log(imgSrc);
 
   const onChangePlantName = e => {
     setPlantName(e.target.value);
@@ -49,24 +48,24 @@ export default function AddPlant() {
   };
 
   const onAddPlantHandler = async e => {
-    if (!imgSrc.upload) {
-      alert('이미지를 추가해 주세요.');
+    if (!plantName) {
+      customNotify.warnning('식물 이름을 입력해 주세요.');
       return;
     }
-    if (!plantName) {
-      alert('식물 이름을 입력해 주세요.');
+    if (!imgSrc.upload) {
+      customNotify.warnning('이미지를 추가해 주세요.');
       return;
     }
     if (!waterCycle) {
-      alert('물주기 주기를 선택해 주세요.');
+      customNotify.warnning('물주기 주기를 선택해 주세요.');
       return;
     }
     if (!repottingCycle) {
-      alert('분갈이 주기를 선택해 주세요.');
+      customNotify.warnning('분갈이 주기를 선택해 주세요.');
       return;
     }
     if (!nutritionCycle) {
-      alert('영양제 주기를 선택해 주세요.');
+      customNotify.warnning('영양제 주기를 선택해 주세요.');
       return;
     }
     const formData = new FormData();
@@ -85,9 +84,10 @@ export default function AddPlant() {
     formData.append('request', blob);
     imgSrc.upload && formData.append('image', imgSrc.upload);
 
-    await createPlantJournalApi(formData);
+    const res = await createPlantJournalApi(formData);
+    const plantJournalId = res.data.id;
+    navigate(`/detailplant/${plantJournalId}`);
 
-    navigate(`/plantlist`);
   };
 
   return (

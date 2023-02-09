@@ -5,12 +5,15 @@ import { useParams } from 'react-router-dom';
 import { GrFormClose } from 'react-icons/gr';
 import { format, compareAsc } from 'date-fns';
 import { de } from 'date-fns/locale';
+
 import Button from '../../components/common/Button';
 import { palette } from '../../styles/palette';
 import Modal from '../../components/common/Modal';
 import useModal from '../../hooks/useModal';
 import PlantInfo from '../../components/plantguide/PlantInfo';
 import { postPlantsInfoApi } from '../../apis/plantGuide';
+import useRequireAuth from '../../hooks/useRedirect';
+import { customNotify } from '../../util/toastMessage';
 
 export default function PlantGuide() {
   const [modal, onChangeModalHandler] = useModal();
@@ -21,7 +24,7 @@ export default function PlantGuide() {
   const onSubmitHandler = async () => {
     const { value } = plantValue.current;
     if (value === '' || value === String) {
-      return alert('키 입력은 숫자만 입력이 가능합니다');
+      return customNotify.warnning('키 입력은 숫자만 입력이 가능합니다');
     }
     await postPlantsInfoApi(time, Number(value))
       .then(response => {
@@ -29,7 +32,8 @@ export default function PlantGuide() {
           window.location.reload();
         }
         if (response.statusCode == 400) {
-          alert('키 입력은 하루에 한 번씩 가능합니다!');
+          console.log('한번');
+          return customNotify.warnning('키 입력은 하루에 한 번씩 가능합니다!');
         }
         onChangeModalHandler();
       })
@@ -40,6 +44,8 @@ export default function PlantGuide() {
     plantValue.current.value = '';
     onChangeModalHandler();
   };
+
+  useRequireAuth('/api/user/signin');
 
   return (
     <StPageWrapper>

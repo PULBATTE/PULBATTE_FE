@@ -15,6 +15,7 @@ import shineIcon from '../../assets/image/wb_sunny.png';
 import airIcon from '../../assets/image/air.png';
 import useModal from '../../hooks/useModal';
 import ConfirmModal from '../../components/plantguide/ConfirmModal';
+import { customNotify } from '../../util/toastMessage';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -23,12 +24,11 @@ export default function PlantChoice() {
   const plantName = useRef();
   const navigate = useNavigate();
   const [modal, onChangeModalHandler] = useModal();
-  console.log(plantInfo);
+
   // 모달창 > 확인버튼
   const onSubmitHandler = () => {
     postSelectPlantApi(plantName.current)
       .then(res => {
-        console.log(res);
         navigate(guidePath);
       })
       .catch(error => console.log(error));
@@ -47,7 +47,10 @@ export default function PlantChoice() {
     .then(res => {
       res.map(data => {
         if (data.overlap) {
-          alert('선택된 식물이 있습니다. 가이드 페이지로 이동합니다.');
+          customNotify.error(
+            '선택된 식물이 있습니다. 가이드 페이지로 이동합니다.',
+          );
+
           navigate(guidePath);
         }
       });
@@ -135,11 +138,11 @@ export default function PlantChoice() {
               }}
             >
               {plantInfo &&
-                plantInfo.map(data => {
+                plantInfo.map((data, idx) => {
                   return (
                     <SwiperSlide
                       key={data.beginnerPlantName}
-                      onClick={() => checkPlantHandler(data.beginnerPlantName)}
+                      onClick={() => checkPlantHandler(idx + 1)}
                     >
                       <div className="plant_img_container">
                         <img className="plant_image" src={data.image} alt="" />
@@ -248,11 +251,14 @@ const StWrapper = styled.div`
 
     @media (max-width: 500px) {
       gap: 0;
-      min-height: 30vh;
+      min-height: 27vh;
     }
     > div {
       order: 1;
       padding: 10px;
+      @media (max-width: 500px) {
+        padding: 6px;
+      }
     }
     .plant_env {
       display: block;
@@ -315,6 +321,9 @@ const StSwiper = styled(Swiper)`
     aspect-ratio: 2/6;
     max-height: 40vh;
     object-fit: cover;
+    @media (max-width: 768px) {
+      max-height: 35vh;
+    }
   }
   .swiper-slide {
     border-radius: 14px;

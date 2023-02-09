@@ -1,4 +1,4 @@
-import { authInstance, instance } from './axios';
+import { authInstance } from './axios';
 
 export const getPlantListApi = async () => {
   try {
@@ -12,6 +12,17 @@ export const getPlantListApi = async () => {
 export const getPlantDetailApi = async plantJournalId => {
   try {
     const data = await authInstance.get(`/api/plantjournal/${plantJournalId}`);
+    return data;
+  } catch (error) {
+    throw Error(error);
+  }
+};
+
+export const deletePlantApi = async plantjournalId => {
+  try {
+    const data = await authInstance.delete(
+      `/api/plantjournal/${plantjournalId}`,
+    );
     return data;
   } catch (error) {
     throw Error(error);
@@ -43,6 +54,7 @@ export const doneDdayCheckApi = async (plantJournalId, clickTag) => {
   }
 };
 
+// 다이어리 일기 리스트 불러오기
 export const getPlantDiaryListApi = async plantJournalId => {
   try {
     const data = await authInstance.get(
@@ -55,12 +67,18 @@ export const getPlantDiaryListApi = async plantJournalId => {
   }
 };
 
-export const postPlantDiaryApi = async (plantJournalId, diaryContent) => {
+// 다이어리 일기 작성
+export const postPlantDiaryApi = async (
+  plantJournalId,
+  diaryContent,
+  selectedDate,
+) => {
   try {
     const data = await authInstance.post(
       `/api/plantjournal/diary/${plantJournalId}`,
       {
         content: diaryContent,
+        createdAt: selectedDate,
       },
     );
     return data;

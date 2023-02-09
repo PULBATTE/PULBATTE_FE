@@ -1,5 +1,6 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
 import Header from '../components/common/header/Header';
 import Kakao from '../page/sign/Kakao';
 import SignIn from '../page/sign/SignIn';
@@ -23,32 +24,29 @@ import EditPost from '../page/community/EditPost';
 
 export default function Router() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/api/user/signin" element={<SignIn />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/api/user/kakao/callback" element={<Kakao />} />
-        <Route path="/api/user/signup" element={<SignUp />} />
-        <Route path="/createpost" element={<CreatePost />} />
-        <Route path="/postlist" element={<PostList />} />
-        <Route path="/plantsearch" element={<PlantSearch />} />
-        <Route path="/addplant" element={<AddPlant />} />
-        <Route path="/detailplant/:plantJournalId" element={<DetailPlant />} />
-        <Route path="/plantlist" element={<PlantList />} />
-        <Route path="/donepost/:postId" element={<DonePost />} />
-        <Route path="/editPost/:currentPostId" element={<EditPost />} />
-        <Route path="/plantguide" element={<PlantGuide />} />
-        <Route path="/plantchoice" element={<PlantChoice />} />
-        <Route
-          path="/api/plants/detail/:plantId"
-          element={<PlantSearchDetail />}
-        />
-        <Route path="/planttest" element={<PlantTest />} />
-        <Route path="/testresult" element={<PlantResult />} />\
-        <Route path="/mypage" element={<Mypage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/api/user/signin" element={<SignIn />} />
+      <Route path="*" element={<NotFound />} />
+      <Route path="/api/user/kakao/callback" element={<Kakao />} />
+      <Route path="/api/user/signup" element={<SignUp />} />
+      <Route path="/createpost" element={<CreatePost />} />
+      <Route path="/postlist" element={<PostList />} />
+      <Route path="/plantsearch" element={<PlantSearch />} />
+      <Route path="/addplant" element={<AddPlant />} />
+      <Route path="/detailplant/:plantJournalId" element={<DetailPlant />} />
+      <Route path="/plantlist" element={<PlantList />} />
+      <Route path="/donepost/:postId" element={<DonePost />} />
+      <Route path="/editPost/:currentPostId" element={<EditPost />} />
+      <Route path="/plantguide" element={<PlantGuide />} />
+      <Route path="/plantchoice" element={<PlantChoice />} />
+      <Route
+        path="/api/plants/detail/:plantId"
+        element={<PlantSearchDetail />}
+      />
+      <Route path="/planttest" element={<PlantTest />} />
+      <Route path="/testresult" element={<PlantResult />} />\
+      <Route path="/mypage" element={<Mypage />} />
+    </Routes>
   );
 }
