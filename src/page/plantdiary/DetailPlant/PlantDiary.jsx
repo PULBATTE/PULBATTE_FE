@@ -115,6 +115,7 @@ const StTabSection = styled.section`
   }
   @media (max-width: 500px) {
     gap: 25px 0;
+    padding: 24px 8px;
   }
 `;
 const StInfoButton = styled.button`
@@ -124,6 +125,9 @@ const StInfoButton = styled.button`
   margin: 20px;
   border: none;
   cursor: pointer;
+  @media (max-width: 1120px) {
+    margin: 12px;
+  }
 `;
 const StPlantInfoWrap = styled.article`
   flex: 1;
@@ -142,7 +146,7 @@ const StPlantInfoHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-
+  padding-top: 12px;
   p {
     display: flex;
     gap: 8px;
