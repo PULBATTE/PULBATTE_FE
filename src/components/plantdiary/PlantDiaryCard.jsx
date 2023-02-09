@@ -6,6 +6,7 @@ import moreIcon from '../../assets/image/more_vert.png';
 import useContextModal from '../../hooks/useContextModal';
 import { modals } from '../../context/plantDiary/Modals';
 import { deletePlantDiaryApi } from '../../apis/plantDiary';
+import { customNotify } from '../../util/toastMessage';
 
 export default function PlantDiaryCard({
   plantDiary,
@@ -50,12 +51,9 @@ export default function PlantDiaryCard({
 
   const onDeleteHandler = async () => {
     const data = await deletePlantDiaryApi(plantJournalId, plantJournalDiaryId);
-    if (data.status === 200) {
-      alert('삭제완료');
-      getPlantDiaryList();
-    } else {
-      alert('error');
-    }
+    const alertMsg = data.data.msg;
+    customNotify.success(alertMsg);
+    getPlantDiaryList();
     onClickMenuHandler();
     getPlantDiaryList();
   };
