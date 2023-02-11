@@ -185,6 +185,7 @@
 | <img src="https://d3usc6dqsfeh3v.cloudfront.net/post/noimage.png" width="100px;" alt=""/> | <img src="https://avatars.githubusercontent.com/u/109057365?s=400&u=aec944568894f0b9c054ecce7d5d43e67e962288&v=4" width="100px;" alt=""/> | <img src="https://d3usc6dqsfeh3v.cloudfront.net/post/noimage.png" width="100px;" alt=""/> | 
 |:---:|:---:|:---:|
 | BE 팀장 김인광 | BE 팀원 이상현 | BE 팀원 박소연 |
-| <img src="https://user-images.githubusercontent.com/83339863/217834853-eb7cc798-94aa-4224-8247-125cc8e8736e.jpeg" width="100px;" alt=""/> | <img src="https://d3usc6dqsfeh3v.cloudfront.net/post/noimage.png" width="100px;" alt=""/> | <img src="https://d3usc6dqsfeh3v.cloudfront.net/post/noimage.png" width="100px;" alt=""/> | 
+| <img src="https://user-images.githubusercontent.com/83339863/217834853-eb7cc798-94aa-4224-8247-125cc8e8736e.jpeg" width="100px;" alt=""/> | <img src="https://user-images.githubusercontent.com/83339863/218255937-2004e0b7-13b6-48f7-85ee-10a0857a0e1c.jpeg" width="100px;" height="100%;" alt=""/> | <img src="https://d3usc6dqsfeh3v.cloudfront.net/post/noimage.png" width="100px;" alt=""/> | 
 
 | FE 부팀장 강민승 | FE 팀원 정다솔 | Design 최미진 |
+
